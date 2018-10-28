@@ -1,0 +1,643 @@
+#window {
+  height: 682px;
+  width: 1080px;
+  background-color: #010410;
+  display: fixed;
+  margin: auto;
+  position: relative;
+  font-family: "Roboto", sans-serif;
+}
+#home-window {
+  background-color: #010410;
+  display: fixed;
+  margin: auto;
+  position: relative;
+}
+#home-screen {
+  width: 600px;
+  padding-top: 17%;
+  display: block;
+  margin: auto;
+}
+#home-play-button {
+  height: 300px;
+  width: 590px;
+  font-size: 35px;
+  margin: auto;
+  border-radius: 4px;
+  background-color: white;
+  outline: none;
+}
+#game-selection-screen {
+  font-size: 40px;
+  padding-top: 17%;
+  width: 490px;
+  margin: auto;
+}
+#new-room-button {
+  height: 300px;
+  width: 490px;
+  font-size: 40px;
+  border-radius: 4px;
+  background-color: white;
+  outline: none;
+}
+#setup-screen {
+  margin: auto;
+  color: white;
+  display: none;
+  padding-top: 14%;
+  width: 270px;
+  height: 400px;
+}
+#start-game {
+  height: 70px;
+  width: 244px;
+  border-radius: 4px;
+  background-color: white;
+  outline: none;
+  font-size: 22pt;
+}
+#game-selection-screen,
+#game-setup-screen,
+#setup-screen,
+#turn-info-box {
+  display: none;
+}
+.player-input {
+  font-familiy: "roboto";
+  font-size: 14pt;
+}
+#board-container {
+  margin: auto;
+  padding: 20px 0;
+  height: 600px;
+  width: 1080px;
+
+}
+#board {
+  display: none;
+  margin: auto;
+  border: 2pt solid white;
+  height: 265px;
+  width: 1036px;
+}
+.cell {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  padding: 0px;
+  color: white;
+  height: 110px;
+  width: 110px;
+  font-size: 8pt;
+  letter-spacing: .2pt;
+  text-align: center;
+}
+.cellx {
+  position: absolute;
+  bottom: 0;
+  padding: 2px;
+  height: 40px;
+  width: 68px;
+  text-align: center;
+}
+#tokenSection0,
+#tokenSection1,
+#tokenSection2,
+#tokenSection3,
+#tokenSection4,
+#tokenSection5,
+#tokenSection6,
+#tokenSection7,
+#tokenSection8,
+#tokenSection9,
+#tokenSection10,
+#tokenSection11,
+#tokenSection12,
+#tokenSection13,
+#tokenSection14,
+#tokenSection15,
+#tokenSection16,
+#tokenSection17,
+#tokenSection18,
+#tokenSection19,
+#tokenSection20,
+#tokenSection21,
+#tokenSection22,
+#tokenSection23 {
+  display: block;
+  height: 60px;
+  width: 75px;
+  /*border: 1pt dashed white;*/
+}
+.board-top {
+  border: 2pt solid;
+  position: relative;
+}
+.board-bot {
+  border: 2pt solid;
+  position: relative;
+}
+#player1-piece,
+#player2-piece,
+#player3-piece,
+#player4-piece,
+#player5-piece,
+#player6-piece,
+#player7-piece,
+#player8-piece {
+  display: block;
+  height: 10px;
+  width: 32px;
+  margin: 2px;
+  box-shadow: 0 0 0 0;
+  position: relative;
+  text-align: center;
+  color: gold;
+  font-weight: bold;
+  font-size: 6pt;
+}
+#player1-piece {
+  background-color: #1A237E;
+  border: 1.5pt ridge gold;
+}
+#player2-piece {
+  background-color: #B71C1C;
+  border: 1.5pt ridge gold;
+}
+#player3-piece {
+  background-color: #40C4FF;
+  border: 1.5pt ridge gold;
+}
+#player4-piece {
+  background-color: #FFF59D;
+  border: 1.5pt ridge gold;
+}
+#player5-piece {
+  background-color: #00E676;
+  border: 1.5pt ridge gold;
+}
+#player6-piece {
+  background-color: #90A4AE;
+  border: 1.5pt ridge gold;
+}
+#player7-piece {
+  background-color: #EC407A;
+  border: 1.5pt ridge gold;
+}
+#player8-piece {
+  background-color: #AD1457;
+  border: 1.5pt ridge gold;
+}
+#info {
+  display: none;
+  background-color: white;
+  margin: auto;
+  height: 376px;
+  width: 1036px;
+}
+#player-list,
+#turn-info,
+#finance-box {
+  display: none;
+}
+#player-list {
+  height: 366px;
+  width: 175px;
+  vertical-align: top;
+  padding: 3px;
+  font-family: 'Montserrat';
+  
+}
+#turn-info {
+  width: 292px;
+  height: 370px;
+  position: relative;
+  padding: 0 10px;
+  background-color: white;
+  margin: auto;
+  border-radius: 6px;
+  box-shadow: 0 0 8px #212121;  
+}
+#finance-box {
+  width: 516px;
+  height: 370px;
+  padding: 0 2px;
+  margin-right: 5px;
+  float: right;
+  vertical-align: right;
+  position: relative;
+  box-shadow: 0 0 8px #212121;
+  border-radius: 6px;
+}
+.opp-space {
+  background-color: #43A047;
+}
+.lia-space {
+  background-color: #546E7A;
+}
+.cha-space {
+  background-color: #00BCD4;#26C6DA;
+}
+.pay-space {
+  background-color: #FDD835;
+}
+.off-space {
+  background-color: #0277BD;
+}
+.kid-space {
+  background-color: #FFB74D;#C51162;#EC407A;
+}
+.dow-space {
+  background-color: #D32F2F;
+}
+#player-list-table {
+  width: 160px;
+  font-color: white;
+  
+}
+.table-row-player {
+  text-align: left;
+  font-weight: bold;
+  color: #212121;
+  padding: 1px 5px;
+  font-size: 15pt;
+  height: 32px;
+  background-color: white;
+  border-radius: 4px;
+}
+#table-row-player1 {
+}
+#table-row-player2 {
+}
+#table-row-player3 {
+}
+#table-row-player4 {
+}
+#table-row-player5 {
+}
+#table-row-player6 {
+}
+#table-row-player7 {
+}
+#table-row-player8 {
+}
+#dream-choices {
+  display: block;
+  height: 300px;
+  width: 300px;
+}
+#dream-nav {
+  width: 300px;
+}
+#dream-left-arrow {
+  float: left;
+  width: 0;
+  height: 0;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 0px solid transparent;
+  border-right: 40px solid gold;
+  background-color: transparent;
+  outline: none;
+}
+#dream-right-arrow {
+  float: right;
+  width: 0;
+  height: 0;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 40px solid gold;
+  border-right: 0px solid transparent;
+  background-color: transparent;
+  outline: none;
+}
+#dream-heading {
+  position: static;
+  text-align: center;
+  font: 18pt bold;
+  font-family: "roboto";
+}
+#dream-description {
+  display: block;
+  
+  font-family: "roboto";
+  height: 110px;
+  width: 264px;
+  padding: 0 25px;
+  margin: auto;
+}
+#dream-text {
+  font-size: 14pt;
+}
+#dream-info {
+  font-size: 15pt;
+  width: 270px;
+  height: 100px;
+}
+#dream-des {
+  font-size: 11pt;
+  font-family:'roboto';
+  
+}
+#dream-choice-btn {
+  height: 40px;
+  width: 125px;
+  border-radius: 6px;
+  background-color: transparent;
+  outline: none;
+  display: block;
+  margin: auto;
+  font-size: 14pt;
+  font-weight: bold;
+  font-family: "roboto";
+}
+#job-text {
+  padding: 5px;
+  height: 100px;
+  width: 260px;
+  margin: auto;
+}
+#turn-info-box {
+  height: 300px;
+  width: 310px;
+  padding: 5px;
+}
+#turn-instructions,
+#finish-instructions,
+#kid-card,
+#opp-card,
+#charity-card,
+#downsize-card,
+#lia-card,
+#repay-card,
+#borrow-card {
+  width: 276px;
+  color: #263238;
+}
+.card-title {
+  color: #263238;
+  font-weight: bold;
+}
+#repay-borrow-btns {
+  margin: auto 0;
+  width: 260px;
+  padding: 6px;
+  display: block;
+}
+#repay-btn {
+  height: 30px;
+  width: 75px;
+  border-radius: 8px;
+  background-color: gold;
+  outline: none;
+  font-size: 12pt;
+  font-weight: bold;
+}
+#borrow-btn {
+  height: 30px;
+  width: 75px;
+  border-radius: 8px;
+  background-color: gold;
+  outline: none;
+  font-size: 12pt;
+  font-weight: bold;
+  float: right;
+}
+.card-btn {
+  font-weight: bold;
+  font-family: 'lato';
+  color: #004D40;
+}
+#card-btns, 
+#finish-turn-container {
+  height: 60px;
+  width: 266px;
+  margin: auto 0;
+  padding: 7px;
+  display: block;
+}
+#end-turn-btn {
+  height: 40px;
+  width: 120px;
+  border-radius: 5px;
+  background-color: white;
+  outline: none;
+  font-size: 14.5pt;
+  float: right;
+}
+#pass-btn {
+  height: 40px;
+  width: 92px;
+  border-radius: 5px;
+  background-color: white;
+  outline: none;
+  font-size: 16pt;
+  float: right;
+  letter-spacing: .5pt;
+}
+#done-btn {
+  height: 40px;
+  width: 92px;
+  border-radius: 5px;
+  background-color: white;
+  outline: none;
+  font-size: 16pt;
+  float: right;
+  letter-spacing: .5pt;
+}
+#cancel-btn {
+  height: 40px;
+  width: 102px;
+  border-radius: 5px;
+  background-color: white;
+  outline: none;
+  font-size: 16pt;
+  float: right;
+  letter-spacing: .5pt;
+}
+#done-repay-btn {
+  height: 40px;
+  width: 92px;
+  border-radius: 5px;
+  background-color: white;
+  outline: none;
+  font-size: 16pt;
+  float: right;
+  letter-spacing: .5pt;
+}
+#big-deal-btn {
+  height: 40px;
+  width: 92px;
+  border-radius: 5px;
+  background-color: white;
+  outline: none;
+  font-size: 16.5pt;
+  float: right;
+  letter-spacing: .5pt;
+}
+#roll-btn {
+  height: 40px;
+  width: 92px;
+  letter-spacing: .5pt;
+  border-radius: 5px;
+  background-color: white;
+  outline: none;
+  font-size: 16pt;
+}
+#roll2-btn {
+  height: 40px;
+  width: 108px;
+  letter-spacing: .5pt;
+  border-radius: 5px;
+  background-color: white;
+  outline: none;
+  font-size: 16pt;
+}
+#confirm-pay-btn {
+  height: 40px;
+  width: 124px;
+  letter-spacing: .5pt;
+  border-radius: 5px;
+  background-color: white;
+  outline: none;
+  font-size: 16pt;
+}
+#buy-opp-button,
+#small-deal-btn,
+#ds-pay-button, 
+#doodad-pay-button,
+#take-out-loan,
+#repay-loan-input {
+  height: 40px;
+  width: 92px;
+  border-radius: 5px;
+  background-color: white;
+  outline: none;
+  font-size: 16pt;
+  letter-spacing: .5pt;
+}
+#borrow-loan-btn, 
+#take-out-loan {
+  height: 40px;
+  width: 110px;
+  border-radius: 5px;
+  background-color: white;
+  outline: none;
+  font-size: 15pt;
+  letter-spacing: .5pt;
+  font-weight: bold;
+  font-family: 'lato';
+  color: #004D40;
+}
+#charity-donate-btn {
+  height: 40px;
+  width: 92px;
+  border-radius: 5px;
+  background-color: white;
+  outline: none;
+  font-size: 14pt;
+}
+#financial-statement-left,
+#financial-statement-right {
+  display: inline-block;
+  /*border: 1pt solid red;*/
+  height: 242px;
+  width: 244px;
+  vertical-align: top;
+  padding: 3px;
+  
+}
+#summary-cash-title, #summary-cash-title2, #summary-cash {
+  font-size: 16pt;
+  letter-spacing: .5pt;
+  color: #2E7D32;
+  
+}
+#sum-td {
+  font-size: 11pt;
+  font-weight: 600;
+  color: #000;
+}
+#income-expense-progress {
+  width: 100%;
+  background-color: #546E7A;
+}
+#income-expense-bar {
+  width: 1%;
+  height: 27px;
+  background-color: green;
+}
+#income-table {
+  display: block;
+  height: 115px;
+  width: 240px;
+  overflow: auto;
+}
+#expense-table {
+  display: block;
+  height: 122px;
+  width: 240px;
+  padding-top: 2px;
+  overflow: auto;
+}
+#asset-table,
+#liability-table {
+  display: inline-block;
+  width: 240px;
+  height: 105px;
+  padding: 4px;
+  vertical-align: bottom;
+  overflow: auto;
+  border-spacing: 0;
+  
+}
+#asset-table-header, #lia-table-header {
+  float: left;
+  color: #263238;
+  
+}
+.lia-table-row {
+  font-size: 11pt;
+}
+.lia-table-right {
+  float: right;
+}
+.table-title {
+  font-weight: bold;
+}
+#income-row-head,
+#expenses-row-head {
+  float: left;
+  color: #263238;
+  
+}
+.income-row,
+.expenses-row {
+  font-size: 10pt;
+  height: 12px;
+  padding: 3px;
+  border-spacing: 0;
+}
+
+
+#player-salary-income {
+  float: right;
+}
+#expenses-taxes {
+}
+#summary-cash-title {
+  float: left;
+}
+.lia-table-row:hover
+{
+  background-color: #E8F5E9;
+}
+.assets-table-title {
+  font-weight: bold;
+  font-size: 10pt;
+}
+#buy-shares {
+  width: 100px;
+}

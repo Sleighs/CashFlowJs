@@ -1,1 +1,1 @@
-Preview of Sleigh's Cash Flow made with javascript
+Preview of Sleigh's Cash Flow game made with javascript

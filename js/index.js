@@ -8,7 +8,6 @@
 
 var APP = APP || {
   players: [],
-  //player: APP.players[APP.currentPlayerArrPos()],
   pCount: 1,
   turnCount: 1,
   currentPlayer: 1,
@@ -167,7 +166,8 @@ var APP = APP || {
 
     APP.display.clearBtns();
     APP.display.clearCards();
-
+    APP.clearAmounts();
+    
     $("#turn-instructions").show();
     $("#card-btns").show();
     $("#roll-btn").show();
@@ -222,9 +222,9 @@ var APP = APP || {
     }
 
     //if player cannot afford his bills even after selling assets, player loses
-      //load bankruptcy card if player has assets to sell
-      //allow player to sell assets if they have any
-      //else load you lose card if cash flow is negative and there are no assets to sell
+    //load bankruptcy card if player has assets to sell
+    //allow player to sell assets if they have any
+    //else load you lose card if cash flow is negative and there are no assets to sell
   },
   finishTurn: function() {
     //hide opportunity card
@@ -241,9 +241,7 @@ var APP = APP || {
     $("#repay-borrow-btns").show();
 
     APP.finance.statement(APP.currentPlayerArrPos());
-    
-    document.getElementById("loan-amt-input").value = 1000;
-    document.getElementById("loan-amt-input2").value = 1000;
+    this.clearAmounts();
   },
   currentDoodad: "",
   doodadCost: 0,
@@ -252,23 +250,23 @@ var APP = APP || {
     //random doodad
     var obj = APP.cards.doodad;
     var keys = Object.keys(obj);
-    var randDoodad = function (object) {
+    var randDoodad = function(object) {
       return object[keys[Math.floor(keys.length * Math.random())]];
-      };
-    var currentDoodad = randDoodad(obj); 
-    
+    };
+    var currentDoodad = randDoodad(obj);
+
     //set doodad
     this.currentDoodad = currentDoodad.name;
     this.doodadCost = currentDoodad.cost;
     var text = currentDoodad.text;
-    
+
     //if boat
-    if (this.currentDoodad == "New Boat" && player.boatLoan == 0){
+    if (this.currentDoodad == "New Boat" && player.boatLoan == 0) {
       //--fix
       player.boatLoan = 17000;
       player.boatPayment = 340;
-    } else if (this.currentDoodad == "New Boat"){
-      text = "You already own one."; 
+    } else if (this.currentDoodad == "New Boat") {
+      text = "You already own one.";
     }
     //if credit card
     if (this.currentDoodad == "Buy Big Screen TV") {
@@ -280,58 +278,80 @@ var APP = APP || {
     document.getElementById("doodad-title").innerHTML = this.currentDoodad;
     document.getElementById("doodad-text").innerHTML = text;
   },
-  currentDeal: "",
-  currentAsset: [],
-  smallDeal: function () {
+  smallDeal: function() {
     var player = APP.players[APP.currentPlayerArrPos()];
     //get random deal
     var obj = APP.cards.smallDeal;
     var keys = Object.keys(obj);
-    var randDeal = function (object) {
+    var randDeal = function(object) {
       return object[keys[Math.floor(keys.length * Math.random())]];
-      };
-    var currentDeal = randDeal(obj);  
+    };
+    var currentDeal = randDeal(obj);
     var dealType = currentDeal.type;
-    
+
+    this.currentDeal = currentDeal;
+
     $("#opp-card").hide();
     $("#small-deal-btn").hide();
     $("#big-deal-btn").hide();
-    
+
     //show deal card
     switch (dealType) {
       case "Stock":
         $("#deal-card-stock").show();
-        $("#show-asset-form-btn").show();
+        $("#show-stock-form-btn").show();
         $("#pass-btn").show();
 
         document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
         document.getElementById("deal-stock-name").innerHTML = currentDeal.name;
-        document.getElementById("deal-stock-cost").innerHTML = currentDeal.price;
+        document.getElementById("deal-stock-cost").innerHTML =
+          currentDeal.price;
         document.getElementById("deal-stock-cash-flow").innerHTML = "0";
-        document.getElementById("deal-stock-trading-range").innerHTML = currentDeal.range;
+        document.getElementById("deal-stock-trading-range").innerHTML =
+          currentDeal.range;
         //shares owned
         document.getElementById("share-cost").innerHTML = currentDeal.price;
         break;
       case "Mutual Fund":
         $("#deal-card-stock").show();
-        $("#show-asset-form-btn").show();
+        $("#show-stock-form-btn").show();
         $("#pass-btn").show();
-        
+
         document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
         document.getElementById("deal-stock-name").innerHTML = currentDeal.name;
-        document.getElementById("deal-stock-cost").innerHTML = currentDeal.price;
+        document.getElementById("deal-stock-text").innerHTML =
+          currentDeal.description;
+        document.getElementById("deal-stock-cost").innerHTML =
+          currentDeal.price;
         document.getElementById("deal-stock-cash-flow").innerHTML = "0";
-        document.getElementById("deal-stock-trading-range").innerHTML = currentDeal.range;
-        break;
+        document.getElementById("deal-stock-trading-range").innerHTML =
+          currentDeal.range;
         //shares owned
         document.getElementById("share-cost").innerHTML = currentDeal.price;
+        break;
       case "Real Estate":
         $("#deal-card-real-estate").show();
+        $("#buy-real-estate-btn").show();
+        $("#pass-btn").show();
+        
+        document.getElementById("deal-re-name").innerHTML = currentDeal.name;
+        document.getElementById("deal-re-description").innerHTML = currentDeal.description;
+        document.getElementById("deal-re-rule").innerHTML = currentDeal.rule;
+        document.getElementById("deal-re-cost").innerHTML = currentDeal.cost;
+        document.getElementById("deal-re-cash-flow").innerHTML = currentDeal.cashFlow;
+        document.getElementById("deal-re-down-payment").innerHTML = currentDeal.downPayment;
         break;
       case "Other":
         //show card
         break;
-    } 
+    }
+  },
+  clearAmounts: function(){
+    APP.finance.loanAmount = 1000;
+    APP.finance.shareAmount = 1;
+    document.getElementById("loan-amt-input").value = 1000;
+    document.getElementById("loan-amt-input2").value = 1000;
+    document.getElementById("share-amt-input").value = 1;
   }
 };
 
@@ -348,9 +368,6 @@ APP.loadCard = function(boardPosition) {
 
   //opportunity
   if (boardPosition % 2 === 0 || boardPosition === 0) {
-    //--
-    $("#pass-btn").show();
-
     $("#opp-card").show();
 
     $("#card-btns").show();
@@ -433,9 +450,9 @@ APP.loadCard = function(boardPosition) {
 
 APP.finance = {
   loanAmount: 1000,
+  shareAmount: 1,
   statement: function(currentPlayer) {
     var player = APP.players[currentPlayer];
-
     //income
     document.getElementById("player-job-income").innerHTML = player.jobTitle[0];
     document.getElementById("player-salary-income").innerHTML =
@@ -447,13 +464,13 @@ APP.finance = {
     document.getElementById("expenses-credit").innerHTML = player.jobTitle[6];
     document.getElementById("expenses-retail").innerHTML = player.jobTitle[7];
     document.getElementById("expenses-other").innerHTML = player.jobTitle[8];
+    this.loanPayment(APP.currentPlayerArrPos());
     document.getElementById("expenses-loans").innerHTML = player.loanPayment;
     document.getElementById("expenses-boatloan").innerHTML = player.boatLoan;
     //Summary
     this.getExpenses(APP.currentPlayerArrPos());
     this.getIncome(APP.currentPlayerArrPos());
     this.getPayday(APP.currentPlayerArrPos());
-    this.loanPayment(APP.currentPlayerArrPos());
     document.getElementById("bar-passive-income").innerHTML =
       player.assetIncome;
     document.getElementById("summary-cash").innerHTML = player.cash;
@@ -466,7 +483,22 @@ APP.finance = {
     document.getElementById("summary-payday").innerHTML = player.payday;
 
     //assets
-
+    var aTable = document.getElementById("assets-table");
+    
+    for (var i = 0; i < player.stockAssets.length; i++){
+      var sharesId = "stock-shares" + parseInt(i, 10);
+      var nameId = "stock-name" + parseInt(i,10);
+      var priceId = "stock-cost" + parseInt(i, 10);
+      
+      //if row exists update data else create row
+      
+      document.getElementById(sharesId).innerHTML = player.stockAssets[i]['shares'];
+      document.getElementById(nameId).innerHTML = player.stockAssets[i]['name'];
+      document.getElementById(priceId).innerHTML = player.stockAssets[i]['price'];
+    }
+      //show stocks, funds, and cds to the stocks part with the amount owned and purchase price
+      //show real estate and businesses with cost, cash flow and value
+   
     //liabilities
     var lTable = document.getElementById("liability-table");
 
@@ -565,7 +597,15 @@ APP.finance = {
     var boatPayment = player.boatPayment;
 
     player.totalExpenses =
-      taxes + mortgage + car + credit + retail + other + children + loanPayment + boatPayment;
+      taxes +
+      mortgage +
+      car +
+      credit +
+      retail +
+      other +
+      children +
+      loanPayment +
+      boatPayment;
 
     //include assets
 
@@ -580,23 +620,37 @@ APP.finance = {
   },
   payDoodad: function() {
     var player = APP.players[APP.currentPlayerArrPos()];
-    
-    if (APP.currentDoodad == "New Boat"){
+
+    if (APP.currentDoodad == "New Boat") {
       player.boatLoan = 17000;
       player.boatPayment = 340;
       APP.finishTurn();
+      APP.doodadCost = 0;
     } else if (APP.doodadCost <= player.cash) {
       player.cash -= APP.doodadCost;
       APP.finishTurn();
+      APP.doodadCost = 0;
     } else {
-      APP.display.clearCards();
+      this.loanOffer(APP.doodadCost);
+      /*APP.display.clearCards();
       APP.display.clearBtns();
       $("#cannot-afford-card").show();
-      $("#repay-borrow-btns").show();
-      //offer loan
+
+      $("#borrow-doodad-loan-btn").show();
+      //--replace with outside function
+      var loanAmt = function() {
+        var doodadCost = APP.doodadCost;
+        var remainder = doodadCost % 1000;
+        doodadCost = doodadCost - remainder + 1000;
+        return doodadCost;
+      };
+      //offer loan for the amount needed to pay for doodad
+      document.getElementById("loan-offer").innerHTML =
+        "Take out a loan of $" + parseInt(loanAmt(), 10);
+      this.loanAmt = loanAmt();
+      this.getLoan();*/
     }
     APP.currentDoodad = "";
-    APP.doodadCost = 0;
   },
   payDownsize: function() {
     //show liability card
@@ -606,8 +660,26 @@ APP.finance = {
     var payment;
 
     if (boardPosition === 19) {
-      player.cash -= downsizedAmount;
-      player.downsizedTurns += 3;
+      if (player.cash < downsizedAmount) {
+        this.loanOffer(downsizedAmount);
+        /*$("#cannot-afford-card").show();
+
+        $("#borrow-doodad-loan-btn").show();
+        var loanAmt = function() {
+          var doodadCost = APP.doodadCost;
+          var remainder = doodadCost % 1000;
+          doodadCost = doodadCost - remainder + 1000;
+          return doodadCost;
+        };
+        //offer loan for the amount needed to pay for doodad
+        document.getElementById("loan-offer").innerHTML =
+          "Take out a loan of $" + parseInt(loanAmt(), 10);
+        this.loanAmt = loanAmt();
+        this.getLoan();*/
+      } else {
+        player.cash -= downsizedAmount;
+        player.downsizedTurns += 3;
+      }
     }
 
     APP.finishTurn();
@@ -655,7 +727,7 @@ APP.finance = {
     player.loans += loan;
     player.cash += loan;
 
-    APP.finishTurn();  
+    APP.finishTurn();
   },
   repayLoan: function() {
     var loan = parseInt(document.getElementById("loan-amt-input2").value, 10);
@@ -663,12 +735,12 @@ APP.finance = {
     loan = isNaN(loan) ? 0 : loan;
     player.loans -= loan;
     player.cash -= loan;
-     
+
     //APP.finishTurn();
     $("#confirm-pay-btn").hide();
   },
-  loanPayment: function() {
-    var player = APP.players[APP.currentPlayerArrPos()];
+  loanPayment: function(currentPlayer){
+    var player = APP.players[currentPlayer];
     var loanPayment = player.loans * 0.1;
     player.loanPayment = loanPayment;
     return loanPayment;
@@ -677,14 +749,8 @@ APP.finance = {
     var player = APP.players[APP.currentPlayerArrPos()];
     var loanId = player.loanId;
 
-    //$("#cancel-btn").show();
-    //$("#pay-confirm-card").show();
-    
-    //$("#repay-loan-card").hide();
-
     switch (loanId) {
       case "liability-mortgage":
-        
         if (player.cash < player.jobTitle[9]) {
           $("#repay-card").hide();
           $("#pay-confirm-card").hide();
@@ -698,9 +764,9 @@ APP.finance = {
           $("#cancel-btn").hide();
           $("#pay-confirm-card").hide();
           $("#confirm-pay-btn").hide();
-          
+
           $("#done-repay-btn").show();
-          $("#repay-card").show();         
+          $("#repay-card").show();
         }
         break;
       case "liability-car":
@@ -708,7 +774,7 @@ APP.finance = {
           $("#repay-card").hide();
           $("#pay-confirm-card").hide();
           $("#confirm-pay-btn").hide();
-          
+
           $("#cannot-afford-loan-card").show();
         } else {
           player.cash -= player.jobTitle[10];
@@ -718,9 +784,9 @@ APP.finance = {
           $("#pay-confirm-card").hide();
           $("#confirm-pay-btn").hide();
           $("#cancel-btn").hide();
-          
+
           $("#done-repay-btn").show();
-          $("#repay-card").show();         
+          $("#repay-card").show();
         }
         break;
       case "liability-credit":
@@ -728,7 +794,7 @@ APP.finance = {
           $("#repay-card").hide();
           $("#pay-confirm-card").hide();
           $("#confirm-pay-btn").hide();
-          
+
           $("#cannot-afford-loan-card").show();
         } else {
           player.cash -= player.jobTitle[11];
@@ -737,7 +803,7 @@ APP.finance = {
 
           $("#repay-card").show();
           $("#done-repay-btn").show();
-          
+
           $("#confirm-pay-btn").hide();
           $("#cancel-btn").hide();
           $("#pay-confirm-card").hide();
@@ -748,7 +814,7 @@ APP.finance = {
           $("#repay-card").hide();
           $("#pay-confirm-card").hide();
           $("#confirm-pay-btn").hide();
-          
+
           $("#cannot-afford-loan-card").show();
         } else {
           player.cash -= 1000;
@@ -757,19 +823,19 @@ APP.finance = {
 
           $("#repay-card").show();
           $("#done-repay-btn").show();
-          
+
           $("#cancel-btn").hide();
           $("#pay-confirm-card").hide();
           $("#repay-loan-card").hide();
           $("#confirm-pay-btn").hide();
         }
         break;
-        case "liability-boatloan":
+      case "liability-boatloan":
         if (player.cash < 17000) {
           $("#repay-card").hide();
           $("#pay-confirm-card").hide();
           $("#confirm-pay-btn").hide();
-          
+
           $("#cannot-afford-loan-card").show();
         } else {
           player.cash -= 17000;
@@ -779,9 +845,9 @@ APP.finance = {
           $("#pay-confirm-card").hide();
           $("#confirm-pay-btn").hide();
           $("#cancel-btn").hide();
-          
+
           $("#done-repay-btn").show();
-          $("#repay-card").show();         
+          $("#repay-card").show();
         }
         break;
       case "liability-loans":
@@ -790,7 +856,7 @@ APP.finance = {
           $("#repay-card").hide();
           $("#pay-confirm-card").hide();
           $("#confirm-pay-btn").hide();
-          
+
           $("#cannot-afford-loan-card").show();
         } else {
           this.repayLoan();
@@ -804,11 +870,137 @@ APP.finance = {
     }
     APP.finance.statement(APP.currentPlayerArrPos());
   },
-  buyAsset: function() {
-    //get current price to pay
-    //add asset to player assets
+  buyStock: function() { 
+    var player = APP.players[APP.currentPlayerArrPos()];
+    this.shareAmount = Number(document.getElementById("share-amt-input").value);
+    var price = APP.currentDeal.price;
+    var shares = this.shareAmount;
+    var cost = price * shares;
+
+    if (cost < player.cash) {
+      player.cash -= cost;
+      APP.currentDeal.shares = this.shareAmount;
+      player.stockAssets.push(APP.currentDeal);
+      
+      //if currentdeal type at the current share price is already in the players array add shares else add new row 
+
+      //--make dynamic
+    function newStockRow(key) {
+      var stockAssetRow = [
+        "<td><span id='stock-shares" + parseInt(key, 10) + "'></span> Share of <span id='stock-name" + parseInt(key, 10) + "'></span></td>",
+        "<td><span id='stock-cost" + parseInt(key, 10) + "'></span></td>"
+    ];
+      return "<tr class='assets-row'>" + stockAssetRow.join('') + "</tr>";
+    }   
+      var aTable = document.getElementById("asset-table");
+     var row = newStockRow(0);
+
+      //--test row
+
+      aTable.insertAdjacentHTML('beforeend', row);
+
+      //--
+      APP.finishTurn();
+    } else {
+
+    if (cost < player.cash) {
+      player.cash -= cost;
+      APP.currentDeal.shares = this.shareAmount;
+      player.stockAssets.push(APP.currentDeal);
+      
+      //if currentdeal type at the current share price is already in the players array add shares else add new row 
+      //--make dynamic
+    function newStockRow(key) {
+      var stockAssetRow = [
+        "<td><span id='stock-shares" + parseInt(key, 10) + "'></span> Share of <span id='stock-name" + parseInt(key, 10) + "'></span></td>",
+        "<td><span id='stock-cost" + parseInt(key, 10) + "'></span></td>"
+    ];
+      return "<tr id='stock-row'>" + stockAssetRow.join('') + "</tr>";
+    }   
+      var aTable = document.getElementById("asset-table");
+      var row = newStockRow(0);
+      //--test row
+      aTable.insertAdjacentHTML('beforeend', row);
+      //--
+      APP.finishTurn();
+    } else {
+      this.loanOffer(cost);
+    }
+    }
+  },
+  buyRealEstate: function() {
+    
+  },
+  loanOffer: function(cost) {
+    var player = APP.players[APP.currentPlayerArrPos()];
+    var price = cost;
+    
+    APP.display.clearCards();
+    APP.display.clearBtns();
+    $("#cannot-afford-loan-card").show();
+    $("#borrow-offer-loan-btn").show();
+    $("#no-loan-btn").show();
+
+    if (APP.doodadCost > 0) {
+      //--$("#no-loan-btn").hide();
+    }
+    //round up loan to nearest 1000
+    this.roundLoan(price);
+    var loan = this.loanAmount;
+    
+    document.getElementById("loan-offer").innerHTML = loan;
+    document.getElementById("loan-offer-monthly-payment").innerHTML = loan * 0.1;
+  },
+  roundLoan: function(cost){
+    var player = APP.players[APP.currentPlayerArrPos()];
+    var a = cost - player.cash;
+    
+    if (a < 1000) {
+      this.loanAmount = 1000;
+    } else {
+      var b = a.toString(10).split('');
+      for (var i = 1; i < b.length; i++) {
+        b[i] = 0;
+      }
+      b[0] = Number(b[0]) + 1;
+      this.loanAmount = Number(b.join(''));
+    }
+    
+  },
+  getLoan: function() {
+    var player = APP.players[APP.currentPlayerArrPos()];
+    var boardPosition = player.position;
+    var downsizedAmount = player.totalExpenses;
+
+    if (APP.doodadCost > 0) {
+      var costD = APP.doodadCost;
+      this.loanOffer(costD);
+      //APP.doodadCost = 0;
+    }
+    if (boardPosition == 19) {
+      var costDS = downsizedAmount;
+      this.loanOffer(costDS);
+      player.downsizedTurns += 3;
+    }
+    /* (boardPosition % 2 === 0 || boardPosition === 0) {
+      var costO = APP.currentDeal.price
+      this.loanOffer(costO);
+    }*/
+
+    player.loans += this.loanAmount;
+    player.cash += this.loanAmount;
+
+    if (boardPosition % 2 === 0 || boardPosition === 0) {
+      //return to deal
+      APP.display.clearCards();
+      APP.display.clearBtns();
+      $("#deal-card-stock").show();
+      $("#show-stock-form-btn").show();
+      $("#pass-btn").show();
+    }
+    
+    this.statement(APP.currentPlayerArrPos());
   }
-  
 };
 
 APP.scenario = function(
@@ -849,161 +1041,19 @@ APP.scenario = function(
   this.children = 0;
   this.name = APP.name(APP.currentPlayer);
   this.totalIncome = 0;
-  
+
   this.totalExpenses = 0;
   this.payday = 0;
   this.assetIncome = 0;
   this.loans = 0;
   this.loanPayment = 0;
-  
+
   this.boatLoan = 0;
   this.boatPayment = 0;
   this.downsizedTurns = 0;
-  this.assets = {};
+  this.stockAssets = [];
+  this.realEstateAssets = [];
 };
-
-APP.dreamPhase = {
-  dreamPhaseOn: false,
-  dreamArrPos: 0,
-  openDreamPhase: function() {
-    //show dream
-    var dream = document.getElementById("dream-text");
-    var dreamDescription = document.getElementById("dream-des");
-    dream.innerHTML = APP.dreamPhase.dreams[APP.dreamPhase.dreamArrPos];
-    dreamDescription.innerHTML =
-      APP.dreamPhase.dreamDescriptions[APP.dreamPhase.dreamArrPos];
-    //show player job, income and savings
-
-    var jobTextId = document.getElementById("job-text");
-    jobTextId.insertAdjacentHTML(
-      "afterbegin",
-      "<div>You are a<span id='dream-job'></span>.</div><div>Your starting salary is $<span id='dream-starting-salary'></span>.</div><div>You have $<span id='dream-starting-savings'></span> in your savings.</div><div>That means your starting cash is $<span id='dream-starting-cash'></span></div>"
-    );
-
-    this.showStartScenario(0);
-  },
-  showStartScenario: function(player) {
-    var player = APP.currentPlayerArrPos();
-    var playerJob = APP.players[player].jobTitle[0];
-    var vowelRegex = "^[aieouAIEOU].*";
-    var matched = playerJob.match(vowelRegex);
-    if (matched) {
-      //add an n and a space before job title
-      var job = "n " + playerJob;
-    } else {
-      //add space before jobtitle
-      var job = " " + playerJob;
-    }
-    var playerSalary = APP.players[player].jobTitle[1];
-    var playerSavings = APP.players[player].jobTitle[2];
-    var playerCash = playerSavings;
-
-    document.getElementById("dream-job").innerHTML = job;
-    document.getElementById("dream-starting-salary").innerHTML = playerSalary;
-    document.getElementById("dream-starting-savings").innerHTML = playerSavings;
-    document.getElementById("dream-starting-cash").innerHTML = playerCash;
-  },
-  leftDream: function() {
-    var id = document.getElementById("dream-text");
-    var desId = document.getElementById("dream-des");
-
-    if (this.dreamArrPos === 0) {
-      this.dreamArrPos = APP.dreamPhase.dreams.length - 1;
-    } else {
-      this.dreamArrPos--;
-    }
-
-    id.innerHTML = APP.dreamPhase.dreams[APP.dreamPhase.dreamArrPos];
-    desId.innerHTML = APP.dreamPhase.dreamDescriptions[this.dreamArrPos];
-  },
-  rightDream: function() {
-    var id = document.getElementById("dream-text");
-    var desId = document.getElementById("dream-des");
-
-    if (this.dreamArrPos === APP.dreamPhase.dreams.length - 1) {
-      this.dreamArrPos = 0;
-    } else {
-      this.dreamArrPos++;
-    }
-
-    id.innerHTML = APP.dreamPhase.dreams[this.dreamArrPos];
-    desId.innerHTML = APP.dreamPhase.dreamDescriptions[this.dreamArrPos];
-  },
-  dreamChoiceBtn: function() {
-    //save dream
-    var chosenDream = this.dreams[this.dreamArrPos];
-    APP.players[APP.currentPlayerArrPos()].dream = chosenDream;
-
-    //start race phase once last player has dream
-    if (APP.currentPlayer == APP.pCount) {
-      this.endDreamPhase();
-    }
-    //show first dream
-    var restartDream = document.getElementById("dream-text");
-    restartDream.innerHTML = APP.dreamPhase.dreams[0];
-
-    //show job, savings, starting cash for current player
-    this.showStartScenario(APP.currentPlayerArrPos());
-
-    APP.nextTurn();
-  },
-  endDreamPhase: function() {
-    APP.display.hideDreamPhase();
-    APP.display.showRacePhase();
-    APP.dreamPhase.dreamPhaseOn = false;
-    $("#finance-box").show();
-  }
-};
-APP.dreamPhase.dreams = [
-  "STOCK MARKET FOR KIDS",
-  "YACHT RACING",
-  "CANNES FILM FESTIVAL",
-  "PRIVATE FISHING CABIN ON A MONTANA LAKE",
-  "PARK NAMED AFTER YOU",
-  "RUN FOR MAYOR",
-  "GIFT OF FAITH",
-  "HELI SKI THE SWISS ALPS",
-  "DINNER WITH THE PRESIDENT",
-  "RESEARCH CENTER FOR CANCER AND AIDS",
-  "7 WONDERS OF THE WORLD",
-  "SAVE THE OCEAN MAMMALS",
-  "BE A JET SETTER",
-  "GOLF AROUND THE WORLD",
-  "A KIDS LIBRARY",
-  "SOUTH SEA ISLAND FANTASY",
-  "CAPITALISTS PEACE CORPS",
-  "CRUISE THE MEDITERRANEAN",
-  "MINI FARM IN THE CITY",
-  "AFRICAN PHOTO SAFARI",
-  "BUY A FOREST",
-  "PRO TEAM BOX SEATS",
-  "ANCIENT ASIAN CITIES"
-];
-APP.dreamPhase.dreamDescriptions = [
-  "Fund a business and investment school for young capitalists, teaching the the basics of business. School includes a mini stock exchange run by the students.",
-  "You and your crew fly to Perth, Australia. Spend one week racing a 12-meter against the fastest boats in the world.",
-  "Party with the stars! Tour France, plus one week in Cannes rubbing elbows with celebrities. You even land a starring role!",
-  "Fish from the dock of the remote cabin. Enjoy 6 months of solitude. Use of float plane included.",
-  "Tear down an abandoned warehouse and build a new recreational park. Donate police sub-station for park safety.",
-  "Your financial expertise spurs masses of people to beg you to lead the city. You run and, of course, win. This is the start of your Presidential race.",
-  "Your religious organization is growing by leaps and bounds. New buildings are needed.",
-  "A winter of helicopter skiing by day and playing at the glamorous hot spots at night. A medieval castle is your accomodation.",
-  "Buy a table for 10 friends to dine with te President at a gala ball for visiting dignitaries from around the world.",
-  "Your money brings together top researchers & doctors in one place, dedication to eliminating these two diseases.",
-  "Go by plane, boat, bicycle, camel, canoe & limo to the 7 Wonders of the World. First class luxury all the way",
-  "Fund and be a crew member on a month-long research expedition to protect endangered sea animals.",
-  "Have your own personal jet available for one year to whisk you away whenever and wherever your heart desires.",
-  "You take 3 friends on a first-class, 5-star resort tour to play the 50 best golf courses in the world.",
-  "Add a wing to your city's library devoted to young writers and artists. Art celebrities visit often to support your work.",
-  "Pampered in luxury for two full months. Relax, unwind in warm waters, deserted beaches, and romantic nights.",
-  "Set up entrepreneurial business schools in 3rd world nations. Instructors are business people donating their knowledge & time.",
-  "Visit small harbors in Italy, France, and Greece for a month with 12 friends on your private yacht.",
-  "Create a hands-on farm eco-system for city kids to learn and care for animals and plants.",
-  "Take 6 friends on a wild safari photographing the most exotic animals in the world. Enjoy 5-star luxury in your tent.",
-  "Stop the loss of ancient trees. Donate 1,000 acres of forest and create a nature walk for all to enjoy.",
-  "License a 12 person private skybox booth with food and beverage service at your favorite team's stadium.",
-  "A private plane and guide take you and 5 friends to the most remote spots of Asia... where no tourists have gone before."
-];
 
 APP.scenarioChoices = [
   [
@@ -1197,8 +1247,10 @@ APP.cards = {
     stock1: {
       type: "Stock",
       name: "MYT4U Electronics Co.",
-      description: "Booming market leads to record share price of this home electronics seller!",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "Booming market leads to record share price of this home electronics seller!",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "MYT4U",
       price: 40,
       range: "$5 to $30",
@@ -1207,8 +1259,10 @@ APP.cards = {
     stock2: {
       type: "Stock",
       name: "MYT4U Electronics Co.",
-      description: "High inflation leads to poor share price for this home electronics seller.",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "High inflation leads to poor share price for this home electronics seller.",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "MYT4U",
       price: 5,
       range: "$5 to $30",
@@ -1217,23 +1271,27 @@ APP.cards = {
     stock3: {
       type: "Stock",
       name: "MYT4U Electronics Co.",
-      description: "Record interest rates lead to substandard share price for this home electronics seller",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "Record interest rates lead to substandard share price for this home electronics seller",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "MYT4U",
       price: 5,
       range: "$5 to $30",
       dividend: false
-    }
-  },
-  realEstate1: {
-    type: "Real Estate",
-    name: "You Find a Great Deal!",
-    description: "Older 3/2 house, repossessed by government agency. Ready to go with government financing and a tenant.",
-    rule: "Borrow from the Bank if you must, but... BUY THIS! 132% ROI, may sell for $65,000 to $135,000.",
-    cost: 35000,
-    downPay: 2000,
-    mortgage: 33000,
-    cashFlow: 220
+    },
+    realEstate1: {
+      type: "Real Estate",
+      name: "You Find a Great Deal!",
+      description:
+        "Older 3/2 house, repossessed by government agency. Ready to go with government financing and a tenant.",
+      rule:
+        "Borrow from the Bank if you must, but... BUY THIS! 132% ROI, may sell for $65,000 to $135,000.",
+      cost: 35000,
+      downPayment: 2000,
+      mortgage: 33000,
+      cashFlow: 220
+    },
   },
   bigDeal: [],
   offer: [],
@@ -1280,7 +1338,7 @@ APP.cards = {
     doodad8: {
       name: "Son's College Tuition",
       cost: 1500,
-      text: "Pay $1500",
+      text: "Pay $1500"
       //if player has child
     },
     doodad9: {
@@ -1337,7 +1395,10 @@ APP.cards = {
     doodad19: {
       name: "Shopping Spree!",
       cost: 150,
-      text: "Pay $150 \n" + "\n" + "Buy new wristwatch (even though you already have 3)"
+      text:
+        "Pay $150 \n" +
+        "\n" +
+        "Buy new wristwatch (even though you already have 3)"
     },
     doodad20: {
       name: "Go to Ball Game",
@@ -1372,7 +1433,8 @@ APP.cards = {
     doodad26: {
       name: "Go to Coffee Shop",
       cost: 10,
-      text: "Pay $10 \n" + "\n" + "Buy a Cafe Latte & Cappuccino for You & a Friend"
+      text:
+        "Pay $10 \n" + "\n" + "Buy a Cafe Latte & Cappuccino for You & a Friend"
     },
     doodad27: {
       name: "High School Reunion",
@@ -1387,7 +1449,8 @@ APP.cards = {
     doodad29: {
       name: "Buy Painting",
       cost: 200,
-      text: "Costs you $200 \n" + "\n Couldn't Resist New Painting By Local Artist"
+      text:
+        "Costs you $200 \n" + "\n Couldn't Resist New Painting By Local Artist"
     },
     doodad30: {
       name: "Your Child Needs Braces",
@@ -1425,7 +1488,10 @@ APP.cards = {
     doodad36: {
       name: "Rumor of Layoff",
       cost: 220,
-      text: "Pay $220 for tuition & books \n" + "\n" + "Go back to school for added skills."
+      text:
+        "Pay $220 for tuition & books \n" +
+        "\n" +
+        "Go back to school for added skills."
     },
     doodad37: {
       name: "Go to the Air Show",
@@ -1445,7 +1511,7 @@ APP.cards = {
     doodad40: {
       name: "Lunch with Friends",
       cost: 40,
-      text: "Pay $40",
+      text: "Pay $40"
     },
     doodad41: {
       name: "Car Needs Tires",
@@ -1455,7 +1521,149 @@ APP.cards = {
   }
 };
 
-//display functions
+APP.dreamPhase = {
+  dreamPhaseOn: false,
+  dreamArrPos: 0,
+  openDreamPhase: function() {
+    //show dream
+    var dream = document.getElementById("dream-text");
+    var dreamDescription = document.getElementById("dream-des");
+    dream.innerHTML = APP.dreamPhase.dreams[APP.dreamPhase.dreamArrPos];
+    dreamDescription.innerHTML =
+      APP.dreamPhase.dreamDescriptions[APP.dreamPhase.dreamArrPos];
+    //show player job, income and savings
+
+    var jobTextId = document.getElementById("job-text");
+    jobTextId.insertAdjacentHTML(
+      "afterbegin",
+      "<div>You are a<span id='dream-job'></span>.</div><div>Your starting salary is $<span id='dream-starting-salary'></span>.</div><div>You have $<span id='dream-starting-savings'></span> in your savings.</div><div>That means your starting cash is $<span id='dream-starting-cash'></span></div>"
+    );
+
+    this.showStartScenario(0);
+  },
+  showStartScenario: function(player) {
+    var player = APP.currentPlayerArrPos();
+    var playerJob = APP.players[player].jobTitle[0];
+    var vowelRegex = "^[aieouAIEOU].*";
+    var matched = playerJob.match(vowelRegex);
+    if (matched) {
+      //add an n and a space before job title
+      var job = "n " + playerJob;
+    } else {
+      //add space before jobtitle
+      var job = " " + playerJob;
+    }
+    var playerSalary = APP.players[player].jobTitle[1];
+    var playerSavings = APP.players[player].jobTitle[2];
+    var playerCash = playerSavings;
+
+    document.getElementById("dream-job").innerHTML = job;
+    document.getElementById("dream-starting-salary").innerHTML = playerSalary;
+    document.getElementById("dream-starting-savings").innerHTML = playerSavings;
+    document.getElementById("dream-starting-cash").innerHTML = playerCash;
+  },
+  leftDream: function() {
+    var id = document.getElementById("dream-text");
+    var desId = document.getElementById("dream-des");
+
+    if (this.dreamArrPos === 0) {
+      this.dreamArrPos = APP.dreamPhase.dreams.length - 1;
+    } else {
+      this.dreamArrPos--;
+    }
+
+    id.innerHTML = APP.dreamPhase.dreams[APP.dreamPhase.dreamArrPos];
+    desId.innerHTML = APP.dreamPhase.dreamDescriptions[this.dreamArrPos];
+  },
+  rightDream: function() {
+    var id = document.getElementById("dream-text");
+    var desId = document.getElementById("dream-des");
+
+    if (this.dreamArrPos === APP.dreamPhase.dreams.length - 1) {
+      this.dreamArrPos = 0;
+    } else {
+      this.dreamArrPos++;
+    }
+
+    id.innerHTML = APP.dreamPhase.dreams[this.dreamArrPos];
+    desId.innerHTML = APP.dreamPhase.dreamDescriptions[this.dreamArrPos];
+  },
+  dreamChoiceBtn: function() {
+    //save dream
+    var chosenDream = this.dreams[this.dreamArrPos];
+    APP.players[APP.currentPlayerArrPos()].dream = chosenDream;
+
+    //start race phase once last player has dream
+    if (APP.currentPlayer == APP.pCount) {
+      this.endDreamPhase();
+    }
+    //show first dream
+    var restartDream = document.getElementById("dream-text");
+    restartDream.innerHTML = APP.dreamPhase.dreams[0];
+
+    //show job, savings, starting cash for current player
+    this.showStartScenario(APP.currentPlayerArrPos());
+
+    APP.nextTurn();
+  },
+  endDreamPhase: function() {
+    APP.display.hideDreamPhase();
+    APP.display.showRacePhase();
+    APP.dreamPhase.dreamPhaseOn = false;
+    $("#finance-box").show();
+  }
+};
+APP.dreamPhase.dreams = [
+  "STOCK MARKET FOR KIDS",
+  "YACHT RACING",
+  "CANNES FILM FESTIVAL",
+  "PRIVATE FISHING CABIN ON A MONTANA LAKE",
+  "PARK NAMED AFTER YOU",
+  "RUN FOR MAYOR",
+  "GIFT OF FAITH",
+  "HELI SKI THE SWISS ALPS",
+  "DINNER WITH THE PRESIDENT",
+  "RESEARCH CENTER FOR CANCER AND AIDS",
+  "7 WONDERS OF THE WORLD",
+  "SAVE THE OCEAN MAMMALS",
+  "BE A JET SETTER",
+  "GOLF AROUND THE WORLD",
+  "A KIDS LIBRARY",
+  "SOUTH SEA ISLAND FANTASY",
+  "CAPITALISTS PEACE CORPS",
+  "CRUISE THE MEDITERRANEAN",
+  "MINI FARM IN THE CITY",
+  "AFRICAN PHOTO SAFARI",
+  "BUY A FOREST",
+  "PRO TEAM BOX SEATS",
+  "ANCIENT ASIAN CITIES"
+];
+APP.dreamPhase.dreamDescriptions = [
+  "Fund a business and investment school for young capitalists, teaching the the basics of business. School includes a mini stock exchange run by the students.",
+  "You and your crew fly to Perth, Australia. Spend one week racing a 12-meter against the fastest boats in the world.",
+  "Party with the stars! Tour France, plus one week in Cannes rubbing elbows with celebrities. You even land a starring role!",
+  "Fish from the dock of the remote cabin. Enjoy 6 months of solitude. Use of float plane included.",
+  "Tear down an abandoned warehouse and build a new recreational park. Donate police sub-station for park safety.",
+  "Your financial expertise spurs masses of people to beg you to lead the city. You run and, of course, win. This is the start of your Presidential race.",
+  "Your religious organization is growing by leaps and bounds. New buildings are needed.",
+  "A winter of helicopter skiing by day and playing at the glamorous hot spots at night. A medieval castle is your accomodation.",
+  "Buy a table for 10 friends to dine with te President at a gala ball for visiting dignitaries from around the world.",
+  "Your money brings together top researchers & doctors in one place, dedication to eliminating these two diseases.",
+  "Go by plane, boat, bicycle, camel, canoe & limo to the 7 Wonders of the World. First class luxury all the way",
+  "Fund and be a crew member on a month-long research expedition to protect endangered sea animals.",
+  "Have your own personal jet available for one year to whisk you away whenever and wherever your heart desires.",
+  "You take 3 friends on a first-class, 5-star resort tour to play the 50 best golf courses in the world.",
+  "Add a wing to your city's library devoted to young writers and artists. Art celebrities visit often to support your work.",
+  "Pampered in luxury for two full months. Relax, unwind in warm waters, deserted beaches, and romantic nights.",
+  "Set up entrepreneurial business schools in 3rd world nations. Instructors are business people donating their knowledge & time.",
+  "Visit small harbors in Italy, France, and Greece for a month with 12 friends on your private yacht.",
+  "Create a hands-on farm eco-system for city kids to learn and care for animals and plants.",
+  "Take 6 friends on a wild safari photographing the most exotic animals in the world. Enjoy 5-star luxury in your tent.",
+  "Stop the loss of ancient trees. Donate 1,000 acres of forest and create a nature walk for all to enjoy.",
+  "License a 12 person private skybox booth with food and beverage service at your favorite team's stadium.",
+  "A private plane and guide take you and 5 friends to the most remote spots of Asia... where no tourists have gone before."
+];
+
 APP.display = {
   tokens: [
     { ele: "<div id='player1-piece'>1</div>" },
@@ -1529,15 +1737,15 @@ APP.display = {
     sp.style.display =
       sp.style.display === "inline-block" ? "inline-block" : "inline-block";
   },
-  showAssetForm: function(){
+  showStockForm: function() {
     //get which form to show
     //show form
     $("#buy-shares-form").show();
-    $("#show-asset-form-btn").hide();
-    $("#buy-asset-btn").show();
+    $("#show-stock-form-btn").hide();
+    $("#buy-stock-btn").show();
     //clear current asset
   },
-  increaseShares: function(){
+  increaseShares: function() {
     var value = parseInt(document.getElementById("share-amt-input").value, 10);
     //var value = parseInt(document.getElementById("share-amt-input2").value, 10);
     value = isNaN(value) ? 0 : value;
@@ -1545,7 +1753,7 @@ APP.display = {
     document.getElementById("share-amt-input").value = value;
     //document.getElementById("share-amt-input2").value = value;
   },
-  decreaseShares: function(){
+  decreaseShares: function() {
     var value = parseInt(document.getElementById("share-amt-input").value, 10);
     //var value = parseInt(document.getElementById("share-amt-input2").value, 10);
     value = isNaN(value) ? 0 : value;
@@ -1562,17 +1770,22 @@ APP.display = {
     $("#repay-borrow-btns").hide();
     $("#small-deal-btn").hide();
     $("#big-deal-btn").hide();
-    $("#buy-asset-btn").hide();
+    $("#buy-asset-btn").hide(); //--?
+    $("#buy-stock-btn").hide();
     $("#doodad-pay-button").hide();
     $("#ds-pay-button").hide();
     $("#charity-donate-btn").hide();
     $("#pass-btn").hide();
+    $("#no-loan-btn").hide();
     //$("#done-btn").hide();
     $("#cancel-btn").hide();
     $("#borrow-loan-btn").hide();
+    $("#borrow-doodad-loan-btn").hide();
+    $("#borrow-offer-loan-btn").hide();
     $("#confirm-pay-btn").hide();
     $("#done-repay-btn").hide();
-    $("#show-asset-form-btn").hide();
+    $("#show-stock-form-btn").hide();
+    $("#buy-real-estate-btn").hide();
   },
   clearCards: function() {
     $("#opp-card").hide();
@@ -1592,6 +1805,7 @@ APP.display = {
     $("#repay-loan-card").hide();
     $("#deal-card-real-estate").hide();
     $("#deal-card-stock").hide();
+    $("#buy-shares-form").hide();
   },
   repay: function() {
     //open card
@@ -1813,12 +2027,8 @@ $(document).ready(function() {
 });
 
 APP.test = function() {
-  //--test
-  document.getElementById("doodad-test").innerHTML = APP.currentDoodad;
-  document.getElementById("doodad-test2").innerHTML = parseInt(
-    APP.doodadCost,
-    10
-  );
-  document.getElementById("small-opp-test1").innerHTML = APP.currentDeal[0];
-  document.getElementById("small-opp-test2").innerHTML = APP.currentDeal[1];
+  //--loads in finance statement function
+  document.getElementById("small-opp-test1").innerHTML = APP.currentDeal.name;
+  document.getElementById("small-opp-test2").innerHTML =
+    APP.currentDeal.shares;
 };

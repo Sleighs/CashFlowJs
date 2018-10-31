@@ -211,7 +211,7 @@
   
 }
 #turn-info {
-  width: 292px;
+  width: 294px;
   height: 370px;
   position: relative;
   padding: 0 10px;
@@ -373,8 +373,16 @@
 #lia-card,
 #repay-card,
 #borrow-card {
-  width: 276px;
+  width: 286px;
   color: #263238;
+}
+#deal-card-stock h2 {
+  width: 266px;
+  text-align: center;
+  font-size: 23px;
+}
+#deal-stock-text {
+  width: 266px;
 }
 .card-title {
   color: #263238;
@@ -389,7 +397,7 @@
 #repay-btn {
   height: 30px;
   width: 75px;
-  border-radius: 8px;
+  border-radius: 7px;
   background-color: gold;
   outline: none;
   font-size: 12pt;
@@ -398,7 +406,7 @@
 #borrow-btn {
   height: 30px;
   width: 75px;
-  border-radius: 8px;
+  border-radius: 7px;
   background-color: gold;
   outline: none;
   font-size: 12pt;
@@ -427,7 +435,8 @@
   font-size: 14.5pt;
   float: right;
 }
-#pass-btn {
+#pass-btn, 
+#no-loan-btn {
   height: 40px;
   width: 92px;
   border-radius: 5px;
@@ -509,7 +518,10 @@
 #ds-pay-button, 
 #doodad-pay-button,
 #take-out-loan,
-#repay-loan-input {
+#repay-loan-input,
+#show-stock-form-btn,
+#buy-stock-btn,
+#buy-real-estate-btn {
   height: 40px;
   width: 92px;
   border-radius: 5px;
@@ -519,7 +531,8 @@
   letter-spacing: .5pt;
 }
 #borrow-loan-btn, 
-#take-out-loan {
+#take-out-loan,
+#borrow-offer-loan-btn {
   height: 40px;
   width: 110px;
   border-radius: 5px;
@@ -591,14 +604,13 @@
   vertical-align: bottom;
   overflow: auto;
   border-spacing: 0;
-  
 }
 #asset-table-header, #lia-table-header {
   float: left;
-  color: #263238;
-  
+  color: #263238;  
 }
-.lia-table-row {
+.lia-table-row, 
+.assets-row {
   font-size: 11pt;
 }
 .lia-table-right {

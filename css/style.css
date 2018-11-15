@@ -159,7 +159,7 @@
   font-size: 6pt;
 }
 #player1-piece {
-  background-color: #1A237E;
+  background-color: #0091EA;
   border: 1.5pt ridge gold;
 }
 #player2-piece {
@@ -632,8 +632,6 @@
   padding: 3px;
   border-spacing: 0;
 }
-
-
 #player-salary-income {
   float: right;
 }

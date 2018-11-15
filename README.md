@@ -11,18 +11,20 @@ Preview at https://sleighs.github.io/SleighsCashFlow/
 * Same Career Mode - Each player starts with the same career, savings, and debts
 * Team Mode - Players play in pairs
 * Fast Track Mode - Each player starts with a big bank acount and random asset
+* Hard Mode - Extra doodads, limited loans
 
 ### New Rules
-* Speed start - Players start with their total income in their savings
-* Joint ventures - Players can partner up to invest together on opportunities
-* Deck shuffling - Choose to shuffle card decks after each turn 
-* Mixed deals - Both small and big oppurtunity cards are shuffled together and players must choose at random from the entire deck
-* Big Families - Change the limit of children players can have
-* Random downsizing - Players roll for a random amount of missed turns after downsizing
-* Liquidating assets - Players can sell off assets for 50% back to the bank when under threat of bankruptcy
+* Speed Start - Players start with their total income in their savings
+* Joint Ventures - Players can partner up to invest together on opportunities
+* Deck Shuffling - Choose to shuffle card decks after each turn 
+* Mixed Deals - Both small and big oppurtunity cards are shuffled together and players must choose at random from the entire deck
+* Big Families - Raise the limit of children players can have
+* Random Downsizing - Players roll for a random amount of missed turns after downsizing
+* Liquidating Assets - Players can sell off assets for 50% back to the bank when under threat of bankruptcy
 * Inusrance - Players can avoid downsizing by paying a insurance fee each paycheck
-* Doodads with paychecks - More doodads. Players who land on the paycheck space will also get a doodad card
+* Doodads with Paychecks - More doodads. Players who land on the paycheck space will also get a doodad card
 * Loan Sharking - Players can give loans to other players
+* Mortgage Payments - Adds realistic mortgage payments
 * Job choice - Each player gets a choice between two jobs
 
 

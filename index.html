@@ -12,7 +12,7 @@
 
 <body>
 
-  <div id="window">
+ <div id="window">
   <div id="home-screen">
     <button id="home-play-button">Start</button>
   </div>
@@ -138,16 +138,22 @@
           <div id="deal-card-real-estate">
             <h2 class="card-title"><span id="deal-re-name"></span></h2>
             <p><span id="deal-re-description"></span></p>
-             <p><span id="deal-re-rule"></span></p>
+            <p><span id="deal-re-rule"></span></p>
             <table>
-              <tr><td>Cost: $<span id="deal-re-cost"></span></td></tr>
-              <tr><td>Cash flow: $<span id="deal-re-cash-flow"></span></td></tr>
-              <tr><td>Down pay: $<span id="deal-re-down-payment"></span></td></tr>
+              <tr>
+                <td>Cost: $<span id="deal-re-cost"></span></td>
+              </tr>
+              <tr>
+                <td>Cash flow: $<span id="deal-re-cash-flow"></span></td>
+              </tr>
+              <tr>
+                <td>Down pay: $<span id="deal-re-down-payment"></span></td>
+              </tr>
             </table>
           </div>
           <div id="deal-card-stock">
             <h2 class="card-title"><span id="deal-stock-type"></span><br><span id="deal-stock-name"></span></h2>
-            <p id="deal-stock-text"> </p>
+            <p id="deal-stock-text"> </p><p id="deal-stock-rule"></p>
             <table>
               <tr>
                 <td>Cost: $<span id="deal-stock-cost"></span></td>
@@ -167,7 +173,7 @@
               <div id="share-amt-btns">
                 <input type="button" id="increase-shares" onclick="APP.display.increaseShares();" value=" + "></input>
                 <input type="button" id="decrease-shares" onclick="APP.display.decreaseShares();" value=" - "></input>
-<!--<input type="button" id="buy-shares-btn0" name="buy-shares" value="BUY" onclick="APP.finance.buyStock();">-->
+                <!--<input type="button" id="buy-shares-btn0" name="buy-shares" value="BUY" onclick="APP.finance.buyStock();">-->
                 <div>For: $<span id="share-cost"></span></div>
               </div>
             </form>
@@ -263,17 +269,16 @@
             <button class="card-btn" id="roll-btn" onclick="APP.movePlayer(1);">ROLL</button>
             <button class="card-btn" id="roll2-btn" onclick="APP.movePlayer(2);">ROLL 2x</button>
             <button class="card-btn" id="small-deal-btn" onclick="APP.smallDeal();">SMALL</button>
-            <button class="card-btn" id="big-deal-btn" onclick="">BIG</button>
+            <button class="card-btn" id="big-deal-btn" onclick="APP.bigDeal();">BIG</button>
             <button class="card-btn" id="doodad-pay-button" onclick="APP.finance.payDoodad();">PAY</button>
             <button class="card-btn" id="ds-pay-button" onclick="APP.finance.payDownsize();">PAY</button>
             <button class="card-btn" id="charity-donate-btn" onclick="APP.finance.donate();">DONATE</button>
             <button class="card-btn" id="borrow-offer-loan-btn" onclick="APP.finance.getLoan();" style="color: red">YES</button>
             <button class="card-btn" id="show-stock-form-btn" onclick="APP.display.showStockForm(); APP.test();">BUY</button>
             <button class="card-btn" id="buy-stock-btn" onclick="APP.finance.buyStock();" style="color: green;">BUY</button>
-            <button class="card-btn" id="buy-real-estate-btn" onclick="APP.finance.buyRealEstate();" style="color: green;">BUY</button>
-            
+            <button class="card-btn" id="buy-real-estate-btn" onclick="APP.finance.buyRealEstate();" style="color: blue;">BUY</button>
 
-                        <button class="card-btn" id="buy-opp-button" onclick="">BUY</button>
+            <button class="card-btn" id="buy-opp-button" onclick="">BUY</button>
             <button class="card-btn" id="pass-btn" onclick="APP.finishTurn();">PASS</button>
             <button class="card-btn" id="no-loan-btn" onclick="APP.finishTurn();">NO</button>
             <button class="card-btn" id="confirm-pay-btn" onclick="APP.finance.pay();">CONFIRM</button>
@@ -403,17 +408,16 @@
           <table id="asset-table">
             <tr id='asset-table-header'>
               <th>ASSETS</th>
-            <tr class="assets-row">
-              <td class="assets-table-title">Stocks/Funds/CDs</td>
-              <td class="assets-table-title">Cost/Share</td>
-            </tr>
-
-            <tr class="assets-row">
-              <td class="assets-table-title">Real Estate/Business</td>
-              <td class="assets-table-title">Cost</td>
-            </tr>
+              <tr class="assets-row" id="asset-stock-title">
+                <td class="assets-table-title">Stocks/Funds/CDs</td>
+                <td class="assets-table-title">Cost/Share</td>
+              </tr>
+              <tr class="assets-row" id="asset-real-estate-title">
+                <td class="assets-table-title">Real Estate/Business</td>
+                <td class="assets-table-title">Cost</td>
+              </tr>
           </table>
-        
+
           <table id="liability-table" style="">
             <tr id='lia-table-header'>
               <th>LIABILITIES</th>

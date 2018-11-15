@@ -1,16 +1,18 @@
+## Cash Flow Js
+
 Preview of Cash Flow Js game located at https://sleighs.github.io/SleighsCashFlow/
 
-Cash Flow Js is an adaptation of the Cash Flow 101 board game with additional gameplay options and rule customization that allows for many unique ways to play.
+**Cash Flow Js** is an adaptation of the Cash Flow 101 board game with additional gameplay options and rule customization that allows for many unique ways to play.
 
-Features:
+### Features:
 * 8 player Multiplayer
 
-New Game Modes
+### New Game Modes
 * Same Career Mode - Each player starts with the same career, savings, and debts
 * Team Mode - Players play in pairs
 * Fast Track Mode - Each player starts with a big bank acount and random asset
 
-New Rules
+### New Rules
 * Speed start - Players start with their total income in their savings
 * Joint ventures - Players can partner up to invest together on opportunities
 * Deck shuffling - Choose to shuffle card decks after each turn 

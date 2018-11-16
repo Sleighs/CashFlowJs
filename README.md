@@ -2,7 +2,7 @@
 
 **Cash Flow Js** is an adaptation of the Cash Flow 101 board game with additional gameplay options and rule customization that allows for many unique ways to play.
 
-Preview at https://sleighs.github.io/CashFlowJs/ (Pre-Alpha)
+Preview at https://sleighs.github.io/CashFlowJs/
 
 ### Features:
 * 8 player Multiplayer

@@ -170,6 +170,7 @@ var APP = APP || {
     APP.display.clearBtns();
     APP.display.clearCards();
     APP.clearAmounts();
+    
     //hide prev assets and show current assets
     if (player.stockAssets.length >= 0) {
       var stockRowClass =
@@ -192,7 +193,6 @@ var APP = APP || {
     } else {
       APP.currentPlayer = 1;
     }
-
     player = APP.players[APP.currentPlayerArrPos()];
 
     if (player.stockAssets.length >= 0) {
@@ -228,7 +228,7 @@ var APP = APP || {
     APP.turnCount++;
 
     APP.finance.statement(APP.currentPlayerArrPos());
-
+    
     if (player.charityTurns === 0) {
       $("#roll2-btn").hide();
     } else {
@@ -246,7 +246,10 @@ var APP = APP || {
         this.nextTurn();
       }
     }
+    
 
+
+    
     //if player cannot afford his bills even after selling assets, player loses
     //load bankruptcy card if player has assets to sell
     //allow player to sell assets if they have any
@@ -260,6 +263,7 @@ var APP = APP || {
     $("#done-repay-btn").hide();
     $("#done-btn").hide();
     APP.display.clearCards();
+    APP.display.clearBtns();//--
 
     $("#finish-turn-container").show();
     $("#finish-instructions").show();
@@ -1022,20 +1026,8 @@ APP.finance = {
     var player = APP.players[APP.currentPlayerArrPos()];
     var downPayment = APP.currentDeal.downPayment;
     var arr = player.realEstateAssets;
-
-    if (downPayment <= player.cash) {
-      player.cash -= downPayment;
-      player.assetIncome += APP.currentDeal.cashFlow;
-
-      if (arr.includes(APP.currentDeal)) {
-        //get array location of the stock
-        //var index = player.stockAssets.indexOf(APP.currentDeal);
-        //player.stockAssets[index]['shares'] += this.shareAmount;
-      } else {
-        arr.push(APP.currentDeal);
-      }
-
-      function newRealEstateRow() {
+    
+function newRealEstateRow() {
         var realEstateAssetRow = [
           "<td><span id='real-estate-name'></span></td>",
           "<td><span id='real-estate-cost'></span></td>"
@@ -1048,11 +1040,22 @@ APP.finance = {
           "</tr>";
         return newRow;
       }
+var row = newRealEstateRow();
+    
+    if (downPayment <= player.cash) {
+      player.cash -= downPayment;
+      player.assetIncome += APP.currentDeal.cashFlow;
 
+      if (arr.includes(APP.currentDeal)) {
+        //get array location of the stock
+        //var index = player.stockAssets.indexOf(APP.currentDeal);
+        //player.stockAssets[index]['shares'] += this.shareAmount;
+      } else {
+        arr.push(APP.currentDeal);
+      }
       if (APP.currentDeal.tag == false) {
         APP.finishTurn();
-      } else {
-        var row = newRealEstateRow();
+      } else {       
         $("tr#asset-real-estate-title").after(row);
 
         APP.finishTurn();
@@ -1101,12 +1104,14 @@ APP.finance = {
     var downsizedAmount = player.totalExpenses;
 
     if (APP.doodadCost > 0) {
-      var costD = APP.doodadCost;
-      this.loanOffer(costD);
+      $("#doodad-card").show();
+      $("#doodad-pay-button").show();
+      this.statement(APP.currentPlayerArrPos());
+      $("#cannot-afford-loan-card").hide();
+      $("#borrow-offer-loan-btn").hide();
+      $("#no-loan-btn").hide();
     }
     if (boardPosition == 19) {
-      var costDS = downsizedAmount;
-      this.loanOffer(costDS);
       player.downsizedTurns += 3;
     }
 
@@ -2249,17 +2254,11 @@ APP.dreamPhase = {
 
     //show player job, income and savings
     $("#job-text").show();
-    /*var jobTextId = document.getElementById("job-text");
-    
-    jobTextId.insertAdjacentHTML(
-      "afterbegin",
-      "<div>You are a<span id='dream-job'></span>.</div><div>Your starting salary is $<span id='dream-starting-salary'></span>.</div><div>You have $<span id='dream-starting-savings'></span> in your savings.</div><div>That means your starting cash is $<span id='dream-starting-cash'></span>.</div>"
-    );*/
 
-    this.showStartScenario();
+    this.showStartScenario(0);
   },
-  showStartScenario: function() {
-    var player = APP.currentPlayerArrPos();
+  showStartScenario: function(player) {
+    //var player = APP.currentPlayerArrPos();
     var playerJob = APP.players[player].jobTitle[0];
     var vowelRegex = "^[aieouAIEOU].*";
     var matched = playerJob.match(vowelRegex);
@@ -2272,12 +2271,12 @@ APP.dreamPhase = {
     }
     var playerSalary = APP.players[player].jobTitle[1];
     var playerSavings = APP.players[player].jobTitle[2];
-    var playerCash = playerSavings;
+    //var playerCash = playerSavings;
 
     document.getElementById("dream-job").innerHTML = job;
     document.getElementById("dream-starting-salary").innerHTML = playerSalary;
     document.getElementById("dream-starting-savings").innerHTML = playerSavings;
-    document.getElementById("dream-starting-cash").innerHTML = playerCash;
+    document.getElementById("dream-starting-cash").innerHTML = playerSavings;
   },
   leftDream: function() {
     var id = document.getElementById("dream-text");
@@ -2318,10 +2317,9 @@ APP.dreamPhase = {
     var restartDream = document.getElementById("dream-text");
     restartDream.innerHTML = APP.dreamPhase.dreams[0];
 
+    APP.dreamPhase.showStartScenario(APP.currentPlayerArrPos() + 1);
+    
     APP.nextTurn();
-
-    //show job, savings, starting cash for current player
-    this.showStartScenario();
   },
   endDreamPhase: function() {
     APP.display.hideDreamPhase();
@@ -2488,14 +2486,13 @@ APP.display = {
     $("#repay-borrow-btns").hide();
     $("#small-deal-btn").hide();
     $("#big-deal-btn").hide();
-    $("#buy-asset-btn").hide(); //--?
-    $("#buy-stock-btn").hide();
     $("#doodad-pay-button").hide();
     $("#ds-pay-button").hide();
     $("#charity-donate-btn").hide();
+    
     $("#pass-btn").hide();
     $("#no-loan-btn").hide();
-    //$("#done-btn").hide();
+    $("#done-btn").hide();
     $("#cancel-btn").hide();
     $("#borrow-loan-btn").hide();
     $("#borrow-doodad-loan-btn").hide();
@@ -2503,6 +2500,8 @@ APP.display = {
     $("#confirm-pay-btn").hide();
     $("#done-repay-btn").hide();
     $("#show-stock-form-btn").hide();
+    
+    $("#buy-stock-btn").hide();
     $("#buy-real-estate-btn").hide();
   },
   clearCards: function() {
@@ -2749,4 +2748,3 @@ APP.test = function() {
   document.getElementById("small-opp-test1").innerHTML = APP.currentDeal.name;
   document.getElementById("small-opp-test2").innerHTML = APP.currentDeal.shares;
 };
-

@@ -247,10 +247,11 @@ var APP = APP || {
       }
     }
     
-
-
-    
     //if player cannot afford his bills even after selling assets, player loses
+      //if(player.totalIncome < 0){
+        //$("#bankrupt-card").show();
+        //$("#turn-instructions").hide();  
+      //}
     //load bankruptcy card if player has assets to sell
     //allow player to sell assets if they have any
     //else load you lose card if cash flow is negative and there are no assets to sell
@@ -331,6 +332,7 @@ var APP = APP || {
         $("#deal-card-stock").show();
         $("#show-stock-form-btn").show();
         $("#pass-btn").show();
+        $("#deal-stock-rule").hide();
 
         document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
         document.getElementById("deal-stock-name").innerHTML = currentDeal.name;
@@ -350,6 +352,8 @@ var APP = APP || {
         $("#deal-card-stock").show();
         $("#show-stock-form-btn").show();
         $("#pass-btn").show();
+        $("#deal-stock-rule").hide();
+        $("#stock-cost-table").show();
 
         document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
         document.getElementById("deal-stock-name").innerHTML = currentDeal.name;
@@ -369,6 +373,7 @@ var APP = APP || {
         $("#deal-card-real-estate").show();
         $("#buy-real-estate-btn").show();
         $("#pass-btn").show();
+        $("#real-estate-cost-table").show();
 
         document.getElementById("deal-re-name").innerHTML = currentDeal.name;
         document.getElementById("deal-re-description").innerHTML =
@@ -382,6 +387,7 @@ var APP = APP || {
         break;
       case "Property Damage":
         $("#deal-card-real-estate").show();
+        $("#real-estate-cost-table").hide();
         document.getElementById("deal-re-name").innerHTML = currentDeal.name;
         document.getElementById("deal-re-description").innerHTML =
           currentDeal.description;
@@ -393,6 +399,8 @@ var APP = APP || {
         break;
       case "Stock Split":
         $("#deal-card-stock").show();
+        $("#deal-stock-rule").show();
+        $("#stock-cost-table").hide();
 
         document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
         document.getElementById("deal-stock-name").innerHTML = currentDeal.name;
@@ -405,6 +413,8 @@ var APP = APP || {
         break;
       case "Reverse Split":
         $("#deal-card-stock").show();
+        $("#deal-stock-rule").show();
+        $("#stock-cost-table").hide();
 
         document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
         document.getElementById("deal-stock-name").innerHTML = currentDeal.name;
@@ -438,6 +448,7 @@ var APP = APP || {
         $("#deal-card-real-estate").show();
         $("#buy-real-estate-btn").show();
         $("#pass-btn").show();
+        $("#real-estate-cost-table").show();
 
         document.getElementById("deal-re-name").innerHTML = currentDeal.name;
         document.getElementById("deal-re-description").innerHTML =
@@ -451,6 +462,7 @@ var APP = APP || {
         break;
       case "Property Damage":
         $("#pass-btn").show();
+        $("#real-estate-cost-table").hide();
 
         document.getElementById("deal-re-name").innerHTML = currentDeal.name;
         document.getElementById("deal-re-description").innerHTML =
@@ -1107,10 +1119,8 @@ var row = newRealEstateRow();
       $("#doodad-card").show();
       $("#doodad-pay-button").show();
       this.statement(APP.currentPlayerArrPos());
-      $("#cannot-afford-loan-card").hide();
-      $("#borrow-offer-loan-btn").hide();
-      $("#no-loan-btn").hide();
     }
+    
     if (boardPosition == 19) {
       player.downsizedTurns += 3;
     }
@@ -1145,9 +1155,12 @@ var row = newRealEstateRow();
           $("#pass-btn").show();
           break;
       }
-
       this.statement(APP.currentPlayerArrPos());
     }
+    
+    $("#cannot-afford-loan-card").hide();
+    $("#borrow-offer-loan-btn").hide();
+    $("#no-loan-btn").hide();
   }
 };
 
@@ -2327,6 +2340,7 @@ APP.dreamPhase = {
     APP.dreamPhase.dreamPhaseOn = false;
     $("#job-text").show();
     $("#finance-box").show();
+    APP.nextTurn();
   }
 };
 APP.dreamPhase.dreams = [
@@ -2748,3 +2762,4 @@ APP.test = function() {
   document.getElementById("small-opp-test1").innerHTML = APP.currentDeal.name;
   document.getElementById("small-opp-test2").innerHTML = APP.currentDeal.shares;
 };
+

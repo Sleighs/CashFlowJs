@@ -172,9 +172,9 @@ var APP = APP || {
     APP.clearAmounts();
     //hide prev assets and show current assets
     if (player.stockAssets.length >= 0) {
-      var stockRowId =
+      var stockRowClass =
         ".stock-shares" + parseInt(APP.currentPlayerArrPos(), 10) + "-row";
-      $(stockRowId).hide();
+      $(stockRowClass).hide();
     }
     if (player.realEstateAssets.length >= 0) {
       var rowClass =
@@ -199,6 +199,11 @@ var APP = APP || {
       var stockRowId =
         ".stock-shares" + parseInt(APP.currentPlayerArrPos(), 10) + "-row";
       $(stockRowId).show();
+    }
+    if (player.stockAssets.length >= 0) {
+      var realEstateRowClass =
+        ".real-estate-asset" + parseInt(APP.currentPlayerArrPos(), 10) + "-row";
+      $(realEstateRowClass).show();
     }
 
     if (APP.pCount == 1) {
@@ -327,8 +332,8 @@ var APP = APP || {
         document.getElementById("deal-stock-name").innerHTML = currentDeal.name;
         document.getElementById("deal-stock-text").innerHTML =
           currentDeal.description;
-       // document.getElementById("deal-stock-rule").innerHTML =
-         // currentDeal.rule;
+        // document.getElementById("deal-stock-rule").innerHTML =
+        // currentDeal.rule;
         document.getElementById("deal-stock-cost").innerHTML =
           currentDeal.price;
         document.getElementById("deal-stock-cash-flow").innerHTML = "0";
@@ -346,8 +351,8 @@ var APP = APP || {
         document.getElementById("deal-stock-name").innerHTML = currentDeal.name;
         document.getElementById("deal-stock-text").innerHTML =
           currentDeal.description;
-       // document.getElementById("deal-stock-rule").innerHTML =
-         // currentDeal.rule;
+        // document.getElementById("deal-stock-rule").innerHTML =
+        // currentDeal.rule;
         document.getElementById("deal-stock-cost").innerHTML =
           currentDeal.price;
         document.getElementById("deal-stock-cash-flow").innerHTML = "0";
@@ -377,33 +382,32 @@ var APP = APP || {
         document.getElementById("deal-re-description").innerHTML =
           currentDeal.description;
         document.getElementById("deal-re-rule").innerHTML = currentDeal.rule;
-        
+
         //--Need to make pay for damages button
-        $("#buy-real-estate-btn").show(); 
+        $("#buy-real-estate-btn").show();
         $("#pass-btn").show();
         break;
       case "Stock Split":
         $("#deal-card-stock").show();
-        
+
         document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
         document.getElementById("deal-stock-name").innerHTML = currentDeal.name;
         document.getElementById("deal-stock-text").innerHTML =
           currentDeal.description;
-       // document.getElementById("deal-stock-rule").innerHTML =
-         // currentDeal.rule;
-        
+        // document.getElementById("deal-stock-rule").innerHTML =
+        // currentDeal.rule;
+
         $("#done-btn").show();
         break;
       case "Reverse Split":
         $("#deal-card-stock").show();
-        
+
         document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
         document.getElementById("deal-stock-name").innerHTML = currentDeal.name;
         document.getElementById("deal-stock-text").innerHTML =
           currentDeal.description;
-        document.getElementById("deal-stock-rule").innerHTML =
-          currentDeal.rule;
-        
+        document.getElementById("deal-stock-rule").innerHTML = currentDeal.rule;
+
         $("#done-btn").show();
         break;
     }
@@ -595,7 +599,7 @@ APP.finance = {
       player.totalExpenses;
     document.getElementById("summary-total-expenses-bar").innerHTML =
       player.totalExpenses;
-    document.getElementById("summary-payday").innerHTML = player.payday;    
+    document.getElementById("summary-payday").innerHTML = player.payday;
     //assets
     var aTable = document.getElementById("assets-table");
     for (var i = 0; i < player.stockAssets.length; i++) {
@@ -603,7 +607,7 @@ APP.finance = {
       var nameId = "stock-name";
       var priceId = "stock-cost";
 
-      var name = player.stockAssets[i]["name"].substr(0, 6);
+      var name = player.stockAssets[i]["name"].substr(0, 5);
       document.getElementById(sharesId).innerHTML =
         player.stockAssets[i]["shares"];
       document.getElementById(nameId).innerHTML = name;
@@ -616,10 +620,10 @@ APP.finance = {
 
       var name = player.realEstateAssets[j]["tag"].substr(0, 6);
       document.getElementById(nameId).innerHTML = name;
-      document.getElementById(costId).innerHTML = 
+      document.getElementById(costId).innerHTML =
         player.realEstateAssets[j]["cost"];
     }
-    
+
     //liabilities
     var lTable = document.getElementById("liability-table");
 
@@ -687,7 +691,7 @@ APP.finance = {
   progressBar: function() {
     var player = APP.players[APP.currentPlayerArrPos()];
     var expenseBarEle = document.getElementById("income-expense-bar");
-    var expenses = this.getExpenses();
+    var expenses = this.getExpenses(APP.currentPlayerArrPos());
     var width = 100 * (player.assetIncome / expenses);
 
     expenseBarEle.style.width = Math.round(width) + "%";
@@ -766,7 +770,6 @@ APP.finance = {
     if (boardPosition === 19) {
       if (player.cash < downsizedAmount) {
         this.loanOffer(downsizedAmount);
-       
       } else {
         player.cash -= downsizedAmount;
         player.downsizedTurns += 3;
@@ -967,47 +970,49 @@ APP.finance = {
     var price = APP.currentDeal.price;
     var shares = this.shareAmount;
     var cost = price * shares;
+    var stockId = APP.currentDeal.id;
+    var arr = player.stockAssets;
+    var idVal, stockArrPos;
+
+    function searchStock(id, stockArray) {
+      for (var i = 0; i < stockArray.length; i++) {
+        if (stockArray[i].id === id) {
+          idVal = stockArray[i];
+          stockArrPos = i;
+        } else {
+          idVal = false;
+        }
+      }
+      return idVal;
+    }
+    var stockObj = searchStock(stockId, arr);
+
+    function newStockRow() {
+      var stockAssetRow = [
+        "<td><span id='stock-shares'></span> Share of <span id='stock-name'></span></td>",
+        "<td><span id='stock-cost'></span></td>"
+      ];
+      var newRow =
+        "<tr class='assets-row stock-shares" +
+        parseInt(APP.currentPlayerArrPos(), 10) +
+        "-row'>" +
+        stockAssetRow.join("") +
+        "</tr>";
+      return newRow;
+    }
+    var row = newStockRow();
 
     if (cost <= player.cash) {
       player.cash -= cost;
       APP.currentDeal.shares = this.shareAmount;
-      var arr = player.stockAssets;
-
-      //if deal is already in array update share amount
-      if (arr.includes(APP.currentDeal)) {
-        //get array location of the stock
-        //var index = player.stockAssets.indexOf(APP.currentDeal);
-        //player.stockAssets[index]['shares'] += this.shareAmount;
-      } else {
+      //check if player already owns shares
+      if (!stockObj) {
         player.stockAssets.push(APP.currentDeal);
-      }
-
-      function newStockRow() {
-        var stockAssetRow = [
-          "<td><span id='stock-shares'></span> Share of <span id='stock-name'></span></td>",
-          "<td><span id='stock-cost'></span></td>"
-        ];
-        var newRow =
-          "<tr class='assets-row stock-shares" +
-          parseInt(APP.currentPlayerArrPos(), 10) +
-          "-row'>" +
-          stockAssetRow.join("") +
-          "</tr>";
-        return newRow;
-      }
-      var row = newStockRow();
-      /*
-      //stock already exists add current share count to old share count
-      let idCheck = arr.filter(function(value){        return value.id === APP.currentDeal.id;
-      });
-      
-     if (!idCheck){  
         $("tr#asset-stock-title").after(row);
-      }  else {
-        //add new shares to old shares
-      }*/
+      } else {
+        arr[stockArrPos].shares += shares;
+      }
 
-      $("tr#asset-stock-title").after(row);
       APP.finishTurn();
     } else {
       this.loanOffer(cost);
@@ -1017,7 +1022,7 @@ APP.finance = {
     var player = APP.players[APP.currentPlayerArrPos()];
     var downPayment = APP.currentDeal.downPayment;
     var arr = player.realEstateAssets;
-    
+
     if (downPayment <= player.cash) {
       player.cash -= downPayment;
       player.assetIncome += APP.currentDeal.cashFlow;
@@ -1043,14 +1048,14 @@ APP.finance = {
           "</tr>";
         return newRow;
       }
-      
+
       if (APP.currentDeal.tag == false) {
-        APP.finishTurn()
-      } else { 
-      var row = newRealEstateRow();
-      $("tr#asset-real-estate-title").after(row);
-      
-      APP.finishTurn();
+        APP.finishTurn();
+      } else {
+        var row = newRealEstateRow();
+        $("tr#asset-real-estate-title").after(row);
+
+        APP.finishTurn();
       }
     } else {
       this.loanOffer(downPayment);
@@ -1094,7 +1099,7 @@ APP.finance = {
     var player = APP.players[APP.currentPlayerArrPos()];
     var boardPosition = player.position;
     var downsizedAmount = player.totalExpenses;
-    
+
     if (APP.doodadCost > 0) {
       var costD = APP.doodadCost;
       this.loanOffer(costD);
@@ -1335,7 +1340,7 @@ APP.cards = {
       price: 30,
       range: "$10 to $30",
       dividend: false,
-      id: "m01"
+      id: "gro4us30"
     },
     mutual02: {
       type: "Mutual Fund",
@@ -1348,7 +1353,7 @@ APP.cards = {
       price: 20,
       range: "$10 to $30",
       dividend: false,
-      id: "m02"
+      id: "gro4us20"
     },
     mutual03: {
       type: "Mutual Fund",
@@ -1361,7 +1366,7 @@ APP.cards = {
       price: 10,
       range: "$10 to $30",
       dividend: false,
-      id: "m03"
+      id: "gro4us10"
     },
     mutual04: {
       type: "Mutual Fund",
@@ -1374,7 +1379,7 @@ APP.cards = {
       price: 5,
       range: "$10 to $30",
       dividend: false,
-      id: "m04"
+      id: "gro4us05"
     },
     mutual05: {
       type: "Mutual Fund",
@@ -1387,7 +1392,7 @@ APP.cards = {
       price: 40,
       range: "$10 to $30",
       dividend: false,
-      id: "m05"
+      id: "gro4us40"
     },
     stock001: {
       type: "Stock",
@@ -1400,7 +1405,7 @@ APP.cards = {
       price: 40,
       range: "$5 to $30",
       dividend: false,
-      id: "s001"
+      id: "myt4u40"
     },
     stock002: {
       type: "Stock",
@@ -1413,7 +1418,7 @@ APP.cards = {
       price: 5,
       range: "$5 to $30",
       dividend: false,
-            id: "s002"
+      id: "myt4u05"
     },
     stock003: {
       type: "Stock",
@@ -1426,7 +1431,7 @@ APP.cards = {
       price: 5,
       range: "$5 to $30",
       dividend: false,
-            id: "s003"
+      id: "myt4u05"
     },
     stock004: {
       type: "Stock",
@@ -1439,7 +1444,7 @@ APP.cards = {
       price: 30,
       range: "$5 to $30",
       dividend: false,
-            id: "s004"
+      id: "myt4u30"
     },
     stock005: {
       type: "Stock",
@@ -1452,7 +1457,7 @@ APP.cards = {
       price: 1,
       range: "$5 to $30",
       dividend: false,
-            id: "s005"
+      id: "myt4u01"
     },
     stock006: {
       type: "Stock",
@@ -1465,7 +1470,7 @@ APP.cards = {
       price: 10,
       range: "$5 to $30",
       dividend: false,
-            id: "s006"
+      id: "myt4u10"
     },
     stock007: {
       type: "Stock",
@@ -1478,7 +1483,7 @@ APP.cards = {
       price: 20,
       range: "$5 to $30",
       dividend: false,
-            id: "s007"
+      id: "myt4u20"
     },
     stock008: {
       type: "Stock",
@@ -1491,210 +1496,250 @@ APP.cards = {
       price: 30,
       range: "$5 to $30",
       dividend: false,
-            id: "s008"
+      id: "myt4u30"
     },
     stock101: {
       type: "Stock",
       name: "OK4U Drug Co.",
-      description: "Market strength leads to high share price for this long time maker of medicines.",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "Market strength leads to high share price for this long time maker of medicines.",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "OK4U",
       price: 40,
       range: "$5 to $40",
       dividend: false,
-            id: "s101"
+      id: "ok4u10"
     },
     stock102: {
       type: "Stock",
       name: "OK4U Drug Co.",
-      description: "Low inflation leads to high share price for this long time maker of medicines.",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "Low inflation leads to high share price for this long time maker of medicines.",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "OK4U",
       price: 20,
       range: "$5 to $40",
       dividend: false,
-      id: "s102"
+      id: "ok4u20"
     },
     stock103: {
       type: "Stock",
       name: "OK4U Drug Co.",
-      description: "Booming market raises share price of this long time maker of medicines.",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "Booming market raises share price of this long time maker of medicines.",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "OK4U",
       price: 50,
       range: "$5 to $40",
       dividend: false,
-      id: "s103"
+      id: "ok4u50"
     },
     stock104: {
       type: "Stock",
       name: "OK4U Drug Co.",
-      description: "Interest rates cripple share price of this long time maker of medicines.",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "Interest rates cripple share price of this long time maker of medicines.",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "OK4U",
       price: 5,
       range: "$5 to $40",
       dividend: false,
-      id: "s104"
+      id: "ok4u05"
     },
     stock105: {
       type: "Stock",
       name: "OK4U Drug Co.",
-      description: "High interest rates cause poor share price of this long time make of medicines.",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "High interest rates cause poor share price of this long time make of medicines.",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "OK4U",
       price: 10,
       range: "$5 to $40",
       dividend: false,
-      id: "s105"
+      id: "ok4u10"
     },
     stock106: {
       type: "Stock",
       name: "OK4U Drug Co.",
-      description: "Inflation worries cause poor share price of this long time maker of medicines.",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "Inflation worries cause poor share price of this long time maker of medicines.",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "OK4U",
       price: 10,
       range: "$5 to $40",
       dividend: false,
-      id: "s106"
+      id: "ok4u10"
     },
     stock107: {
       type: "Stock",
       name: "OK4U Drug Co.",
-      description: "Market panic causes crash in the shares of this long time maker of medicines.",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "Market panic causes crash in the shares of this long time maker of medicines.",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "OK4U",
       price: 1,
       range: "$5 to $40",
       dividend: false,
-      id: "s107"
+      id: "ok4u01"
     },
     stock108: {
       type: "Stock",
       name: "OK4U Drug Co.",
-      description: "Long time maker of medicines; especially drugs for people of 70.",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "Long time maker of medicines; especially drugs for people of 70.",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "OK4U",
       price: 30,
       range: "$5 to $40",
       dividend: false,
-      id: "s108"
+      id: "ok4u30"
     },
     stock201: {
       type: "Stock",
       name: "ON2U Entertainment Co.",
-      description: "Box office hit by children's division casuses record share price.",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "Box office hit by children's division casuses record share price.",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "ON2U",
       price: 40,
       range: "$5 to $40",
       dividend: false,
-      id: "s201"
+      id: "on2u40"
     },
     stock202: {
       type: "Stock",
       name: "ON2U Entertainment Co.",
-      description: "Strong demand for company's library of old movies on video leads to good share price.",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "Strong demand for company's library of old movies on video leads to good share price.",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "ON2U",
       price: 30,
       range: "$5 to $40",
       dividend: false,
-      id: "s202"
+      id: "on2u30"
     },
     stock203: {
       type: "Stock",
       name: "ON2U Entertainment Co.",
-      description: "New director of movie acquisitions brings revived prospects for share price.",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "New director of movie acquisitions brings revived prospects for share price.",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "ON2U",
       price: 20,
       range: "$5 to $40",
       dividend: false,
-      id: "s203"
+      id: "on2u20"
     },
     stock204: {
       type: "Stock",
       name: "ON2U Entertainment Co.",
-      description: "Movie buyer fired after third mega-flop! Shares sink. CHairman's bonus canceled.",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "Movie buyer fired after third mega-flop! Shares sink. CHairman's bonus canceled.",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "ON2U",
       price: 5,
       range: "$5 to $40",
       dividend: false,
-      id: "s204"
+      id: "on2u05"
     },
     stock205: {
       type: "Stock",
       name: "ON2U Entertainment Co.",
-      description: "Box office smash hit in adult division causes strong share price.",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "Box office smash hit in adult division causes strong share price.",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "ON2U",
       price: 30,
       range: "$5 to $40",
       dividend: false,
-      id: "s205"
+      id: "on2u30"
     },
     stock206: {
       type: "Stock",
       name: "ON2U Entertainment Co.",
-      description: "Recent merger strengthened market share of this leading company with good outlook.",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "Recent merger strengthened market share of this leading company with good outlook.",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "ON2U",
       price: 20,
       range: "$5 to $40",
       dividend: false,
-      id: "s206"
+      id: "on2u20"
     },
     stock207: {
       type: "Stock",
       name: "ON2U Entertainment Co.",
-      description: "Newest theme park loses record amount. Share price hits all-time low.",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "Newest theme park loses record amount. Share price hits all-time low.",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "ON2U",
       price: 1,
       range: "$5 to $40",
       dividend: false,
-      id: "s207"
+      id: "on2u01"
     },
     stock208: {
       type: "Stock",
       name: "ON2U Entertainment Co.",
-      description: "Box office flop by musical extravaganza in core division causes poor share price.",
-      rule: "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
+      description:
+        "Box office flop by musical extravaganza in core division causes poor share price.",
+      rule:
+        "Only you may buy as many shares as you want at this price. Everyone may sell at this price.",
       symbol: "ON2U",
       price: 10,
       range: "$5 to $40",
       dividend: false,
-      id: "s208"
+      id: "on2u10"
     },
     stockSplit1: {
       type: "Stock Split",
       name: "MYT4U Electronics Co.",
-      description: "Business is up dramatically and the company is doing so well their shares haave just split!",
-      rule: "Everyone who owns MYT4U shares doubles the number of shares they own.",
+      description:
+        "Business is up dramatically and the company is doing so well their shares haave just split!",
+      rule:
+        "Everyone who owns MYT4U shares doubles the number of shares they own.",
       symbol: "MYT4U"
     },
     stockSplit2: {
       type: "Reverse Split",
       name: "MYT4U Electronics Co.",
-      description: "Company reorganizes! Massive loses due to over expansion and recession. Stockholders lose 1/2 of their ownership rights.",
-      rule: "Everyone who owns MYT4U shares cuts shares owned to 1/2 previous value.",
+      description:
+        "Company reorganizes! Massive loses due to over expansion and recession. Stockholders lose 1/2 of their ownership rights.",
+      rule:
+        "Everyone who owns MYT4U shares cuts shares owned to 1/2 previous value.",
       symbol: "MYT4U"
     },
     stockSplit3: {
       type: "Stock Split",
       name: "OK4U Drug Co.",
-      description: "Things are going so well for the company that their shares have just split!",
-      rule: "Everyone who owns OK4U shares doubles the number of shares they own.",
+      description:
+        "Things are going so well for the company that their shares have just split!",
+      rule:
+        "Everyone who owns OK4U shares doubles the number of shares they own.",
       symbol: "OK4U"
     },
     stockSplit4: {
       type: "Reverse Split",
       name: "OK4U Drug Co.",
-      description: "Company flounders! Massive losses due to tainted drug scandal. All stockholders lose 1/2 of their ownership rights.",
-      rule: "Everyone who owns OK4U shares cuts shares owned to 1/2 previous value.",
+      description:
+        "Company flounders! Massive losses due to tainted drug scandal. All stockholders lose 1/2 of their ownership rights.",
+      rule:
+        "Everyone who owns OK4U shares cuts shares owned to 1/2 previous value.",
       symbol: "OK4U"
     },
     //preferredStock1: {},
@@ -1709,7 +1754,8 @@ APP.cards = {
       downPayment: 2000,
       mortgage: 33000,
       cashFlow: 220,
-      tag: "3Br/2Ba"    
+      tag: "3Br/2Ba",
+      landType: "3Br/2Ba"
     },
     realEstateS2: {
       type: "Real Estate",
@@ -1722,7 +1768,8 @@ APP.cards = {
       downPayment: 5000,
       mortgage: 45000,
       cashFlow: 100,
-      tag: "2Br/1Ba"
+      tag: "2Br/1Ba",
+      landType: "2Br/1Ba"
     },
     realEstateS3: {
       type: "Real Estate",
@@ -1735,7 +1782,8 @@ APP.cards = {
       downPayment: 4000,
       mortgage: 36000,
       cashFlow: 140,
-      tag: "2Br/1Ba"
+      tag: "2Br/1Ba",
+      landType: "2Br/1Ba"
     },
     realEstateS4: {
       name: "Condo For Sale - 2 Br/1 Ba",
@@ -1746,7 +1794,8 @@ APP.cards = {
       downPayment: 5000,
       mortgage: 45000,
       cashFlow: 100,
-      tag: "2Br/1Ba"
+      tag: "2Br/1Ba",
+      landType: "2Br/1Ba"
     },
     realEstateS5: {
       name: "Condo For Sale - 2 Br/1 Ba",
@@ -1758,7 +1807,8 @@ APP.cards = {
       downPayment: 5000,
       mortgage: 55000,
       cashFlow: -100,
-      tag: "2Br/1Ba"
+      tag: "2Br/1Ba",
+      landType: "2Br/1Ba"
     },
     realEstateS6: {
       name: "Condo For Sale - 2 Br/1 Ba",
@@ -1771,7 +1821,8 @@ APP.cards = {
       downPayment: 5000,
       mortgage: 35000,
       cashFlow: 220,
-      tag: "2Br/1Ba"
+      tag: "2Br/1Ba",
+      landType: "2Br/1Ba"
     },
     realEstateS7: {
       name: "House For Sale - 3 Br/2 Ba",
@@ -1784,7 +1835,8 @@ APP.cards = {
       downPayment: 0,
       mortgage: 50000,
       cashFlow: 100,
-      tag: "3Br/2Ba"
+      tag: "3Br/2Ba",
+      landType: "3Br/2Ba"
     },
     realEstateS8: {
       name: "House For Sale - 3 Br/2 Ba",
@@ -1797,18 +1849,20 @@ APP.cards = {
       downPayment: 5000,
       mortgage: 35000,
       cashFlow: 220,
-      tag: "3Br/2Ba"
+      tag: "3Br/2Ba",
+      landType: "3Br/2Ba"
     },
     propertyDamage: {
       name: "Tenant Damages Your Property",
       type: "Property Damage",
-      description: "Tenant fails to pay rent for 2 months and then skips town leaving damage to your rental property. Insurance covers most damage and costs, but you are still out of pocket $500.",
+      description:
+        "Tenant fails to pay rent for 2 months and then skips town leaving damage to your rental property. Insurance covers most damage and costs, but you are still out of pocket $500.",
       rule: "Pay $500 if you own any rental property",
       cost: 500
     }
   },
   bigDeal: {
-    realEstate1: {
+    realEstateB1: {
       name: "8-plex for Sale",
       type: "Real Estate",
       description:
@@ -1819,9 +1873,10 @@ APP.cards = {
       downPayment: 40000,
       mortgage: 180000,
       cashFlow: 1700,
-      tag: "8PLEX"
+      tag: "8PLEX",
+      landType: "8-plex"
     },
-    realEstate2: {
+    realEstateB2: {
       name: "House for Sale - 3 Br/2 Ba",
       type: "Real Estate",
       decription:
@@ -1832,9 +1887,10 @@ APP.cards = {
       downPayment: 20000,
       mortgage: 50000,
       cashFlow: 500,
-      tag: "3Br/2ba"
+      tag: "3Br/2ba",
+      landType: "3Br/2Ba"
     },
-    realEstate3: {
+    realEstateB3: {
       name: "House for Sale - 3 Br/2 Ba",
       type: "Real Estate",
       description:
@@ -1845,9 +1901,10 @@ APP.cards = {
       downPayment: 8000,
       mortgage: 57000,
       cashFlow: 300,
-      tag: "3Br/2Ba"
+      tag: "3Br/2Ba",
+      landType: "3Br/2Ba"
     },
-    realEstate4: {
+    realEstateB4: {
       name: "4-plex for Sale",
       type: "Real Estate",
       description:
@@ -1858,9 +1915,10 @@ APP.cards = {
       downPayment: 16000,
       mortgage: 64000,
       cashFlow: 750,
-      tag: "4PLEX"
+      tag: "4PLEX",
+      landType: "4-plex"
     },
-    realEstate5: {
+    realEstateB5: {
       name: "8-plex for Sale",
       type: "Real Estate",
       description:
@@ -1870,9 +1928,10 @@ APP.cards = {
       downPayment: 32000,
       mortgage: 128000,
       cashFlow: 1700,
-      tag: "8PLEX"
+      tag: "8PLEX",
+      landType: "8-plex"
     },
-    realEstate6: {
+    realEstateB6: {
       name: "Automated Business for Sale",
       type: "Real Estate",
       description:
@@ -1882,9 +1941,10 @@ APP.cards = {
       downPayment: 25000,
       liability: 100000,
       cashFlow: 1800,
-      tag: "CarWash"
+      tag: "CarWash",
+      landType: "car wash"
     },
-    realEstate7: {
+    realEstateB7: {
       name: "20 Acres for Sale",
       type: "Real Estate",
       description:
@@ -1895,9 +1955,10 @@ APP.cards = {
       downPayment: 20000,
       mortgage: 0,
       cashFlow: 0,
-      tag: "20Acres"
+      tag: "20Acres",
+      landType: "20 acres"
     },
-    realEstate8: {
+    realEstateB8: {
       name: "8-plex for Sale",
       type: "Real Estate",
       description:
@@ -1908,9 +1969,10 @@ APP.cards = {
       downPayment: 40000,
       mortgage: 200000,
       cashFlow: 950,
-      tag: "8PLEX"
+      tag: "8PLEX",
+      landType: "8-plex"
     },
-    realEstate9: {
+    realEstateB9: {
       name: "Tenant Damages Your Property",
       type: "Property Damage",
       description:
@@ -1919,7 +1981,7 @@ APP.cards = {
       cost: 1000,
       tag: false
     },
-    realEstate10: {
+    realEstateB10: {
       name: "Limited Partner Wanted",
       type: "Business Investment",
       description:
@@ -1930,10 +1992,22 @@ APP.cards = {
       downPayment: 30000,
       liability: 0,
       cashFlow: 1500,
-      tag: "FOODSHOP"
+      tag: "FOODSHOP",
+      landType: "limited"
     }
   },
-  offer: [],
+  offer: {
+    offer01: {
+      name: "Plex Buyer",
+      description:
+        "Buyer offers $30,000 per unit for all units in any combination of duplexes, 4-plexes, or 8-plexes. Has own financing.",
+      rule1: "Everyone may sell at this price",
+      rule2:
+        "If you sell, pay off the related mortgage and give up the cash flow you currently receive on this property.",
+      offer: 30000,
+      landTypes: ["duplex", "4-plex", "8-plex"]
+    }
+  },
   doodad: {
     doodad1: {
       name: "Water Heater Leaks",
@@ -2164,29 +2238,33 @@ APP.dreamPhase = {
   dreamPhaseOn: false,
   dreamArrPos: 0,
   openDreamPhase: function() {
+    this.dreamPhaseOn = true;
     //show dream
     var dream = document.getElementById("dream-text");
     var dreamDescription = document.getElementById("dream-des");
+
     dream.innerHTML = APP.dreamPhase.dreams[APP.dreamPhase.dreamArrPos];
     dreamDescription.innerHTML =
       APP.dreamPhase.dreamDescriptions[APP.dreamPhase.dreamArrPos];
-    //show player job, income and savings
 
-    var jobTextId = document.getElementById("job-text");
+    //show player job, income and savings
+    $("#job-text").show();
+    /*var jobTextId = document.getElementById("job-text");
+    
     jobTextId.insertAdjacentHTML(
       "afterbegin",
-      "<div>You are a<span id='dream-job'></span>.</div><div>Your starting salary is $<span id='dream-starting-salary'></span>.</div><div>You have $<span id='dream-starting-savings'></span> in your savings.</div><div>That means your starting cash is $<span id='dream-starting-cash'></span></div>"
-    );
+      "<div>You are a<span id='dream-job'></span>.</div><div>Your starting salary is $<span id='dream-starting-salary'></span>.</div><div>You have $<span id='dream-starting-savings'></span> in your savings.</div><div>That means your starting cash is $<span id='dream-starting-cash'></span>.</div>"
+    );*/
 
-    this.showStartScenario(0);
+    this.showStartScenario();
   },
-  showStartScenario: function(player) {
+  showStartScenario: function() {
     var player = APP.currentPlayerArrPos();
     var playerJob = APP.players[player].jobTitle[0];
     var vowelRegex = "^[aieouAIEOU].*";
     var matched = playerJob.match(vowelRegex);
     if (matched) {
-      //add an n and a space before job title
+      //add an n and a space before job title if job begins with vowel
       var job = "n " + playerJob;
     } else {
       //add space before jobtitle
@@ -2240,15 +2318,16 @@ APP.dreamPhase = {
     var restartDream = document.getElementById("dream-text");
     restartDream.innerHTML = APP.dreamPhase.dreams[0];
 
-    //show job, savings, starting cash for current player
-    this.showStartScenario(APP.currentPlayerArrPos());
-
     APP.nextTurn();
+
+    //show job, savings, starting cash for current player
+    this.showStartScenario();
   },
   endDreamPhase: function() {
     APP.display.hideDreamPhase();
     APP.display.showRacePhase();
     APP.dreamPhase.dreamPhaseOn = false;
+    $("#job-text").show();
     $("#finance-box").show();
   }
 };
@@ -2670,3 +2749,4 @@ APP.test = function() {
   document.getElementById("small-opp-test1").innerHTML = APP.currentDeal.name;
   document.getElementById("small-opp-test2").innerHTML = APP.currentDeal.shares;
 };
+

@@ -1,11 +1,39 @@
 #window {
-  height: 682px;
+  height: 722px;
   width: 1080px;
   background-color: #010410;
   display: fixed;
   margin: auto;
   position: relative;
   font-family: "Roboto", sans-serif;
+}
+#nav {
+  height: 30px;
+  width: 100%;
+  color: #010410;
+}
+#nav:hover {
+  color: white;
+}
+#nav-link {
+  height: 30px;
+  width: 60px;
+  background-color: #010410;
+  display: inline-block;
+  overflow: none;
+}
+#nav-link:hover {
+  background-color: #E6EE9C;
+}
+#nav-ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+#nav-text {
+  position: relative;
+  margin: auto;
+  text-align: center;
 }
 #home-window {
   background-color: #010410;
@@ -330,6 +358,7 @@
 }
 #dream-text {
   font-size: 14pt;
+  font-weight: 'bold';
 }
 #dream-info {
   font-size: 15pt;
@@ -555,12 +584,10 @@
 #financial-statement-left,
 #financial-statement-right {
   display: inline-block;
-  /*border: 1pt solid red;*/
   height: 242px;
   width: 244px;
   vertical-align: top;
-  padding: 3px;
-  
+  padding: 3px;  
 }
 #summary-cash-title, #summary-cash-title2, #summary-cash {
   font-size: 16pt;
@@ -623,7 +650,6 @@
 #expenses-row-head {
   float: left;
   color: #263238;
-  
 }
 .income-row,
 .expenses-row {
@@ -648,6 +674,39 @@
   font-weight: bold;
   font-size: 10pt;
 }
-#buy-shares {
-  width: 100px;
+#buy-shares-form {
+  width: 270px;
+  margin: auto;
+}
+.share-amt-box {
+  display: inline-block;
+}
+#share-amt-input {
+  width: 55px;
+  height: 25px;
+  border: 1px solid #1B5E20;
+  border-style: none none solid none;
+    border-radius: 1px;
+  font-size: 12pt;
+}
+#shares-input {
+  width: 150px;
+  display: inline-block;
+}
+#share-amt-btns {
+  width: 90px;
+  display: inline-block;
+  position: relative;
+}
+#increase-shares, #decrease-shares {
+  background-color: #1B5E20; 
+    border: none;
+  border-radius: 3px;
+    color: white;
+    padding: 4px 10px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
 }

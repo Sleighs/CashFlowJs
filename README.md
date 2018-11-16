@@ -28,3 +28,5 @@ Preview at https://sleighs.github.io/CashFlowJs/
 * Job choice - Each player gets a choice between two jobs
 
 
+## [[Development Stage: Pre Alpha]]
+

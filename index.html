@@ -9,8 +9,8 @@
 </head>
 
 <body>
+<div id="window">
 
- <div id="window">
   <div id="home-screen">
     <button id="home-play-button">Start</button>
   </div>
@@ -23,15 +23,15 @@
     <div style="margin-bottom: 20px;">
       Select number of players.
       <select id="player-number" title="Select the number of players for the game.">
-        <option>1</option>
-				<option selected="selected">2</option>
-				<option>3</option>
-				<option>4</option>
-				<option>5</option>
-				<option>6</option>
-				<option>7</option>
-				<option>8</option>
-			</select>
+		<option>1</option>
+		<option selected="selected">2</option>
+		<option>3</option>
+		<option>4</option>
+		<option>5</option>
+		<option>6</option>
+		<option>7</option>
+		<option>8</option>
+	</select>
     </div>
     <div id="player1input" class="player-input">
       Player 1: <input type="text" id="player1name" title="Player name" maxlength="16" value="Player 1" />
@@ -113,7 +113,12 @@
           </div>
 
           <button id="dream-choice-btn" onclick="APP.dreamPhase.dreamChoiceBtn();">Select</button>
-          <div id="job-text"></div>
+          <div id="job-text">
+            <div>You are a<span id='dream-job'></span>.</div>
+            <div>Your starting salary is $<span id='dream-starting-salary'></span>.</div>
+            <div>You have $<span id='dream-starting-savings'></span> in your savings.</div>
+            <div>That means your starting cash is $<span id='dream-starting-cash'></span>.</div>
+          </div>
         </div>
         <div id="turn-info-box">
           <div id="turn-instructions">
@@ -151,7 +156,8 @@
           </div>
           <div id="deal-card-stock">
             <h2 class="card-title"><span id="deal-stock-type"></span><br><span id="deal-stock-name"></span></h2>
-            <p id="deal-stock-text"> </p><p id="deal-stock-rule"></p>
+            <p id="deal-stock-text"> </p>
+            <p id="deal-stock-rule"></p>
             <table>
               <tr>
                 <td>Cost: $<span id="deal-stock-cost"></span></td>
@@ -167,14 +173,17 @@
               </tr>
             </table>
             <form id="buy-shares-form">
-              <div id="buy-shares">Buy shares:<input id="share-amt-input" type="text" name="shares" value="1"></div>
-              <div id="share-amt-btns">
-                <input type="button" id="increase-shares" onclick="APP.display.increaseShares();" value=" + "></input>
-                <input type="button" id="decrease-shares" onclick="APP.display.decreaseShares();" value=" - "></input>
-                <!--<input type="button" id="buy-shares-btn0" name="buy-shares" value="BUY" onclick="APP.finance.buyStock();">-->
-                <div>For: $<span id="share-cost"></span></div>
+              <div id="buy-shares">
+                <div class="share-amt-box" id="shares-input">Buy shares: <input id="share-amt-input" type="text" name="shares" value="1"></div>
+                <div class="share-amt-box" id="share-amt-btns">
+                  <input type="button" id="increase-shares" onclick="APP.display.increaseShares();" value=" + "></input>
+                  <input type="button" id="decrease-shares" onclick="APP.display.decreaseShares();" value=" - "></input>
+                </div>
+
+                <div class="share-amt-box" style="font-weight: bold; letter-spacing: 1px; font-size: 13pt; color: #212121;">For: $<span id="share-cost"></span></div>
               </div>
             </form>
+
           </div>
 
           <div id="doodad-card">
@@ -450,6 +459,7 @@
     </div>
   </div>
 </div>
+
 </body>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
     <script  src="js/index.js"></script>

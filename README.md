@@ -12,8 +12,9 @@ Preview at https://sleighs.github.io/CashFlowJs/
 * Team Mode - Players play in pairs
 * Fast Track Mode - Each player starts with a big bank acount and random asset
 * Hard Mode - Extra doodads, limited loans
+* Magnate Mode - Unlimited real estate cards
 
-### New Rules
+### New Rule Options
 * Speed Start - Players start with their total income in their savings
 * Joint Ventures - Players can partner up to invest together on opportunities
 * Deck Shuffling - Choose to shuffle card decks after each turn 

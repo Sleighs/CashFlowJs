@@ -30,7 +30,7 @@ body {
 
 #window {
   height: 700px;
-  width: 100%; 
+  width: 100%;
   display: fixed;
   margin: auto;
   position: relative;
@@ -38,17 +38,27 @@ body {
   padding: 25px;
   border-radius: 5px;
 }
+.hide {
+  display: none;
+}
 #home-screen {
-  padding-top: 20%;
+  padding: 0;
   display: block;
-  margin: auto;
   font-family: "Roboto", sans-serif;
-  width: 396px;
-  height: 230px;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+#home-title {
+  font-size: 150px;
+  font-family: 'lato', serif;
+  text-align: center;
+  color: rgb(240, 202, 0);
+  letter-spacing: 5px;
 }
 #home-play-button {
-  height: 225px;
-  width: 390px;
+  height: 215px;
+  width: 400px;
   font-size: 35pt;
   border: 5pt ridge #FDD835;
   border-radius: 11px;
@@ -56,18 +66,19 @@ body {
   outline: none;
   color: #4E342E;
   box-shadow: 0px 0px 1px 1px #FDD835;
+  margin: auto 33%;
 }
 #game-selection-screen {
   font-size: 40px;
   margin: auto;
   font-family: "Roboto", sans-serif;
-  padding-top: 20%;
-  width: 466px;
-  height: 230px;
+  padding: 0;
+  width: 100%;
+  height: 100%;
 }
 #new-room-button {
-  height: 225px;
-  width: 450px;
+  height: 215px;
+  width: 400px;
   font-size: 40px;
   border-radius: 11px;
   border: 5pt ridge #FDD835;
@@ -75,6 +86,7 @@ body {
   outline: none;
   color: #3E2723;
   box-shadow: 0px 0px 1px 1px #FDD835;
+  margin: auto 33%;
 }
 #setup-screen {
   margin: auto;
@@ -101,8 +113,8 @@ body {
 #turn-info-box {
   display: none;
 }
-#player-number-option { 
-  font-weight: 500; 
+#player-number-option {
+  font-weight: 500;
   font-size: 20pt;
   width: 350px;
   height: 60px;
@@ -344,7 +356,7 @@ body {
   width: 175px;
   vertical-align: top;
   padding: 3px;
-  font-family: 'Montserrat'; 
+  font-family: 'Montserrat';
 }
 #turn-info {
   width: 324px;
@@ -354,7 +366,7 @@ body {
   background-color: white;
   margin: auto 5px;
   border-radius: 6px;
-  box-shadow: 0 0 8px #212121;  
+  box-shadow: 0 0 8px #212121;
 }
 #finance-box {
   width: 556px;
@@ -550,7 +562,7 @@ body {
 #deal-personal-loan-description,
 #deal-limited-description,
 #deal-automated-description,
-#offer-description, 
+#offer-description,
 #offer-rule1,
 #offer-rule2,
 #deal-re-rule,
@@ -593,7 +605,7 @@ body {
   font-family: 'lato';
   color: #004D40;
 }
-#card-btns, 
+#card-btns,
 #finish-turn-container {
   height: 60px;
   width: 292px;
@@ -718,7 +730,7 @@ body {
   font-size: 16pt;
   letter-spacing: .5pt;
 }
-#borrow-loan-btn, 
+#borrow-loan-btn,
 #take-out-loan,
 #borrow-offer-loan-btn {
   height: 40px;
@@ -752,7 +764,7 @@ body {
   font-size: 16pt;
   letter-spacing: .5pt;
   color: #2E7D32;
-  
+
 }
 #sum-td {
   font-size: 11pt;
@@ -770,7 +782,7 @@ body {
 }
 #finance-summary {
   width: 254px;
-  
+
 }
 #income-expense-progress {
   width: 100%;
@@ -807,11 +819,11 @@ body {
 }
 #asset-table-header, #lia-table-header {
   float: left;
-  color: #263238;  
+  color: #263238;
 }
 .lia-table-row {
   font-size: 11pt;
-} 
+}
 .assets-row {
   font-size: 10pt;
 }
@@ -828,7 +840,7 @@ body {
 #expenses-row-head {
   float: left;
   color: #263238;
-  
+
 }
 .income-row,
 .expenses-row {
@@ -882,7 +894,7 @@ body {
   position: relative;
 }
 #increase-shares, #decrease-shares {
-  background-color: #1B5E20; 
+  background-color: #1B5E20;
     border: none;
   border-radius: 4px;
     color: #F0F4C3;
@@ -891,10 +903,10 @@ body {
     text-decoration: none;
     font-size: 16px;
     margin: 4px 2px;
-    cursor: pointer;  
+    cursor: pointer;
 }
 #increase-loan, #decrease-loan {
-  background-color: #1B5E20; 
+  background-color: #1B5E20;
     border: none;
   border-radius: 3px;
     color: #F0F4C3;

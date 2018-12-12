@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en" >
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cash Flow Js</title>
-  <link href="https://fonts.googleapis.com/css?family=Roboto|Lato|Montserrat" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto|Lato|Montserrat|Quattrocento" rel="stylesheet">
 
   <link rel="stylesheet" type="text/css" media="screen and (max-width: 360px)" href="css/mobile-portrait.css">
   <link rel="stylesheet" type="text/css" media="screen and (min-width: 361px) and (max-width: 480px)" href="css/mobile-landscape.css">
@@ -15,9 +12,11 @@
 <body>
   <div id="window">
     <div id="home-screen">
+      <h1 id="home-title">CashFlowJs</h1>
       <button id="home-play-button">Start</button>
     </div>
     <div id="game-selection-screen">
+      <h1 id="home-title">CashFlowJs</h1>
       <button id="new-room-button">Create New Room</button>
     </div>
     <div id="setup-screen">
@@ -379,6 +378,7 @@
             </div>
             <div id="bankrupt-game-over-card">
               <h2 class="card-title">EVERYONE IN THE GAME HAS GONE BANKRUPT. GAME OVER. </h2>
+              <p><button id="play-again-btn" onclick="window.location.reload(false);">Play Again</button></p>
             </div>
 
             <div id="repay-borrow-btns">
@@ -630,9 +630,8 @@
       </table>
     </div>
   </div>
+<button id="reset-btn" class="hide" style=""> Reset</button>
 </body>
-
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-    <script  src="js/index.js"></script>
+<script  src="js/index.js"></script>
 </html>
-

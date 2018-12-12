@@ -504,7 +504,7 @@ var APP = APP || {
       case "Mutual Fund":
         $("#deal-card-stock").show();
         $("#show-stock-form-btn").show();
-        $("#pass-btn").show();
+        $("#done-btn").show();
         $("#stock-cost-table").show();
         $("#deal-stock-rule").hide();
 
@@ -521,6 +521,12 @@ var APP = APP || {
           "deal-stock-shares-owned"
         ).innerHTML = ownedShares();
         document.getElementById("share-cost").innerHTML = currentDeal.price;
+        document.getElementById("share-cost-sell").innerHTML = currentDeal.price;
+
+        var shares = ownedShares();
+        if (shares > 0) {
+          $("#show-stock-sell-form-btn").show();
+        }
 
         break;
       case "Real Estate":
@@ -1068,7 +1074,6 @@ APP.finance = {
   },
   decreaseLoan: function() {
     var value = parseInt(document.getElementById("loan-amt-input").value, 10);
-    var value2 = parseInt(document.getElementById("loan-amt-input2").value, 10);
 
     value = isNaN(value) ? 0 : value;
     if (value > 1000) {
@@ -1256,42 +1261,63 @@ APP.finance = {
       if (index < 0) {
         arr.push(APP.currentDeal);
       } else {
-        //--isnt getting the desired output
-
         var newArr = [];
         newArr.push(arr[index], APP.currentDeal);
         newArr.reduce((a, b) => ({shares: Number(a.shares) + Number(b.shares)}));
-
-        //the original method that does not yield what i want
-        //arr[index].shares += APP.currentDeal.shares;
       }
-
-      APP.finishTurn();
     } else {
       this.loanOffer(cost);
     }
+
+    var ownedShares = function() {
+      var arr = player.stockAssets;
+      var stockId = APP.currentDeal.id;
+      var index = arr.findIndex(x => x.id == stockId);
+
+      if (index != -1) {
+        return arr[index].shares;
+      } else {
+        return 0;
+      }
+    };
+    if (ownedShares() > 0) {
+      $("#show-stock-sell-form-btn").show();
+    }
+    document.getElementById(
+      "deal-stock-shares-owned"
+    ).innerHTML = ownedShares();
+    APP.display.renderStockTable();
   },
   sellStock: function() {
     var player = APP.players[APP.currentPlayerArrPos()];
-    var price = APP.currentDeal.price;
+
+    APP.currentDeal.shares += Number(
+      document.getElementById("share-amt-input-sell").value
+    );
     var shares = APP.currentDeal.shares;
+    var price = Number(APP.currentDeal.price);
     var cost = price * shares;
+
     var stockId = APP.currentDeal.id;
     var arr = player.stockAssets;
-    var idVal, stockArrPos;
 
-    function searchStock(id, stockArray) {
-      for (var i = 0; i < stockArray.length; i++) {
-        if (stockArray[i].id === id) {
-          idVal = stockArray[i];
-          stockArrPos = i;
-        } else {
-          idVal = false;
-        }
+    //-- fix
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].id == stockId) {
+        player.cash += cost;
+
+        var newArr = [];
+        newArr.push(arr[i], APP.currentDeal);
+        newArr.reduce((a, b) => ({shares: Number(a.shares) - Number(b.shares)}));
+
+        APP.display.showBuyStockForm();
+        document.getElementById(
+          "deal-stock-shares-owned"
+        ).innerHTML = arr[i].shares;
       }
-      return idVal;
     }
-    var stockObj = searchStock(stockId, arr);
+
+    APP.finance.statement();
   },
   stockSplit: function(type) {
     var player = APP.players[APP.currentPlayerArrPos()];
@@ -1667,7 +1693,7 @@ APP.loadCard = function(boardPosition) {
 
 APP.cards = {
   smallDeal: {
-    /*mutual01: {
+    mutual01: {
       type: "Mutual Fund",
       name: "GRO4US Fund",
       description:
@@ -1680,7 +1706,7 @@ APP.cards = {
       dividend: false,
       id: "gro4us30",
       shares: 0
-    },
+    }/*,
     mutual02: {
       type: "Mutual Fund",
       name: "GRO4US Fund",
@@ -1736,7 +1762,7 @@ APP.cards = {
       dividend: false,
       id: "gro4us40",
       shares: 0
-    },*/
+    },
     stock001: {
       type: "Stock",
       name: "MYT4U Electronics Co.",
@@ -1750,7 +1776,7 @@ APP.cards = {
       dividend: false,
       id: "myt4u40",
       shares: 0
-    }/*,
+    },
     stock002: {
       type: "Stock",
       name: "MYT4U Electronics Co.",
@@ -2072,7 +2098,7 @@ APP.cards = {
       dividend: false,
       id: "on2u10",
       shares: 0
-    }*/,
+    },
     stockSplit1: {
       type: "Stock Split",
       name: "MYT4U Electronics Co.",
@@ -2090,7 +2116,7 @@ APP.cards = {
       rule:
         "Everyone who owns MYT4U shares cuts shares owned to 1/2 previous value.",
       symbol: "MYT4U"
-    }/*,
+    },
     stockSplit3: {
       type: "Stock Split",
       name: "OK4U Drug Co.",
@@ -2108,8 +2134,8 @@ APP.cards = {
       rule:
         "Everyone who owns OK4U shares cuts shares owned to 1/2 previous value.",
       symbol: "OK4U"
-    },*/
-    /*preferredStock1: {
+    },
+    preferredStock1: {
       type: "Preferred Stock",
       name: "2BIG Power",
       description: "High yield, preferred shares of major domestic electric power company. Dividend and price fixed at \"fair\" level by state utility commission.",
@@ -2132,8 +2158,8 @@ APP.cards = {
       tradingRange: "$1,200 to $1,200",
       id: "2big",
       shares: 0
-    },*/
-    /*realEstateS1: {
+    },
+    realEstateS1: {
       type: "Real Estate",
       name: "You Find a Great Deal!",
       description:
@@ -3808,19 +3834,22 @@ APP.display = {
     sp.style.display =
       sp.style.display === "inline-block" ? "inline-block" : "inline-block";
   },
-  showStockForm: function() {
-    //get which form to show
-    //show form
-    $("#buy-shares-form").show();
+  showBuyStockForm: function() {
     $("#show-stock-form-btn").hide();
     $("#show-stock-sell-form-btn").hide();
+    $("#sell-shares-form").hide();
+    $("#sell-stock-btn").hide();
+
+    $("#buy-shares-form").show();
     $("#buy-stock-btn").show();
-    //clear current asset
   },
   showSellStockForm: function() {
-    $("#sell-shares-form").show();
     $("#show-stock-form-btn").hide();
     $("#show-stock-sell-form-btn").hide();
+    $("#buy-shares-form").hide();
+    $("#buy-stock-btn").hide();
+
+    $("#sell-shares-form").show();
     $("#sell-stock-btn").show();
   },
   showOffer: function() {
@@ -3839,14 +3868,23 @@ APP.display = {
   },
   decreaseShares: function() {
     var value = parseInt(document.getElementById("share-amt-input").value, 10);
+    var value2 = parseInt(document.getElementById("share-amt-input-sell").value, 10);
     value = isNaN(value) ? 0 : value;
+    value2 = isNaN(value2) ? 0 : value2;
     value -= 1;
+    value2 -= 1;
     if (value > 1) {
       value -= 1;
     } else {
       value = 1;
     }
+    if (value2 > 1) {
+      value2 -= 1;
+    } else {
+      value2 = 1;
+    }
     document.getElementById("share-amt-input").value = value;
+    document.getElementById("share-amt-input-sell").value = value2;
   },
   clearBtns: function() {
     $("#repay-borrow-btns").hide();
@@ -4256,34 +4294,33 @@ APP.dreamPhase = {
     APP.dreamPhase.dreamPhaseOn = false;
     $("#job-text").show();
     $("#finance-box").show();
-  }
-};
-APP.dreamPhase.dreams = [
-  "STOCK MARKET FOR KIDS",
-  "YACHT RACING",
-  "CANNES FILM FESTIVAL",
-  "PRIVATE FISHING CABIN ON A MONTANA LAKE",
-  "PARK NAMED AFTER YOU",
-  "RUN FOR MAYOR",
-  "GIFT OF FAITH",
-  "HELI SKI THE SWISS ALPS",
-  "DINNER WITH THE PRESIDENT",
-  "RESEARCH CENTER FOR CANCER AND AIDS",
-  "7 WONDERS OF THE WORLD",
-  "SAVE THE OCEAN MAMMALS",
-  "BE A JET SETTER",
-  "GOLF AROUND THE WORLD",
-  "A KIDS LIBRARY",
-  "SOUTH SEA ISLAND FANTASY",
-  "CAPITALISTS PEACE CORPS",
-  "CRUISE THE MEDITERRANEAN",
-  "MINI FARM IN THE CITY",
-  "AFRICAN PHOTO SAFARI",
-  "BUY A FOREST",
-  "PRO TEAM BOX SEATS",
-  "ANCIENT ASIAN CITIES"
-];
-APP.dreamPhase.dreamDescriptions = [
+  },
+  dreams: [
+    "STOCK MARKET FOR KIDS",
+    "YACHT RACING",
+    "CANNES FILM FESTIVAL",
+    "PRIVATE FISHING CABIN ON A MONTANA LAKE",
+    "PARK NAMED AFTER YOU",
+    "RUN FOR MAYOR",
+    "GIFT OF FAITH",
+    "HELI SKI THE SWISS ALPS",
+    "DINNER WITH THE PRESIDENT",
+    "RESEARCH CENTER FOR CANCER AND AIDS",
+    "7 WONDERS OF THE WORLD",
+    "SAVE THE OCEAN MAMMALS",
+    "BE A JET SETTER",
+    "GOLF AROUND THE WORLD",
+    "A KIDS LIBRARY",
+    "SOUTH SEA ISLAND FANTASY",
+    "CAPITALISTS PEACE CORPS",
+    "CRUISE THE MEDITERRANEAN",
+    "MINI FARM IN THE CITY",
+    "AFRICAN PHOTO SAFARI",
+    "BUY A FOREST",
+    "PRO TEAM BOX SEATS",
+    "ANCIENT ASIAN CITIES"
+  ],
+  dreamDescriptions: [
   "Fund a business and investment school for young capitalists, teaching the the basics of business. School includes a mini stock exchange run by the students.",
   "You and your crew fly to Perth, Australia. Spend one week racing a 12-meter against the fastest boats in the world.",
   "Party with the stars! Tour France, plus one week in Cannes rubbing elbows with celebrities. You even land a starring role!",
@@ -4307,7 +4344,8 @@ APP.dreamPhase.dreamDescriptions = [
   "Stop the loss of ancient trees. Donate 1,000 acres of forest and create a nature walk for all to enjoy.",
   "License a 12 person private skybox booth with food and beverage service at your favorite team's stadium.",
   "A private plane and guide take you and 5 friends to the most remote spots of Asia... where no tourists have gone before."
-];
+]
+};
 
 APP.scenario = function(
   jobTitle,
@@ -4621,12 +4659,6 @@ APP.board = {
 
 $(document).ready(function() {
   APP.initGame();
-  $("#new-room-button").on("click", function() {
-    $("#window").css(
-      "background-image",
-      "url('https://res.cloudinary.com/roden/image/upload/v1500650764/Ny/pexels-photo-499616_sljyii.jpg')"
-    );
-  });
   $("#start-game").on("click", function() {
     $("#window").css("background-image", "");
     $("#window").css("background-color", "#010410");
@@ -4644,18 +4676,15 @@ APP.test = function() {
 
 TODO
   * fix starting small companies - currently after borrowing money to buy one small and big opp buttons stop working. Other cards seem to work fine
-  * fix buying shares of a stock the user already owns
   * selling stock functionality
   * optimize rendering liabilities table
   * Hide loan row from expenses table when amount is 0
   * unique doodad events
   * bankruptcy
-  Css for fast track needs to be updated and bankruptcy options needs to be added.
+  * Css for fast track needs to be updated and bankruptcy options needs to be added.
 
 DONE
-12/6/2018
-  * Fixed borrowing loans for assets and doodads. Loans for downsizing has to be checked
-  * Fast Track board and bankruptcy card functionality added. Still in development
-
+12/12/2018
+  * Fixed buying new  of already owned stock
 
 */

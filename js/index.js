@@ -91,6 +91,9 @@ var APP = APP || {
       }
     }
 
+    //-- game reset button for testing
+    $("#reset-btn").show();
+
     APP.display.clearBtns();
     APP.display.clearCards();
     APP.clearAmounts();
@@ -569,11 +572,11 @@ var APP = APP || {
             ) {
               document.getElementById("deal-re-rule").innerHTML =
                 currentDeal.rule;
-              $("#pd-pay-button").show();            
+              $("#pd-pay-button").show();
             } else {
               $("#done-btn").show();
             }
-            
+
           }
         }
         break;
@@ -588,6 +591,7 @@ var APP = APP || {
           currentDeal.description;
 
         //run split function
+        APP.finance.stockSplit("split");
 
         $("#done-btn").show();
         break;
@@ -603,6 +607,7 @@ var APP = APP || {
         document.getElementById("deal-stock-rule").innerHTML = currentDeal.rule;
 
         //run split function
+        APP.finance.stockSplit("reverse");
 
         $("#done-btn").show();
         break;
@@ -1234,11 +1239,11 @@ APP.finance = {
   buyStock: function() {
     var player = APP.players[APP.currentPlayerArrPos()];
 
-    APP.currentDeal.shares = Number(
+    APP.currentDeal.shares += Number(
       document.getElementById("share-amt-input").value
     );
     var shares = APP.currentDeal.shares;
-    var price = APP.currentDeal.price;
+    var price = Number(APP.currentDeal.price);
     var cost = price * shares;
 
     var stockId = APP.currentDeal.id;
@@ -1253,33 +1258,12 @@ APP.finance = {
       } else {
         //--isnt getting the desired output
 
-        //attempt at reducing
-        /*var newArr = [];       
-        newArr.push(arr[index], APP.currentDeal);     
-        newArr.reduce(function (acc, obj) { 
-          return acc + obj.shares; 
-        }, 0); */
+        var newArr = [];
+        newArr.push(arr[index], APP.currentDeal);
+        newArr.reduce((a, b) => ({shares: Number(a.shares) + Number(b.shares)}));
 
-        //another attempt at reducing
-        //newArr.reduce((a, b) => ({shares: a.shares + b.shares}));
-
-        //another attempt at merging
-        /*
-          function merge(a, b){
-            var merged = $.extend({}, a);
-            for (var prop in b) {
-                if (merged[prop]) {
-                  merged[prop] += b[prop];
-                } else {
-                  merged[prop] = b[prop];
-                }
-            }
-            return merged; 
-          }        
-          merge(arr[index], APP.currentDeal);  */
-
-        APP.currentDeal.shares += arr[index].shares;
-        $.extend(arr[index], APP.currentDeal);
+        //the original method that does not yield what i want
+        //arr[index].shares += APP.currentDeal.shares;
       }
 
       APP.finishTurn();
@@ -1308,6 +1292,22 @@ APP.finance = {
       return idVal;
     }
     var stockObj = searchStock(stockId, arr);
+  },
+  stockSplit: function(type) {
+    var player = APP.players[APP.currentPlayerArrPos()];
+    var arr = player.stockAssets;
+    var stockSymbol = APP.currentDeal.symbol;
+
+    for(var i = 0; i < arr.length; i++){
+      var shares = arr[i].shares;
+      if (arr[i].symbol == stockSymbol) {
+        if (type == "split"){
+          arr[i].shares = shares * 2;
+        } else if (type == "reverse") {
+          arr[i].shares = shares / 2;
+        }
+      }
+    }
   },
   buyRealEstate: function() {
     var player = APP.players[APP.currentPlayerArrPos()];
@@ -1347,8 +1347,12 @@ APP.finance = {
     $("#settlement-card").hide();
     $("#show-offer-btn").hide();
 
-    $("#offer-card").show();
-    $("#done-btn").show();
+    if (APP.currentOffer !== 'undefined'){
+      $("#offer-card").show();
+    }
+    if (player.payday > 0){
+      $("#done-btn").show();
+    }
 
     APP.finance.statement();
   },
@@ -1416,20 +1420,20 @@ APP.finance = {
     const amountToCover = cost;
     this.roundLoan(amountToCover);
     const loan = this.loanAmount;
-        
+
     APP.display.clearCards();
     APP.display.clearBtns();
     $("#cannot-afford-loan-card").show();
     $("#borrow-offer-loan-btn").show();
     $("#no-loan-btn").show();
-    
+
     document.getElementById("loan-offer").innerHTML = loan;
     document.getElementById("loan-offer-monthly-payment").innerHTML =
       loan * 0.1;
 
     if (typeof APP.curretnDoodad.cost !== 'undefined' && APP.currentDoodad.cost > 0) {
       $("#no-loan-btn").hide();
-    } 
+    }
   },
   roundLoan: function(cost) {
     var player = APP.players[APP.currentPlayerArrPos()];
@@ -1513,14 +1517,14 @@ APP.finance = {
       player.downsizedTurns += 3;
       APP.finance.statement();
     }
-    
+
     if (typeof APP.currentDoodad.cost !== 'undefined' && APP.currentDoodad.cost > 0) {
       APP.display.clearCards();
       APP.display.clearBtns();
       $("#doodad-card").show();
       $("#doodad-pay-button").show();
       APP.finance.statement();
-    } 
+    }
   },
   bankruptcy: function() {
     var player = APP.players[APP.currentPlayerArrPos()];
@@ -1530,8 +1534,9 @@ APP.finance = {
     var coinAssets = player.coinAssets;
     var stockAssets = player.stockAssets;
 
-    //add onclick
-    //sell for half price
+    for (var i = 0; i < propertyAssets.length; i++) {
+      propertyAssets[i].debt = "on";
+    }
   }
 };
 
@@ -1554,24 +1559,34 @@ APP.loadCard = function(boardPosition) {
 
     //send player to board 2
     $("#board2").show();
-    $("#board").hide(); 
+    $("#board").hide();
     $("#board-container").css({'height': '1400'});
-    
+
     $("#info").appendTo("#fast-track-info");
-    
+
     //if not on fast track send to fast track
   } else {
-    $("#board").show(); 
-    $("#board2").hide(); 
+    $("#board").show();
+    $("#board2").hide();
     $("#board-container").css({'height': '600'} );
-    
+
     //$("#info").after("#fast-track-info");
     }
   */
-  
-  if (playerObj.cash < 0) {
-    $("#bankrupt-card").show();
-    APP.display.renderAssetTable();
+
+  if (playerObj.payday < 0) {
+    //if (player.realEstateAssets.length == 0){
+      $("#bankrupt-game-over-card").show();
+
+    /*} else {
+      APP.finance.bankruptcy();
+      APP.display.renderAssetTable();
+      $("#bankrupt-card").show();
+      $("#br-cash-flow").html(player.payday);
+      $("#br-settlement-text").show();
+      $("#br-settlement-offer").html(APP.currentSettlement);
+
+    }*/
   } else {
   //opportunity
   if (boardPosition % 2 === 0 || boardPosition === 0) {
@@ -1646,13 +1661,13 @@ APP.loadCard = function(boardPosition) {
     $("#downsize-card").show();
 
     document.getElementById("downsized-amt").innerHTML = downsizedAmount;
-  }   
+  }
   }
 };
 
 APP.cards = {
   smallDeal: {
-/*  mutual01: {
+    /*mutual01: {
       type: "Mutual Fund",
       name: "GRO4US Fund",
       description:
@@ -1663,7 +1678,8 @@ APP.cards = {
       price: 30,
       range: "$10 to $30",
       dividend: false,
-      id: "gro4us30"
+      id: "gro4us30",
+      shares: 0
     },
     mutual02: {
       type: "Mutual Fund",
@@ -1676,7 +1692,8 @@ APP.cards = {
       price: 20,
       range: "$10 to $30",
       dividend: false,
-      id: "gro4us20"
+      id: "gro4us20",
+      shares: 0
     },
     mutual03: {
       type: "Mutual Fund",
@@ -1689,7 +1706,8 @@ APP.cards = {
       price: 10,
       range: "$10 to $30",
       dividend: false,
-      id: "gro4us10"
+      id: "gro4us10",
+      shares: 0
     },
     mutual04: {
       type: "Mutual Fund",
@@ -1702,7 +1720,8 @@ APP.cards = {
       price: 5,
       range: "$10 to $30",
       dividend: false,
-      id: "gro4us05"
+      id: "gro4us05",
+      shares: 0
     },
     mutual05: {
       type: "Mutual Fund",
@@ -1715,8 +1734,9 @@ APP.cards = {
       price: 40,
       range: "$10 to $30",
       dividend: false,
-      id: "gro4us40"
-    },
+      id: "gro4us40",
+      shares: 0
+    },*/
     stock001: {
       type: "Stock",
       name: "MYT4U Electronics Co.",
@@ -1728,8 +1748,9 @@ APP.cards = {
       price: 40,
       range: "$5 to $30",
       dividend: false,
-      id: "myt4u40"
-    },
+      id: "myt4u40",
+      shares: 0
+    }/*,
     stock002: {
       type: "Stock",
       name: "MYT4U Electronics Co.",
@@ -1741,7 +1762,8 @@ APP.cards = {
       price: 5,
       range: "$5 to $30",
       dividend: false,
-      id: "myt4u05"
+      id: "myt4u05",
+      shares: 0
     },
     stock003: {
       type: "Stock",
@@ -1754,7 +1776,8 @@ APP.cards = {
       price: 5,
       range: "$5 to $30",
       dividend: false,
-      id: "myt4u05"
+      id: "myt4u05",
+      shares: 0
     },
     stock004: {
       type: "Stock",
@@ -1767,7 +1790,8 @@ APP.cards = {
       price: 30,
       range: "$5 to $30",
       dividend: false,
-      id: "myt4u30"
+      id: "myt4u30",
+      shares: 0
     },
     stock005: {
       type: "Stock",
@@ -1780,7 +1804,8 @@ APP.cards = {
       price: 1,
       range: "$5 to $30",
       dividend: false,
-      id: "myt4u01"
+      id: "myt4u01",
+      shares: 0
     },
     stock006: {
       type: "Stock",
@@ -1793,7 +1818,8 @@ APP.cards = {
       price: 10,
       range: "$5 to $30",
       dividend: false,
-      id: "myt4u10"
+      id: "myt4u10",
+      shares: 0
     },
     stock007: {
       type: "Stock",
@@ -1806,7 +1832,8 @@ APP.cards = {
       price: 20,
       range: "$5 to $30",
       dividend: false,
-      id: "myt4u20"
+      id: "myt4u20",
+      shares: 0
     },
     stock008: {
       type: "Stock",
@@ -1819,7 +1846,8 @@ APP.cards = {
       price: 30,
       range: "$5 to $30",
       dividend: false,
-      id: "myt4u30"
+      id: "myt4u30",
+      shares: 0
     },
     stock101: {
       type: "Stock",
@@ -1832,7 +1860,8 @@ APP.cards = {
       price: 40,
       range: "$5 to $40",
       dividend: false,
-      id: "ok4u10"
+      id: "ok4u10",
+      shares: 0
     },
     stock102: {
       type: "Stock",
@@ -1845,7 +1874,8 @@ APP.cards = {
       price: 20,
       range: "$5 to $40",
       dividend: false,
-      id: "ok4u20"
+      id: "ok4u20",
+      shares: 0
     },
     stock103: {
       type: "Stock",
@@ -1858,7 +1888,8 @@ APP.cards = {
       price: 50,
       range: "$5 to $40",
       dividend: false,
-      id: "ok4u50"
+      id: "ok4u50",
+      shares: 0
     },
     stock104: {
       type: "Stock",
@@ -1871,7 +1902,8 @@ APP.cards = {
       price: 5,
       range: "$5 to $40",
       dividend: false,
-      id: "ok4u05"
+      id: "ok4u05",
+      shares: 0
     },
     stock105: {
       type: "Stock",
@@ -1884,7 +1916,8 @@ APP.cards = {
       price: 10,
       range: "$5 to $40",
       dividend: false,
-      id: "ok4u10"
+      id: "ok4u10",
+      shares: 0
     },
     stock106: {
       type: "Stock",
@@ -1897,7 +1930,8 @@ APP.cards = {
       price: 10,
       range: "$5 to $40",
       dividend: false,
-      id: "ok4u10"
+      id: "ok4u10",
+      shares: 0
     },
     stock107: {
       type: "Stock",
@@ -1910,7 +1944,8 @@ APP.cards = {
       price: 1,
       range: "$5 to $40",
       dividend: false,
-      id: "ok4u01"
+      id: "ok4u01",
+      shares: 0
     },
     stock108: {
       type: "Stock",
@@ -1923,7 +1958,8 @@ APP.cards = {
       price: 30,
       range: "$5 to $40",
       dividend: false,
-      id: "ok4u30"
+      id: "ok4u30",
+      shares: 0
     },
     stock201: {
       type: "Stock",
@@ -1936,7 +1972,8 @@ APP.cards = {
       price: 40,
       range: "$5 to $40",
       dividend: false,
-      id: "on2u40"
+      id: "on2u40",
+      shares: 0
     },
     stock202: {
       type: "Stock",
@@ -1949,7 +1986,8 @@ APP.cards = {
       price: 30,
       range: "$5 to $40",
       dividend: false,
-      id: "on2u30"
+      id: "on2u30",
+      shares: 0
     },
     stock203: {
       type: "Stock",
@@ -1962,7 +2000,8 @@ APP.cards = {
       price: 20,
       range: "$5 to $40",
       dividend: false,
-      id: "on2u20"
+      id: "on2u20",
+      shares: 0
     },
     stock204: {
       type: "Stock",
@@ -1975,7 +2014,8 @@ APP.cards = {
       price: 5,
       range: "$5 to $40",
       dividend: false,
-      id: "on2u05"
+      id: "on2u05",
+      shares: 0
     },
     stock205: {
       type: "Stock",
@@ -1988,7 +2028,8 @@ APP.cards = {
       price: 30,
       range: "$5 to $40",
       dividend: false,
-      id: "on2u30"
+      id: "on2u30",
+      shares: 0
     },
     stock206: {
       type: "Stock",
@@ -2001,7 +2042,8 @@ APP.cards = {
       price: 20,
       range: "$5 to $40",
       dividend: false,
-      id: "on2u20"
+      id: "on2u20",
+      shares: 0
     },
     stock207: {
       type: "Stock",
@@ -2014,7 +2056,8 @@ APP.cards = {
       price: 1,
       range: "$5 to $40",
       dividend: false,
-      id: "on2u01"
+      id: "on2u01",
+      shares: 0
     },
     stock208: {
       type: "Stock",
@@ -2027,8 +2070,9 @@ APP.cards = {
       price: 10,
       range: "$5 to $40",
       dividend: false,
-      id: "on2u10"
-    },
+      id: "on2u10",
+      shares: 0
+    }*/,
     stockSplit1: {
       type: "Stock Split",
       name: "MYT4U Electronics Co.",
@@ -2046,7 +2090,7 @@ APP.cards = {
       rule:
         "Everyone who owns MYT4U shares cuts shares owned to 1/2 previous value.",
       symbol: "MYT4U"
-    },
+    }/*,
     stockSplit3: {
       type: "Stock Split",
       name: "OK4U Drug Co.",
@@ -2064,8 +2108,8 @@ APP.cards = {
       rule:
         "Everyone who owns OK4U shares cuts shares owned to 1/2 previous value.",
       symbol: "OK4U"
-    },
-    preferredStock1: {
+    },*/
+    /*preferredStock1: {
       type: "Preferred Stock",
       name: "2BIG Power",
       description: "High yield, preferred shares of major domestic electric power company. Dividend and price fixed at \"fair\" level by state utility commission.",
@@ -2074,7 +2118,8 @@ APP.cards = {
       dividend: 10,
       price: 1200,
       tradingRange: "$1,200 to $1,200",
-      id: "2big"
+      id: "2big",
+      shares: 0
     },
     preferredStock2: {
       type: "Preferred Stock",
@@ -2085,9 +2130,10 @@ APP.cards = {
       dividend: 10,
       price: 1200,
       tradingRange: "$1,200 to $1,200",
-      id: "2big"
+      id: "2big",
+      shares: 0
     },*/
-    realEstateS1: {
+    /*realEstateS1: {
       type: "Real Estate",
       name: "You Find a Great Deal!",
       description:
@@ -2289,7 +2335,7 @@ APP.cards = {
       rule: "Pay $500 if you own any rental property",
       propertyType: "rental",
       cost: 500
-    },
+    },*/
     /*coin1: {
       type: "Coin",
       name: "Rare Gold Coin",
@@ -3689,6 +3735,440 @@ APP.cards = {
   ownedRealEstateBig: {}
 };
 
+APP.display = {
+  tokens: [
+    { ele: "<div id='player1-piece'>1</div>" },
+    { ele: "<div id='player2-piece'>2</div>" },
+    { ele: "<div id='player3-piece'>3</div>" },
+    { ele: "<div id='player4-piece'>4</div>" },
+    { ele: "<div id='player5-piece'>5</div>" },
+    { ele: "<div id='player6-piece'>6</div>" },
+    { ele: "<div id='player7-piece'>7</div>" },
+    { ele: "<div id='player8-piece'>8</div>" }
+  ],
+  renderBoard: function() {
+    $("#board").show();
+    $("#board-container").show();
+    $("#info").show();
+    $("#player-list").show();
+
+    APP.display.showPlayerList();
+    APP.display.showTurnInfo();
+    APP.board.printSquares();
+    APP.display.showTokens();
+  },
+  showTokens: function() {
+    for (var i = 0; i < APP.pCount; i++) {
+      var token = this.tokens[i].ele;
+      var startSpace = document.getElementById("tokenSection0");
+      startSpace.insertAdjacentHTML("beforeend", token);
+    }
+  },
+  hideHomeScreen: function() {
+    var hhs = document.getElementById("home-screen");
+    hhs.style.display = hhs.style.display === "none" ? "" : "none";
+  },
+  showGameSelectionScreen: function() {
+    var sgss = document.getElementById("game-selection-screen");
+    sgss.style.display = sgss.style.display === "block" ? "block" : "block";
+  },
+  hideGameSelectionScreen: function() {
+    var hgss = document.getElementById("game-selection-screen");
+    hgss.style.display = hgss.style.display === "none" ? "" : "none";
+  },
+  hideSetup: function() {
+    var hs = document.getElementById("setup-screen");
+    hs.style.display = hs.style.display === "none" ? "" : "none";
+  },
+  showGameSetupScreen: function() {
+    var sgss = document.getElementById("setup-screen");
+    sgss.style.display = sgss.style.display === "block" ? "block" : "block";
+  },
+  showPlayerList: function() {
+    var spl = document.getElementById("player-list");
+    spl.style.display =
+      spl.style.display === "inline-block" ? "inline-block" : "inline-block";
+  },
+  showTurnInfo: function() {
+    var st = document.getElementById("turn-info");
+    st.style.display =
+      st.style.display === "inline-block" ? "inline-block" : "inline-block";
+  },
+  showFinanceBox: function() {
+    var fb = document.getElementById("finance-box");
+    fb.style.display =
+      fb.style.display === "inline-block" ? "inline-block" : "inline-block";
+  },
+  hideDreamPhase: function() {
+    var ds = document.getElementById("dream-choices");
+    ds.style.display = ds.style.display === "none" ? "" : "none";
+  },
+  showRacePhase: function() {
+    var sp = document.getElementById("turn-info-box");
+    sp.style.display =
+      sp.style.display === "inline-block" ? "inline-block" : "inline-block";
+  },
+  showStockForm: function() {
+    //get which form to show
+    //show form
+    $("#buy-shares-form").show();
+    $("#show-stock-form-btn").hide();
+    $("#show-stock-sell-form-btn").hide();
+    $("#buy-stock-btn").show();
+    //clear current asset
+  },
+  showSellStockForm: function() {
+    $("#sell-shares-form").show();
+    $("#show-stock-form-btn").hide();
+    $("#show-stock-sell-form-btn").hide();
+    $("#sell-stock-btn").show();
+  },
+  showOffer: function() {
+    $("#confirm-settlement-btn").hide();
+    $("#settlement-card").hide();
+    $("#show-offer-btn").hide();
+
+    $("#offer-card").show();
+    $("#done-btn").show();
+  },
+  increaseShares: function() {
+    //var value = parseInt(document.getElementById("share-amt-input").value, 10);
+    //value = isNaN(value) ? 0 : value;
+    //value++;
+    //document.getElementById("share-amt-input").value = value;
+  },
+  decreaseShares: function() {
+    var value = parseInt(document.getElementById("share-amt-input").value, 10);
+    value = isNaN(value) ? 0 : value;
+    value -= 1;
+    if (value > 1) {
+      value -= 1;
+    } else {
+      value = 1;
+    }
+    document.getElementById("share-amt-input").value = value;
+  },
+  clearBtns: function() {
+    $("#repay-borrow-btns").hide();
+    $("#small-deal-btn").hide();
+    $("#big-deal-btn").hide();
+    $("#buy-coin-btn").hide();
+    $("#doodad-pay-button").hide();
+    $("#ds-pay-button").hide();
+    $("#pd-pay-button").hide();
+    $("#charity-donate-btn").hide();
+
+    $("#pass-btn").hide();
+    $("#no-loan-btn").hide();
+    $("#done-btn").hide();
+    $("#cancel-btn").hide();
+    $("#borrow-loan-btn").hide();
+    $("#borrow-doodad-loan-btn").hide();
+    $("#borrow-offer-loan-btn").hide();
+    $("#confirm-pay-btn").hide();
+    $("#done-repay-btn").hide();
+    $("#show-stock-form-btn").hide();
+    $("#show-stock-sell-form-btn").hide();
+    $("#sell-stock-btn").hide();
+    $("#confirm-settlement-btn").hide();
+    $("#show-offer-btn").hide();
+
+    $("#buy-stock-btn").hide();
+    $("#buy-real-estate-btn").hide();
+    $("#buy-business-btn").hide();
+  },
+  clearCards: function() {
+    $("#opp-card").hide();
+    $("#deal-card-real-estate").hide();
+    $("#deal-card-stock").hide();
+    $("#buy-shares-form").hide();
+    $("#deal-coin-card").hide();
+    $("#deal-cd-card").hide();
+    $("#deal-card-limited").hide();
+    $("#deal-card-automated").hide();
+    $("#deal-company-card").hide();
+    $("#deal-personal-loan-card").hide();
+    $("#kid-card").hide();
+    $("#offer-card").hide();
+    $("#charity-card").hide();
+    $("#doodad-card").hide();
+    $("#downsize-card").hide();
+    $("#repay-card").hide();
+    $("#borrow-card").hide();
+    $("#cannot-afford-card").hide();
+    $("#cannot-afford-loan-card").hide();
+    $("#pay-confirm-card").hide();
+    $("#bankrupt-card").hide();
+    $("#lose-card").hide();
+    $("#bankrupt-game-over-card").hide();
+    $("#repay-loan-card").hide();
+    $("#settlement-card").hide();
+
+    $("#automated-cost-table").hide();
+    $("#limited-cost-table").hide();
+  },
+  repay: function() {
+    //open card
+    $("#end-turn-btn").hide();
+    $("#finish-instructions").hide();
+    $("#borrow-card").hide();
+    $("#pay-confirm-card").hide();
+    $("#confirm-pay.btn").hide();
+
+    this.clearBtns();
+
+    $("#repay-card").show();
+    $("#done-repay-btn").show();
+    $("#card-btns").show();
+
+    //highlight table rows and add onclick functionality to pay for loan
+    this.highlightLiabilities(1);
+  },
+  borrow: function() {
+    $("#end-turn-btn").hide();
+    $("#finish-instructions").hide();
+    $("#repay-card").hide();
+    $("#cancel-btn").hide();
+    $("#repay-borrow-btns").hide();
+
+    $("#borrow-card").show();
+    $("#borrow-loan-btn").show();
+    $("#cancel-btn").show();
+    APP.finance.loanPayment();
+    APP.finance.statement();
+  },
+  highlightLiabilities: function(option) {
+    var player = APP.players[APP.currentPlayerArrPos()];
+    var table = document.getElementById("liability-table");
+    var rows = table.getElementsByTagName("tr");
+
+    for (var i = 1; i < rows.length; i++) {
+      var currentRow = table.rows[i];
+
+      if (option === 1) {
+        currentRow.style.backgroundColor = "#FFEB3B";
+
+        var addOnClick = function(row) {
+          var anchor = rows[i];
+          var cell = row.getElementsByTagName("td")[1];
+          var id = cell.getAttribute("id");
+
+          anchor.onclick = function() {
+            player.loanId = id;
+
+            if (id === "liability-loans") {
+              $("#repay-loan-card").show();
+              $("#cancel-btn").show();
+
+              $("#done-repay-btn").hide();
+              $("#repay-card").hide();
+            } else {
+              $("#repay-loan-card").hide();
+              $("#confirm-pay-btn").show();
+              $("#cancel-btn").show();
+              $("#pay-confirm-card").show();
+
+              $("#done-repay-btn").hide();
+              $("#repay-card").hide();
+            }
+          };
+        };
+        currentRow.onClick = addOnClick(currentRow);
+      } else if (option === 2) {
+        currentRow.style.backgroundColor = "white";
+
+        var removeOnClick = function() {
+          var table = document.getElementById("liability-table");
+          var rows = table.getElementsByTagName("tr");
+
+          for (var i = 1; i < rows.length; i++) {
+            var anchor = rows[i];
+
+            anchor.onclick = function() {
+              return 0;
+            };
+          }
+        };
+        removeOnClick(currentRow);
+      }
+    }
+  },
+  renderAssetTable: function() {
+    var player = APP.players[APP.currentPlayerArrPos()];
+    var realEstateAssetArr = player.realEstateAssets;
+    var businessAssetArr = player.businessAssets;
+    var coinAssetArr = player.coinAssets;
+
+    var incomeInterestTableId = document.getElementById("income-interest-body");
+    var incomeRealEstateTableId = document.getElementById(
+      "income-real-estate-body"
+    );
+    var assetTableId = document.getElementById("asset-real-estate-body");
+
+    $(incomeInterestTableId).empty();
+    $(incomeRealEstateTableId).empty();
+    $(assetTableId).empty();
+
+    for (var i = 0; i < realEstateAssetArr.length; i++) {
+      var tag = realEstateAssetArr[i].tag;
+      var cost = realEstateAssetArr[i].cost;
+      var cashFlow = realEstateAssetArr[i].cashFlow;
+
+      var incomeRow =
+        "<tr class='assets-row real-estate-asset" +
+        parseInt(APP.currentPlayerArrPos(), 10) +
+        "-row'><td>" +
+        tag +
+        "</td><td>$" +
+        cashFlow +
+        "</td></tr>";
+      var assetRow =
+        "<tr class='assets-row real-estate-asset" +
+        parseInt(APP.currentPlayerArrPos(), 10) +
+        "-row' id='asset" +
+        parseInt(i, 10) +
+        "-row'><td>" +
+        tag +
+        "</td><td>$" +
+        cost +
+        "</td></tr>";
+
+      $(incomeRealEstateTableId).append(incomeRow);
+      $(assetTableId).append(assetRow);
+
+      if (realEstateAssetArr[i].highlight === "on") {
+        if (typeof APP.currentOffer == "object") {
+          switch (APP.currentOffer.type) {
+            case "4-plex":
+            case "8-plex":
+            case "duplex":
+            case "plex":
+              var settlement =
+                realEstateAssetArr[i].units * APP.currentOffer.offerPerUnit -
+                realEstateAssetArr[i].mortgage;
+              APP.currentSettlement = settlement;
+              APP.currentSettlementId = realEstateAssetArr[i].id;
+              APP.currentSettlementCashFlow = realEstateAssetArr[i].cashFlow;
+              break;
+            case "apartment":
+              var settlement =
+                realEstateAssetArr[i].units * APP.currentOffer.offerPerUnit -
+                realEstateAssetArr[i].mortgage;
+              APP.currentSettlement = settlement;
+              APP.currentSettlementId = realEstateAssetArr[i].id;
+              APP.currentSettlementCashFlow = realEstateAssetArr[i].cashFlow;
+              break;
+              break;
+            default:
+              var settlement =
+                APP.currentOfferOffered - realEstateAssetArr[i].mortgage;
+              APP.currentSettlement = settlement;
+              APP.currentSettlementId = realEstateAssetArr[i].id;
+              APP.currentSettlementCashFlow = realEstateAssetArr[i].cashFlow;
+              break;
+          }
+        }
+
+        var rowId = "#asset" + parseInt(i, 10) + "-row";
+
+        $(rowId).css("background-color", "#FFEB3B");
+
+        $(rowId).click(function() {
+          $("#offer-card").hide();
+          $("#done-btn").hide();
+
+          $("#settlement-card").show();
+          $("#confirm-settlement-btn").show();
+          $("#show-offer-btn").show();
+          $("#settlement-offer").html(parseInt(settlement, 10));
+        });
+      }
+
+      if (realEstateAssetArr[i].debt === "on") {
+        $(rowId).css("background-color", "#FFAB91");
+
+        $(rowId).click(function() {
+          var bankruptcySettlement = realEstateAssets[i].downPayment / 2;
+          APP.currentSettlement = bankruptcySettlement;
+          APP.currentSettlementCashFlow = realEstateAssets[i].cashFlow;
+          APP.currentSettlementId = realEstateAssets[i].id;
+
+          $("#confirm-settlement-btn").show();
+          $("#br-settlement-text").show();
+          $("#br-settlement-offer").html(parseInt(bankruptcySettlement, 10));
+        });
+      }
+    }
+    for (var j = 0; j < coinAssetArr.length; j++) {
+      var amount = coinAssetArr[j].amount;
+      var name = coinAssetArr[j].name;
+      var cost = coinAssetArr[j].cost;
+
+      var coinAssetRow =
+        "<tr class='assets-row coin-asset" +
+        parseInt(APP.currentPlayerArrPos(), 10) +
+        "-row' id='asset-c" +
+        parseInt(i, 10) +
+        "-row'><td>" +
+        amount +
+        " " +
+        name +
+        "</td><td>$" +
+        cost +
+        "</td></tr>";
+
+      $(incomeInterestTableId).append(coinAssetRow);
+    }
+    for (var k = 0; k < businessAssetArr.length; k++) {
+      var tag = businessAssetArr[i].tag;
+      var cashFlow = businessAssetArr[i].cashFlow;
+
+      var businessIncomeRow =
+        "<tr class='income-row business-asset" +
+        parseInt(APP.currentPlayerArrPos(), 10) +
+        "-row' id='asset-b" +
+        parseInt(i, 10) +
+        "-row'><td>" +
+        tag +
+        "</td><td>$" +
+        cashFlow +
+        "</td></tr>";
+
+      $(incomeRealEstateTableId).append(businessIncomeRow);
+    }
+  },
+  renderStockTable: function() {
+    var player = APP.players[APP.currentPlayerArrPos()];
+    var assetArr = player.stockAssets;
+    var tableId = document.getElementById("asset-stock-body");
+
+    //Clear old table
+    $(tableId).empty();
+
+    //cycle through real estate and business assets arr
+    for (var i = 0; i < assetArr.length; i++) {
+      var symbol = assetArr[i].symbol;
+      var cost = assetArr[i].price;
+      var shares = assetArr[i].shares;
+
+      var stockRow =
+        "<tr class='assets-row stock-shares" +
+        parseInt(APP.currentPlayerArrPos(), 10) +
+        "-row' id='stock" +
+        parseInt(i, 10) +
+        "-row'><td>" +
+        shares +
+        " Share of " +
+        symbol +
+        "</td><td>$" +
+        cost +
+        "</td></tr>";
+
+      $(tableId).append(stockRow);
+    }
+  }
+};
+
 APP.dreamPhase = {
   dreamPhaseOn: false,
   dreamArrPos: 0,
@@ -4012,440 +4492,6 @@ APP.scenarioChoices = [
   ]
 ];
 
-APP.display = {
-  tokens: [
-    { ele: "<div id='player1-piece'>1</div>" },
-    { ele: "<div id='player2-piece'>2</div>" },
-    { ele: "<div id='player3-piece'>3</div>" },
-    { ele: "<div id='player4-piece'>4</div>" },
-    { ele: "<div id='player5-piece'>5</div>" },
-    { ele: "<div id='player6-piece'>6</div>" },
-    { ele: "<div id='player7-piece'>7</div>" },
-    { ele: "<div id='player8-piece'>8</div>" }
-  ],
-  renderBoard: function() {
-    $("#board").show();
-    $("#board-container").show();
-    $("#info").show();
-    $("#player-list").show();
-
-    APP.display.showPlayerList();
-    APP.display.showTurnInfo();
-    APP.board.printSquares();
-    APP.display.showTokens();
-  },
-  showTokens: function() {
-    for (var i = 0; i < APP.pCount; i++) {
-      var token = this.tokens[i].ele;
-      var startSpace = document.getElementById("tokenSection0");
-      startSpace.insertAdjacentHTML("beforeend", token);
-    }
-  },
-  hideHomeScreen: function() {
-    var hhs = document.getElementById("home-screen");
-    hhs.style.display = hhs.style.display === "none" ? "" : "none";
-  },
-  showGameSelectionScreen: function() {
-    var sgss = document.getElementById("game-selection-screen");
-    sgss.style.display = sgss.style.display === "block" ? "block" : "block";
-  },
-  hideGameSelectionScreen: function() {
-    var hgss = document.getElementById("game-selection-screen");
-    hgss.style.display = hgss.style.display === "none" ? "" : "none";
-  },
-  hideSetup: function() {
-    var hs = document.getElementById("setup-screen");
-    hs.style.display = hs.style.display === "none" ? "" : "none";
-  },
-  showGameSetupScreen: function() {
-    var sgss = document.getElementById("setup-screen");
-    sgss.style.display = sgss.style.display === "block" ? "block" : "block";
-  },
-  showPlayerList: function() {
-    var spl = document.getElementById("player-list");
-    spl.style.display =
-      spl.style.display === "inline-block" ? "inline-block" : "inline-block";
-  },
-  showTurnInfo: function() {
-    var st = document.getElementById("turn-info");
-    st.style.display =
-      st.style.display === "inline-block" ? "inline-block" : "inline-block";
-  },
-  showFinanceBox: function() {
-    var fb = document.getElementById("finance-box");
-    fb.style.display =
-      fb.style.display === "inline-block" ? "inline-block" : "inline-block";
-  },
-  hideDreamPhase: function() {
-    var ds = document.getElementById("dream-choices");
-    ds.style.display = ds.style.display === "none" ? "" : "none";
-  },
-  showRacePhase: function() {
-    var sp = document.getElementById("turn-info-box");
-    sp.style.display =
-      sp.style.display === "inline-block" ? "inline-block" : "inline-block";
-  },
-  showStockForm: function() {
-    //get which form to show
-    //show form
-    $("#buy-shares-form").show();
-    $("#show-stock-form-btn").hide();
-    $("#show-stock-sell-form-btn").hide();
-    $("#buy-stock-btn").show();
-    //clear current asset
-  },
-  showSellStockForm: function() {
-    $("#sell-shares-form").show();
-    $("#show-stock-form-btn").hide();
-    $("#show-stock-sell-form-btn").hide();
-    $("#sell-stock-btn").show();
-  },
-  showOffer: function() {
-    $("#confirm-settlement-btn").hide();
-    $("#settlement-card").hide();
-    $("#show-offer-btn").hide();
-
-    $("#offer-card").show();
-    $("#done-btn").show();
-  },
-  increaseShares: function() {
-    //var value = parseInt(document.getElementById("share-amt-input").value, 10);
-    //value = isNaN(value) ? 0 : value;
-    //value++;
-    //document.getElementById("share-amt-input").value = value;
-  },
-  decreaseShares: function() {
-    var value = parseInt(document.getElementById("share-amt-input").value, 10);
-    value = isNaN(value) ? 0 : value;
-    value -= 1;
-    if (value > 1) {
-      value -= 1;
-    } else {
-      value = 1;
-    }
-    document.getElementById("share-amt-input").value = value;
-  },
-  clearBtns: function() {
-    $("#repay-borrow-btns").hide();
-    $("#small-deal-btn").hide();
-    $("#big-deal-btn").hide();
-    $("#buy-coin-btn").hide();
-    $("#doodad-pay-button").hide();
-    $("#ds-pay-button").hide();
-    $("#pd-pay-button").hide();
-    $("#charity-donate-btn").hide();
-
-    $("#pass-btn").hide();
-    $("#no-loan-btn").hide();
-    $("#done-btn").hide();
-    $("#cancel-btn").hide();
-    $("#borrow-loan-btn").hide();
-    $("#borrow-doodad-loan-btn").hide();
-    $("#borrow-offer-loan-btn").hide();
-    $("#confirm-pay-btn").hide();
-    $("#done-repay-btn").hide();
-    $("#show-stock-form-btn").hide();
-    $("#show-stock-sell-form-btn").hide();
-    $("#sell-stock-btn").hide();
-    $("#confirm-settlement-btn").hide();
-    $("#show-offer-btn").hide();
-
-    $("#buy-stock-btn").hide();
-    $("#buy-real-estate-btn").hide();
-    $("#buy-business-btn").hide();
-  },
-  clearCards: function() {
-    $("#opp-card").hide();
-    $("#deal-card-real-estate").hide();
-    $("#deal-card-stock").hide();
-    $("#buy-shares-form").hide();
-    $("#deal-coin-card").hide();
-    $("#deal-cd-card").hide();
-    $("#deal-card-limited").hide();
-    $("#deal-card-automated").hide();
-    $("#deal-company-card").hide();
-    $("#deal-personal-loan-card").hide();
-    $("#kid-card").hide();
-    $("#offer-card").hide();
-    $("#charity-card").hide();
-    $("#doodad-card").hide();
-    $("#downsize-card").hide();
-    $("#repay-card").hide();
-    $("#borrow-card").hide();
-    $("#cannot-afford-card").hide();
-    $("#cannot-afford-loan-card").hide();
-    $("#pay-confirm-card").hide();
-    $("#bankrupt-card").hide();
-    $("#lose-card").hide();
-    $("#bankrupt-game-over-card").hide();
-    $("#repay-loan-card").hide();
-    $("#settlement-card").hide();
-
-    $("#automated-cost-table").hide();
-    $("#limited-cost-table").hide();
-  },
-  repay: function() {
-    //open card
-    $("#end-turn-btn").hide();
-    $("#finish-instructions").hide();
-    $("#borrow-card").hide();
-    $("#pay-confirm-card").hide();
-    $("#confirm-pay.btn").hide();
-
-    this.clearBtns();
-
-    $("#repay-card").show();
-    $("#done-repay-btn").show();
-    $("#card-btns").show();
-
-    //highlight table rows and add onclick functionality to pay for loan
-    this.highlightLiabilities(1);
-  },
-  highlightLiabilities: function(option) {
-    var player = APP.players[APP.currentPlayerArrPos()];
-    var table = document.getElementById("liability-table");
-    var rows = table.getElementsByTagName("tr");
-
-    for (var i = 1; i < rows.length; i++) {
-      var currentRow = table.rows[i];
-
-      if (option === 1) {
-        currentRow.style.backgroundColor = "#FFEB3B";
-
-        var addOnClick = function(row) {
-          var anchor = rows[i];
-          var cell = row.getElementsByTagName("td")[1];
-          var id = cell.getAttribute("id");
-
-          anchor.onclick = function() {
-            player.loanId = id;
-
-            if (id === "liability-loans") {
-              $("#repay-loan-card").show();
-              $("#cancel-btn").show();
-
-              $("#done-repay-btn").hide();
-              $("#repay-card").hide();
-            } else {
-              $("#repay-loan-card").hide();
-              $("#confirm-pay-btn").show();
-              $("#cancel-btn").show();
-              $("#pay-confirm-card").show();
-
-              $("#done-repay-btn").hide();
-              $("#repay-card").hide();
-            }
-          };
-        };
-        currentRow.onClick = addOnClick(currentRow);
-      } else if (option === 2) {
-        currentRow.style.backgroundColor = "white";
-
-        var removeOnClick = function() {
-          var table = document.getElementById("liability-table");
-          var rows = table.getElementsByTagName("tr");
-
-          for (var i = 1; i < rows.length; i++) {
-            var anchor = rows[i];
-
-            anchor.onclick = function() {
-              return 0;
-            };
-          }
-        };
-        removeOnClick(currentRow);
-      }
-    }
-  },
-  borrow: function() {
-    $("#end-turn-btn").hide();
-    $("#finish-instructions").hide();
-    $("#repay-card").hide();
-    $("#cancel-btn").hide();
-    $("#repay-borrow-btns").hide();
-
-    $("#borrow-card").show();
-    $("#borrow-loan-btn").show();
-    $("#cancel-btn").show();
-    APP.finance.loanPayment();
-    APP.finance.statement();
-  },
-  renderAssetTable: function() {
-    var player = APP.players[APP.currentPlayerArrPos()];
-    var realEstateAssetArr = player.realEstateAssets;
-    var businessAssetArr = player.businessAssets;
-    var coinAssetArr = player.coinAssets;
-
-    var incomeInterestTableId = document.getElementById("income-interest-body");
-    var incomeRealEstateTableId = document.getElementById(
-      "income-real-estate-body"
-    );
-    var assetTableId = document.getElementById("asset-real-estate-body");
-
-    $(incomeInterestTableId).empty();
-    $(incomeRealEstateTableId).empty();
-    $(assetTableId).empty();
-
-    for (var i = 0; i < realEstateAssetArr.length; i++) {
-      var tag = realEstateAssetArr[i].tag;
-      var cost = realEstateAssetArr[i].cost;
-      var cashFlow = realEstateAssetArr[i].cashFlow;
-
-      var incomeRow =
-        "<tr class='assets-row real-estate-asset" +
-        parseInt(APP.currentPlayerArrPos(), 10) +
-        "-row'><td>" +
-        tag +
-        "</td><td>$" +
-        cashFlow +
-        "</td></tr>";
-      var assetRow =
-        "<tr class='assets-row real-estate-asset" +
-        parseInt(APP.currentPlayerArrPos(), 10) +
-        "-row' id='asset" +
-        parseInt(i, 10) +
-        "-row'><td>" +
-        tag +
-        "</td><td>$" +
-        cost +
-        "</td></tr>";
-
-      $(incomeRealEstateTableId).append(incomeRow);
-      $(assetTableId).append(assetRow);
-
-      if (realEstateAssetArr[i].highlight === "on") {
-        if (typeof APP.currentOffer == "object") {
-          switch (APP.currentOffer.type) {
-            case "4-plex":
-            case "8-plex":
-            case "duplex":
-            case "plex":
-              var settlement =
-                realEstateAssetArr[i].units * APP.currentOffer.offerPerUnit -
-                realEstateAssetArr[i].mortgage;
-              APP.currentSettlement = settlement;
-              APP.currentSettlementId = realEstateAssetArr[i].id;
-              APP.currentSettlementCashFlow = realEstateAssetArr[i].cashFlow;
-              break;
-            case "apartment":
-              var settlement =
-                realEstateAssetArr[i].units * APP.currentOffer.offerPerUnit -
-                realEstateAssetArr[i].mortgage;
-              APP.currentSettlement = settlement;
-              APP.currentSettlementId = realEstateAssetArr[i].id;
-              APP.currentSettlementCashFlow = realEstateAssetArr[i].cashFlow;
-              break;
-              break;
-            default:
-              var settlement =
-                APP.currentOfferOffered - realEstateAssetArr[i].mortgage;
-              APP.currentSettlement = settlement;
-              APP.currentSettlementId = realEstateAssetArr[i].id;
-              APP.currentSettlementCashFlow = realEstateAssetArr[i].cashFlow;
-              break;
-          }
-        }
-
-        var rowId = "#asset" + parseInt(i, 10) + "-row";
-
-        $(rowId).css("background-color", "#FFEB3B");
-
-        $(rowId).click(function() {
-          $("#offer-card").hide();
-          $("#done-btn").hide();
-
-          $("#settlement-card").show();
-          $("#confirm-settlement-btn").show();
-          $("#show-offer-btn").show();
-          $("#settlement-offer").html(parseInt(settlement, 10));
-        });
-      }
-      
-      if (player.cashFlow < 0) {
-        $(rowId).css("background-color", "#FFEB3B");
-
-        $(rowId).click(function() {
-          var bankruptcySettlement = realEstateAssets[i].downPayment / 2;
-          APP.currentSettlement = bankruptcySettlement;
-          APP.currentSettlementCashFlow = realEstateAssets[i].cashFlow;
-          APP.currentSettlementId = realEstateAssets[i].id;
-
-          $("#confirm-settlement-btn").show();
-          $("#br-settlement-text").show();
-          $("#br-settlement-offer").html(parseInt(bankruptcySettlement, 10));
-        });
-      }
-    }
-    for (var j = 0; j < coinAssetArr.length; j++) {
-      var amount = coinAssetArr[j].amount;
-      var name = coinAssetArr[j].name;
-      var cost = coinAssetArr[j].cost;
-
-      var coinAssetRow =
-        "<tr class='assets-row coin-asset" +
-        parseInt(APP.currentPlayerArrPos(), 10) +
-        "-row' id='asset-c" +
-        parseInt(i, 10) +
-        "-row'><td>" +
-        amount +
-        " " +
-        name +
-        "</td><td>$" +
-        cost +
-        "</td></tr>";
-
-      $(incomeInterestTableId).append(coinAssetRow);
-    }
-    for (var k = 0; k < businessAssetArr.length; k++) {
-      var tag = businessAssetArr[i].tag;
-      var cashFlow = businessAssetArr[i].cashFlow;
-
-      var businessIncomeRow =
-        "<tr class='income-row business-asset" +
-        parseInt(APP.currentPlayerArrPos(), 10) +
-        "-row' id='asset-b" +
-        parseInt(i, 10) +
-        "-row'><td>" +
-        tag +
-        "</td><td>$" +
-        cashFlow +
-        "</td></tr>";
-
-      $(incomeRealEstateTableId).append(businessIncomeRow);
-    }
-  },
-  renderStockTable: function() {
-    var player = APP.players[APP.currentPlayerArrPos()];
-    var assetArr = player.stockAssets;
-    var tableId = document.getElementById("asset-stock-body");
-
-    //Clear old table
-    $(tableId).empty();
-
-    //cycle through real estate and business assets arr
-    for (var i = 0; i < assetArr.length; i++) {
-      var symbol = assetArr[i].symbol;
-      var cost = assetArr[i].price;
-      var shares = assetArr[i].shares;
-
-      var stockRow =
-        "<tr class='assets-row stock-shares" +
-        parseInt(APP.currentPlayerArrPos(), 10) +
-        "-row' id='stock" +
-        parseInt(i, 10) +
-        "-row'><td>" +
-        shares +
-        " Share of " +
-        symbol +
-        "</td><td>$" +
-        cost +
-        "</td></tr>";
-
-      $(tableId).append(stockRow);
-    }
-  }
-};
-
 APP.board = {
   square: [
     ["OPPURTUNITY", "#21940f"],
@@ -4585,6 +4631,9 @@ $(document).ready(function() {
     $("#window").css("background-image", "");
     $("#window").css("background-color", "#010410");
   });
+  $("#reset-btn").on("click", function() {
+   window.location.reload(false);
+  });
 });
 
 /*
@@ -4607,6 +4656,6 @@ DONE
 12/6/2018
   * Fixed borrowing loans for assets and doodads. Loans for downsizing has to be checked
   * Fast Track board and bankruptcy card functionality added. Still in development
-  
-  
+
+
 */

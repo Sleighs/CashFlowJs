@@ -186,7 +186,7 @@
                   </div>
                   <div class="share-amt-box" id="share-amt-btns">
                     <button id="increase-shares" onclick="document.getElementById('share-amt-input').stepUp(1);" type="button">+</button>
-                    <button id="decrease-shares" onclick="APP.display.decreaseShares();" type="button"> - </button>
+                    <button id="decrease-shares" onclick="APP.display.decreaseShares(1);" type="button"> - </button>
                   </div>
                   <div class="share-amt-box" style="font-weight: bold; letter-spacing: 1px; font-size: 13pt; color: #212121;">For: $<span id="share-cost"></span> each</div>
                 </div>
@@ -196,7 +196,7 @@
                   <div class="share-amt-box" id="shares-input">Sell shares: <input id="share-amt-input-sell" type="number" name="shares" value="1">
                   </div>
                   <div class="share-amt-box" id="share-amt-btns">
-                    <button id="increase-shares" onclick="document.getElementById('share-amt-input-sell').stepUp(1);" type="button">+</button>
+                    <button id="increase-shares" onclick="APP.display.increaseShares();" type="button">+</button>
                     <button id="decrease-shares" onclick="APP.display.decreaseShares();" type="button"> - </button>
                   </div>
                   <div class="share-amt-box" style="font-weight: bold; letter-spacing: 1px; font-size: 13pt; color: #212121;">For: $<span id="share-cost-sell"></span> each</div>
@@ -204,7 +204,7 @@
               </div>
             </div>
             <div id="deal-coin-card">
-              <h2 class="card-title"><span id="deal-coin-name"></span></h2>
+              <h2 class="card-title"><span id="deal-coin-title"></span></h2>
               <p id="deal-coin-description"></p>
               <p id="deal-coin-rule"></p>
               <table id="coin-cost-table">
@@ -296,26 +296,33 @@
             </div>
             <div id="charity-card">
               <h2 class="card-title">GIVE TO CHARITY</h2>
+              <br>
               <p id="charity-text"> Donate 10% of your total income to roll 1 or die over your next 3 turns.</p>
+              <br>
             </div>
             <div id="kid-card">
               <h2 class="card-title">NEW BABY!</h2>
+              <br>
               <p id="child-text">Congratulations! One child has been added to your dependents<br>
                 <h3>Child Expenses will be increased by $<span id="child-cost"></span></h3>
               </p>
+              <br>
             </div>
             <div id="downsize-card">
               <h2 class="card-title">DOWNSIZED!</h2>
               <p>Pay a full set of your expenses. Skip 3 turns.</p>
               <p style="font-size: 18pt"> Pay: $<span id="downsized-amt"></span></p>
+              <br>
             </div>
 
             <div id="repay-card">
               <h2 class="card-title">PAY OFF LOAN</h2>
+              <br>
               <p>Select a liability on your statement sheet to repay your debt.</p>
             </div>
             <div id="borrow-card">
               <h2 class="card-title">TAKE OUT A LOAN</h2>
+              <br>
               <p>Loans must be in multiples of $1000 at 10% interest per month.</p>
               <form>
                 <div id="loan-amt">Amount: $<input id='loan-amt-input' type='text' name='loan-amount' value='1000'></div>
@@ -414,6 +421,7 @@
               <!--<button class="card-btn" id="confirm-pay-btn2" onclick="APP.finance.pay();">CONFIRM</button>-->
               <button class="card-btn" id="done-repay-btn" onclick="APP.display.highlightLiabilities(2); APP.finishTurn(); ">DONE</button>
               <button class="card-btn" id="done-btn" onclick="APP.finishTurn();">DONE</button>
+              <button class="card-btn" id="done-buy-sell-btn" onclick="APP.display.showStockCard();">DONE</button>
               <button class="card-btn" id="borrow-doodad-loan-btn" onclick="APP.finance.getLoan(); APP.finishTurn();">BORROW</button>
             </div>
 

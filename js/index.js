@@ -474,7 +474,7 @@ var APP = APP || {
     var randDeal = function(object) {
       return object[keys[Math.floor(keys.length * Math.random())]];
     };
-    var currentDeal = randDeal(obj);
+    const currentDeal = randDeal(obj);
     var dealType = currentDeal.type;
 
     this.currentDeal = currentDeal;
@@ -485,18 +485,6 @@ var APP = APP || {
     $("#small-deal-btn").hide();
     $("#big-deal-btn").hide();
     $("#sell-shares-form").hide();
-
-    var ownedShares = function() {
-      var arr = player.stockAssets;
-      var stockId = APP.currentDeal.id;
-      var index = arr.findIndex(x => x.id == stockId);
-
-      if (index != -1) {
-        return arr[index].shares;
-      } else {
-        return 0;
-      }
-    };
 
     //show deal card
     switch (dealType) {
@@ -519,11 +507,11 @@ var APP = APP || {
           currentDeal.range;
         document.getElementById(
           "deal-stock-shares-owned"
-        ).innerHTML = ownedShares();
+        ).innerHTML = APP.ownedShares();
         document.getElementById("share-cost").innerHTML = currentDeal.price;
         document.getElementById("share-cost-sell").innerHTML = currentDeal.price;
 
-        var shares = ownedShares();
+        var shares = APP.ownedShares();
         if (shares > 0) {
           $("#show-stock-sell-form-btn").show();
         }
@@ -620,7 +608,7 @@ var APP = APP || {
       case "Coin":
         $("#deal-coin-card").show();
 
-        document.getElementById("deal-coin-name").innerHTML = currentDeal.name;
+        document.getElementById("deal-coin-title").innerHTML = currentDeal.title;
         document.getElementById("deal-coin-description").innerHTML =
           currentDeal.description;
         document.getElementById("deal-coin-rule").innerHTML = currentDeal.rule;
@@ -684,6 +672,7 @@ var APP = APP || {
         $("#pass-btn").show();
         break;
     }
+
   },
   bigDeal: function() {
     var player = APP.players[APP.currentPlayerArrPos()];
@@ -825,20 +814,23 @@ var APP = APP || {
     document.getElementById("loan-amt-input2").value = 1000;
     document.getElementById("share-amt-input").value = 1;
   },
-  getStockObj: function(id, stockArray) {
+  ownedShares: function() {
     var player = APP.players[APP.currentPlayerArrPos()];
-    var obj = false;
+    var arr = player.stockAssets;
+    var stockId = APP.currentDeal.id;
+    var stockSymbol = APP.currentDeal.symbol;
+    var shares = 0;
 
-    for (var i = 0; i < stockArray.length; i++) {
-      if (stockArray[i].id == id) {
-        obj = stockArray[i];
-        APP.stockArrPos = i;
-        APP.stockShares = obj.shares;
-      } else {
-        obj = false;
+    if (arr.length > 0) {
+      for(var i = 0; i < arr.length; i++){
+        if (arr[i].symbol == stockSymbol){
+          shares += Number(arr[i].shares);
+        }
       }
+      return shares;
+    } else {
+      return 0;
     }
-    return obj;
   }
 };
 
@@ -1244,79 +1236,98 @@ APP.finance = {
   buyStock: function() {
     var player = APP.players[APP.currentPlayerArrPos()];
 
+    APP.currentDeal.shares = 0;
     APP.currentDeal.shares += Number(
       document.getElementById("share-amt-input").value
     );
-    var shares = APP.currentDeal.shares;
-    var price = Number(APP.currentDeal.price);
-    var cost = price * shares;
 
-    var stockId = APP.currentDeal.id;
+    let stockObj = JSON.parse(JSON.stringify(APP.currentDeal));
+
+    var shares = Number(stockObj.shares);
+    var price = Number(stockObj.price);
+    var cost = price * shares;
+    var stockId = stockObj.id;
     var arr = player.stockAssets;
     var index = arr.findIndex(x => x.id == stockId);
 
     if (cost <= player.cash) {
       player.cash -= cost;
-
-      if (index < 0) {
-        arr.push(APP.currentDeal);
+      if (index == -1) {
+        arr.push(stockObj);
       } else {
-        var newArr = [];
-        newArr.push(arr[index], APP.currentDeal);
-        newArr.reduce((a, b) => ({shares: Number(a.shares) + Number(b.shares)}));
+        arr[index].shares += shares;
       }
     } else {
       this.loanOffer(cost);
     }
 
-    var ownedShares = function() {
-      var arr = player.stockAssets;
-      var stockId = APP.currentDeal.id;
-      var index = arr.findIndex(x => x.id == stockId);
+    $("#show-stock-form-btn").show();
+    $("#show-stock-sell-form-btn").show();
+    $("#buy-shares-form").hide();
+    $("#buy-stock-btn").hide();
+    $("#done-buy-sell-btn").hide();
+    $("#done-btn").show();
 
-      if (index != -1) {
-        return arr[index].shares;
-      } else {
-        return 0;
-      }
-    };
-    if (ownedShares() > 0) {
+    if (APP.ownedShares() > 0) {
       $("#show-stock-sell-form-btn").show();
     }
     document.getElementById(
       "deal-stock-shares-owned"
-    ).innerHTML = ownedShares();
-    APP.display.renderStockTable();
+    ).innerHTML = APP.ownedShares();
+
+    APP.finance.statement();
   },
   sellStock: function() {
+    //--
     var player = APP.players[APP.currentPlayerArrPos()];
+    var arr = player.stockAssets;
 
+    APP.currentDeal.shares = 0;
     APP.currentDeal.shares += Number(
       document.getElementById("share-amt-input-sell").value
     );
-    var shares = APP.currentDeal.shares;
-    var price = Number(APP.currentDeal.price);
-    var cost = price * shares;
 
-    var stockId = APP.currentDeal.id;
-    var arr = player.stockAssets;
+    let sellStockObj = JSON.parse(JSON.stringify(APP.currentDeal));
 
-    //-- fix
+    var shares = Number(sellStockObj.shares);
+    var price = Number(sellStockObj.price);
+    var re = price * shares;
+    var index;
     for (var i = 0; i < arr.length; i++) {
-      if (arr[i].id == stockId) {
-        player.cash += cost;
-
-        var newArr = [];
-        newArr.push(arr[i], APP.currentDeal);
-        newArr.reduce((a, b) => ({shares: Number(a.shares) - Number(b.shares)}));
-
-        APP.display.showBuyStockForm();
-        document.getElementById(
-          "deal-stock-shares-owned"
-        ).innerHTML = arr[i].shares;
+      if (arr[i].selected != 'undefined') {
+        index = i;
       }
     }
 
+    player.cash += re;
+    arr[index].shares -= shares;
+
+    document.getElementById(
+      "deal-stock-shares-owned"
+    ).innerHTML = APP.ownedShares();
+
+    $("#show-stock-form-btn").show();
+    $("#show-stock-sell-form-btn").show();
+    $("#sell-shares-form").hide();
+    $("#sell-stock-btn").hide();
+    $("#done-buy-sell-btn").hide();
+    $("#done-btn").show();
+
+
+    if (arr[index].shares === 0) {
+      arr.splice(index, 1);
+      if (arr.length === 0) {
+        $("#show-stock-sell-form-btn").hide();
+      }
+    }
+    for (var j = 0; j < arr.length; j++){
+      if (arr[j].highlight === "on") {
+        arr[j].highlight = "off";
+      }
+      if (arr[j].selected === true) {
+        delete arr[j].selected;
+      }
+    }
     APP.finance.statement();
   },
   stockSplit: function(type) {
@@ -1387,38 +1398,28 @@ APP.finance = {
     var cost = APP.currentDeal.cost;
     var coinId = APP.currentDeal.id;
     var arr = player.coinAssets;
-    var idVal, coinArrPos;
-
-    function searchCoin(id, coinArray) {
-      for (var i = 0; i < coinArray.length; i++) {
-        if (coinArray[i].id === id) {
-          idVal = coinArray[i];
-          coinArrPos = i;
-        } else {
-          idVal = false;
-        }
-      }
-      return idVal;
-    }
-    var coinObj = searchCoin(coinId, arr);
+    var index = arr.findIndex(x => x.id == coinId);
 
     if (cost <= player.cash) {
       player.cash -= cost;
       //check if player already owns coins
-      if (!coinObj) {
-        player.coinAssets.push(APP.currentDeal);
-      } else {
+      if (index != -1) {
         if (coinId == "coin1") {
-          arr[coinArrPos].amount += 1;
+          arr[index].amount += 1;
         } else if (coinId == "coin2") {
-          arr[coinArrPos].amount += 10;
+          arr[index].amount += 10;
         }
+      } else {
+        arr.push(APP.currentDeal);
       }
 
       APP.finishTurn();
     } else {
       this.loanOffer(cost);
     }
+  },
+  sellCoin: function() {
+
   },
   buyBusiness: function() {
     var player = APP.players[APP.currentPlayerArrPos()];
@@ -1527,9 +1528,6 @@ APP.finance = {
           break;
         case "Personal Loan":
           $("#deal-personal-loan-card").show();
-          $("#pass-btn").show();
-          break;
-        default:
           $("#pass-btn").show();
           break;
       }
@@ -1693,6 +1691,20 @@ APP.loadCard = function(boardPosition) {
 
 APP.cards = {
   smallDeal: {
+    mutualtest: {
+      type: "Mutual Fund",
+      name: "GRO4US Fund",
+      description:
+        "Lower interest rates drive market and fund to strong showing.",
+      rule:
+        "Only you may buy as many units as you want at this price. Everyone may sell at this price",
+      symbol: "GRO4US",
+      price: 1,
+      range: "$10 to $30",
+      dividend: false,
+      id: "gro4us1",
+      shares: 0
+    },
     mutual01: {
       type: "Mutual Fund",
       name: "GRO4US Fund",
@@ -2158,8 +2170,8 @@ APP.cards = {
       tradingRange: "$1,200 to $1,200",
       id: "2big",
       shares: 0
-    },
-    realEstateS1: {
+    },*/
+    /*realEstateS1: {
       type: "Real Estate",
       name: "You Find a Great Deal!",
       description:
@@ -2364,7 +2376,8 @@ APP.cards = {
     },*/
     /*coin1: {
       type: "Coin",
-      name: "Rare Gold Coin",
+      name: "1500's Spanish",
+      title: "Rare Gold Coin",
       description: "You spot an unusual 1500's Royal Spanish New World (Havana Mint Only) \"pieces of eight\" gold coin in good condition at a swap meet. One only, seller asks $500.",
       rule: "Use this yourself or sell to another player. 0% ROI, may sell for $0 to $4,000.",
       roi: 0,
@@ -2376,7 +2389,8 @@ APP.cards = {
     },
     coin2: {
       type: "Coin",
-      name: "Friend Needs Cash... Quick",
+      name: "Krugerrand",
+      title: "Friend Needs Cash... Quick",
       description: "A friend has urgent need for money. Will sell you 10 one-ounce gold Krugerrands, well below going rate, for $300 each.",
       rule: "Use this yourself or sell to another player. 0% ROI, possible future sale at ??",
       roi: 0,
@@ -2385,8 +2399,8 @@ APP.cards = {
       liability: 0,
       cashFlow: 0,
       amount: 10
-    },*/
-    /*cd1: {
+    }*//*,
+    cd1: {
       type: "Certificate of Deposit",
       name: "Certificate of Deposit",
       description: "A leading bank offers this special Certificate of Deposit to its customer. Guaranteed interest and redeemable after any holding period.",
@@ -3834,12 +3848,37 @@ APP.display = {
     sp.style.display =
       sp.style.display === "inline-block" ? "inline-block" : "inline-block";
   },
+  showStockCard: function() {
+    $("#show-stock-form-btn").show();
+    $("#show-stock-sell-form-btn").show();
+    $("#done-btn").show();
+
+    $("#sell-shares-form").hide();
+    $("#sell-stock-btn").hide();
+    $("#buy-shares-form").hide();
+    $("#buy-stock-btn").hide();
+    $("#done-buy-sell-btn").hide();
+
+    var player = APP.players[APP.currentPlayerArrPos()];
+    var arr = player.stockAssets;
+
+    for (var j = 0; j < arr.length; j++){
+      if (arr[j].highlight === "on") {
+        arr[j].highlight = "off";
+      }
+      if (arr[j].selected == true) {
+        delete arr[j].selected;
+      }
+    }
+  },
   showBuyStockForm: function() {
     $("#show-stock-form-btn").hide();
     $("#show-stock-sell-form-btn").hide();
     $("#sell-shares-form").hide();
     $("#sell-stock-btn").hide();
+    $("#done-btn").hide();
 
+    $("#done-buy-sell-btn").show();
     $("#buy-shares-form").show();
     $("#buy-stock-btn").show();
   },
@@ -3848,9 +3887,21 @@ APP.display = {
     $("#show-stock-sell-form-btn").hide();
     $("#buy-shares-form").hide();
     $("#buy-stock-btn").hide();
+    $("#done-btn").hide();
 
-    $("#sell-shares-form").show();
-    $("#sell-stock-btn").show();
+    $("#done-buy-sell-btn").show();
+
+
+    var player = APP.players[APP.currentPlayerArrPos()];
+    var arr = player.stockAssets;
+    var stockSymbol = APP.currentDeal.symbol;
+
+    for (var i =  0; i < arr.length; i++){
+      if (arr[i].symbol == stockSymbol) {
+        arr[i].highlight = 'on';
+      }
+    }
+    APP.finance.statement();
   },
   showOffer: function() {
     $("#confirm-settlement-btn").hide();
@@ -3861,30 +3912,48 @@ APP.display = {
     $("#done-btn").show();
   },
   increaseShares: function() {
-    //var value = parseInt(document.getElementById("share-amt-input").value, 10);
-    //value = isNaN(value) ? 0 : value;
-    //value++;
-    //document.getElementById("share-amt-input").value = value;
+    var player = APP.players[APP.currentPlayerArrPos()];
+    var value = parseInt(document.getElementById("share-amt-input-sell").value, 10);
+    var arr = player.stockAssets;
+    var stockSymbol = APP.currentDeal.symbol;
+
+    var index;
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].selected != 'undefined') {
+        index = i;
+      }
+    }
+
+    var shares = Number(arr[index].shares);
+
+    if (value < shares){
+      document.getElementById('share-amt-input-sell').stepUp(1);
+    }
   },
-  decreaseShares: function() {
-    var value = parseInt(document.getElementById("share-amt-input").value, 10);
-    var value2 = parseInt(document.getElementById("share-amt-input-sell").value, 10);
-    value = isNaN(value) ? 0 : value;
-    value2 = isNaN(value2) ? 0 : value2;
-    value -= 1;
-    value2 -= 1;
-    if (value > 1) {
+  decreaseShares: function(option) {
+    if (option == 1){
+      var value = parseInt(document.getElementById("share-amt-input").value, 10);
+      value = isNaN(value) ? 0 : value;
       value -= 1;
+
+      if (value > 1) {
+        value -= 1;
+      } else {
+        value = 1;
+      }
+      document.getElementById("share-amt-input").value = value;
     } else {
-      value = 1;
-    }
-    if (value2 > 1) {
+      var value2 = parseInt(document.getElementById("share-amt-input-sell").value, 10);
+      value2 = isNaN(value2) ? 0 : value2;
       value2 -= 1;
-    } else {
-      value2 = 1;
+
+      if (value2 > 1) {
+        value2 -= 1;
+      } else {
+        value2 = 1;
+      }
+      document.getElementById("share-amt-input-sell").value = value2;
     }
-    document.getElementById("share-amt-input").value = value;
-    document.getElementById("share-amt-input-sell").value = value2;
   },
   clearBtns: function() {
     $("#repay-borrow-btns").hide();
@@ -3895,6 +3964,7 @@ APP.display = {
     $("#ds-pay-button").hide();
     $("#pd-pay-button").hide();
     $("#charity-donate-btn").hide();
+    $("#done-buy-sell-btn").hide();
 
     $("#pass-btn").hide();
     $("#no-loan-btn").hide();
@@ -4203,6 +4273,20 @@ APP.display = {
         "</td></tr>";
 
       $(tableId).append(stockRow);
+
+      if (assetArr[i].highlight === "on") {
+        var rowId = "#stock" + parseInt(i, 10) + "-row";
+
+        $(rowId).css("background-color", "#FFEB3B");
+
+        $(rowId).click(function() {
+          $("#sell-shares-form").show();
+          $("#sell-stock-btn").show();
+
+          assetArr[i].selected = true;
+          //document.getElementById("share-amt-input-sell").value = assetArr[i].shares;
+        });
+      }
     }
   }
 };
@@ -4561,99 +4645,99 @@ APP.board = {
     document.getElementById("cell0").innerHTML =
       "<div id='tokenSection0'><div class ='cellx'><p>" +
       APP.board.square[0][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell1").innerHTML =
       "<div id='tokenSection1'><div class ='cellx'><p>" +
       APP.board.square[1][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell2").innerHTML =
       "<div id='tokenSection2'><div class ='cellx'><p>" +
       APP.board.square[2][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell3").innerHTML =
       "<div id='tokenSection3'><div class ='cellx'><p>" +
       APP.board.square[3][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell4").innerHTML =
       "<div id='tokenSection4'><div class ='cellx'><p>" +
       APP.board.square[4][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell5").innerHTML =
       "<div id='tokenSection5'><div class ='cellx'><p>" +
       APP.board.square[5][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell6").innerHTML =
       "<div id='tokenSection6'><div class ='cellx'><p>" +
       APP.board.square[6][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell7").innerHTML =
       "<div id='tokenSection7'><div class ='cellx'><p>" +
       APP.board.square[7][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell8").innerHTML =
       "<div id='tokenSection8'><div class ='cellx'><p>" +
       APP.board.square[8][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell9").innerHTML =
       "<div id='tokenSection9'><div class ='cellx'><p>" +
       APP.board.square[9][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell10").innerHTML =
       "<div id='tokenSection10'><div class ='cellx'><p>" +
       APP.board.square[10][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell11").innerHTML =
       "<div id='tokenSection11'><div class ='cellx'><p>" +
       APP.board.square[11][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell12").innerHTML =
-      "<div id='tokenSection12'></div><div class ='cellx'><p>" +
+      "<div id='tokenSection12'><div class ='cellx'><p>" +
       APP.board.square[12][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell13").innerHTML =
       "<div id='tokenSection13'><div class ='cellx'><p>" +
       APP.board.square[13][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell14").innerHTML =
       "<div id='tokenSection14'><div class ='cellx'><p>" +
       APP.board.square[14][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell15").innerHTML =
       "<div id='tokenSection15'><div class ='cellx'><p>" +
       APP.board.square[15][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell16").innerHTML =
       "<div id='tokenSection16'><div class ='cellx'><p>" +
       APP.board.square[16][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell17").innerHTML =
       "<div id='tokenSection17'><div class ='cellx'><p>" +
       APP.board.square[17][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell18").innerHTML =
       "<div id='tokenSection18'><div class ='cellx'><p>" +
       APP.board.square[18][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell19").innerHTML =
       "<div id='tokenSection19'><div class ='cellx'><p>" +
       APP.board.square[19][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell20").innerHTML =
       "<div id='tokenSection20'><div class ='cellx'><p>" +
       APP.board.square[20][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell21").innerHTML =
       "<div id='tokenSection21'><div class ='cellx'><p>" +
       APP.board.square[21][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell22").innerHTML =
       "<div id='tokenSection22'><div class ='cellx'><p>" +
       APP.board.square[22][0] +
-      " </p></div>";
+      " </p></div></div>";
     document.getElementById("cell23").innerHTML =
       "<div id='tokenSection23'><div class ='cellx'><p>" +
       APP.board.square[23][0] +
-      " </p></div>";
+      " </p></div></div>";
   }
 };
 
@@ -4669,22 +4753,9 @@ $(document).ready(function() {
 });
 
 /*
-APP.test = function() {
-  var player = APP.players[APP.currentPlayerArrPos()];
-  };
-
-
-TODO
-  * fix starting small companies - currently after borrowing money to buy one small and big opp buttons stop working. Other cards seem to work fine
-  * selling stock functionality
-  * optimize rendering liabilities table
-  * Hide loan row from expenses table when amount is 0
-  * unique doodad events
-  * bankruptcy
-  * Css for fast track needs to be updated and bankruptcy options needs to be added.
-
-DONE
-12/12/2018
-  * Fixed buying new  of already owned stock
-
+  12/15/2018
+  DONE
+  * buying and selling stocks
+  TODO
+  * press and hold increment buttons
 */

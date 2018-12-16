@@ -1360,7 +1360,7 @@ APP.finance = {
       var newId = tag + parseInt(timestamp, 10);
       APP.currentDeal.id = newId;
 
-      arr.push(APP.currentDeal);
+      arr.push(JSON.parse(JSON.stringfy(APP.currentDeal));
 
       APP.finishTurn();
     } else if (downPayment > player.cash) {

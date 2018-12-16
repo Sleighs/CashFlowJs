@@ -35,9 +35,14 @@ var APP = APP || {
     return name;
   },
   initGame: function() {
-    $("#home-play-button").click(function() {
+    $("#home-screen").click(function() {
       APP.display.hideHomeScreen();
       APP.display.showGameSelectionScreen();
+      window.setTimeout(function() {
+        if($("#game-selection-screen").css('display') != 'none' &&  $("#turn-info").css('display') != 'inline-block'){
+          window.location.reload(false);
+        }
+      }, 120000);
     });
     $("#new-room-button").click(function() {
       APP.display.hideGameSelectionScreen();
@@ -813,6 +818,7 @@ var APP = APP || {
     document.getElementById("loan-amt-input").value = 1000;
     document.getElementById("loan-amt-input2").value = 1000;
     document.getElementById("share-amt-input").value = 1;
+    document.getElementById("share-amt-input-sell").value = 1;
   },
   ownedShares: function() {
     var player = APP.players[APP.currentPlayerArrPos()];
@@ -1293,6 +1299,11 @@ APP.finance = {
     var price = Number(sellStockObj.price);
     var re = price * shares;
     var index;
+
+    //get the index
+      //right now some items retain the selected property.
+        //find out why or have the exact index of the selected stock
+
     for (var i = 0; i < arr.length; i++) {
       if (arr[i].selected != 'undefined') {
         index = i;
@@ -1360,7 +1371,7 @@ APP.finance = {
       var newId = tag + parseInt(timestamp, 10);
       APP.currentDeal.id = newId;
 
-      arr.push(JSON.parse(JSON.stringfy(APP.currentDeal));
+      arr.push(JSON.parse(JSON.stringify(APP.currentDeal)));
 
       APP.finishTurn();
     } else if (downPayment > player.cash) {
@@ -1691,20 +1702,6 @@ APP.loadCard = function(boardPosition) {
 
 APP.cards = {
   smallDeal: {
-    mutualtest: {
-      type: "Mutual Fund",
-      name: "GRO4US Fund",
-      description:
-        "Lower interest rates drive market and fund to strong showing.",
-      rule:
-        "Only you may buy as many units as you want at this price. Everyone may sell at this price",
-      symbol: "GRO4US",
-      price: 1,
-      range: "$10 to $30",
-      dividend: false,
-      id: "gro4us1",
-      shares: 0
-    },
     mutual01: {
       type: "Mutual Fund",
       name: "GRO4US Fund",
@@ -1718,7 +1715,7 @@ APP.cards = {
       dividend: false,
       id: "gro4us30",
       shares: 0
-    }/*,
+    },
     mutual02: {
       type: "Mutual Fund",
       name: "GRO4US Fund",
@@ -2147,7 +2144,7 @@ APP.cards = {
         "Everyone who owns OK4U shares cuts shares owned to 1/2 previous value.",
       symbol: "OK4U"
     },
-    preferredStock1: {
+    /*preferredStock1: {
       type: "Preferred Stock",
       name: "2BIG Power",
       description: "High yield, preferred shares of major domestic electric power company. Dividend and price fixed at \"fair\" level by state utility commission.",
@@ -2171,7 +2168,7 @@ APP.cards = {
       id: "2big",
       shares: 0
     },*/
-    /*realEstateS1: {
+    realEstateS1: {
       type: "Real Estate",
       name: "You Find a Great Deal!",
       description:
@@ -2373,8 +2370,8 @@ APP.cards = {
       rule: "Pay $500 if you own any rental property",
       propertyType: "rental",
       cost: 500
-    },*/
-    /*coin1: {
+    }/*,
+    coin1: {
       type: "Coin",
       name: "1500's Spanish",
       title: "Rare Gold Coin",
@@ -4756,6 +4753,11 @@ $(document).ready(function() {
   12/15/2018
   DONE
   * buying and selling stocks
+  * click anywhere to start home
+
   TODO
   * press and hold increment buttons
+  * fix sellstock selected Index
+  * add sell all button to the stocks
+  * show current selected stock => 'bought at price...' in the card view
 */

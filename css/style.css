@@ -35,7 +35,7 @@ body {
   margin: auto;
   position: relative;
   font-family: "Roboto", sans-serif;
-  padding: 25px;
+  padding: 2px;
   border-radius: 5px;
 }
 .hide {
@@ -84,11 +84,14 @@ body {
   height: 170px;
   width: 425px;
   font-size: 40px;
-  border-radius: 23px;
+  font-family: 'lato';
+  border-radius: 24px;
   border: 5pt ridge #FDD835;
   background-color: white;
   outline: none;
   color: #3E2723;
+  font-weight: 500;
+  text-shadow: .8px .8px 1px #c2a500;
   box-shadow: 0px 0px 1px 1px #FDD835;
   margin: auto 33%;
 }
@@ -147,6 +150,8 @@ body {
   background-color: white;
   outline: none;
   font-size: 22pt;
+  font-family: 'lato';
+  text-shadow: .6px .6px 1px #c2a500;
   color: #4E342E;
   border: 2pt ridge #FDD835;
   font-weight: 500;
@@ -194,9 +199,9 @@ body {
   left: 0px;
   padding: 0px;
   color: white;
-  height: 90px;
-  width: 110px;
-  font-size: 8pt;
+  height: 86px;
+  width: 8%;
+  font-size: 0.6em;
   letter-spacing: .2pt;
   text-align: center;
 }
@@ -350,8 +355,8 @@ body {
   display: none;
   background-color: white;
   margin: auto;
-  padding: 7px 0;
-  height: 414px;
+  padding: 5px 0;
+  height: 410px;
   width: 1135px;
 }
 #player-list,
@@ -471,55 +476,69 @@ body {
 #dream-heading {
   position: static;
   text-align: center;
-  font: 18pt bold;
-  font-family: "roboto";
+  font-size: 1.5em;
+  font-weight: 600;
+  font-family: "lato";
   margin: auto;
   padding: 0 20px 0 10px;
+  color: #3E2723;
+  text-shadow: .5px .5px 1px #c2a500;
+  letter-spacing: 1.5px;
+}
+#dream-text {
+  font-size: 1.2em;
+  font-weight: bold;
+  font-family: 'lato';
+  color: #3E2723;
+  padding: 3% 0;
 }
 #dream-description {
   display: block;
   font-family: "roboto";
-  height: 110px;
-  width: 264px;
-  padding: 0 25px;
+  height: 35%;
+  width: 92%;
+  padding: 4%;
   margin: auto;
 }
-#dream-text {
-  font-size: 14pt;
-  font-weight: 'bold';
-}
 #dream-info {
-  font-size: 15pt;
-  width: 270px;
-  height: 100px;
+  font-size: 1.2em;
+  width: 88%;
+  /*height: 20%;*/
 }
 #dream-des {
-  font-size: 11pt;
-  font-family:'roboto';
-  margin: 5px 0;
+  font-size: 1em;
+  font-family:'lato';
   display: block;
   position: relative;
 }
 #dream-choice-btn {
-  position:relative;
-  height: 40px;
-  width: 125px;
+  position: relative;
+  height: 50px;
+  width: 135px;
   border-radius: 6px;
   background-color: transparent;
   outline: none;
   display: block;
-  margin: auto;
+  margin: 4% auto;
   padding: 5px;
   color: #3E2723;
-  font-size: 14pt;
+  /*color: rgb(240, 202, 0);*/
+  text-shadow: .5px .5px 1px #c2a500;
+  font-size: 1.3em;
   font-weight: bold;
-  font-family: "roboto";
+  font-family: "lato";
+  letter-spacing: 1px;
 }
 #job-text {
+  display: block;
   padding: 5px;
-  height: 100px;
-  width: 260px;
+  width: 80%;
   margin: auto;
+  font-family: 'lato';
+  font-size: 1em;
+  letter-spacing: .2px;
+  font-weight: bold;
+  color: #3E2723;
 }
 #turn-info-box {
   height: 300px;
@@ -586,6 +605,7 @@ body {
   color: #263238;
   font-weight: bold;
   width: 300px;
+  text-shadow: .5px .5px .4px #9CCFCB;
 }
 #repay-borrow-btns {
   margin: auto 0;
@@ -616,6 +636,7 @@ body {
   font-weight: bold;
   font-family: 'lato';
   color: #004D40;
+  text-shadow: .6px .6px .6px #7DCEA0
 }
 #card-btns,
 #finish-turn-container {
@@ -789,6 +810,7 @@ body {
   font-size: 16pt;
   letter-spacing: .5pt;
   color: #2E7D32;
+  text-shadow: .5px .5px .4px #90C933;
 
 }
 #sum-td {

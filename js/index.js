@@ -1248,6 +1248,7 @@ APP.finance = {
     );
 
     let stockObj = JSON.parse(JSON.stringify(APP.currentDeal));
+    stockObj.selected = false;
 
     var shares = Number(stockObj.shares);
     var price = Number(stockObj.price);
@@ -1300,12 +1301,8 @@ APP.finance = {
     var re = price * shares;
     var index;
 
-    //get the index
-      //right now some items retain the selected property.
-        //find out why or have the exact index of the selected stock
-
     for (var i = 0; i < arr.length; i++) {
-      if (arr[i].selected != 'undefined') {
+      if (arr[i].selected === true) {
         index = i;
       }
     }
@@ -1336,7 +1333,7 @@ APP.finance = {
         arr[j].highlight = "off";
       }
       if (arr[j].selected === true) {
-        delete arr[j].selected;
+        arr[j].selected = false;
       }
     }
     APP.finance.statement();
@@ -1436,16 +1433,17 @@ APP.finance = {
     var player = APP.players[APP.currentPlayerArrPos()];
     var downPayment = APP.currentDeal.downPayment;
     var arr = player.businessAssets;
+    var businessAsset = JSON.parse(JSON.stringify(APP.currentDeal));
 
     if (downPayment <= player.cash) {
       player.cash -= downPayment;
 
-      var type = APP.currentDeal.businessType;
+      var type = businessAsset.businessType;
       var timestamp = new Date();
       var newId = type + parseInt(timestamp, 10);
-      APP.currentDeal.id = newId;
+      businessAsset.id = newId;
 
-      arr.push(APP.currentDeal);
+      arr.push(businessAsset);
 
       APP.finishTurn();
     } else {
@@ -2370,7 +2368,7 @@ APP.cards = {
       rule: "Pay $500 if you own any rental property",
       propertyType: "rental",
       cost: 500
-    }/*,
+    },
     coin1: {
       type: "Coin",
       name: "1500's Spanish",
@@ -2396,8 +2394,8 @@ APP.cards = {
       liability: 0,
       cashFlow: 0,
       amount: 10
-    }*//*,
-    cd1: {
+    },
+    /*cd1: {
       type: "Certificate of Deposit",
       name: "Certificate of Deposit",
       description: "A leading bank offers this special Certificate of Deposit to its customer. Guaranteed interest and redeemable after any holding period.",
@@ -2417,7 +2415,7 @@ APP.cards = {
       price: 4000,
       tradingRange: "$5,000 to $5,000"
     },*/
-    /*companyS1: {
+    companyS1: {
       type: "Company",
       name: "Start a Company Part Time",
       description: "Develop interesting idea for a software program, so you start a company to produce and sell it. No profits during startup, long hours, no extra pay.",
@@ -2444,7 +2442,7 @@ APP.cards = {
       tag: "WIDGET",
       landType: "business",
       businessType: "widget"
-    },
+    }/*,
     personalS1: {
       type: "Personal Loan",
       name: "Sister-In-Law Borrows Money",
@@ -3768,8 +3766,8 @@ APP.cards = {
       text: "Pay $300"
     }
   },
-  ownedRealEstateSmall: {},
-  ownedRealEstateBig: {}
+  /*ownedRealEstateSmall: {},
+  ownedRealEstateBig: {}*/
 };
 
 APP.display = {
@@ -3863,10 +3861,14 @@ APP.display = {
       if (arr[j].highlight === "on") {
         arr[j].highlight = "off";
       }
-      if (arr[j].selected == true) {
-        delete arr[j].selected;
+      if (arr[j].selected === true) {
+        arr[j].selected = false;
       }
     }
+    if (APP.ownedShares() == 0){
+      $("#show-stock-sell-form-btn").hide();
+    }
+    APP.finance.statement();
   },
   showBuyStockForm: function() {
     $("#show-stock-form-btn").hide();
@@ -4105,9 +4107,7 @@ APP.display = {
     var coinAssetArr = player.coinAssets;
 
     var incomeInterestTableId = document.getElementById("income-interest-body");
-    var incomeRealEstateTableId = document.getElementById(
-      "income-real-estate-body"
-    );
+    var incomeRealEstateTableId = document.getElementById("income-real-estate-body");
     var assetTableId = document.getElementById("asset-real-estate-body");
 
     $(incomeInterestTableId).empty();
@@ -4213,7 +4213,7 @@ APP.display = {
         "<tr class='assets-row coin-asset" +
         parseInt(APP.currentPlayerArrPos(), 10) +
         "-row' id='asset-c" +
-        parseInt(i, 10) +
+        parseInt(j, 10) +
         "-row'><td>" +
         amount +
         " " +
@@ -4225,14 +4225,14 @@ APP.display = {
       $(incomeInterestTableId).append(coinAssetRow);
     }
     for (var k = 0; k < businessAssetArr.length; k++) {
-      var tag = businessAssetArr[i].tag;
-      var cashFlow = businessAssetArr[i].cashFlow;
+      var tag = businessAssetArr[k].tag;
+      var cashFlow = businessAssetArr[k].cashFlow;
 
       var businessIncomeRow =
         "<tr class='income-row business-asset" +
         parseInt(APP.currentPlayerArrPos(), 10) +
         "-row' id='asset-b" +
-        parseInt(i, 10) +
+        parseInt(k, 10) +
         "-row'><td>" +
         tag +
         "</td><td>$" +
@@ -4280,8 +4280,12 @@ APP.display = {
           $("#sell-shares-form").show();
           $("#sell-stock-btn").show();
 
-          assetArr[i].selected = true;
-          //document.getElementById("share-amt-input-sell").value = assetArr[i].shares;
+          var idArr = rowId.split('');
+          var curIndex = Number(idArr[6]);
+
+          assetArr[curIndex].selected = true;
+          document.getElementById("share-cost-bought").innerHTML = String(assetArr[curIndex].price);
+          document.getElementById("share-amt-input-sell").value = assetArr[curIndex].shares;
         });
       }
     }

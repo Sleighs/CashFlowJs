@@ -81,10 +81,10 @@ body {
   height: 100%;
 }
 #new-room-button {
-  height: 175px;
+  height: 170px;
   width: 425px;
   font-size: 40px;
-  border-radius: 11px;
+  border-radius: 23px;
   border: 5pt ridge #FDD835;
   background-color: white;
   outline: none;
@@ -107,7 +107,7 @@ body {
   box-shadow: 0px 0px 1px 1px #FDD835;
   width: 245px;
   height: 360px;
-  border-radius: 5px;
+  border-radius: 8px;
   border: 3pt ridge #FDD835;
   padding: 25px;
   color: #FAFAFA;
@@ -143,7 +143,7 @@ body {
 #start-game {
   height: 70px;
   width: 244px;
-  border-radius: 4px;
+  border-radius: 8px;
   background-color: white;
   outline: none;
   font-size: 22pt;
@@ -303,7 +303,7 @@ body {
 #player7-piece,
 #player8-piece {
   display: block;
-  height: 10px;
+  height: 12px;
   width: 32px;
   margin: 2px;
   box-shadow: 0 0 0 0;
@@ -311,10 +311,11 @@ body {
   text-align: center;
   color: gold;
   font-weight: bold;
-  font-size: 6pt;
+  font-size: 7pt;
+    border-radius: 3px;
 }
 #player1-piece {
-  background-color: #0091EA;
+  background-color: #60ABD1;
   border: 1.5pt ridge gold;
 }
 #player2-piece {

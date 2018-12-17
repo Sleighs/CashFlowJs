@@ -17,7 +17,7 @@
     </div>
     <div id="game-selection-screen">
       <h1 id="home-title">CashFlowJs</h1>
-      <button id="new-room-button">Create New Room</button>
+      <button id="new-room-button">Create New Game</button>
     </div>
     <div id="setup-screen">
       <div id="setup-container">
@@ -199,7 +199,8 @@
                     <button id="increase-shares" onclick="APP.display.increaseShares();" type="button">+</button>
                     <button id="decrease-shares" onclick="APP.display.decreaseShares();" type="button"> - </button>
                   </div>
-                  <div class="share-amt-box" style="font-weight: bold; letter-spacing: 1px; font-size: 13pt; color: #212121;">For: $<span id="share-cost-sell"></span> each</div>
+                  <div class="share-amt-box" style="font-weight: bold; letter-spacing: 1px; font-size: 13pt; color: #212121;">At $<span id="share-cost-sell"></span> each <!--for $<span id="share-sell-total"></span>--></div>
+                  <div>Bought at $<span id="share-cost-bought"></span></div>
                 </div>
               </div>
             </div>

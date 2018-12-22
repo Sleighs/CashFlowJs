@@ -29,7 +29,6 @@ body {
 }
 
 #window {
-  /*height: 690px;*/
   width: 100%;
   display: fixed;
   margin: auto;

@@ -24,18 +24,18 @@
 }
 
 body {
-  width: 1140px;
+  width: 1366px;
   margin: auto;
 }
 
 #window {
-  height: 700px;
+  /*height: 690px;*/
   width: 100%;
   display: fixed;
   margin: auto;
   position: relative;
   font-family: "Roboto", sans-serif;
-  padding: 6px;
+  padding: 3px;
   border-radius: 5px;
 }
 .hide {
@@ -68,7 +68,6 @@ body {
   animation: blinker 1.9s linear infinite;
   animation-delay: 3s;
 }
-
 @keyframes blinker {
   50% { opacity: 0; }
 }
@@ -172,26 +171,27 @@ body {
   font-weight: 600;
   color: #4e342e;
 }
+
 #board-container {
   margin: auto;
   padding: 0;
-  height: 600px;
-  width: 100%;
+  width: 1140px;
   font-family: "Roboto", sans-serif;
+  border-radius: 3px;
 }
 #board {
   display: none;
   margin: auto;
   border: 2pt solid white;
-  height: 265px;
+  height: 268px;
   width: 1136px;
 }
 #board2 {
   display: none;
   margin: auto;
   border: 2pt solid white;
-  height: 600px;
-  width: 1136px;
+  width: 100%;
+  border-radius: 5px;
 }
 .cell {
   position: relative;
@@ -200,10 +200,12 @@ body {
   padding: 0px;
   color: white;
   height: 86px;
-  width: 8%;
+  width: 8.2%;
   font-size: 0.6em;
   letter-spacing: .2pt;
   text-align: center;
+  box-shadow: .2px .2px .2px .2px #4E342E;
+
 }
 .cell2 {
   position: relative;
@@ -211,11 +213,12 @@ body {
   left: 0px;
   padding: 0px;
   color: white;
-  height: 90px;
-  width: 120px;
+  height: 88px;
+  width: 98px;
   font-size: 8pt;
   letter-spacing: .2pt;
   text-align: center;
+  box-shadow: .2px .2px .2px .2px #4E342E;
 }
 .cell2-left {
   position: relative;
@@ -223,12 +226,13 @@ body {
   left: 0px;
   padding: 0px;
   color: white;
-  height: 90px;
-  width: 120px;
+  height: 88px;
+  width: 98px;
   font-size: 8pt;
   letter-spacing: .2pt;
   text-align: center;
   border: 2pt solid;
+  box-shadow: .2px .2px .2px .2px #4E342E;
 }
 .cell2-right {
   position: relative;
@@ -236,22 +240,20 @@ body {
   right: 0px;
   padding: 0px;
   color: white;
-  height: 90px;
-  width: 120px;
+  height: 88px;
+  width: 98px;
   font-size: 8pt;
   letter-spacing: .2pt;
   text-align: center;
   border: 2pt solid;
+  box-shadow: .2px .2px .2px .2px #4E342E;
 }
 .cell2-center {
   position: relative;
-  padding: 0px;
+  padding: 4px;
   color: #01030e;
-  height: 90px;
-  width: 6900px;
-  font-size: 8pt;
-  letter-spacing: .2pt;
-  text-align: center;
+  width: 1140px;
+  /*height: 690px;*/
   border: 2pt solid white;
 }
 .cellx {
@@ -299,6 +301,7 @@ body {
   border: 2pt solid;
   position: relative;
 }
+
 #player1-piece,
 #player2-piece,
 #player3-piece,
@@ -320,7 +323,7 @@ body {
     border-radius: 3px;
 }
 #player1-piece {
-  background-color: #60ABD1;
+  background-color: #4E342E;
   border: 1.5pt ridge gold;
 }
 #player2-piece {
@@ -351,6 +354,7 @@ body {
   background-color: #AD1457;
   border: 1.5pt ridge gold;
 }
+
 #info {
   display: none;
   background-color: white;
@@ -378,8 +382,9 @@ body {
   padding: 0 10px;
   background-color: white;
   margin: auto 5px;
-  border-radius: 6px;
-  box-shadow: 0 0 8px #212121;
+  border-radius: 5px;
+  box-shadow: 0 0 2px #212121;
+
 }
 #finance-box {
   width: 566px;
@@ -389,11 +394,15 @@ body {
   float: right;
   vertical-align: right;
   position: relative;
-  box-shadow: 0 0 8px #212121;
-  border-radius: 6px;
+  border-radius: 5px;
+  box-shadow: 0 0 2px #212121;
 }
+
 .opp-space {
   background-color: #43A047;
+}
+.opp-space2 {
+  background-color: #4E342E;
 }
 .lia-space {
   background-color: #546E7A;
@@ -443,6 +452,7 @@ body {
 }
 #table-row-player8 {
 }
+
 #dream-choices {
   display: block;
   height: 300px;
@@ -540,6 +550,7 @@ body {
   font-weight: bold;
   color: #3E2723;
 }
+
 #turn-info-box {
   height: 300px;
   width: 310px;
@@ -607,6 +618,7 @@ body {
   width: 300px;
   text-shadow: .5px .5px .4px #9CCFCB;
 }
+
 #repay-borrow-btns {
   margin: auto 0;
   width: 260px;
@@ -798,6 +810,7 @@ body {
   color: white;
   font-weight: bold;
 }
+
 #financial-statement-left,
 #financial-statement-right {
   display: inline-block;
@@ -853,7 +866,6 @@ body {
   padding-top: 2px;
   overflow: auto;
 }
-
 #asset-table,
 #liability-table {
   display: inline-block;
@@ -899,7 +911,6 @@ body {
 #asset-table-inner-real-estate {
   width: 128px;
 }
-
 #player-salary-income {
   float: right;
 }
@@ -908,8 +919,7 @@ body {
 #summary-cash-title {
   float: left;
 }
-.lia-table-row:hover
-{
+.lia-table-row:hover {
   background-color: #E8F5E9;
 }
 .assets-table-title {

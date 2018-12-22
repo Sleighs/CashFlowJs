@@ -485,14 +485,14 @@ body {
 #dream-heading {
   position: static;
   text-align: center;
-  font-size: 1.5em;
-  font-weight: 600;
-  font-family: "lato";
+  font-size: 1.65em;
+  font-weight: 700;
+  font-family: "quattrocento";
   margin: auto;
   padding: 0 20px 0 10px;
   color: #3E2723;
-  text-shadow: .5px .5px 1px #c2a500;
-  letter-spacing: 1.5px;
+  text-shadow: .2px .2px .5px #c2a500;
+  letter-spacing: 1.4px;
 }
 #dream-text {
   font-size: 1.2em;
@@ -532,8 +532,8 @@ body {
   padding: 5px;
   color: #3E2723;
   /*color: rgb(240, 202, 0);*/
-  text-shadow: .5px .5px 1px #c2a500;
-  font-size: 1.3em;
+  text-shadow: .2px .2px .5px #c2a500;
+  font-size: 1.33em;
   font-weight: bold;
   font-family: "lato";
   letter-spacing: 1px;

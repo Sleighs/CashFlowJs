@@ -4745,14 +4745,10 @@ $(document).ready(function() {
 });
 
 /*
-  12/15/2018
+  12/22/2018
   DONE
-  * buying and selling stocks
-  * click anywhere to start home
+  * phase 3 board added
 
   TODO
   * press and hold increment buttons
-  * fix sellstock selected Index
-  * add sell all button to the stocks
-  * show current selected stock => 'bought at price...' in the card view
 */

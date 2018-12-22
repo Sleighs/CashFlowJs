@@ -881,6 +881,9 @@ APP.finance = {
     //liabilities
     var lTable = document.getElementById("liability-table");
 
+
+    //upgrade to a render liabilities function
+    // v             v              v
     var mortgage = player.jobTitle[9];
     var carLoan = player.jobTitle[10];
     var creditCard = player.jobTitle[11];
@@ -1591,19 +1594,6 @@ APP.loadCard = function(boardPosition) {
     //APP.display.clearBtns();
 
     //send player to board 2
-    $("#board2").show();
-    $("#board").hide();
-    $("#board-container").css({'height': '1400'});
-
-    $("#info").appendTo("#fast-track-info");
-
-    //if not on fast track send to fast track
-  } else {
-    $("#board").show();
-    $("#board2").hide();
-    $("#board-container").css({'height': '600'} );
-
-    //$("#info").after("#fast-track-info");
     }
   */
 
@@ -3783,6 +3773,7 @@ APP.display = {
   ],
   renderBoard: function() {
     $("#board").show();
+    $("#board2").show();
     $("#board-container").show();
     $("#info").show();
     $("#player-list").show();
@@ -4746,7 +4737,7 @@ $(document).ready(function() {
   APP.initGame();
   $("#start-game").on("click", function() {
     $("#window").css("background-image", "");
-    $("#window").css("background-color", "#010410");
+    $("#window").css("background-color", "white"/*"#4E342E"/*#010410*/);
   });
   $("#reset-btn").on("click", function() {
    window.location.reload(false);

@@ -1,6 +1,8 @@
 ## Cash Flow Js
 
-**Cash Flow Js** is an adaptation of the Cash Flow 101 board game with additional gameplay options and rule customization that allows for many unique ways to play.
+**Cash Flow Js** is an adaptation of the Cash Flow 101 board game with additional gameplay options and rule customization that allows for many unique ways to play. Practice real world investing, employing financial strategies, and leveraging assets and liabilaties.
+
+"Fake money. Real Lessons"
 
 Preview at https://sleighs.github.io/CashFlowJs/
 

@@ -104,6 +104,7 @@ var APP = APP || {
     APP.clearAmounts();
 
     $("#end-turn-btn").hide();
+    $("#ft-end-turn-btn").hide();
 
     $("#opp-card-btns").hide();
     $("#buy-opp-button").hide();
@@ -114,8 +115,12 @@ var APP = APP || {
     $("#done-btn").hide();
     $("#pass-button").hide();
     $("#roll2-btn").hide();
+    $("#ft-roll2-btn").hide();
     $("#confirm-pay-btn").hide();
     $("#exp-child-row").hide();
+    $("#ft-turn-instructions").hide();
+    $("#ft-roll-btn").hide();
+    $("#ft-enter-btn").hide();
 
     $("#finish-instructions").hide();
   },
@@ -180,6 +185,9 @@ var APP = APP || {
     var player = APP.players[this.currentPlayerArrPos()];
     $("#finish-instructions").hide();
     $("#finish-turn-container").hide();
+    $("#ft-end-turn-btn").hide();
+    $("#fast-track-intro-card").hide();
+    $("#fast-track-option-card").hide();
 
     APP.display.clearBtns();
     APP.display.clearCards();
@@ -202,10 +210,24 @@ var APP = APP || {
       $(coinRowClass).hide();
     }
 
-    $("#turn-instructions").show();
     $("#card-btns").show();
-    $("#roll-btn").show();
-    $("#roll2-btn").hide();
+    if (player.fastTrack == false) {
+      $("#turn-instructions").show();
+      $("#roll-btn").show();
+      $("#roll2-btn").hide();
+      //show finance statement
+      if (player.fastTrackOption == true){
+        $("#ft-enter-btn").show();
+      } else {
+        $("#ft-enter-btn").hide();
+      }
+    } else {
+      $("#ft-turn-instructions").show();
+      $("#ft-roll-btn").show();
+      $("#ft-roll2-btn").hide();
+      $("#ft-enter-btn").hide();
+      // show fast track statement
+    }
 
     if (APP.currentPlayer < APP.pCount) {
       APP.currentPlayer++;
@@ -245,15 +267,20 @@ var APP = APP || {
       prevPlayerRowId.style.border = "1pt double #F5F5F5";
     }
 
-    var playerNameId = document.getElementById("player-name");
-    playerNameId.innerHTML = APP.name(APP.currentPlayer);
+    document.getElementById("player-name").innerHTML = APP.name(APP.currentPlayer);
+    document.getElementById("ft-player-name").innerHTML = APP.name(APP.currentPlayer);
 
     APP.turnCount++;
 
     if (player.charityTurns === 0) {
       $("#roll2-btn").hide();
+      $("#ft-roll2-btn").hide();
     } else {
-      $("#roll2-btn").show();
+      if (player.fastTrack == true) {
+        $("#ft-roll2-btn").show();
+      } else {
+        $("#roll2-btn").show();
+      }
       player.charityTurns--;
     }
 
@@ -572,9 +599,9 @@ var APP = APP || {
               document.getElementById("deal-re-rule").innerHTML =
                 currentDeal.rule;
               $("#pd-pay-button").show();
-            } else {
+            }/* else {
               $("#done-btn").show();
-            }
+            }*/
 
           }
         }
@@ -881,8 +908,7 @@ APP.finance = {
     //liabilities
     var lTable = document.getElementById("liability-table");
 
-
-    //upgrade to a render liabilities function
+    //upgrade to a render function
     // v             v              v
     var mortgage = player.jobTitle[9];
     var carLoan = player.jobTitle[10];
@@ -942,6 +968,35 @@ APP.finance = {
     document.getElementById("liability-boatloan").innerHTML = boatLoan;
 
     this.progressBar();
+
+    //Phase 3
+    var expenseBarEle = document.getElementById("income-expense-bar");
+
+    //--test
+    //expenseBarEle.style.width = "100%";
+
+    if (expenseBarEle.style.width == "100%") {
+      if (player.fastTrackOption == false) {
+        player.fastTrackOption = true;
+
+        APP.display.clearCards();
+        APP.display.clearBtns();
+
+        $("#fast-track-intro-card").show();
+
+        $("#turn-instructions").hide();
+        $("#finish-instructions").hide();
+        $("#ft-turn-instructions").hide();
+        $("#roll-btn").hide();
+        $("#ft-roll-btn").hide();
+        $("#fast-track-option-card").hide();
+
+        document.getElementById("ftic-player-name").innerHTML = APP.name(APP.currentPlayer);
+        document.getElementById("ftic-player-name-intro").innerHTML = APP.name(APP.currentPlayer);
+        $("#ftic-ok-btn").show();
+        $("#ft-enter-btn").show();
+      }
+    }
   },
   progressBar: function() {
     var player = APP.players[APP.currentPlayerArrPos()];
@@ -955,14 +1010,16 @@ APP.finance = {
     }
   },
   getIncome: function(currentPlayer) {
-    //total income = salary + assets
     var player = APP.players[currentPlayer];
     var salary = player.jobTitle[1];
     var assetIncome = player.assetIncome;
 
-    player.totalIncome = salary + assetIncome;
+    if (player.fastTrack == false){
+      player.totalIncome = salary + assetIncome;
+    } else {
+      player.totalIncome = player.cashFlowDay + assetIncome;
+    }
 
-    //include assets
     return player.totalIncome;
   },
   getExpenses: function(currentPlayer) {
@@ -979,16 +1036,20 @@ APP.finance = {
     var loanPayment = player.loanPayment;
     var boatPayment = player.boatPayment;
 
-    player.totalExpenses =
-      taxes +
-      mortgage +
-      car +
-      credit +
-      retail +
-      other +
-      children +
-      loanPayment +
-      boatPayment;
+    if (player.fastTrack == false){
+      player.totalExpenses =
+        taxes +
+        mortgage +
+        car +
+        credit +
+        retail +
+        other +
+        children +
+        loanPayment +
+        boatPayment;
+    } else {
+      player.totalExpenses = 0;
+    }
 
     //include assets
 
@@ -999,7 +1060,11 @@ APP.finance = {
     var income = this.getIncome(currentPlayer);
     var expenses = this.getExpenses(currentPlayer);
     var pay = income - expenses;
-    player.payday = pay;
+    if (player.fastTrack == false) {
+      player.payday = pay;
+    } else {
+      player.payday = player.cashFlowDay;
+    }
   },
   payDoodad: function() {
     var player = APP.players[APP.currentPlayerArrPos()];
@@ -1047,7 +1112,12 @@ APP.finance = {
     if (dPlayer.cash >= donation) {
       dPlayer.cash = dPlayer.cash - donation;
       dPlayer.charityTurns += 3;
-      APP.finishTurn();
+      if(dPlayer.fastTrack == true){
+        $("#ft-end-turn-btn").show();
+        $("charity-donate-btn").hide();
+      } else {
+        APP.finishTurn();
+      }
     } else {
       $("#charity-donate-btn").hide();
       $("#charity-card").hide();
@@ -1250,7 +1320,8 @@ APP.finance = {
       document.getElementById("share-amt-input").value
     );
 
-    let stockObj = JSON.parse(JSON.stringify(APP.currentDeal));
+    const stockObj = JSON.parse(JSON.stringify(APP.currentDeal));
+
     stockObj.selected = false;
 
     var shares = Number(stockObj.shares);
@@ -1465,12 +1536,13 @@ APP.finance = {
     $("#cannot-afford-loan-card").show();
     $("#borrow-offer-loan-btn").show();
     $("#no-loan-btn").show();
+    $("#ft-enter-btn").hide();
 
     document.getElementById("loan-offer").innerHTML = loan;
     document.getElementById("loan-offer-monthly-payment").innerHTML =
       loan * 0.1;
 
-    if (typeof APP.curretnDoodad.cost !== 'undefined' && APP.currentDoodad.cost > 0) {
+    if (APP.currentDoodad.cost && APP.currentDoodad.cost > 0) {
       $("#no-loan-btn").hide();
     }
   },
@@ -1514,7 +1586,7 @@ APP.finance = {
         case "Mutual Fund":
           $("#deal-card-stock").show();
           $("#show-stock-form-btn").show();
-          $("#pass-btn").show();
+          //$("#pass-btn").show();
           break;
         case "Property Damage":
           $("#deal-card-real-estate").show();
@@ -1554,7 +1626,7 @@ APP.finance = {
       APP.finance.statement();
     }
 
-    if (typeof APP.currentDoodad.cost !== 'undefined' && APP.currentDoodad.cost > 0) {
+    if (APP.currentDoodad.cost && APP.currentDoodad.cost > 0) {
       APP.display.clearCards();
       APP.display.clearBtns();
       $("#doodad-card").show();
@@ -1580,27 +1652,21 @@ APP.loadCard = function(boardPosition) {
   var playerObj = APP.players[APP.currentPlayerArrPos()];
   //hide turn instructions
   $("#turn-instructions").hide();
+  $("#ft-turn-instructions").hide();
   $("#repay-borrow-btns").hide();
   $("#roll-btn").hide();
   $("#roll2-btn").hide();
+  $("#ft-roll-btn").hide();
+  $("#ft-roll2-btn").hide();
   $("#end-turn-btn").hide();
+  $("#ft-end-turn-btn").hide();
   $("#confirm-pay-btn").hide();
-
-  //Phase 3
-  /*var expenseBarEle = document.getElementById("income-expense-bar");
-  if (expenseBarEle.style.width == "100%") {
-    //open phase three
-    //APP.display.clearCards();
-    //APP.display.clearBtns();
-
-    //send player to board 2
-    }
-  */
+  $("#ft-enter-btn").hide();
+  $("#fast-track-intro-card").hide();
 
   if (playerObj.payday < 0) {
     //if (player.realEstateAssets.length == 0){
       $("#bankrupt-game-over-card").show();
-
     /*} else {
       APP.finance.bankruptcy();
       APP.display.renderAssetTable();
@@ -1610,6 +1676,85 @@ APP.loadCard = function(boardPosition) {
       $("#br-settlement-offer").html(APP.currentSettlement);
 
     }*/
+  } else if (playerObj.fastTrack == true) {
+    var currentSquare = "square" + String(boardPosition);
+    switch(boardPosition){
+      // doodads
+      case 1:
+      case 7:
+      case 14:
+      case 21:
+      case 27:
+      case 34:
+        $("#doodad-card").show();
+        //--temp
+        $("#ft-end-turn-btn").show();
+        break;
+      // cashflow days
+      case 10:
+      case 18:
+      case 30:
+      case 38:
+        $("ft-cashflow-day").show();
+        $("#ft-end-turn-btn").show();
+        break;
+      // charity
+      case 2:
+        $("#charity-card").show();
+        $("#charity-donate-btn").show();
+        $("#ft-end-turn-btn").show();
+        break;
+      // deals
+      case 17:
+        $("#ft-opp-card").show();
+        $("#ft-deal-cash-flow-row").show();
+        $("#ft-deal-retun-row").hide();
+        //buy button
+        $("#ft-end-turn-btn").show();
+
+        $("#ft-opp-title").html(FASTTRACK.square[currentSquare].title);
+        $("#ft-card-text").html(FASTTRACK.square[currentSquare].text);
+        $("#ft-deal-return").html(FASTTRACK.square[currentSquare].returnText);
+        $("#ft-deal-cash-flow").html(FASTTRACK.square[currentSquare].cashFlowText);
+        break;
+      case 23:
+        $("#ft-opp-card").show();
+        $("#ft-deal-cash-flow-row").hide();
+        $("#ft-deal-retun-row").show();
+        //buy button
+        $("#ft-end-turn-btn").show();
+
+        $("#ft-opp-title").html(FASTTRACK.square[currentSquare].title);
+        $("#ft-card-text").html(FASTTRACK.square[currentSquare].text);
+        $("#ft-deal-return").html(FASTTRACK.square[currentSquare].returnText);
+        $("#ft-deal-cost").html(FASTTRACK.square[currentSquare].costText);
+        break;
+      case 33:
+        $("#ft-opp-card").show();
+        $("#ft-deal-cash-flow-row").hide();
+        $("#ft-deal-retun-row").show();
+        //buy button
+        $("#ft-end-turn-btn").show();
+
+        $("#ft-opp-title").html(FASTTRACK.square[currentSquare].title);
+        $("#ft-card-text").html(FASTTRACK.square[currentSquare].text);
+        $("#ft-deal-return").html(FASTTRACK.square[currentSquare].returnText);
+        $("#ft-deal-cost").html(FASTTRACK.square[currentSquare].costText);
+        break;
+      default:
+        $("#ft-opp-card").show();
+        $("#ft-deal-cash-flow-row").show();
+        $("#ft-deal-return-row").hide();
+
+        //buy btn
+        $("#ft-end-turn-btn").show();
+
+        $("#ft-opp-title").html(FASTTRACK.square[currentSquare].title);
+        $("#ft-card-text").html(FASTTRACK.square[currentSquare].text);
+        $("#ft-deal-cash-flow").html(FASTTRACK.square[currentSquare].cashFlowText);
+        $("#ft-deal-cost").html(FASTTRACK.square[currentSquare].costText);
+        break;
+      }
   } else {
   //opportunity
   if (boardPosition % 2 === 0 || boardPosition === 0) {
@@ -3755,9 +3900,7 @@ APP.cards = {
       cost: 300,
       text: "Pay $300"
     }
-  },
-  /*ownedRealEstateSmall: {},
-  ownedRealEstateBig: {}*/
+  }
 };
 
 APP.display = {
@@ -3781,6 +3924,7 @@ APP.display = {
     APP.display.showPlayerList();
     APP.display.showTurnInfo();
     APP.board.printSquares();
+    FASTTRACK.printSquares();
     APP.display.showTokens();
   },
   showTokens: function() {
@@ -3970,12 +4114,15 @@ APP.display = {
     $("#sell-stock-btn").hide();
     $("#confirm-settlement-btn").hide();
     $("#show-offer-btn").hide();
+    $("#ftic-ok-btn").hide();
+    $("#ft-enter-btn").hide();
 
     $("#buy-stock-btn").hide();
     $("#buy-real-estate-btn").hide();
     $("#buy-business-btn").hide();
   },
   clearCards: function() {
+    $("#turn-instructions").hide();
     $("#opp-card").hide();
     $("#deal-card-real-estate").hide();
     $("#deal-card-stock").hide();
@@ -4001,6 +4148,11 @@ APP.display = {
     $("#bankrupt-game-over-card").hide();
     $("#repay-loan-card").hide();
     $("#settlement-card").hide();
+    $("#fast-track-intro-card").hide();
+    $("#ft-opp-card").hide();
+    $("#fast-track-intro-card").hide();
+    $("#fast-track-option-card").hide();
+    $("#ft-cashflow-day").hide();
 
     $("#automated-cost-table").hide();
     $("#limited-cost-table").hide();
@@ -4280,6 +4432,28 @@ APP.display = {
         });
       }
     }
+  },
+  continue: function() {
+    //close fast track intro card
+    if (APP.players[APP.currentPlayerArrPos()].fastTrack == false){
+      $("#fast-track-intro-card").hide();
+      $("#ftic-ok-btn").hide();
+
+      if(APP.players[APP.currentPlayerArrPos()].fastTrackOption == true){
+        $("#ft-enter-btn").hide();
+      }  else {
+          $("#ft-enter-btn").hide();
+      }
+
+      $("#turn-instructions").show();
+      $("#roll-btn").show();
+    } else if (APP.players[APP.currentPlayerArrPos()].fastTrack == true){
+      $("#fast-track-option-card").hide();
+      $("#ftic-ok-btn").hide();
+
+      $("#ft-turn-instructions").show();
+      $("#ft-roll-btn").show();
+    }
   }
 };
 
@@ -4423,6 +4597,637 @@ APP.dreamPhase = {
 ]
 };
 
+var FASTTRACK = {
+  init: function() {
+    var playerObj = APP.players[APP.currentPlayerArrPos()];
+    var player = APP.currentPlayerArrPos();
+
+    APP.display.clearCards();
+    APP.display.clearBtns();
+
+    $("#fast-track-option-card").show();
+    $("#ftic-ok-btn").show();
+    $("#fast-track-intro-card").hide();
+    $("#ft-enter-btn").hide();
+    $("#roll-btn").hide();
+    $("#roll2-btn").hide();
+
+    // new salary
+    playerObj.cash += playerObj.payday * 100;
+    playerObj.cashFlowDay = playerObj.payday + 50000;
+
+    playerObj.fastTrack = true;
+    playerObj.fastTrackTurn = 1;
+
+    // remove assets
+    playerObj.stockAssets.splice(0, playerObj.stockAssets.length);
+    playerObj.realEstateAssets.splice(0, playerObj.realEstateAssets.length);
+    playerObj.businessAssets.splice(0, playerObj.businessAssets.length);
+    playerObj.coinAssets.splice(0, playerObj.coinAssets.length);
+    playerObj.personalAssets.splice(0, playerObj.personalAssets.length);
+
+    //new current position
+    var newPosition = 0;
+    switch(player) {
+      case 0:
+        newPosition += 1;
+        break;
+      case 1:
+        newPosition += 7;
+        break;
+      case 2:
+        newPosition += 14;
+        break;
+      case 3:
+        newPosition += 21;
+        break;
+      case 4:
+        newPosition += 27;
+        break;
+      case 5:
+        newPosition += 34;
+        break;
+      case 6:
+        newPosition += 1;
+        break;
+      case 7:
+        newPosition += 7;
+        break;
+    }
+    //send to board2
+    var oldTokenElement = document.getElementById(
+      "tokenSection" + parseInt(playerObj.position, 10)
+    );
+    var playerTokenEle = document.getElementById(
+      "player" + parseInt(APP.currentPlayer, 10) + "-piece"
+    );
+    playerTokenEle.remove();
+    // Add token to new section
+    playerObj.position = newPosition;
+    console.log(playerObj.position);
+    var token = APP.display.tokens[player].ele;
+    var newSquare = document.getElementById(
+      "tokenSection2-" + parseInt(playerObj.position, 10)
+    );
+    $(token).appendTo(newSquare);
+
+    APP.finance.statement();
+  },
+  rollDie: function(dieCount) {
+    var die = Math.floor(Math.random() * 6) + 1;
+    return die * dieCount;
+  },
+  movePlayer: function(dieCount) {
+    //move player piece the amount of rolledDie
+    var player = APP.currentPlayerArrPos();
+    var pObj = APP.players[player];
+    var previousPosition = pObj.position;
+    var dice = this.rollDie(dieCount);
+
+    var token = APP.display.tokens[player];
+
+    //remove old piece
+    var oldTokenElement = document.getElementById(
+      "tokenSection2-" + parseInt(pObj.position, 10)
+    );
+    var playerTokenEle = document.getElementById(
+      "player" + parseInt(APP.currentPlayer, 10) + "-piece"
+    );
+    playerTokenEle.remove();
+    //update board position
+    this.updatePosition(dice);
+    // Add token to new section
+    var token = APP.display.tokens[player].ele;
+    var currentPosition = pObj.position;
+    var newSquare = document.getElementById(
+      "tokenSection2-" + parseInt(currentPosition, 10)
+    );
+    $(token).appendTo(newSquare);
+
+    //when player lands on square load card
+    APP.loadCard(currentPosition);
+
+    if (previousPosition < 10 && currentPosition >= 10) {
+      pObj.cash += pObj.payday;
+    } else if (previousPosition < 18 && currentPosition >= 18) {
+      pObj.cash += pObj.payday;
+    } else if (previousPosition < 30 && currentPosition >= 30) {
+      pObj.cash += pObj.payday;
+    } else if (previousPosition < 38 && previousposition + dice >= 38) {
+      pObj.cash += pObj.payday;
+    }
+
+    APP.finance.statement();
+  },
+  updatePosition: function(dice) {
+    var player = APP.players[APP.currentPlayerArrPos()];
+
+    if (player.position + dice <= 40) {
+      player.position += dice;
+    } else {
+      var pos = player.position + dice;
+      pos -= 40;
+      player.position = pos;
+    }
+  },
+  square: {
+    doodad1: {
+      title: "HEALTHCARE"
+    },
+    charity: {
+      title: "CHARITY",
+      text: "Donate 10% of CASHFLOW Day Income and use 1 or 2 dice for next 3 turns"
+    },
+    square3: {
+      title: "Burger Shop",
+      text: "+9,500/mo Cash Flow 38% Cash-on-Cash return",
+      cashFlowText:"$9,500",
+      costText: "$300,000",
+      cashFlow: 9500,
+      cost: 300000
+    },
+    square4: {
+      title: "Heat & A/C Service",
+      text: "+10,000/mo Cash Flow 60% Cash-on-Cash return",
+      cashFlowText: "$10,000",
+      costText: "$200,000",
+      cashFlow: 10000,
+      cost: 200000
+    },
+    square5: {
+      title: "Quick Food Market",
+      text: "+5,000/mo Cash Flow 50% Cash-on-Cash return",
+      cashFlowText: "$5,000",
+      costText: "$120,000",
+      cashFlow: 5000,
+      cost: 120000
+    },
+    square6: {
+      title: "Assisted Living Center",
+      text: "+8,000/mo Cash Flow 24% Cash-on-Cash return",
+      cashFlowText: "$8,000",
+      costText: "$400,000",
+      cashFlow: 8000,
+      cost: 400000
+    },
+    doodad2:{
+      title: "lawsuit"
+    },
+    square8: {
+      title: "Ticket Sales Company",
+      text: "+5,000/mo Cash Flow 40% Cash-on-Cash return",
+      cashFlowText: "$5,000",
+      costText: "$150,000",
+      cashFlow: 5000,
+      cost: 150000
+    },
+    square9: {
+      title: "Hobby Supply Store",
+      text: "+3,000/mo Cash Flow 36% Cash-on-Cash return",
+      cashFlowText: "$3,000",
+      costText: "$100,000",
+      cashFlow: 3000,
+      cost: 100000
+    },
+    cashFlowDay1: {
+      title: "cashflow day"
+    },
+    square11: {
+      title: "Fried Chicken Restaurant",
+      text: "+10,000/mo Cash Flow 40% Cash-on-Cash return",
+      cashFlowText: "$10,000",
+      costText: "$300,000",
+      cashFlow: 10000,
+      cost: 300000
+    },
+    square12: {
+      title: "Dry Dock Storage",
+      text: "+3,000/mo Cash Flow 36% Cash-on-Cash return",
+      cashFlowText: "$3,000",
+      costText: "$100,000",
+      cashFlow: 3000,
+      cost: 100000
+    },
+    square13: {
+      title: "Beauty Salon",
+      text: "+10,000/mo Cash Flow 48% Cash-on-Cash return",
+      cashFlowText: "$10,000",
+      costText: "$250,000",
+      cashFlow: 10000,
+      cost: 250000
+    },
+    doodad3: {
+      title: "tax audit"
+    },
+    square15: {
+      title: "Auto Repair Shop",
+      text: "+6,000/mo Cash Flow 48% Cash-on-Cash return",
+      cashFlowText: "$6,000",
+      costText: "$150,000",
+      cashFlow: 6000,
+      cost: 150000
+    },
+    square16: {
+      title: "Extreme Sports Equipment Rental",
+      text: "+5,000/mo Cash Flow 40% Cash-on-Cash return",
+      cashFlowText: "$5,000",
+      costText: "$150,000",
+      cashFlow: 5000,
+      cost: 150000
+    },
+    square17: {
+      title: "Foreign Oil Deal",
+      text: "+75,000/mo Cash Flow if you roll a 6 on one die, or else $0 Cash Flow",
+      costText: "$750,000",
+      cashFlowText: "$75,000",
+      cashFlow: 75000,
+      cost: 750000
+    },
+    cashFlowDay2: {
+      title: "CASHFLOW DAY"
+    },
+    square19: {
+      title: "Movie Theater",
+      text: "+6,000/mo Cash Flow 48% Cash-on-Cash return",
+      cashFlowText: "$6,000",
+      costText: "$150,000",
+      cashFlow: 6000,
+      cost: 150000
+    },
+    square20: {
+      title: "Research Disease Center",
+      text: "+8,000/mo Cash Flow 32% Cash-on-Cash return",
+      cashFlowText: "$8,000",
+      costText: "$300,000",
+      cashFlow: 8000,
+      cost: 300000
+    },
+    doodad4: {
+      title: "bad partner"
+    },
+    square22: {
+      title: "App Development Company",
+      text: "+5,000/mo Cash Flow 40% Cash-on-Cash return",
+      cashFlowText: "$5,000",
+      costText: "$150,000",
+      cashFlow: 5000,
+      cost: 150000
+    },
+    square23: {
+      title: "Software Co. IPO",
+      text: "Buy 250,000 shares at 10 cents/share. If you roll a 6 on one die, shares go to $2/share - get $500,000 cash from bank. Roll less than 6, get $0.",
+      returnText: "$500,000",
+      costText: "$25,000",
+      return: 500000,
+      cost: 25000
+    },
+    square24: {
+      title: "Coffee Shop",
+      text: "+5,000/mo Cash Flow 50% Cash-on-Cash return",
+      cashFlowText: "$5,000",
+      costText: "$120,000",
+      cashFlow: 5000,
+      cost: 120000
+    },
+    square25: {
+      title: "400-Unit Apartment Building",
+      text: "+8,000/mo Cash Flow 48% Cash-on-Cash return",
+      cashFlowText: "$8,000",
+      costText: "$200,000",
+      cashFlow: 8000,
+      cost: 200000
+    },
+    square26: {
+      title: "Island Vacation Rentals",
+      text: "+3,000/mo Cash Flow 36% Cash-on-Cash return",
+      cashFlowText: "$3,000",
+      costText: "$100,000",
+      cashFlow: 3000,
+      cost: 100000
+    },
+    doodad5: {
+      title: "divorce"
+    },
+    square28: {
+      title: "Build Pro Golf Course",
+      text: "+6,000/mo Cash Flow 48% Cash-on-Cash return",
+      cashFlowText: "$6,000",
+      costText: "$150,000",
+      cashFlow: 6000,
+      cost: 150000
+    },
+    square29: {
+      title: "Pizza Shop",
+      text: "+7,000/mo Cash Flow 37.3% Cash-on-Cash return",
+      cashFlowText: "$7,000",
+      costText: "$225,000",
+      cashFlow: 7000,
+      cost: 225000
+    },
+    cashFlowDay3: {
+      title: "cashflow day"
+    },
+    square31: {
+      title: "Collectibles Store",
+      text: "+3,000/mo Cash Flow 36% Cash-on-Cash return",
+      cashFlowText: "$3,000",
+      costText: "$100,000",
+      cashFlow: 3000,
+      cost: 100000
+    },
+    square32: {
+      title: "Frozen Yogurt Shop",
+      text: "+3,000/mo Cash Flow 30% Cash-on-Cash return",
+      cashFlowText: "$3,000",
+      costText: "$120,000",
+      cashFlow: 3000,
+      cost: 120000
+    },
+    square33: {
+      title: "Bio Tech Co. IPO",
+      text: "If you invest, pay $50,000 and roll one die. If you roll a 5 or 6, collect $500,000! If less, you lose your investment and collect nothing",
+      returnText: "$500,000",
+      costText: "$50,000",
+      return: 500000,
+      cost: 50000
+    },
+    doodad6: {
+      title: "unforseen repairs"
+    },
+    square35: {
+      title: "200-Unit Mini Storage",
+      text: "+6,000/mo Cash Flow 36% Cash-on-Cash return",
+      cashFlowText: "$6,000",
+      costText: "$200,000",
+      cashFlow: 6000,
+      cost: 200000
+    },
+    square36: {
+      title: "Dry Cleaning Business",
+      text: "+3,000/mo Cash Flow 24% Cash-on-Cash return",
+      cashFlowText: "$3,000",
+      costText: "$150,000",
+      cashFlow: 3000,
+      cost: 150000
+    },
+    square37: {
+      title: "Mobile Home Park",
+      text: "+9,000/mo Cash Flow 27% Cash-on-Cash return",
+      cashFlowText: "$9,000",
+      costText: "$400,000",
+      cashFlow: 9000,
+      cost: 400000
+    },
+    cashFlowDay4: {
+      title: "cashflow day"
+    },
+    square39: {
+      title: "Family Restaurant",
+      text: "+14,000/mo Cash Flow 56% Cash-on-Cash return",
+      cashFlowText: "$14,000",
+      costText: "$300,000",
+      cashFlow: 14000,
+      cost: 300000
+    },
+    square40: {
+      title: "Private Wildlife Reserve",
+      text: "+5,000/mo Cash Flow 30% Cash-on-Cash return",
+      cashFlowText: "$5,000",
+      costText: "$120,000",
+      cashFlow: 5000,
+      cost: 120000
+    }
+  },
+  printSquares: function() {
+    document.getElementById("cell201").innerHTML =
+      "<div class ='cellx2'><div id='tokenSection2-1'></div>" +
+      "<span class='fast-track-space-title'>HEALTHCARE!</span><br>" +
+      "<div class='fast-track-cell-info'><span>Roll die one die.</span><br>" +
+      "<span>If it's 1-3, you're covered.</span><br>" +
+      "<span>If it's 4-6, you're not- Pay all of your cash.</span></div></div>";
+    document.getElementById("cell202").innerHTML =
+      "<div class ='cellx2'><div id='tokenSection2-2'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.charity.title + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + FASTTRACK.square.charity.text  + "</span></div></div>";
+    document.getElementById("cell203").innerHTML =
+      "<div class ='cellx2'><div id='tokenSection2-3'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square3.title + "</span><br>" +
+      "<div class='fast-track-cell-info'><span> +9,500/mo CF </span><br>" +
+      "<span> $300,000 down </span></div></div>";
+    document.getElementById("cell204").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-4'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square4.title + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+10,000/mo CF" + "</span><br>" +
+      "<span>" + "$200,000 down" + "</span></div></div>";
+    document.getElementById("cell205").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-5'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square5.title+ "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+5,000/mo CF" + "</span><br>" +
+      "<span>" + "$120,000 down" + "</span></div></div>";
+    document.getElementById("cell206").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-6'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square6.title + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+8,000/mo CF" + "</span><br>" +
+      "<span>" + "$400,000 down" + "</span></div></div>";
+    document.getElementById("cell207").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-7'></div>" +
+      "<span class='fast-track-space-title'>LAWSUIT!</span><br>" +
+      "<div class='fast-track-cell-info'><span>Pay one half of your cash to defend yourself.</span></div></div>";
+    document.getElementById("cell208").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-8'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square8.title + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+5,000/mo CF" + "</span><br>" +
+      "<span>" + "$150,000 down" + "</span></div></div>";
+    document.getElementById("cell209").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-9'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square9.title + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+3,000/mo CF" + "</span><br>" +
+      "<span>" + "$100,000 down" + "</span></div></div>";
+    document.getElementById("cell210").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-10'></div>" +
+      "<span class='fast-track-space-title'><br> CASHFLOW <br> DAY</span>" +
+      "</div>";
+    document.getElementById("cell211").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-11'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square11.title + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+10,000/mo CF" + "</span><br>" +
+      "<span>" + "$300,000 down" + "</span></div></div>";
+    document.getElementById("cell212").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-12'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square12.title + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+3,000/mo CF" + "</span><br>" +
+      "<span>" + "$100,000 down" + "</span></div></div>";
+    document.getElementById("cell213").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-13'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square13.title + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+10,000/mo CF" + "</span><br>" +
+      "<span>" + "$250,000 down" + "</span></div></div>";
+    document.getElementById("cell214").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-14'></div>" +
+      "<span class='fast-track-space-title'>TAX AUDIT!</span><br>" +
+      "<div class='fast-track-cell-info'><span>Pay accountants and lawyers one half of your cash.</span></div></div>";
+    document.getElementById("cell215").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-15'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square15.title  + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+6,000/mo CF" + "</span><br>" +
+      "<span>" + "$150,000 down" + "</span></div></div>";
+    document.getElementById("cell216").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-16'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square16.title  + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+5,000/mo CF" + "</span><br>" +
+      "<span>" + "$150,000 down" + "</span></div></div>";
+    document.getElementById("cell217").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-17'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square17.title  + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+75,000/mo CF if you roll a 6 on one die, or else $0 CF" + "</span><br>" +
+      "<span>" + "$750,000 Investment" + "</span></div></div>";
+    document.getElementById("cell218").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-18'></div>" +
+      "<span class='fast-track-space-title'><br> CASHFLOW <br> DAY</span>" +
+      "</div>";
+    document.getElementById("cell219").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-19'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square19.title  + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+6,000/mo CF" + "</span><br>" +
+      "<span>" + "$150,000 Down" + "</span></div></div>";
+    document.getElementById("cell220").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-20'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square20.title  + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+8,000/mo CF" + "</span><br>" +
+      "<span>" + "$300,000 Down" + "</span></div></div>";
+    document.getElementById("cell221").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-21'></div>" +
+      "<span class='fast-track-space-title'>BAD PARTNER</span><br>" +
+      "<div class='fast-track-cell-info'><span>Lose lowest cash-flowing asset</span></div></div>";
+    document.getElementById("cell222").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-22'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square22.title  + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+5,000/mo CF" + "</span><br>" +
+      "<span>" + "$150,000 Down" + "</span></div></div>";
+    document.getElementById("cell223").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-23'></div>" +
+      "<span class='fast-track-space-title' style='font-size: 10px;'>" + FASTTRACK.square.square23.title  + "</span><br>" +
+      "<div class='fast-track-cell-info'><span style='font-size: 7px;'>Buy 250,000 shares at 10 cents. Roll a 6, shares go to $2, collect $500,000, else get $0. </span><br>" +
+      "<span> $25,000 Investment </span></div></div>";
+    document.getElementById("cell224").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-24'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square24.title  + "</span><br>" +
+      "<div class='fast-track-cell-info'><span> +$5,000/mo CF </span><br>" +
+      "<span> $120,000 Down </span></div></div>";
+    document.getElementById("cell225").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-25'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square25.title  + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+8,000/mo CF" + "</span><br>" +
+      "<span>" + "$300,000 Down" + "</span></div></div>";
+    document.getElementById("cell226").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-26'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square26.title  + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+3,000/mo CF" + "</span><br>" +
+      "<span>" + "$100,000 Down" + "</span></div></div>";
+    document.getElementById("cell227").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-27'></div>" +
+      "<span class='fast-track-space-title'>DIVORCE!</span><br>" +
+      "<div class='fast-track-cell-info'><span>Lose half of your cash.</span></div></div>";
+    document.getElementById("cell228").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-28'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square28.title  + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+6,000/mo CF" + "</span><br>" +
+      "<span>" + "$150,000 Down" + "</span></div></div>";
+    document.getElementById("cell229").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-29'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square29.title  + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+7,000/mo CF" + "</span><br>" +
+      "<span>" + "$225,000 Down" + "</span></div></div>";
+    document.getElementById("cell230").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-30'></div>" +
+      "<span class='fast-track-space-title'><br> CASHFLOW <br> DAY</span></div>";
+    document.getElementById("cell231").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-31'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square31.title  + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+3,000/mo CF" + "</span><br>" +
+      "<span>" + "$100,000 Down" + "</span></div></div>";
+    document.getElementById("cell232").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-32'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square32.title + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+5,000/mo CF" + "</span><br>" +
+      "<span>" + "$120,000 Down" + "</span></div></div>";
+    document.getElementById("cell233").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-33'></div>" +
+      "<span class='fast-track-space-title' style='font-size: 10px;'>" + FASTTRACK.square.square33.title + "</span><br>" +
+      "<div class='fast-track-cell-info'><span style='font-size: 8px;'>Pay $50,000, if you roll a 5 or 6 collect $500,000, otherwise collect $0 </span><br>" +
+      "<span> $50,000 Investment </span></div></div>";
+    document.getElementById("cell234").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-34'></div>" +
+      "<span class='fast-track-space-title'>UNFORSEEN REPAIRS</span><br>" +
+      "<div class='fast-track-cell-info'><span>Pay 10x monthly cash flow of lowest cash flowing asset or lose business</span></div></div>";
+    document.getElementById("cell235").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-35'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square35.title  + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+6,000/mo CF" + "</span><br>" +
+      "<span>" + "$200,000 Down" + "</span></div></div>";
+    document.getElementById("cell236").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-36'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square36.title  + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+3,000/mo CF" + "</span><br>" +
+      "<span>" + "$150,000 Down" + "</span></div></div>";
+    document.getElementById("cell237").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-37'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square37.title  + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+9,000/mo CF" + "</span><br>" +
+      "<span>" + "$400,000 Down" + "</span></div></div>";
+    document.getElementById("cell238").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-38'></div>" +
+      "<span class='fast-track-space-title'><br> CASHFLOW <br> DAY</span></div>";
+    document.getElementById("cell239").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-39'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square39.title  + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+9,000/mo CF" + "</span><br>" +
+      "<span>" + "$400,000 Down" + "</span></div></div>";
+    document.getElementById("cell240").innerHTML =
+      "<div class ='cellx2'>" +
+      "<div id='tokenSection2-40'></div>" +
+      "<span class='fast-track-space-title'>" + FASTTRACK.square.square40.title  + "</span><br>" +
+      "<div class='fast-track-cell-info'><span>" + "+9,000/mo CF" + "</span><br>" +
+      "<span>" + "$400,000 Down" + "</span></div></div>";
+  }
+};
+
 APP.scenario = function(
   jobTitle,
   startingSalary,
@@ -4477,6 +5282,10 @@ APP.scenario = function(
   this.businessAssets = [];
   this.coinAssets = [];
   this.personalAssets = [];
+  this.fastTrack = false;
+  this.fastTrackOption = false;
+
+  this.cashFlowDay = 0;
 };
 
 APP.scenarioChoices = [
@@ -4745,10 +5554,20 @@ $(document).ready(function() {
 });
 
 /*
-  12/22/2018
+  12/27/2018
   DONE
-  * phase 3 board added
+  * fast track board piece movement functionality
+  * enter phase three functionality
+  * fast track cashflow day added
+  * fast track board spaces added
+  * fast track charity functionality
 
   TODO
-  * press and hold increment buttons
+  * add text for when a player cannot utilize an offer => 'you do not own any of this property' prompt
+  * press and hold functionality for increment buttons
+  * add sell software company functinality
+  * fix overpaying loans
+  * fix the fourth cashflow day space
+  * cashflow day income - passive income remains
+  * fix selling a 12 plex for 25k each unit
 */

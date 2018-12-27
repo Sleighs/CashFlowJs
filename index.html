@@ -411,6 +411,45 @@
                       <p><button id="play-again-btn" onclick="window.location.reload(false);">Play Again</button></p>
                     </div>
 
+                    <div id="fast-track-intro-card">
+                      <h2 class="card-title">CONGRATULATIONS!</h2>
+                      <h2 class="card-title">WELCOME TO THE FAST TRACK!</h2>
+                      <p><span id="ftic-player-name-intro"></span> can enter the Fast Track</p>
+                      <p>Receive 100x your passive income. Increase your CASHFLOW DAY income by $50,000 to win the game.</p>
+                    </div>
+                    <div id="fast-track-option-card">
+                      <h2 class="card-title">CONGRATULATIONS!</h2>
+                      <h2 class="card-title">YOU ARE OUT OF THE RAT RACE!</h2>
+                      <p><span id="ftic-player-name"></span> has built up their passive income to be greater than their total expenses.
+                      <br>You may now enter the Fast Track.</p>
+                      <p>If you enter, receive 100x your passive income. Increase your CASHFLOW DAY income by $50,000 to win the game.</p>
+                    </div>
+                    <div id="ft-turn-instructions">
+                      <h2 class="card-title"><span id="ft-player-name"></span>'s turn</h2>
+                      <h3>When you are ready, roll the die and take your turn</h3>
+                    </div>
+                    <div id="ft-opp-card">
+                      <div class="card-title">
+                        <h2><span id="ft-opp-title"></span></h2>
+                      </div>
+                      <p id="ft-card-text"></p>
+                      <table id="ft-deal-cost-table">
+                        <tr id="ft-deal-cash-flow-row">
+                          <td>Cash flow: <span id="ft-deal-cash-flow"></span></td>
+                        </tr>
+                        <tr id="ft-deal-return-row">
+                          <td>Possible Return: <span id="ft-deal-return"></span></td>
+                        </tr>
+                        <tr>
+                          <td>Cost: <span id="ft-deal-cost"></span></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="ft-cashflow-day">
+                      <h2 class="card-title">CASHFLOW DAY!</h2>
+                      <h3></h3>
+                    </div>
+
                     <div id="repay-borrow-btns">
                       <button id="repay-btn" onclick="APP.display.repay();">Repay</button>
                       <button id="borrow-btn" onclick="APP.display.borrow();">Borrow</button>
@@ -419,6 +458,8 @@
                     <div id="card-btns">
                       <button class="card-btn" id="roll-btn" onclick="APP.movePlayer(1);">ROLL</button>
                       <button class="card-btn" id="roll2-btn" onclick="APP.movePlayer(2);">ROLL 2x</button>
+                      <button class="card-btn" id="ft-roll-btn" onclick="FASTTRACK.movePlayer(1);">ROLL</button>
+                      <button class="card-btn" id="ft-roll2-btn" onclick="FASTTRACK.movePlayer(2);">ROLL 2x</button>
                       <button class="card-btn" id="small-deal-btn" onclick="APP.smallDeal();">SMALL</button>
                       <button class="card-btn" id="big-deal-btn" onclick="APP.bigDeal();">BIG</button>
 
@@ -446,6 +487,10 @@
                       <button class="card-btn" id="done-btn" onclick="APP.finishTurn();">DONE</button>
                       <button class="card-btn" id="done-buy-sell-btn" onclick="APP.display.showStockCard();">DONE</button>
                       <button class="card-btn" id="borrow-doodad-loan-btn" onclick="APP.finance.getLoan(); APP.finishTurn();">BORROW</button>
+
+                      <button class="card-btn" id="ftic-ok-btn" onclick="APP.display.continue();">OK</button>
+                      <button class="card-btn" id="ft-enter-btn" onclick="FASTTRACK.init();">ENTER FAST TRACK</button>
+                      <button class="card-btn" id="ft-end-turn-btn" onclick="APP.nextTurn();">END TURN</button>
                     </div>
 
                     <div id="finish-turn-container">

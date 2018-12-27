@@ -24,7 +24,7 @@
 }
 
 body {
-  width: 1366px;
+  width: 1346px;
   margin: auto;
 }
 
@@ -34,7 +34,7 @@ body {
   margin: auto;
   position: relative;
   font-family: "Roboto", sans-serif;
-  padding: 3px;
+  padding: 0px;
   border-radius: 5px;
 }
 .hide {
@@ -174,7 +174,7 @@ body {
 #board-container {
   margin: auto;
   padding: 0;
-  width: 1140px;
+  width: 1126px;
   font-family: "Roboto", sans-serif;
   border-radius: 3px;
 }
@@ -183,7 +183,7 @@ body {
   margin: auto;
   border: 2pt solid white;
   height: 268px;
-  width: 1136px;
+  width: 1120px;
 }
 #board2 {
   display: none;
@@ -196,7 +196,6 @@ body {
   position: relative;
   top: 0px;
   left: 0px;
-  padding: 0px;
   color: white;
   height: 86px;
   width: 8.2%;
@@ -204,7 +203,6 @@ body {
   letter-spacing: .2pt;
   text-align: center;
   box-shadow: .2px .2px .2px .2px #4E342E;
-
 }
 .cell2 {
   position: relative;
@@ -213,7 +211,7 @@ body {
   padding: 0px;
   color: white;
   height: 88px;
-  width: 98px;
+  width: 92px;
   font-size: 8pt;
   letter-spacing: .2pt;
   text-align: center;
@@ -226,7 +224,7 @@ body {
   padding: 0px;
   color: white;
   height: 88px;
-  width: 98px;
+  width: 94px;
   font-size: 8pt;
   letter-spacing: .2pt;
   text-align: center;
@@ -240,7 +238,7 @@ body {
   padding: 0px;
   color: white;
   height: 88px;
-  width: 98px;
+  width: 94px;
   font-size: 8pt;
   letter-spacing: .2pt;
   text-align: center;
@@ -249,9 +247,9 @@ body {
 }
 .cell2-center {
   position: relative;
-  padding: 4px;
+  padding: 2px;
   color: #01030e;
-  width: 1140px;
+  width: 1120px;
   /*height: 690px;*/
   border: 2pt solid white;
 }
@@ -262,6 +260,27 @@ body {
   height: 40px;
   width: 82px;
   text-align: center;
+  font-weight: 550;
+  letter-spacing: 1px;
+}
+.cellx2 {
+  position: absolute;
+  bottom: 0;
+  padding: 1.5px;
+  height: 70px;
+  width: 92px;
+  text-align: center;
+  font-family: "lato";
+}
+.fast-track-cell-info {
+  height: 80px;
+  padding: 2px;
+  font-size: 9px;
+}
+.fast-track-space-title{
+  font-weight: 700;
+  letter-spacing: 1px;
+
 }
 #tokenSection0,
 #tokenSection1,
@@ -314,12 +333,13 @@ body {
   width: 32px;
   margin: 2px;
   box-shadow: 0 0 0 0;
-  position: relative;
+  position: absolute;
   text-align: center;
   color: gold;
   font-weight: bold;
   font-size: 7pt;
-    border-radius: 3px;
+  border-radius: 3px;
+  z-index: 3;
 }
 #player1-piece {
   background-color: #4E342E;
@@ -368,11 +388,13 @@ body {
   display: none;
 }
 #player-list {
-  height: 366px;
+  height: 364px;
   width: 175px;
   vertical-align: top;
-  padding: 3px;
-  font-family: 'Montserrat';
+  padding: 4px;
+  font-family: 'Lato';
+  color: ;
+  text-shadow: 0px 0px 0px #4E342E;
 }
 #turn-info {
   width: 328px;
@@ -380,13 +402,13 @@ body {
   position: relative;
   padding: 0 10px;
   background-color: white;
-  margin: auto 5px;
+  margin: auto 4px;
   border-radius: 5px;
   box-shadow: 0 0 2px #212121;
 
 }
 #finance-box {
-  width: 566px;
+  width: 565px;
   height: 410px;
   padding: 0 4px;
   margin-right: 8px;
@@ -454,7 +476,7 @@ body {
 
 #dream-choices {
   display: block;
-  height: 300px;
+  height: 334px;
   width: 310px;
 }
 #dream-nav {
@@ -491,7 +513,7 @@ body {
   margin: auto;
   padding: 0 20px 0 10px;
   color: #3E2723;
-  text-shadow: .2px .2px .5px #c2a500;
+  text-shadow: .4px .4px 2px #c2a500;
   letter-spacing: 1.4px;
 }
 #dream-text {
@@ -499,14 +521,15 @@ body {
   font-weight: bold;
   font-family: 'lato';
   color: #3E2723;
-  padding: 3% 0;
+  padding: 4% 1%;
+  text-shadow: 0px 0px 0px #c2a500;
 }
 #dream-description {
   display: block;
   font-family: "roboto";
   height: 35%;
   width: 92%;
-  padding: 4%;
+  padding: 0 4%;
   margin: auto;
 }
 #dream-info {
@@ -519,6 +542,8 @@ body {
   font-family:'lato';
   display: block;
   position: relative;
+  padding: 2% 1%;
+  color: #3E2723;
 }
 #dream-choice-btn {
   position: relative;
@@ -531,8 +556,7 @@ body {
   margin: 4% auto;
   padding: 5px;
   color: #3E2723;
-  /*color: rgb(240, 202, 0);*/
-  text-shadow: .2px .2px .5px #c2a500;
+  text-shadow: .5px .5px 3px #c2a500;
   font-size: 1.33em;
   font-weight: bold;
   font-family: "lato";
@@ -612,10 +636,12 @@ body {
   margin: auto;
 }
 .card-title {
-  color: #263238;
+  color: #4E342E;
+  text-shadow: .2px .2px .2px #7DCEA0;
   font-weight: bold;
   width: 300px;
-  text-shadow: .5px .5px .4px #9CCFCB;
+  /*color: #263238;
+  text-shadow: .5px .5px .4px #9CCFCB;*/
 }
 
 #repay-borrow-btns {
@@ -646,8 +672,9 @@ body {
 .card-btn {
   font-weight: bold;
   font-family: 'lato';
-  color: #004D40;
-  text-shadow: .6px .6px .6px #7DCEA0
+  color: #4E342E/*#004D40*/;
+  text-shadow: .5px .5px .5px #7DCEA0;
+  box-shadow: .4px .4px .5px #c2a500;
 }
 #card-btns,
 #finish-turn-container {
@@ -657,7 +684,8 @@ body {
   padding: 7px;
   display: block;
 }
-#end-turn-btn {
+#end-turn-btn,
+#ft-end-turn-btn {
   height: 40px;
   width: 120px;
   border-radius: 5px;
@@ -719,7 +747,8 @@ body {
   float: right;
   letter-spacing: .5pt;
 }
-#roll-btn {
+#roll-btn,
+#ft-roll-btn {
   height: 40px;
   width: 92px;
   letter-spacing: .5pt;
@@ -728,13 +757,15 @@ body {
   outline: none;
   font-size: 16pt;
 }
-#roll2-btn {
+#roll2-btn,
+#ft-roll2-btn {
   height: 40px;
   width: 108px;
   letter-spacing: .5pt;
   border-radius: 5px;
   background-color: white;
   outline: none;
+  margin-bottom: 20px;
   font-size: 16pt;
 }
 #confirm-pay-btn {
@@ -759,7 +790,8 @@ body {
 #buy-business-btn,
 #buy-coin-btn,
 #show-stock-sell-form-btn,
-#sell-stock-btn {
+#sell-stock-btn,
+#ftic-ok-btn {
   height: 40px;
   width: 92px;
   border-radius: 5px;
@@ -767,6 +799,19 @@ body {
   outline: none;
   font-size: 16pt;
   letter-spacing: .5pt;
+}
+#ft-enter-btn {
+  height: 70px;
+  width: 150px;
+  border-radius: 5px;
+  background-color: white;
+  outline: none;
+  font-size: 16pt;
+  letter-spacing: .5pt;
+  box-shadow: .6px .6px 2px #c2a500;
+  text-shadow: .6px .6px 2px #c2a500;
+  color: #4E342E;
+  float: right;
 }
 #confirm-settlement-btn {
   height: 40px;

@@ -435,9 +435,9 @@ var APP = APP || {
       case "3Br/2Ba-":
         //Remove 3br2ba and cashFlow
         for (var i = 0; i < assetArr.length; i++) {
-          while (assetArr[i].landType == "3Br/2Ba") {
+          if (assetArr[i].landType == "3Br/2Ba") {
             player.assetIncome -= assetArr[i].cashFlow;
-            delete assetArr[i];
+            assetArr[i].slice(i, 1);
           }
         }
         break;
@@ -1542,7 +1542,7 @@ APP.finance = {
     document.getElementById("loan-offer-monthly-payment").innerHTML =
       loan * 0.1;
 
-    if (APP.currentDoodad.cost && APP.currentDoodad.cost > 0) {
+    if (APP.currentDoodad.cost != 'undefined' && APP.currentDoodad.cost > 0) {
       $("#no-loan-btn").hide();
     }
   },
@@ -1626,7 +1626,7 @@ APP.finance = {
       APP.finance.statement();
     }
 
-    if (APP.currentDoodad.cost && APP.currentDoodad.cost > 0) {
+    if (APP.currentDoodad.cost != 'undefined' && APP.currentDoodad.cost > 0) {
       APP.display.clearCards();
       APP.display.clearBtns();
       $("#doodad-card").show();
@@ -1643,7 +1643,7 @@ APP.finance = {
     var stockAssets = player.stockAssets;
 
     for (var i = 0; i < propertyAssets.length; i++) {
-      propertyAssets[i].debt = "on";
+      propertyAssets[i].debt = true;
     }
   }
 };
@@ -1665,17 +1665,15 @@ APP.loadCard = function(boardPosition) {
   $("#fast-track-intro-card").hide();
 
   if (playerObj.payday < 0) {
-    //if (player.realEstateAssets.length == 0){
+    if (playerObj.realEstateAssets.length == 0){
       $("#bankrupt-game-over-card").show();
-    /*} else {
+    } else {
       APP.finance.bankruptcy();
       APP.display.renderAssetTable();
       $("#bankrupt-card").show();
-      $("#br-cash-flow").html(player.payday);
-      $("#br-settlement-text").show();
-      $("#br-settlement-offer").html(APP.currentSettlement);
-
-    }*/
+      $("#br-cash-flow").html(String(playerObj.payday));
+      $("#br-settlement-text").hide();
+    }
   } else if (playerObj.fastTrack == true) {
     var currentSquare = "square" + String(boardPosition);
     switch(boardPosition){
@@ -1695,7 +1693,7 @@ APP.loadCard = function(boardPosition) {
       case 18:
       case 30:
       case 38:
-        $("ft-cashflow-day").show();
+        $("#ft-cashflow-day").show();
         $("#ft-end-turn-btn").show();
         break;
       // charity
@@ -4332,14 +4330,15 @@ APP.display = {
         });
       }
 
-      if (realEstateAssetArr[i].debt === "on") {
+      if (realEstateAssetArr[i].debt === true) {
+        var rowId = "#asset" + parseInt(i, 10) + "-row"
         $(rowId).css("background-color", "#FFAB91");
 
         $(rowId).click(function() {
-          var bankruptcySettlement = realEstateAssets[i].downPayment / 2;
+          var bankruptcySettlement = realEstateAssetArr[i].downPayment / 2;
           APP.currentSettlement = bankruptcySettlement;
-          APP.currentSettlementCashFlow = realEstateAssets[i].cashFlow;
-          APP.currentSettlementId = realEstateAssets[i].id;
+          APP.currentSettlementCashFlow = realEstateAssetArr[i].cashFlow;
+          APP.currentSettlementId = realEstateAssetArr[i].id;
 
           $("#confirm-settlement-btn").show();
           $("#br-settlement-text").show();
@@ -4713,7 +4712,7 @@ var FASTTRACK = {
       pObj.cash += pObj.payday;
     } else if (previousPosition < 30 && currentPosition >= 30) {
       pObj.cash += pObj.payday;
-    } else if (previousPosition < 38 && previousposition + dice >= 38) {
+    } else if (previousPosition < 38 && previousPosition + dice >= 38) {
       pObj.cash += pObj.payday;
     }
 
@@ -5570,4 +5569,8 @@ $(document).ready(function() {
   * fix the fourth cashflow day space
   * cashflow day income - passive income remains
   * fix selling a 12 plex for 25k each unit
+  * hide the last bit of text for 10 and 20 acre offer cards
+  * let duplexes be sold for plex buyer offer card
+  * automated business cash flow
+  * sell coin functionality
 */

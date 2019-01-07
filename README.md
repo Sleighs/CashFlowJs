@@ -21,7 +21,6 @@ Preview at https://sleighs.github.io/CashFlowJs/
 ### New Rule Options
 * Speed Start - Players start with their total income in their savings
 * Joint Ventures - Players can partner up to invest together on opportunities
-* Deck Shuffling - Choose to shuffle card decks after each turn 
 * Mixed Deals - Both small and big oppurtunity cards are shuffled together and players choose from the entire deck
 * Big Families - Raise the limit of children players can have
 * Random Downsizing - Players roll for a random amount of missed turns after downsizing

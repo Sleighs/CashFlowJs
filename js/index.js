@@ -6473,7 +6473,7 @@ var OPTIONS = {
     chooseJob: document.getElementById("oo-choose-job"),
     oneDealDeck: document.getElementById("oo-one-deal-deck"),	
     checkState: function () {
-        if (this.smallRE.checked == true && this.bigRE.checked == true && this.stocks.checked == true && this.mutuals.checked == true && this.cds.checked == true && this.coins.checked == true && this.limitedPartnership.checked == true && this.companies.checked == true && this.startingSavings.value == 1 && this.kids.checked == false && this.paycheckDoodads.checked == false && this.playerLoans.checked == false && this.chooseJob.checked == false && this.oneDealDeck.checked == false) {
+        if (this.smallRE.checked == true && this.bigRE.checked == true && this.stocks.checked == true && this.mutuals.checked == true && this.cds.checked == true && this.coins.checked == true && this.limitedPartnership.checked == true && this.companies.checked == true && this.startingSavings.value == 1 /*&& this.kids.checked == false && this.paycheckDoodads.checked == false && this.playerLoans.checked == false && this.chooseJob.checked == false && this.oneDealDeck.checked == false*/) {
             $("#default-game-indicator").css("color", "#FDD835");
             $("#custom-game-indicator").css("color", "#4E342E");
         } else {

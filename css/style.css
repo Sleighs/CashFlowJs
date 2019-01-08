@@ -122,7 +122,7 @@ body {
 
 #setup-container {
     margin: auto;
-    padding: 10% 7%;
+    padding: 5% 7%;
     width: 78%;
     height: 100%;
 }
@@ -143,6 +143,15 @@ body {
 }
 .player-input-container {
 	display: inline-block;
+}
+.job-input {
+	display: block;
+	padding: 3px;
+	font-size: 12pt;
+	margin: 3px;
+	color: #FDD835;
+	background-color: #4E342E;
+	font-family: lato;
 }
 .player-options-checkbox {
 	display: inline-block;
@@ -238,7 +247,7 @@ body {
 .player-input {
     font-familiy: 'roboto';
     font-size: 15pt;
-	margin: 2%;
+	margin: 3%;
 }
 
 #options-container {
@@ -382,8 +391,9 @@ body {
 .options-2-container {}
 
 #start-game {
-    margin: 30px 425px;
-    padding: 5% 10%;
+	position: relative;
+    margin: 5.5%;
+    padding: 8% 20%;
     border-radius: 8px;
     background-color: white;
     outline: none;
@@ -394,6 +404,7 @@ body {
     border: 2pt ridge #FDD835;
     font-weight: 500;
     box-shadow: 0px 0px 1px 1px #FDD835;
+	
 }
 
 #player1name,

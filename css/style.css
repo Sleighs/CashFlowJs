@@ -2,7 +2,16 @@
 Color Paletter
 	brown - #4E342E
 	yellow - #FDD835
-
+	grey - #212121
+	
+	* Board Spaces *
+	opportunity - #43A047
+	fast track oppurtunity - #4E342E^
+	doodad - #546E7A
+	charity - #00BCD4
+	offer - #0277BD
+	payday - #FDD835^
+	downsize - #D32F2F
 */
 @viewport {
     width: device-width;
@@ -122,9 +131,9 @@ body {
 
 #setup-container {
     margin: auto;
-    padding: 5% 7%;
+    padding: 4% 7%;
     width: 78%;
-    height: 100%;
+    height: 800px;
 }
 
 #player-setup-container {
@@ -143,15 +152,19 @@ body {
 }
 .player-input-container {
 	display: inline-block;
+	text-shadow: .9px .9px .9px #212121;
 }
 .job-input {
 	display: block;
 	padding: 3px;
 	font-size: 12pt;
-	margin: 3px;
+	margin: 5px;
 	color: #FDD835;
 	background-color: #4E342E;
 	font-family: lato;
+}
+.player-input {
+
 }
 .player-options-checkbox {
 	display: inline-block;
@@ -188,6 +201,8 @@ body {
 	font-family: Montserrat;
 	font-weight: bold;
 	border-radius: 5px;
+	text-shadow: .2px .2px .3px #4E342E;
+	box-shadow: .8px .8px .8px #212121;
 }
 .player-input-checkmark:after {
     content: "";
@@ -197,12 +212,13 @@ body {
 }
 .player-options-checkbox:hover input~.player-input-checkmark {
     background-color: #FFFBB9;
-	box-shadow: 1px 1px 1px blue;
+	box-shadow: 1px 1px 1px #0277BD;
 }
 .player-options-checkbox input:checked~.player-input-checkmark {
     background-color: #FDD835;
 	color: white;
-	text-shadow: .2px .2px .5px #4E342E;
+	text-shadow: .2px .2px .3px #4E342E;
+	box-shadow: .8px .8px .8px #212121;
 
 }
 .player-options-checkbox input:checked~.player-input-checkmark:after {
@@ -231,17 +247,18 @@ body {
     font-size: 20pt;
     width: 350px;
     height: 60px;
+	text-shadow: .8px .8px 1px #212121;
 }
 
 #player-number {
-    box-shadow: 0px 0px 2px 2px #FDD835;
-    background-color: #4E342E;
+    box-shadow: 0px 0px 2px 2px white;
+    background-color: #FDD835;
     height: 35px;
     width: 40px;
     font-size: 18pt;
-    color: white;
-    border: 1pt ridge #FDD835;
-    border-radius: 3px;
+    color: #4E342E;
+    /*border: 1pt ridge white;*/
+    border-radius: 5px;
 }
 
 .player-input {
@@ -373,7 +390,7 @@ body {
     appearance: none;
     width: 25%;
     height: 25px;
-    background: #4E342E;
+    background: #212121;
     cursor: pointer;
     box-shadow: 1px 1px 1px 1px #d3d3d3;
 }
@@ -381,7 +398,7 @@ body {
 .sso-slider::-moz-range-thumb {
     width: 25%;
     height: 25px;
-    background: #4E342E;
+    background: #212121;
     cursor: pointer;
     box-shadow: 1px 1px 1px 1px #d3d3d3;
 }
@@ -421,6 +438,7 @@ body {
     padding: 4px 8px;
     font-weight: 600;
     color: #4e342e;
+	box-shadow: .8px .8px .8px #212111;
 }
 
 #board-container {
@@ -664,7 +682,8 @@ body {
 
 #player-list {
     height: 364px;
-    width: 175px;
+    width: 166px;
+	margin: .5%;
     vertical-align: top;
     padding: 4px;
     font-family: 'Lato';
@@ -673,18 +692,19 @@ body {
 }
 
 #turn-info {
-    width: 328px;
-    height: 410px;
+    width: 318px;
+    height: 406px;
     position: relative;
     padding: 0 10px;
     background-color: white;
     margin: auto 4px;
-    border-radius: 5px;
+	border: 2pt solid transparent;
+    border-radius: 6px;
     box-shadow: 0 0 2px #212121;
 }
 
 #finance-box {
-    width: 565px;
+    width: 556px;
     height: 410px;
     padding: 0 4px;
     margin-right: 8px;
@@ -709,7 +729,6 @@ body {
 
 .cha-space {
     background-color: #00BCD4;
-    #26C6DA;
 }
 
 .pay-space {
@@ -962,7 +981,7 @@ body {
     height: 30px;
     width: 75px;
     border-radius: 7px;
-    background-color: gold;
+    background-color: #FDD835;
     outline: none;
     font-size: 12pt;
     font-weight: bold;
@@ -972,7 +991,7 @@ body {
     height: 30px;
     width: 75px;
     border-radius: 7px;
-    background-color: gold;
+    background-color: #FDD835;
     outline: none;
     font-size: 12pt;
     font-weight: bold;
@@ -1135,7 +1154,7 @@ body {
     box-shadow: .6px .6px 2px #c2a500;
     text-shadow: .6px .6px 2px #c2a500;
     color: #4E342E;
-    float: right;
+    float: left;
 }
 
 #confirm-settlement-btn {
@@ -1192,6 +1211,10 @@ body {
     padding: 5px;
 }
 
+#assets-liabilities-statement {
+	height: 138px;
+}
+
 #summary-cash-title,
 #summary-cash-title2,
 #summary-cash {
@@ -1235,7 +1258,7 @@ body {
 
 #income-table {
     display: block;
-    height: 128px;
+    height: 122px;
     width: 264px;
     overflow: auto;
 }
@@ -1271,6 +1294,7 @@ body {
 
 .assets-row {
     font-size: 10pt;
+	border: 1pt solid transparent;
 }
 
 #asset-stock-title,

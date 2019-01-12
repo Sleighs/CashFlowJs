@@ -127,6 +127,7 @@ var APP = APP || {
         $("#exp-child-row").hide();
         $("#ft-turn-instructions").hide();
         $("#ft-roll-btn").hide();
+		$("#ft-doodad-roll-btn").hide();
         $("#ft-enter-btn").hide();
 
         $("#finish-instructions").hide();
@@ -199,6 +200,12 @@ var APP = APP || {
         APP.display.clearBtns();
         APP.display.clearCards();
         APP.clearAmounts();
+		
+		//remove card highlight
+		$("#turn-info").css("border", "2pt solid transparent");
+		$("#turn-info").css("box-shadow", "0 0 2px #212121");
+		$(".card-title").css("text-shadow", ".2px .2px .2px #7DCEA0");
+		$(".card-title").css("color", "#4E342E");
 
         //hide prev assets and show current assets
         if (player.stockAssets.length >= 0) {
@@ -321,6 +328,12 @@ var APP = APP || {
         $("#finish-instructions").show();
         $("#end-turn-btn").show();
         $("#repay-borrow-btns").show();
+		
+		//remove card highlight
+		$("#turn-info").css("border", "2pt solid transparent");
+		$("#turn-info").css("box-shadow", "0 0 2px #212121");
+		$(".card-title").css("text-shadow", ".2px .2px .2px #7DCEA0");
+		$(".card-title").css("color", "#4E342E");
 
         var player = APP.players[APP.currentPlayerArrPos()];
         var realEstateAssets = player.realEstateAssets;
@@ -329,6 +342,7 @@ var APP = APP || {
             for (var i = 0; i < realEstateAssets.length; i++) {
                 realEstateAssets[i].highlight = "off";
                 var rowId = "#asset" + parseInt(i, 10) + "-row";
+				
                 $(rowId).click(function () {
                     return 0;
                 });
@@ -444,7 +458,7 @@ var APP = APP || {
                 for (var i = 0; i < assetArr.length; i++) {
                     if (assetArr[i].landType == "3Br/2Ba") {
                         player.assetIncome -= assetArr[i].cashFlow;
-                        assetArr[i].slice(i, 1);
+                        assetArr[i].splice(i, 1);
                     }
                 }
                 break;
@@ -573,6 +587,11 @@ var APP = APP || {
                     currentDeal.downPayment;
                 document.getElementById("deal-re-mortgage").innerHTML =
                     currentDeal.mortgage;
+					
+				//highlight card when player has enough cash to buy the deal
+				if (APP.currentDeal.downPayment < player.cash){
+					$("#turn-info").css("box-shadow", ".2px .2px 3px 3px #43A047");
+				}
                 break;
             case "Property Damage":
                 $("#deal-card-real-estate").show();
@@ -900,6 +919,9 @@ APP.finance = {
 			$("#exp-insurance-row").hide();
 		}
 		//Summary
+		if (APP.players[APP.currentPlayerArrPos()].hasInsurance == true){ 
+			this.getInsurance(APP.currentPlayerArrPos());
+		}
         this.getExpenses(APP.currentPlayerArrPos());
         this.getIncome(APP.currentPlayerArrPos());
         this.getPayday(APP.currentPlayerArrPos());
@@ -967,12 +989,12 @@ APP.finance = {
             $("#exp-boat-row").show();
         }
 
-        document.getElementById("liability-mortgage").innerHTML = APP.display.numWithCommas(mortgage);
-        document.getElementById("liability-car").innerHTML = APP.display.numWithCommas(carLoan);
-        document.getElementById("liability-credit").innerHTML = APP.display.numWithCommas(creditCard);
-        document.getElementById("liability-retail").innerHTML = APP.display.numWithCommas(retail);
-        document.getElementById("liability-loans").innerHTML = APP.display.numWithCommas(loans);
-        document.getElementById("liability-boatloan").innerHTML = APP.display.numWithCommas(boatLoan);
+        document.getElementById("liability-mortgage").innerHTML = APP.display.numWithCommas("$" + mortgage);
+        document.getElementById("liability-car").innerHTML = APP.display.numWithCommas("$" + carLoan);
+        document.getElementById("liability-credit").innerHTML = APP.display.numWithCommas("$" + creditCard);
+        document.getElementById("liability-retail").innerHTML = APP.display.numWithCommas("$" + retail);
+        document.getElementById("liability-loans").innerHTML = APP.display.numWithCommas("$" + loans);
+        document.getElementById("liability-boatloan").innerHTML = APP.display.numWithCommas("$" + boatLoan);
 
         this.progressBar();
 
@@ -1132,7 +1154,7 @@ APP.finance = {
             dPlayer.charityTurns += 3;
             if (dPlayer.fastTrack == true) {
                 $("#ft-end-turn-btn").show();
-                $("charity-donate-btn").hide();
+                $("#charity-donate-btn").hide();
             } else {
                 APP.finishTurn();
             }
@@ -1474,7 +1496,8 @@ APP.finance = {
 
         player.cash += APP.currentSettlement;
         player.cashFlow -= APP.currentSettlementCashFlow;
-
+		player.assetIncome -= APP.currentSettlementCashFlow;
+		
         var id = APP.currentSettlementId;
         var index = assetArr.findIndex(x => x.id == id);
 
@@ -1633,7 +1656,14 @@ APP.finance = {
                     $("#deal-personal-loan-card").show();
                     $("#pass-btn").show();
                     break;
+					
             }
+			
+			//highlight card when player has enough cash to buy the deal
+			if (APP.currentDeal.downPayment < playerObj.cash){
+				$("#turn-info").css("box-shadow", ".2px .2px 3px 3px #43A047");
+			
+			}	
             APP.finance.statement();
         } else if (boardPosition === 19) {
             APP.display.clearCards();
@@ -1659,7 +1689,7 @@ APP.finance = {
 		var income = this.getIncome(player);
 		
 		//pay a base 8% and 1% for every dependent
-		curPlayer.insurance = income * (0.08 + (0.01 * APP.players[player].children));
+		curPlayer.insurance = Math.round(income * (0.08 + (0.01 * APP.players[player].children)));
 		
 		return curPlayer.insurance;
 	},
@@ -1705,19 +1735,41 @@ APP.loadCard = function (boardPosition) {
         }
     } else if (playerObj.fastTrack == true) {
         var currentSquare = "square" + String(boardPosition);
+		
         switch (boardPosition) {
-            // doodads
+            // Doodads
             case 1:
+				$("#ft-doodad-card").show();
+				$("#ft-doodad-roll-btn").show();
+                //--temp
+                //$("#ft-end-turn-btn").show();
+				$(".card-title").css("color", "#D32F2F");
+				
+				$("#ft-doodad-title").html(FASTTRACK.square[boardPosition - 1].title);
+				$("#ft-doodad-text").html(FASTTRACK.square[boardPosition - 1].info);
+				break;
             case 7:
             case 14:
             case 21:
             case 27:
-            case 34:
-                $("#doodad-card").show();
-                //--temp
+				$("#ft-doodad-card").show();
                 $("#ft-end-turn-btn").show();
+				$(".card-title").css("color", "#D32F2F");
+				FASTTRACK.doodad(boardPosition);
+				
+				$("#ft-doodad-title").text(FASTTRACK.square[boardPosition - 1].title);
+				$("#ft-doodad-text").text(FASTTRACK.square[boardPosition - 1].text);
                 break;
-                // cashflow days
+            case 34:
+                $("#ft-doodad-card").show();
+                $("#ft-end-turn-btn").show();
+				$(".card-title").css("color", "#D32F2F");
+				FASTTRACK.doodad(boardPosition);
+				
+				$("#ft-doodad-title").html(FASTTRACK.square[boardPosition - 1].title);
+				$("#ft-doodad-text").html(FASTTRACK.square[boardPosition - 1].text);
+                break;
+			// CashFlow Day
             case 10:
             case 18:
             case 30:
@@ -1725,19 +1777,22 @@ APP.loadCard = function (boardPosition) {
                 $("#ft-cashflow-day").show();
                 $("#ft-end-turn-btn").show();
                 break;
-                // charity
+			// Charity
             case 2:
                 $("#charity-card").show();
                 $("#charity-donate-btn").show();
                 $("#ft-end-turn-btn").show();
+				$(".card-title").css("color", "#00BCD4");
                 break;
-                // deals
+			// Oppurtunities
             case 17:
                 $("#ft-opp-card").show();
                 $("#ft-deal-cash-flow-row").show();
                 $("#ft-deal-retun-row").hide();
                 //buy button
                 $("#ft-end-turn-btn").show();
+				
+				$(".card-title").css("color", "#43A047");
 
                 $("#ft-opp-title").html(FASTTRACK.square[currentSquare].title);
                 $("#ft-card-text").html(FASTTRACK.square[currentSquare].text);
@@ -1750,6 +1805,8 @@ APP.loadCard = function (boardPosition) {
                 $("#ft-deal-retun-row").show();
                 //buy button
                 $("#ft-end-turn-btn").show();
+				
+				$(".card-title").css("color", "#43A047");
 
                 $("#ft-opp-title").html(FASTTRACK.square[currentSquare].title);
                 $("#ft-card-text").html(FASTTRACK.square[currentSquare].text);
@@ -1762,6 +1819,8 @@ APP.loadCard = function (boardPosition) {
                 $("#ft-deal-retun-row").show();
                 //buy button
                 $("#ft-end-turn-btn").show();
+				
+				$(".card-title").css("color", "#43A047");
 
                 $("#ft-opp-title").html(FASTTRACK.square[currentSquare].title);
                 $("#ft-card-text").html(FASTTRACK.square[currentSquare].text);
@@ -1772,9 +1831,9 @@ APP.loadCard = function (boardPosition) {
                 $("#ft-opp-card").show();
                 $("#ft-deal-cash-flow-row").show();
                 $("#ft-deal-return-row").hide();
-
                 //buy btn
                 $("#ft-end-turn-btn").show();
+				$(".card-title").css("color", "#43A047");
 
                 $("#ft-opp-title").html(FASTTRACK.square[currentSquare].title);
                 $("#ft-card-text").html(FASTTRACK.square[currentSquare].text);
@@ -1782,7 +1841,7 @@ APP.loadCard = function (boardPosition) {
                 $("#ft-deal-cost").html(FASTTRACK.square[currentSquare].costText);
                 break;
         }
-    } else {
+    } else if (playerObj.fastTrack == false){
         //opportunity
         if (boardPosition % 2 === 0 || boardPosition === 0) {
             // if mixed deal option is on 
@@ -1791,6 +1850,9 @@ APP.loadCard = function (boardPosition) {
             $("#card-btns").show();
             $("#small-deal-btn").show();
             $("#big-deal-btn").show();
+			
+			//highlight title
+			$(".card-title").css("color", "#43A047");
         }
 
         //doodad aka expense
@@ -1798,6 +1860,9 @@ APP.loadCard = function (boardPosition) {
             $("#doodad-card").show();
             $("#doodad-pay-button").show();
             APP.getDoodad();
+			
+			//highlight title
+			$(".card-title").css("color", "#D32F2F");
         }
 
         //offer
@@ -1805,6 +1870,9 @@ APP.loadCard = function (boardPosition) {
             $("#offer-card").show();
             $("#done-btn").show();
             APP.getOffer();
+			
+			//highlight title
+			$(".card-title").css("color", "#0277BD");
         }
 
         //paycheck
@@ -1817,6 +1885,9 @@ APP.loadCard = function (boardPosition) {
             $("#charity-card").show();
             $("#charity-donate-btn").show();
             $("#pass-btn").show();
+			
+			//highlight title
+			$(".card-title").css("color", "#00BCD4");
         }
 
         //kid
@@ -1825,6 +1896,11 @@ APP.loadCard = function (boardPosition) {
             $("#done-btn").show();
             var expense = Math.round(parseInt(playerObj.totalIncome) * 0.056);
             var eTable = document.getElementById("expense-table");
+			
+			//highlight card
+			//$("#turn-info").css("border", "2pt solid #FFB74D");
+			//$("#turn-info").css("box-shadow", "2px 2px 4px 4px #FFB74D");
+			$(".card-title").css("color", "#FFB74D");
 
             if (playerObj.children == 0) {
                 //add row to expenses table
@@ -1832,7 +1908,7 @@ APP.loadCard = function (boardPosition) {
                 document.getElementById("child-cost").innerHTML = expense;
                 //children count ++
                 playerObj.children += 1;
-            } else if (playerObj.children == 4) {
+            } else if (playerObj.children == 3) {
                 //
             } else {
                 playerObj.children += 1;
@@ -1846,6 +1922,7 @@ APP.loadCard = function (boardPosition) {
             );
 
             APP.finance.statement(APP.currentPlayerArrPos());
+		
         }
 
         //downsize
@@ -1854,7 +1931,12 @@ APP.loadCard = function (boardPosition) {
 			//show downsize card
 				$("#downsize-card").show();
 				
-			if (playerObj.hasInsurance = false){
+				//highlight card
+			//$("#turn-info").css("border", "2pt solid #D32F2F");
+			$("#turn-info").css("box-shadow", ".2px .2px 3px 3px #D32F2F");
+			$(".card-title").css("color", "#D32F2F");
+				
+			if (playerObj.hasInsurance == false){
 				//show pay button
 				$("#default-ds").show();
 				$("#insured-ds").hide();
@@ -3043,7 +3125,7 @@ APP.cards = {
             tag: "LP-PIZZA",
             landType: "limited"
         },
-        automatedBusinessB1: {
+        /*automatedBusinessB1: {
             name: "Automated Business for Sale",
             type: "Automated Business",
             description: "30 video/pinball machines at long term contract locations for sale by overextended owner. Owner is desperate.",
@@ -3082,7 +3164,7 @@ APP.cards = {
             tag: "LAUNDRY",
             landType: "business"
         },
-        propertyDamage1: {
+        */propertyDamage1: {
             name: "Sewer Line Breaks",
             type: "Property Damage",
             description: "Water everywhere at your 8-plex! Broken sewer line needs repair immediately. <br> If you own an 8-plex, pay $2,000 for new line. (Bank loan available on usual terms.)",
@@ -4963,7 +5045,7 @@ APP.display = {
         var sgss = document.getElementById("setup-screen");
         sgss.style.display = sgss.style.display === "block" ? "block" : "block";
     },
-    showPlayerList: function () {
+	showPlayerList: function () {
         var spl = document.getElementById("player-list");
         spl.style.display =
             spl.style.display === "inline-block" ? "inline-block" : "inline-block";
@@ -5113,6 +5195,7 @@ APP.display = {
         $("#no-loan-btn").hide();
         $("#done-btn").hide();
         $("#cancel-btn").hide();
+		$("#cancel-l-btn").hide();
         $("#borrow-loan-btn").hide();
         $("#borrow-doodad-loan-btn").hide();
         $("#borrow-offer-loan-btn").hide();
@@ -5125,6 +5208,7 @@ APP.display = {
         $("#show-offer-btn").hide();
         $("#ftic-ok-btn").hide();
         $("#ft-enter-btn").hide();
+		$("#ft-doodad-roll-btn").hide();
 
         $("#buy-stock-btn").hide();
         $("#buy-real-estate-btn").hide();
@@ -5159,6 +5243,7 @@ APP.display = {
         $("#settlement-card").hide();
         $("#fast-track-intro-card").hide();
         $("#ft-opp-card").hide();
+		$("#ft-doodad-card").hide();
         $("#fast-track-intro-card").hide();
         $("#fast-track-option-card").hide();
         $("#ft-cashflow-day").hide();
@@ -5217,17 +5302,19 @@ APP.display = {
 
                         if (id === "liability-loans") {
                             $("#repay-loan-card").show();
-                            $("#cancel-btn").show();
+							$("#cancel-btn").show();
 
                             $("#done-repay-btn").hide();
+							$("#pay-confirm-card").hide();
+							$("#confirm-pay-btn").hide();
                             $("#repay-card").hide();
                         } else {
-                            $("#repay-loan-card").hide();
                             $("#confirm-pay-btn").show();
                             $("#cancel-btn").show();
                             $("#pay-confirm-card").show();
 
                             $("#done-repay-btn").hide();
+							$("#repay-loan-card").hide();
                             $("#repay-card").hide();
                         }
                     };
@@ -5292,7 +5379,11 @@ APP.display = {
 
             $(incomeRealEstateTableId).append(incomeRow);
             $(assetTableId).append(assetRow);
-
+			
+			if (player.position != 19) {
+			$("#turn-info").css("box-shadow", "0 0 2px #212121");
+			}
+			
             if (realEstateAssetArr[i].highlight === "on") {
                 if (typeof APP.currentOffer == "object") {
                     switch (APP.currentOffer.type) {
@@ -5329,6 +5420,9 @@ APP.display = {
                 var rowId = "#asset" + parseInt(i, 10) + "-row";
 
                 $(rowId).css("background-color", "#FFEB3B");
+				//$(rowId).css("border", "1pt solid white");
+				//highlight card
+				$("#turn-info").css("box-shadow", ".2px .2px 3px 3px #0277BD");
 
                 $(rowId).click(function () {
                     $("#offer-card").hide();
@@ -5394,7 +5488,7 @@ APP.display = {
 
             $(incomeRealEstateTableId).append(businessIncomeRow);
         }
-    },
+	},
     renderStockTable: function () {
         var player = APP.players[APP.currentPlayerArrPos()];
         var assetArr = player.stockAssets;
@@ -5677,7 +5771,7 @@ var FASTTRACK = {
         playerTokenEle.remove();
         // Add token to new section
         playerObj.position = newPosition;
-        console.log(playerObj.position);
+        
         var token = APP.display.tokens[player].ele;
         var newSquare = document.getElementById(
             "tokenSection2-" + parseInt(playerObj.position, 10)
@@ -5745,7 +5839,8 @@ var FASTTRACK = {
     },
     square: {
         doodad1: {
-            title: "HEALTHCARE"
+            title: "Healthcare!",
+			info: "<span>Roll one die.</span><br><span>If it's 1-3, you're covered.</span><br><span>If it's 4-6, you're not- Pay all of your cash.</span>"
         },
         charity: {
             title: "CHARITY",
@@ -5784,7 +5879,8 @@ var FASTTRACK = {
             cost: 400000
         },
         doodad2: {
-            title: "lawsuit"
+            title: "Lawsuit!",
+			text: "Pay one half of your cash to defend yourself."
         },
         square8: {
             title: "Ticket Sales Company",
@@ -5830,7 +5926,8 @@ var FASTTRACK = {
             cost: 250000
         },
         doodad3: {
-            title: "tax audit"
+            title: "Tax Audit!",
+			text: "Pay accountants and lawyers one half of your cash."
         },
         square15: {
             title: "Auto Repair Shop",
@@ -5876,7 +5973,8 @@ var FASTTRACK = {
             cost: 300000
         },
         doodad4: {
-            title: "bad partner"
+            title: "Bad Partner!",
+			text: "Lose lowest cash-flowing asset"
         },
         square22: {
             title: "App Development Company",
@@ -5919,7 +6017,8 @@ var FASTTRACK = {
             cost: 100000
         },
         doodad5: {
-            title: "divorce"
+            title: "Divorce!",
+			text: "Lose half of your cash."
         },
         square28: {
             title: "Build Pro Golf Course",
@@ -5965,7 +6064,8 @@ var FASTTRACK = {
             cost: 50000
         },
         doodad6: {
-            title: "unforseen repairs"
+            title: "Unforseen Repairs!",
+			text: "Pay 10x monthly cash flow of lowest cash flowing asset or lose business."
         },
         square35: {
             title: "200-Unit Mini Storage",
@@ -6014,10 +6114,9 @@ var FASTTRACK = {
     printSquares: function () {
         document.getElementById("cell201").innerHTML =
             "<div class ='cellx2'><div id='tokenSection2-1'></div>" +
-            "<span class='fast-track-space-title'>HEALTHCARE!</span><br>" +
-            "<div class='fast-track-cell-info'><span>Roll die one die.</span><br>" +
-            "<span>If it's 1-3, you're covered.</span><br>" +
-            "<span>If it's 4-6, you're not- Pay all of your cash.</span></div></div>";
+            "<span class='fast-track-space-title'>HEALTHCARE!</span><br><div class='fast-track-cell-info' id='ft-doodad1'> " +
+			FASTTRACK.square.doodad1.info
+             + "</div>";
         document.getElementById("cell202").innerHTML =
             "<div class ='cellx2'><div id='tokenSection2-2'></div>" +
             "<span class='fast-track-space-title'>" + FASTTRACK.square.charity.title + "</span><br>" +
@@ -6129,7 +6228,7 @@ var FASTTRACK = {
             "<div class ='cellx2'>" +
             "<div id='tokenSection2-21'></div>" +
             "<span class='fast-track-space-title'>BAD PARTNER</span><br>" +
-            "<div class='fast-track-cell-info'><span>Lose lowest cash-flowing asset</span></div></div>";
+            "<div class='fast-track-cell-info'><span>Lose lowest cash-flowing asset.</span></div></div>";
         document.getElementById("cell222").innerHTML =
             "<div class ='cellx2'>" +
             "<div id='tokenSection2-22'></div>" +
@@ -6203,7 +6302,7 @@ var FASTTRACK = {
             "<div class ='cellx2'>" +
             "<div id='tokenSection2-34'></div>" +
             "<span class='fast-track-space-title'>UNFORSEEN REPAIRS</span><br>" +
-            "<div class='fast-track-cell-info'><span>Pay 10x monthly cash flow of lowest cash flowing asset or lose business</span></div></div>";
+            "<div class='fast-track-cell-info'><span>Pay 10x monthly cash flow of lowest cash flowing asset or lose business.</span></div></div>";
         document.getElementById("cell235").innerHTML =
             "<div class ='cellx2'>" +
             "<div id='tokenSection2-35'></div>" +
@@ -6238,7 +6337,45 @@ var FASTTRACK = {
             "<span class='fast-track-space-title'>" + FASTTRACK.square.square40.title + "</span><br>" +
             "<div class='fast-track-cell-info'><span>" + "+9,000/mo CF" + "</span><br>" +
             "<span>" + "$400,000 Down" + "</span></div></div>";
-    }
+    },
+	opportunity: function(boardPosition) {
+		var arrPos = boardPosition - 1;
+		
+	},
+	doodad: function(boardPosition) {
+		var player = APP.players[APP.currentPlayerArrPos()];
+		var roll = APP.rollDie(1);
+		
+		switch(boardPosition) {
+			case 1:
+				if (roll >= 4) {
+					player.cash = 0;
+					document.getElementById("ft-doodad1").innerHTML = "<span>You spend all of your cash for the expenses.</span>";
+				} else {
+					document.getElementById("ft-doodad1").innerHTML = "<span>You're covered.</span>";
+				}
+				//hide card info
+				//load info
+				$("#ft-doodad-text2").hide();
+				break;
+            case 7:
+            case 14:
+			case 27:
+				//show amount paid
+				$("#ft-doodad-text2").show();
+				document.getElementById("ft-doodad-cost").innerHTML = APP.display.numWithCommas(player.cash * 0.5);
+				player.cash = player.cash * 0.5;
+				break;
+            case 21:
+				$("#ft-doodad-text2").hide();
+				break;
+            case 34:
+				$("#ft-doodad-text2").hide();
+				break;
+		}
+		
+		$("#ft-end-turn-btn").show();
+	}
 };
 
 APP.scenario = function (
@@ -6300,6 +6437,7 @@ APP.scenario = function (
 
     this.cashFlowDay = 0;
 	this.insurance = 0;
+	this.hasInsurance = false;
 };
 
 APP.scenarioChoices = [
@@ -6455,6 +6593,7 @@ APP.board = {
 // default settings option
 
 var OPTIONS = {
+	playerNumber: document.getElementById("player-number"),
     slider: document.getElementById("start-savings-slide"),
     output: document.getElementById("start-savings-option-value"),
     checkbox: document.querySelectorAll("input[type=checkbox]"),
@@ -6488,12 +6627,15 @@ var OPTIONS = {
         this.mutuals.checked = true;
         this.cds.checked = true;
         this.coins.checked = true;
+		this.limitedPartnership.checked = true;
+		this.companies.checked = true;
         this.startingSavings.value = 1;
         this.kids.checked = false;
         this.paycheckDoodads.checked = false;
         this.playerLoans.checked = false;
         this.chooseJob.checked = false;
         this.oneDealDeck.checked = false;
+		
 
         OPTIONS.checkState();
     },
@@ -6592,24 +6734,10 @@ var OPTIONS = {
 			var playerCheck = String("po-insurance-p" + k);
 			var check = document.getElementById(playerCheck);
 			
-			if (check.checked == true) {
-				console.log( "player" + playerCheck + "works");
-				
+			if (check.checked == true) {				
 				player.hasInsurance = true;
-			
+				
 				APP.finance.getInsurance(playerArrPos);
-				console.log(player.insurance);
-				
-			//update insurance amount each turn
-			
-			//every 12 paydays the player can opt out of insurance
-			
-			// should be an option with the player setup not all options
-				// add insurance to expenses
-				
-				// downsize card
-					// show cost
-					// show amount owed
 			}
 		}
 	}
@@ -6625,6 +6753,9 @@ $(document).ready(function () {
     $("#reset-btn").on("click", function () {
         window.location.reload(false);
     });
+	
+	//tooltip
+	$("#po-insurance-p1").attr('title', 'Pay 8% of your income to cover downsize costs. Add 1% for each dependent.');
 	
 	// options
     OPTIONS.output.innerHTML = "Normal";
@@ -6645,13 +6776,50 @@ $(document).ready(function () {
         } else if (this.value == 2) {
             OPTIONS.output.innerHTML = "Salary";
         } else if (this.value == 3) {
-            OPTIONS.output.innerHTML = "2x";
+            OPTIONS.output.innerHTML = "2x Salary";
         }
         OPTIONS.checkState();
     };
 	
+	//--temp
 	$(".off-options").hide();
+	
+	//show player settings
+	var playerInputs = document.querySelectorAll("div.player-input");
+	
+	function showPlayerInputs() {
+		var val = OPTIONS.playerNumber.value;
+		var options = document.querySelectorAll("option.player-number-option");
+		
+		for (var i = 1; i <= options.length; i++) {
+			var playerInputBox = "#player" + i + "input";
+			if ( i <= val) {
+				$(playerInputBox).show();
+			} else {
+				$(playerInputBox).hide();
+			}
+		}
+	}
+	OPTIONS.playerNumber.oninput = function () {
+		var val = OPTIONS.playerNumber.value;
+		var options = document.querySelectorAll("option.player-number-option");
+		
+		for (var i = 1; i <= options.length; i++) {
+			var playerInputBox = "#player" + i + "input";
+			if ( i <= val) {
+				$(playerInputBox).show();
+			} else {
+				$(playerInputBox).hide();
+			}
+		}
+	}
+	showPlayerInputs();
+	
+	
+
 });
+
+//$( document ).tooltip();
 
 /*
   12/27/2018
@@ -6683,4 +6851,8 @@ $(document).ready(function () {
   * let duplexes be sold for plex buyer offer card
   * automated business cash flow
   * sell coin functionality
+  * board blinks yellow when passing or stopping on pay day 
+  * add turn info offer highlights for all types of assets 
+  * every 12 paydays the player can opt out of insurance
+  * should be an option with the player setup not all options
 */

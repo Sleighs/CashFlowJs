@@ -20,24 +20,23 @@
         <button id="new-room-button">Create New Game</button>
       </div>
       <div id="setup-screen">
-        <div id="setup-container">
-		
+        <div id="setup-container">		
           <div id="player-setup-container">
             <div id="player-number-option">
               Number of Players:
-              <select id="player-number" title="Select the number of players for the game.">
-                <option selected="selected">1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
+              <select id="player-number" <!--title="Select the number of players for the game."-->>
+                <option class="player-number-option" selected="selected">1</option>
+                <option class="player-number-option" >2</option>
+                <option class="player-number-option" >3</option>
+                <option class="player-number-option" >4</option>
+                <option class="player-number-option" >5</option>
+                <option class="player-number-option" >6</option>
+                <option class="player-number-option" >7</option>
+                <option class="player-number-option" >8</option>
               </select>
             </div>
             <div id="player-setup-input-container">
-              <div id="player1input" class="player-input">
+              <div id="player1input" class="player-input" >
                 <div class="player-input-container">Player 1: <input type="text" id="player1name" title="Player name" maxlength="16" value="Player 1" /></div>
 				  <label class="player-options-checkbox">
 				  <input id="po-insurance-p1" type="checkbox">
@@ -562,7 +561,6 @@
                     </div>
                     <div id="kid-card">
                       <h2 class="card-title">NEW BABY!</h2>
-                      <br>
                       <p id="child-text">Congratulations! One child has been added to your dependents<br>
                       <h3>Child Expenses will be increased by $<span id="child-cost"></span></h3>
                       </p>
@@ -666,8 +664,13 @@
                     <div id="ft-turn-instructions">
                       <h2 class="card-title"><span id="ft-player-name"></span>'s turn</h2>
                       <h3>When you are ready, roll the die and take your turn</h3>
+                    </div>                   
+					<div id="ft-doodad-card">
+                      <h2 class="card-title"><span id="ft-doodad-title"></span></h2>
+                      <p id="ft-doodad-text"></p>
+					  <h2 id="ft-doodad-text2">You paid <span id="ft-doodad-cost"></span></h2>
                     </div>
-                    <div id="ft-opp-card">
+					<div id="ft-opp-card">
                       <div class="card-title">
                         <h2><span id="ft-opp-title"></span></h2>
                       </div>
@@ -707,7 +710,7 @@
                       <button class="card-btn" id="buy-stock-btn" onclick="APP.finance.buyStock();" style="color: green;">BUY</button>
                       <button class="card-btn" id="show-stock-sell-form-btn" onclick="APP.display.showSellStockForm();">SELL</button>
                       <button class="card-btn" id="sell-stock-btn" onclick="APP.finance.sellStock();" style="color: red">SELL</button>
-                      <button class="card-btn" id="buy-real-estate-btn" onclick="APP.finance.buyRealEstate();" style="color: blue;">BUY</button>
+                      <button class="card-btn" id="buy-real-estate-btn" onclick="APP.finance.buyRealEstate();">BUY</button>
                       <button class="card-btn" id="buy-coin-btn" onclick="APP.finance.buyCoin();">BUY</button>
                       <button class="card-btn" id="buy-business-btn" onclick="APP.finance.buyBusiness();">BUY</button>
                       <button class="card-btn" id="borrow-offer-loan-btn" onclick="APP.finance.getLoan();" style="color: red">YES</button>
@@ -716,19 +719,24 @@
                       <button class="card-btn" id="confirm-pay-btn" onclick="APP.finance.pay();">CONFIRM</button>
                       <button class="card-btn" id="confirm-settlement-btn" onclick="APP.finance.sellAsset();">CONFIRM</button>
                       <button class="card-btn" id="show-offer-btn" onclick="APP.display.showOffer();">BACK</button>
+					  <button class="card-btn" id="cancel-l-btn" onclick="APP.display.highlightLiabilities(2); APP.finishTurn();">CANCEL</button>
                       <!--<button class="card-btn" id="confirm-pay-btn2" onclick="APP.finance.pay();">CONFIRM</button>-->
                       <button class="card-btn" id="done-repay-btn" onclick="APP.display.highlightLiabilities(2); APP.finishTurn(); ">DONE</button>
                       <button class="card-btn" id="done-btn" onclick="APP.finishTurn();">DONE</button>
                       <button class="card-btn" id="done-buy-sell-btn" onclick="APP.display.showStockCard();">DONE</button>
                       <button class="card-btn" id="borrow-doodad-loan-btn" onclick="APP.finance.getLoan(); APP.finishTurn();">BORROW</button>
                       <button class="card-btn" id="ftic-ok-btn" onclick="APP.display.continue();">OK</button>
-                      <button class="card-btn" id="ft-enter-btn" onclick="FASTTRACK.init();">ENTER FAST TRACK</button>
+                      
                       <button class="card-btn" id="ft-end-turn-btn" onclick="APP.nextTurn();">END TURN</button>
-                    </div>
+					  <button class="card-btn" id="ft-doodad-roll-btn" onclick="FASTTRACK.doodad(APP.players[APP.currentPlayerArrPos()].position);">Roll</button>
+					 </div>
+                    
                     <div id="finish-turn-container">
                       <button class="card-btn" id="end-turn-btn" onclick="APP.nextTurn();">END TURN</button>
                       <button class="card-btn" id="cancel-btn" onclick="APP.display.highlightLiabilities(2); APP.finishTurn();">CANCEL</button>
                     </div>
+					
+					<button class="card-btn" id="ft-enter-btn" onclick="FASTTRACK.init();">ENTER FAST TRACK</button>
                   </div>
                 </div>
                 <div id="finance-box">
@@ -975,5 +983,6 @@
     <button id="reset-btn" class="hide"> Reset</button>
   </body>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script  src="js/index.js"></script>
 </html>

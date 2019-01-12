@@ -770,6 +770,10 @@ var APP = APP || {
                     currentDeal.cashFlow;
                 document.getElementById("deal-re-down-payment").innerHTML =
                     currentDeal.downPayment;
+					
+				if (APP.currentDeal.downPayment < player.cash){
+					$("#turn-info").css("box-shadow", ".2px .2px 3px 3px #43A047");
+				}
                 break;
             case "Property Damage":
                 $("#pass-btn").show();
@@ -1584,7 +1588,7 @@ APP.finance = {
             loan * 0.1;
 		
 		
-        if (APP.currentDoodad.hasOwnProperty('cost') && APP.currentDoodad.cost > 0) {
+        if (player.position === 1 || player.position === 9 || player.position === 17) {
             $("#no-loan-btn").hide();
         }
     },
@@ -1638,6 +1642,11 @@ APP.finance = {
                     $("#deal-card-real-estate").show();
                     $("#buy-real-estate-btn").show();
                     $("#pass-btn").show();
+					//highlight card when player has enough cash to buy the deal
+					if (APP.currentDeal.downPayment < player.cash){
+						$("#turn-info").css("box-shadow", ".2px .2px 3px 3px #43A047");
+					
+					}	
                     break;
                 case "Coin":
                     $("#deal-coin-card").show();
@@ -1659,11 +1668,6 @@ APP.finance = {
 					
             }
 			
-			//highlight card when player has enough cash to buy the deal
-			if (APP.currentDeal.downPayment < playerObj.cash){
-				$("#turn-info").css("box-shadow", ".2px .2px 3px 3px #43A047");
-			
-			}	
             APP.finance.statement();
         } else if (boardPosition === 19) {
             APP.display.clearCards();
@@ -1675,7 +1679,7 @@ APP.finance = {
             APP.finance.statement();
         }
 
-        if (APP.currentDoodad.cost != 'undefined' && APP.currentDoodad.cost > 0) {
+        if (boardPosition === 1 || boardPosition === 9 || boardPosition === 17) {
             APP.display.clearCards();
             APP.display.clearBtns();
             $("#doodad-card").show();
@@ -2536,7 +2540,7 @@ APP.cards = {
             propertyType: "rental",
             cost: 500
         },
-        coin1: {
+        /*coin1: {
             type: "Coin",
             name: "1500's Spanish",
             title: "Rare Gold Coin",
@@ -5352,6 +5356,10 @@ APP.display = {
         $(incomeInterestTableId).empty();
         $(incomeRealEstateTableId).empty();
         $(assetTableId).empty();
+		
+		if (player.position != 19) {
+			$("#turn-info").css("box-shadow", "0 0 2px #212121");
+			}
 
         for (var i = 0; i < realEstateAssetArr.length; i++) {
             var tag = realEstateAssetArr[i].tag;
@@ -5380,9 +5388,7 @@ APP.display = {
             $(incomeRealEstateTableId).append(incomeRow);
             $(assetTableId).append(assetRow);
 			
-			if (player.position != 19) {
-			$("#turn-info").css("box-shadow", "0 0 2px #212121");
-			}
+			
 			
             if (realEstateAssetArr[i].highlight === "on") {
                 if (typeof APP.currentOffer == "object") {
@@ -6838,7 +6844,11 @@ $(document).ready(function () {
   * option screen redesign
   * fixed bug in dream phase where second player scenario info was the first players info
   * fixed boat loan row to being visible only when player has loan
-
+  1/12/2019
+  * changed real estate cards and offer cards to only highlight when user can outright afford the downpayment or has sellable property
+  * Updated player settings to dynamically show the settings for currently selected players
+  
+  
   TODO
   * add text for when a player cannot utilize an offer => 'you do not own any of this property' prompt
   * press and hold functionality for increment buttons
@@ -6855,4 +6865,5 @@ $(document).ready(function () {
   * add turn info offer highlights for all types of assets 
   * every 12 paydays the player can opt out of insurance
   * should be an option with the player setup not all options
+  * highlight stock splits if effected
 */

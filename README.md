@@ -29,7 +29,7 @@ Preview at https://sleighs.github.io/CashFlowJs/
 * Doodads with Paychecks - More doodads. Players who land on the paycheck space will also get a doodad card
 * Loan Sharking - Players can give loans to other players
 * Mortgage Payments - Adds realistic mortgage payments
-* Job choice - Each player gets a choice between two jobs
+* Job choice - Option to choose jobs
 
 
 

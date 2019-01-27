@@ -534,7 +534,8 @@ body {
     bottom: 0;
     padding: 2px;
     height: 40px;
-    width: 80%;
+    width: 95%;
+	margin: auto;
     text-align: center;
     font-weight: 550;
     letter-spacing: 1px;

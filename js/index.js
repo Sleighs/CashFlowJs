@@ -1683,19 +1683,24 @@ APP.finance = {
 		$("#show-stock-form-btn").hide();
 		$("#show-stock-sell-form-btn").hide();
 		$("#done-btn").hide();
+		$("#ft-enter-btn").hide();
 		
         $("#cannot-afford-loan-card").show();
         $("#borrow-offer-loan-btn").show();
-        $("#no-loan-btn").show();
-        $("#ft-enter-btn").hide();
-
+        
         document.getElementById("loan-offer").innerHTML = loan;
         document.getElementById("loan-offer-monthly-payment").innerHTML =
             loan * 0.1;
 		
-        if (player.position === 1 || player.position === 9 || player.position === 17) {
+        if (player.position === (1 || 9 || 17 || 19)) {
             $("#no-loan-btn").hide();
-        }
+        } else {
+			$("#no-loan-btn").show();
+		}
+		
+		if (player.position === 19) {
+            $("#no-loan-btn").hide();
+        } 
     },
     roundLoan: function (cost) {
         var player = APP.players[APP.currentPlayerArrPos()];
@@ -6305,9 +6310,9 @@ var FASTTRACK = {
             cashFlow: 5000,
             cost: 120000*/
 			title: "Dream",
-            text: "You have a chacne to have your dream come true",
-            costText: "$120,000",
-            cost: 120000
+            text: "A chance to have your dream come true",
+            costText: "$100,000",
+            cost: 100000
         },
         square25: {
             title: "400-Unit Apartment Building",
@@ -6556,7 +6561,7 @@ var FASTTRACK = {
             "<span class='fast-track-space-title'>" + 
 			FASTTRACK.square.square24.title + "</span><br>" +
             "<div class='fast-track-cell-info'>" +
-			"<span></span>" + 
+			"<span>" + this.square.square24.text + "</span>" + 
 			"</div></div>";
         document.getElementById("cell225").innerHTML =
             "<div class ='cellx2'>" +

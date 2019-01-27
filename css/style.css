@@ -2,7 +2,7 @@
 Color Paletter
 	brown - #4E342E
 	yellow - #FDD835
-	grey - #212121
+	dark grey - #212121
 	
 	* Board Spaces *
 	opportunity - #43A047
@@ -47,7 +47,7 @@ body {
 }
 
 #window {
-    width: 100%;
+    width: 99%;
     display: fixed;
     margin: auto;
     position: relative;
@@ -106,19 +106,17 @@ body {
 }
 
 #new-room-button {
-    height: 170px;
+    height: 150px;
     width: 425px;
     font-size: 40px;
     font-family: 'lato';
-    border-radius: 24px;
-    border: 5pt ridge #FDD835;
-    background-color: white;
+    border-radius: 20px;
+    background-color: #FDD835;
     outline: none;
-    color: #3E2723;
-    font-weight: 500;
-    text-shadow: .8px .8px 1px #c2a500;
-    box-shadow: 0px 0px 1px 1px #FDD835;
-    margin: auto 33%;
+    color: white;
+    font-weight: bold;
+    text-shadow: .8px .8px 1px #4E342E;
+    margin: 9% 33%;
 }
 
 #setup-screen {
@@ -249,7 +247,10 @@ body {
     height: 60px;
 	text-shadow: .8px .8px 1px #212121;
 }
-
+.player-number-option {
+	font-family: lato;
+	text-shadow: .8px .8px 1px #212121;
+}
 #player-number {
     box-shadow: 0px 0px 2px 2px white;
     background-color: #FDD835;
@@ -410,17 +411,15 @@ body {
 #start-game {
 	position: relative;
     margin: 5.5%;
-    padding: 8% 20%;
-    border-radius: 8px;
-    background-color: white;
+    padding: 6% 20%;
+    border-radius: 20px;
+    background-color: #43A047;
     outline: none;
     font-size: 3em;
     font-family: 'lato';
-    text-shadow: .6px .6px 1px #c2a500;
-    color: #4E342E;
-    border: 2pt ridge #FDD835;
-    font-weight: 500;
-    box-shadow: 0px 0px 1px 1px #FDD835;
+    text-shadow: 1px 1px 1px #212111;
+    color: white;
+    font-weight: 600;
 	
 }
 
@@ -444,7 +443,7 @@ body {
 #board-container {
     margin: auto;
     padding: 0;
-    width: 1126px;
+    width: 100%;
     font-family: "Roboto", sans-serif;
     border-radius: 3px;
 }
@@ -453,8 +452,7 @@ body {
     display: none;
     margin: auto;
     border: 2pt solid white;
-    height: 268px;
-    width: 1120px;
+    width: 100%;
 }
 
 #board2 {
@@ -462,6 +460,7 @@ body {
     margin: auto;
     border: 2pt solid white;
     width: 100%;
+	/*height: 1000px;*/
     border-radius: 5px;
 }
 
@@ -471,7 +470,7 @@ body {
     left: 0px;
     color: white;
     height: 86px;
-    width: 8.2%;
+    width: 13.5%;
     font-size: 0.6em;
     letter-spacing: .2pt;
     text-align: center;
@@ -484,8 +483,8 @@ body {
     left: 0px;
     padding: 0px;
     color: white;
-    height: 88px;
-    width: 92px;
+    height: 75px;
+
     font-size: 8pt;
     letter-spacing: .2pt;
     text-align: center;
@@ -526,9 +525,7 @@ body {
     position: relative;
     padding: 2px;
     color: #01030e;
-    width: 1120px;
-    /*height: 690px;
-    */
+    /*width: 80%;*/
     border: 2pt solid white;
 }
 
@@ -537,22 +534,26 @@ body {
     bottom: 0;
     padding: 2px;
     height: 40px;
-    width: 82px;
+    width: 80%;
     text-align: center;
     font-weight: 550;
     letter-spacing: 1px;
 }
-
+.cellx p {
+	font-weight: bold;
+}
 .cellx2 {
     position: absolute;
     bottom: 0;
     padding: 1.5px;
     height: 70px;
-    width: 92px;
+    width: 95%;
     text-align: center;
     font-family: "lato";
 }
-
+#cell224 {
+	background-color: #2AEEBF;
+}
 .fast-track-cell-info {
     height: 80px;
     padding: 2px;
@@ -590,7 +591,7 @@ body {
 #tokenSection23 {
     display: block;
     height: 60px;
-    width: 75px;
+    /*width: 75px;*/
 }
 
 .board-top {
@@ -670,8 +671,8 @@ body {
     background-color: white;
     margin: auto;
     padding: 5px 0;
-    height: 410px;
-    width: 1136px;
+    height: 400px;
+    width: 100%;
 }
 
 #player-list,
@@ -681,33 +682,31 @@ body {
 }
 
 #player-list {
-    height: 364px;
-    width: 166px;
-	margin: .5%;
-    vertical-align: top;
+    width: 95%;
+	height: 95%;
+	margin: auto;
     padding: 4px;
     font-family: 'Lato';
-    color: ;
     text-shadow: 0px 0px 0px #4E342E;
+	top: 0;
 }
 
 #turn-info {
-    width: 318px;
-    height: 406px;
     position: relative;
-    padding: 0 10px;
+    padding: 4px;
     background-color: white;
     margin: auto 4px;
-	border: 2pt solid transparent;
     border-radius: 6px;
     box-shadow: 0 0 2px #212121;
+	height: 100%;
+	width: 93%;
 }
 
 #finance-box {
-    width: 556px;
-    height: 410px;
-    padding: 0 4px;
-    margin-right: 8px;
+    width: 240px;
+    height: 900px;
+    padding: 2px;
+    margin: auto;
     float: right;
     vertical-align: right;
     position: relative;
@@ -750,7 +749,6 @@ body {
 }
 
 #player-list-table {
-    width: 176px;
     font-color: white;
 }
 
@@ -758,9 +756,9 @@ body {
     text-align: left;
     font-weight: bold;
     color: #212121;
-    padding: 1px 5px;
+    padding: 3px 5px;
     font-size: 15pt;
-    height: 32px;
+    height: 100%;
     background-color: white;
     border-radius: 4px;
 }
@@ -784,7 +782,8 @@ body {
 #dream-choices {
     display: block;
     height: 334px;
-    width: 310px;
+    /*width: 310px;*/
+	margin: auto;
 }
 
 #dream-nav {
@@ -822,10 +821,11 @@ body {
     font-weight: 700;
     font-family: "quattrocento";
     margin: auto;
-    padding: 0 20px 0 10px;
+    padding: 0 10px;
     color: #3E2723;
     text-shadow: .4px .4px 2px #c2a500;
     letter-spacing: 1.4px;
+	width: 90%;
 }
 
 #dream-text {
@@ -841,15 +841,14 @@ body {
     display: block;
     font-family: "roboto";
     height: 35%;
-    width: 92%;
-    padding: 0 4%;
+    width: 90%;
+    padding: 0 2%;
     margin: auto;
 }
 
 #dream-info {
     font-size: 1.2em;
     width: 88%;
-    /*height: 20%;
     */
 }
 
@@ -893,9 +892,9 @@ body {
 }
 
 #turn-info-box {
-    height: 300px;
-    width: 310px;
-    padding: 7px;
+    height: 335px;
+	width: 100%;
+    padding: 5px;
 }
 
 #turn-instructions,
@@ -912,13 +911,13 @@ body {
 #deal-personal-loan-card,
 #deal-card-limited,
 #deal-card-automated {
-    width: 312px;
+    width: 85%;
     color: #263238;
     margin: auto;
 }
 
 #opp-card {
-    width: 312px;
+    width: 85%;
     color: #263238;
     margin: auto;
 }
@@ -929,7 +928,7 @@ body {
 }
 
 #deal-card-stock h2 {
-    width: 312px;
+    width: 85%;
     text-align: center;
     font-size: 23px;
 }
@@ -956,7 +955,7 @@ body {
 #offer-rule2,
 #deal-re-rule,
 #offer-settlement {
-    width: 300px;
+    width: 95%;
     margin: auto;
 }
 
@@ -971,8 +970,8 @@ body {
 }
 
 #repay-borrow-btns {
-    margin: auto 0;
-    width: 260px;
+    margin: auto 0 auto 4.5%;
+	width: 83%;
     padding: 6px;
     display: block;
 }
@@ -1008,24 +1007,44 @@ body {
     box-shadow: .4px .4px .5px #c2a500;
 }
 
-#card-btns,
+#card-btns {
+	top: 0;
+	display: none;
+	/*height: 100%;*/
+}
 #finish-turn-container {
-    height: 60px;
-    width: 292px;
     margin: auto 0;
-    padding: 7px;
-    display: block;
+    padding: 2px;
+	
 }
 
+#player-list-td {
+	height: 400px;
+}
+#info-card-td {
+	width: 350px;
+}
+#info-card-btns-td {
+	width: 100px;
+	posiiton: absolute;
+}
+
+#info {
+	width: 95%;
+		position: relative;
+}
+#info-btns {
+	height: 95%;
+}
 #end-turn-btn,
 #ft-end-turn-btn {
-    height: 40px;
-    width: 120px;
+    /*height: 40px;*/
+    width: 92px;
     border-radius: 5px;
     background-color: white;
     outline: none;
-    font-size: 14.5pt;
-    float: right;
+    font-size: 14pt;
+	margin: 5%;
 }
 
 #pass-btn,
@@ -1037,7 +1056,6 @@ body {
     background-color: white;
     outline: none;
     font-size: 16pt;
-    float: right;
     letter-spacing: .5pt;
 }
 
@@ -1049,7 +1067,6 @@ body {
     background-color: white;
     outline: none;
     font-size: 16pt;
-    float: right;
     letter-spacing: .5pt;
 }
 
@@ -1060,7 +1077,6 @@ body {
     background-color: white;
     outline: none;
     font-size: 16pt;
-    float: right;
     letter-spacing: .5pt;
 }
 
@@ -1071,7 +1087,6 @@ body {
     background-color: white;
     outline: none;
     font-size: 16pt;
-    float: right;
     letter-spacing: .5pt;
 }
 
@@ -1082,8 +1097,8 @@ body {
     background-color: white;
     outline: none;
     font-size: 16.5pt;
-    float: right;
     letter-spacing: .5pt;
+	margin: 7% 0;
 }
 
 #roll-btn,
@@ -1095,6 +1110,7 @@ body {
     background-color: white;
     outline: none;
     font-size: 16pt;
+	margin: 6% 0;
 }
 
 #roll2-btn,
@@ -1107,6 +1123,7 @@ body {
     outline: none;
     margin-bottom: 20px;
     font-size: 16pt;
+	margin: 7% 0;
 }
 
 #confirm-pay-btn {
@@ -1133,7 +1150,9 @@ body {
 #buy-coin-btn,
 #show-stock-sell-form-btn,
 #sell-stock-btn,
-#ftic-ok-btn {
+#ftic-ok-btn,
+#ft-opp-buy-btn,
+#ft-pass-btn {
     height: 40px;
     width: 92px;
     border-radius: 5px;
@@ -1141,12 +1160,13 @@ body {
     outline: none;
     font-size: 16pt;
     letter-spacing: .5pt;
+	margin: 7% 0;
 }
 
 #ft-enter-btn {
     height: 70px;
     width: 150px;
-    border-radius: 5px;
+    border-radius: 6px;
     background-color: white;
     outline: none;
     font-size: 16pt;
@@ -1154,16 +1174,15 @@ body {
     box-shadow: .6px .6px 2px #c2a500;
     text-shadow: .6px .6px 2px #c2a500;
     color: #4E342E;
-    float: left;
 }
 
 #confirm-settlement-btn {
     height: 40px;
-    width: 120px;
+    width: 92px;
     border-radius: 5px;
     background-color: white;
     outline: none;
-    font-size: 16pt;
+    font-size: 11pt;
     letter-spacing: .5pt;
 }
 
@@ -1171,7 +1190,7 @@ body {
 #take-out-loan,
 #borrow-offer-loan-btn {
     height: 40px;
-    width: 110px;
+    width: 92px;
     border-radius: 5px;
     background-color: white;
     outline: none;
@@ -1258,14 +1277,14 @@ body {
 
 #income-table {
     display: block;
-    height: 122px;
+    /*height: 132px;*/
     width: 264px;
     overflow: auto;
 }
 
 #expense-table {
     display: block;
-    height: 128px;
+    /*height: 138px;*/
     width: 264px;
     padding-top: 2px;
     overflow: auto;
@@ -1273,9 +1292,17 @@ body {
 
 #asset-table,
 #liability-table {
-    display: inline-block;
+    /*display: inline-block;*/
     width: 264px;
-    height: 112px;
+    height: 122px;
+    padding: 4px;
+    vertical-align: bottom;
+    overflow: auto;
+    border-spacing: 0;
+}
+#ft-statement {
+    width: 264px;
+    /*height: 112px;*/
     padding: 4px;
     vertical-align: bottom;
     overflow: auto;
@@ -1283,7 +1310,7 @@ body {
 }
 
 #asset-table-header,
-#lia-table-header {
+#lia-table-header, #ft-assets-table-header {
     float: left;
     color: #263238;
 }

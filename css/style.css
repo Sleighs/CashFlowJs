@@ -42,12 +42,12 @@ Color Paletter
 }
 
 body {
-    width: 1346px;
+    width: 1345px;
     margin: auto;
 }
 
 #window {
-    width: 99%;
+    width: 99.5%;
     display: fixed;
     margin: auto;
     position: relative;
@@ -696,7 +696,7 @@ body {
     position: relative;
     padding: 4px;
     background-color: white;
-    margin: auto 4px;
+    margin: auto;
     border-radius: 6px;
     box-shadow: 0 0 2px #212121;
 	height: 100%;
@@ -758,8 +758,8 @@ body {
     font-weight: bold;
     color: #212121;
     padding: 3px 5px;
-    font-size: 15pt;
-    height: 100%;
+    font-size: 14pt;
+    height: 97%;
     background-color: white;
     border-radius: 4px;
 }
@@ -1129,12 +1129,12 @@ body {
 
 #confirm-pay-btn {
     height: 40px;
-    width: 124px;
+    width: 92px;
     letter-spacing: .5pt;
     border-radius: 5px;
     background-color: white;
     outline: none;
-    font-size: 16pt;
+    font-size: 14pt;
 }
 
 #buy-opp-button,
@@ -1266,14 +1266,21 @@ body {
 }
 
 #income-expense-progress {
-    width: 100%;
+    width: 95%;
     background-color: #546E7A;
+	margin: auto;
 }
 
 #income-expense-bar {
     width: 1%;
     height: 27px;
     background-color: green;
+}
+
+#passive-income-count {
+	font-size: 9pt; 
+	margin: 4px auto; 
+	width: 60%;
 }
 
 #income-table {

@@ -38,7 +38,7 @@
             <div id="player-setup-input-container">
               <div id="player1input" class="player-input" >
                 <div class="player-input-container">Player 1: <input type="text" id="player1name" title="Player name" maxlength="16" value="Player 1" /></div>
-				  <label class="player-options-checkbox">
+				  <label class="player-options-checkbox" title="Pay 8% of your income for Downsize insurance. Pay an additional 1% for every dependent.">
 				  <input id="po-insurance-p1" type="checkbox">
 				  <span class="player-input-checkmark">Insurance</span>
 				  </label>
@@ -60,7 +60,7 @@
               </div>
               <div id="player2input" class="player-input">
                 Player 2: <input type="text" id="player2name" title="Player name" maxlength="16" value="Player 2" />
-				<label class="player-options-checkbox">
+				<label class="player-options-checkbox" title="Pay 8% of your income for Downsize insurance. Pay an additional 1% for every dependent.">
 				  <input id="po-insurance-p2" type="checkbox">
 				  <span class="player-input-checkmark">Insurance</span>
 				  </label>
@@ -82,7 +82,7 @@
               </div>
               <div id="player3input" class="player-input">
                 Player 3: <input type="text" id="player3name" title="Player name" maxlength="16" value="Player 3" />
-				<label class="player-options-checkbox">
+				<label class="player-options-checkbox" title="Pay 8% of your income for Downsize insurance. Pay an additional 1% for every dependent.">
 				  <input id="po-insurance-p3" type="checkbox">
 				  <span class="player-input-checkmark">Insurance</span>
 				  </label>
@@ -104,7 +104,7 @@
               </div>
               <div id="player4input" class="player-input">
                 Player 4: <input type="text" id="player4name" title="Player name" maxlength="16" value="Player 4" />
-				<label class="player-options-checkbox">
+				<label class="player-options-checkbox" title="Pay 8% of your income for Downsize insurance. Pay an additional 1% for every dependent.">
 				  <input id="po-insurance-p4" type="checkbox">
 				  <span class="player-input-checkmark">Insurance</span>
 				  </label>
@@ -126,7 +126,7 @@
               </div>
               <div id="player5input" class="player-input">
                 Player 5: <input type="text" id="player5name" title="Player name" maxlength="16" value="Player 5" />
-				<label class="player-options-checkbox">
+				<label class="player-options-checkbox" title="Pay 8% of your income for Downsize insurance. Pay an additional 1% for every dependent.">
 				  <input id="po-insurance-p5" type="checkbox">
 				  <span class="player-input-checkmark">Insurance</span>
 				  </label>
@@ -148,7 +148,7 @@
               </div>
               <div id="player6input" class="player-input">
                 Player 6: <input type="text" id="player6name" title="Player name" maxlength="16" value="Player 6" />
-				<label class="player-options-checkbox">
+				<label class="player-options-checkbox" title="Pay 8% of your income for Downsize insurance. Pay an additional 1% for every dependent.">
 				  <input id="po-insurance-p6" type="checkbox">
 				  <span class="player-input-checkmark">Insurance</span>
 				  </label>
@@ -170,7 +170,7 @@
               </div>
               <div id="player7input" class="player-input">
                 Player 7: <input type="text" id="player7name" title="Player name" maxlength="16" value="Player 7" />
-				<label class="player-options-checkbox">
+				<label class="player-options-checkbox" title="Pay 8% of your income for Downsize insurance. Pay an additional 1% for every dependent.">
 				  <input id="po-insurance-p7" type="checkbox">
 				  <span class="player-input-checkmark">Insurance</span>
 				  </label>
@@ -192,7 +192,7 @@
               </div>
               <div id="player8input" class="player-input">
                 Player 8: <input type="text" id="player8name" title="Player name" maxlength="16" value="Player 8" />
-				<label class="player-options-checkbox">
+				<label class="player-options-checkbox" title="Pay 8% of your income for Downsize insurance. Pay an additional 1% for every dependent.">
 				  <input id="po-insurance-p8" type="checkbox">
 				  <span class="player-input-checkmark">Insurance</span>
 				  </label>
@@ -215,7 +215,7 @@
             </div>
           </div>
 		  <div id="options-container">
-		  <input id="start-game" type="button" value="Start Game" onclick="APP.setup()" title="Begin playing." />
+			<input id="start-game" type="button" value="Start Game" onclick="APP.setup()" title="Begin playing." />
             <div id="mode-indicator-container">
               <button id="default-game-indicator" onclick="OPTIONS.defaultOptions();">Default</button>
               <div id="custom-game-indicator" onclick="">Custom</div>
@@ -274,12 +274,24 @@
               <input id="oo-player-loans"type="checkbox">
               <span class="checkmark  off-options"></span>
               </label>
-              <label class="options-checkbox">Choose Job
-              <input id="oo-choose-job" type="checkbox">
-              <span class="checkmark  off-options"></span>
-              </label>
               <label class="options-checkbox">One Deal Deck 
               <input id="oo-one-deal-deck" type="checkbox">
+              <span class="checkmark  off-options"></span>
+              </label>
+			  <label class="options-checkbox">_
+              <input id="oo-1" type="checkbox">
+              <span class="checkmark  off-options"></span>
+              </label>
+			  <label class="options-checkbox">_
+              <input id="oo-2" type="checkbox">
+              <span class="checkmark  off-options"></span>
+              </label>
+			  <label class="options-checkbox">_
+              <input id="oo-3" type="checkbox">
+              <span class="checkmark  off-options"></span>
+              </label>
+			  <label class="options-checkbox">_
+              <input id="oo-3" type="checkbox">
               <span class="checkmark  off-options"></span>
               </label>
             </div>
@@ -298,7 +310,11 @@
           </div>          
         </div>
       </div>
-      <table id="board2">
+	  
+	  
+      
+	  <div style="display: inline-block; width: 1085px;">
+	  <table id="board2">
         <tr>
           <td class="cell2 board-top pay-space" id="cell218"></td>
           <td class="cell2 board-top opp-space2" id="cell219"></td>
@@ -326,377 +342,394 @@
                   <td class="cell board-top cha-space" id="cell3"></td>
                   <td class="cell board-top opp-space" id="cell4"></td>
                   <td class="cell board-top pay-space" id="cell5"></td>
-                  <td class="cell board-top opp-space" id="cell6"></td>
-                  <td class="cell board-top off-space" id="cell7"></td>
-                  <td class="cell board-top opp-space" id="cell8"></td>
-                  <td class="cell board-top lia-space" id="cell9"></td>
-                  <td class="cell board-top opp-space" id="cell10"></td>
-                  <td class="cell board-top kid-space" id="cell11"></td>
+                   <td class="cell board-top opp-space" id="cell6"></td>               
                 </tr>
-                <tr>
-                  <td class="cell board-bot off-space" id="cell23"></td>
-                  <td class="cell board-bot opp-space" id="cell22"></td>
-                  <td class="cell board-bot pay-space" id="cell21"></td>
-                  <td class="cell board-bot opp-space" id="cell20"></td>
-                  <td class="cell board-bot dow-space" id="cell19"></td>
-                  <td class="cell board-bot opp-space" id="cell18"></td>
-                  <td class="cell board-bot lia-space" id="cell17"></td>
-                  <td class="cell board-bot opp-space" id="cell16"></td>
-                  <td class="cell board-bot off-space" id="cell15"></td>
-                  <td class="cell board-bot opp-space" id="cell14"></td>
-                  <td class="cell board-bot pay-space" id="cell13"></td>
-                  <td class="cell board-bot opp-space" id="cell12"></td>
-                </tr>
-              </table>
-              <div id="info">
-                <div id="player-list">
-                  <div id="player-list-table"></div>
-                </div>
-                <div id="turn-info">
-                  <div id="dream-choices">
-                    <nav id="dream-nav">
-                      <button id="dream-left-arrow" onclick="APP.dreamPhase.leftDream();"></button>
-                      <button id="dream-right-arrow" onclick="APP.dreamPhase.rightDream();"></button>
-                    </nav>
-                    <div id="dream-logo"></div>
-                    <div id="dream-heading">
-                      <p id="dream-player-name"></p>
-                      CHOOSE YOUR DREAM
-                    </div>
-                    <div id="dream-description">
-                      <p><span id="dream-text"></span>: <span id="dream-des"></span></p>
-                      <p id="dream-info"></p>
-                    </div>
-                    <div id="job-text">
-                      <button id="dream-choice-btn" onclick="APP.dreamPhase.dreamChoiceBtn();">Select</button>
-                      <div>You are a<span id='dream-job'></span>.</div>
-                      <div>Your starting salary is $<span id='dream-starting-salary'></span>.</div>
-                      <div>You have $<span id='dream-starting-savings'></span> in your savings.</div>
-                      <div>That means your starting cash is $<span id='dream-starting-cash'></span>.</div>
-                    </div>
-                  </div>
-                  <div id="turn-info-box">
-                    <div id="turn-instructions">
-                      <h2 class="card-title"><span id="player-name"></span>'s turn</h2>
-                      <h3>When you are ready, roll the die and take your turn</h3>
-                      <p>Before you start your turn, review your financial statement. You may also use this time to repay liabilities or borrow money.</p>
-                    </div>
-                    <div id="finish-instructions">
-                      <h2 class="card-title">
-                      FINISH YOUR TURN</h3>
-                      <p>Before you end your turn, review your financial statement. You may also use this time to repay liabilities or borrow money.</p>
-                    </div>
-                    <div id="opp-card">
-                      <div class="card-title">
-                        <h2>DEAL OPPORTUNITY</h2>
-                      </div>
-                      <p id="card-text">Which type of deal do you want?</p>
-                      <p>Small deals cost $5,000 or less.<br>Big deals cost $6,000 or more.</p>
-                    </div>
-                    <div id="deal-card-real-estate">
-                      <h2 class="card-title"><span id="deal-re-name"></span></h2>
-                      <p><span id="deal-re-description"></span></p>
-                      <p><span id="deal-re-rule"></span></p>
-                      <table id="real-estate-cost-table">
-                        <tr>
-                          <td>Cost: $<span id="deal-re-cost"></span></td>
-                        </tr>
-                        <tr>
-                          <td>Mortgage: $<span id="deal-re-mortgage"></span></td>
-                        </tr>
-                        <tr>
-                          <td>Cash flow: $<span id="deal-re-cash-flow"></span></td>
-                        </tr>
-                        <tr>
-                          <td>Down pay: $<span id="deal-re-down-payment"></span></td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div id="deal-card-stock">
-                      <h2 class="card-title"><span id="deal-stock-type"></span><br>
-                        <span id="deal-stock-name"></span>
-                      </h2>
-                      <p id="deal-stock-text"></p>
-                      <br>
-                      <p id="deal-stock-rule"></p>
-                      <table id="stock-cost-table">
-                        <tr>
-                          <td>Cost: $<span id="deal-stock-cost"></span></td>
-                        </tr>
-                        <tr>
-                          <td>Cash flow: $<span id="deal-stock-cash-flow"></span></td>
-                        </tr>
-                        <tr>
-                          <td>Trading range: <span id="deal-stock-trading-range"></span></td>
-                        </tr>
-                        <tr>
-                          <td>Shares owned: <span id="deal-stock-shares-owned"></span></td>
-                        </tr>
-                      </table>
-                      <div id="buy-shares-form">
-                        <div id="buy-shares">
-                          <div class="share-amt-box" id="shares-input">Buy shares: <input id="share-amt-input" type="number" name="shares" value="1">
-                          </div>
-                          <div class="share-amt-box" id="share-amt-btns">
-                            <button id="increase-shares" onclick="document.getElementById('share-amt-input').stepUp(1);" type="button">+</button>
-                            <button id="decrease-shares" onclick="APP.display.decreaseShares(1);" type="button"> - </button>
-                          </div>
-                          <div class="share-amt-box" style="font-weight: bold; letter-spacing: 1px; font-size: 13pt; color: #212121;">For: $<span id="share-cost"></span> each</div>
-                        </div>
-                      </div>
-                      <div id="sell-shares-form">
-                        <div id="sell-shares">
-                          <div class="share-amt-box" id="shares-input">Sell shares: <input id="share-amt-input-sell" type="number" name="shares" value="1">
-                          </div>
-                          <div class="share-amt-box" id="share-amt-btns">
-                            <button id="increase-shares" onclick="APP.display.increaseShares();" type="button">+</button>
-                            <button id="decrease-shares" onclick="APP.display.decreaseShares();" type="button"> - </button>
-                          </div>
-                          <div class="share-amt-box" style="font-weight: bold; letter-spacing: 1px; font-size: 13pt; color: #212121;">
-                            At $<span id="share-cost-sell"></span> each <!--for $<span id="share-sell-total"></span>-->
-                          </div>
-                          <div>Bought at $<span id="share-cost-bought"></span></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div id="deal-coin-card">
-                      <h2 class="card-title"><span id="deal-coin-title"></span></h2>
-                      <p id="deal-coin-description"></p>
-                      <p id="deal-coin-rule"></p>
-                      <table id="coin-cost-table">
-                        <tr>
-                          <td>Cost: $<span id="deal-coin-cost"></span></td>
-                        </tr>
-                        <tr>
-                          <td>Down Payment: $<span id="deal-coin-down-payment"></span></td>
-                        </tr>
-                        <tr>
-                          <td>Liability: $<span id="deal-coin-liability"></span></td>
-                        </tr>
-                        <tr>
-                          <td>Cash Flow: $<span id="deal-coin-cash-flow"></span></td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div id="deal-cd-card">
-                      <h2 class="card-title"><span id="deal-cd-name"></span></h2>
-                      <p id="deal-cd-description"></p>
-                      <p id="deal-cd-rule"></p>
-                    </div>
-                    <div id="deal-company-card">
-                      <h2 class="card-title"><span id="deal-company-name"></span></h2>
-                      <p id="deal-company-description"></p>
-                      <br>
-                      <p id="deal-company-rule"></p>
-                      <br>
-                      <table>
-                        <tr>
-                          <td>Cost: $<span id="deal-company-cost"></span></td>
-                        </tr>
-                        <tr>
-                          <td>Cash Flow: $<span id="deal-company-cash-flow"></span></td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div id="deal-personal-loan-card">
-                      <h2 class="card-title"><span id="deal-personal-loan-name"></span></h2>
-                      <p id="deal-personal-loan-description"></p>
-                    </div>
-                    <div id="deal-card-limited">
-                      <h2 class="card-title"><span id="deal-limited-name"></span></h2>
-                      <p id="deal-limited-description"></p>
-                      <p id="deal-limited-rule"></p>
-                      <table id="limited-cost-table">
-                        <tr>
-                          <td>Cost: $<span id="deal-limited-cost"></span></td>
-                        </tr>
-                        <tr>
-                          <td>Cash flow: $<span id="deal-limited-cash-flow"></span></td>
-                        </tr>
-                        <tr>
-                          <td>Down pay: $<span id="deal-limited-down-payment"></span></td>
-                        </tr>
-                        <tr>
-                          <td>Liability: $<span id="deal-limited-liability"></span></td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div id="deal-card-automated">
-                      <h2 class="card-title"><span id="deal-automated-name"></span></h2>
-                      <p id="deal-automated-description"></p>
-                      <p id="deal-automated-rule"></p>
-                      <table id="automated-cost-table">
-                        <tr>
-                          <td>Cost: $<span id="deal-automated-cost"></span></td>
-                        </tr>
-                        <tr>
-                          <td>Cash flow: $<span id="deal-automated-cash-flow"></span></td>
-                        </tr>
-                        <tr>
-                          <td>Down pay: $<span id="deal-automated-down-payment"></span></td>
-                        </tr>
-                        <tr>
-                          <td>Liability: $<span id="deal-automated-liability"></span></td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div id="doodad-card">
-                      <h2 class="card-title"><span id="doodad-title"></span></h2>
-                      <p id="doodad-text"></p>
-					  <br>
-                    </div>
-                    <div id="offer-card">
-                      <h2 class="card-title"><span id="offer-title"></span></h2>
-                      <p id="offer-description"></p>
-                      <br>
-                      <p id="offer-rule1"></p>
-                      <p id="offer-settlement"></p>
-                      <br>
-                      <p id="offer-rule2"></p>
-                    </div>
-                    <div id="charity-card">
-                      <h2 class="card-title">GIVE TO CHARITY</h2>
-                      <br>
-                      <p id="charity-text"> Donate 10% of your total income to roll 1 or 2 die over your next 3 turns.</p>
-                      <br>
-                    </div>
-                    <div id="kid-card">
-                      <h2 class="card-title">NEW BABY!</h2>
-                      <p id="child-text">Congratulations! One child has been added to your dependents<br>
-                      <h3>Child Expenses will be increased by $<span id="child-cost"></span></h3>
-                      </p>
-                      <br>
-                    </div>
-                    <div id="downsize-card">
-                      <h2 class="card-title">DOWNSIZED!</h2>
-					  <div id="default-ds">
-						  <p>Pay a full set of your expenses. Skip 3 turns.</p>
-						  <p style="font-size: 18pt"> Pay: $<span id="downsized-amt"></span></p>
+				<tr>
+					<td class="cell board-bot off-space" id="cell23"></td>
+					
+					<td id="player-list-td" colspan="1" rowspan="5">
+						<div id="player-list" style="display: inline-block;">
+						  <div id="player-list-table"></div>
+						  
+						</div>
+					</td>
+					<td id="info-card-td" colspan="3" rowspan="5">
+						
+					
+						<div id="info">				
+						  <div id="turn-info">
+						  <div id="dream-choices">
+						<nav id="dream-nav">
+						  <button id="dream-left-arrow" onclick="APP.dreamPhase.leftDream();"></button>
+						  <button id="dream-right-arrow" onclick="APP.dreamPhase.rightDream();"></button>
+						</nav>
+						<div id="dream-logo"></div>
+						<div id="dream-heading">
+						  <p id="dream-player-name"></p>
+						  CHOOSE YOUR DREAM
+						</div>
+						<div id="dream-description">
+						  <p><span id="dream-text"></span>: <span id="dream-des"></span></p>
+						  <p id="dream-info"></p>
+						</div>
+						<div id="job-text">
+						  <button id="dream-choice-btn" onclick="APP.dreamPhase.dreamChoiceBtn();">Select</button>
+						  <div>You are a<span id='dream-job'></span>.</div>
+						  <div>Your starting salary is $<span id='dream-starting-salary'></span>.</div>
+						  <div>You have $<span id='dream-starting-savings'></span> in your savings.</div>
+						  <div>That means your starting cash is $<span id='dream-starting-cash'></span>.</div>
+						</div>
 					  </div>
-					  <div id="insured-ds">
-						  <p>Spare Pay a full set of your expenses. Skip 3 turns.</p>
-						  <p style="font-size: 18pt"> You are covered for the full amount of $<span id="downsized-amt2"></span></p>
+						  <div id="turn-info-box" style="display: inline-block;">
+						<div id="turn-instructions">
+						  <h2 class="card-title"><span id="player-name"></span>'s turn</h2>
+						  <h3>When you are ready, roll the die and take your turn</h3>
+						  <p>Before you start your turn, review your financial statement. You may also use this time to repay liabilities or borrow money.</p>
+						</div>
+						<div id="finish-instructions">
+						  <h2 class="card-title">
+						  FINISH YOUR TURN</h2>
+						  <p>Before you end your turn, review your financial statement. You may also use this time to repay liabilities or borrow money.</p>
+						</div>
+						<div id="opp-card">
+						  <div class="card-title">
+							<h2>DEAL OPPORTUNITY</h2>
+						  </div>
+						  <p id="card-text">Which type of deal do you want?</p>
+						  <p>Small deals cost $5,000 or less.<br>Big deals cost $6,000 or more.</p>
+						</div>
+						<div id="deal-card-real-estate">
+						  <h2 class="card-title"><span id="deal-re-name"></span></h2>
+						  <p><span id="deal-re-description"></span></p>
+						  <p><span id="deal-re-rule"></span></p>
+						  <table id="real-estate-cost-table">
+							<tr>
+							  <td>Cost: $<span id="deal-re-cost"></span></td>
+							</tr>
+							<tr>
+							  <td>Mortgage: $<span id="deal-re-mortgage"></span></td>
+							</tr>
+							<tr>
+							  <td>Cash flow: $<span id="deal-re-cash-flow"></span></td>
+							</tr>
+							<tr>
+							  <td>Down pay: $<span id="deal-re-down-payment"></span></td>
+							</tr>
+						  </table>
+						</div>
+						<div id="deal-card-stock">
+						  <h2 class="card-title"><span id="deal-stock-type"></span><br>
+							<span id="deal-stock-name"></span>
+						  </h2>
+						  <p id="deal-stock-text"></p>
+						  <br>
+						  <p id="deal-stock-rule"></p>
+						  <table id="stock-cost-table">
+							<tr>
+							  <td>Cost: $<span id="deal-stock-cost"></span></td>
+							</tr>
+							<tr>
+							  <td>Cash flow: $<span id="deal-stock-cash-flow"></span></td>
+							</tr>
+							<tr>
+							  <td>Trading range: <span id="deal-stock-trading-range"></span></td>
+							</tr>
+							<tr>
+							  <td>Shares owned: <span id="deal-stock-shares-owned"></span></td>
+							</tr>
+						  </table>
+						  <div id="buy-shares-form">
+							<div id="buy-shares">
+							  <div class="share-amt-box" id="shares-input">Buy shares: <input id="share-amt-input" type="number" name="shares" value="1">
+							  </div>
+							  <div class="share-amt-box" id="share-amt-btns">
+								<button id="increase-shares" onclick="document.getElementById('share-amt-input').stepUp(1);" type="button">+</button>
+								<button id="decrease-shares" onclick="APP.display.decreaseShares(1);" type="button"> - </button>
+							  </div>
+							  <div class="share-amt-box" style="font-weight: bold; letter-spacing: 1px; font-size: 13pt; color: #212121;">For: $<span id="share-cost"></span> each</div>
+							</div>
+						  </div>
+						  <div id="sell-shares-form">
+							<div id="sell-shares">
+							  <div class="share-amt-box" id="shares-input">Sell shares: <input id="share-amt-input-sell" type="number" name="shares" value="1">
+							  </div>
+							  <div class="share-amt-box" id="share-amt-btns">
+								<button id="increase-shares" onclick="APP.display.increaseShares();" type="button">+</button>
+								<button id="decrease-shares" onclick="APP.display.decreaseShares();" type="button"> - </button>
+							  </div>
+							  <div class="share-amt-box" style="font-weight: bold; letter-spacing: 1px; font-size: 13pt; color: #212121;">
+								At $<span id="share-cost-sell"></span> each <!--for $<span id="share-sell-total"></span>-->
+							  </div>
+							  <div>Bought at $<span id="share-cost-bought"></span></div>
+							</div>
+						  </div>
+						</div>
+						<div id="deal-coin-card">
+						  <h2 class="card-title"><span id="deal-coin-title"></span></h2>
+						  <p id="deal-coin-description"></p>
+						  <p id="deal-coin-rule"></p>
+						  <table id="coin-cost-table">
+							<tr>
+							  <td>Cost: $<span id="deal-coin-cost"></span></td>
+							</tr>
+							<tr>
+							  <td>Down Payment: $<span id="deal-coin-down-payment"></span></td>
+							</tr>
+							<tr>
+							  <td>Liability: $<span id="deal-coin-liability"></span></td>
+							</tr>
+							<tr>
+							  <td>Cash Flow: $<span id="deal-coin-cash-flow"></span></td>
+							</tr>
+						  </table>
+						</div>
+						<div id="deal-cd-card">
+						  <h2 class="card-title"><span id="deal-cd-name"></span></h2>
+						  <p id="deal-cd-description"></p>
+						  <p id="deal-cd-rule"></p>
+						</div>
+						<div id="deal-company-card">
+						  <h2 class="card-title"><span id="deal-company-name"></span></h2>
+						  <p id="deal-company-description"></p>
+						  <br>
+						  <p id="deal-company-rule"></p>
+						  <br>
+						  <table>
+							<tr>
+							  <td>Cost: $<span id="deal-company-cost"></span></td>
+							</tr>
+							<tr>
+							  <td>Cash Flow: $<span id="deal-company-cash-flow"></span></td>
+							</tr>
+						  </table>
+						</div>
+						<div id="deal-personal-loan-card">
+						  <h2 class="card-title"><span id="deal-personal-loan-name"></span></h2>
+						  <p id="deal-personal-loan-description"></p>
+						</div>
+						<div id="deal-card-limited">
+						  <h2 class="card-title"><span id="deal-limited-name"></span></h2>
+						  <p id="deal-limited-description"></p>
+						  <p id="deal-limited-rule"></p>
+						  <table id="limited-cost-table">
+							<tr>
+							  <td>Cost: $<span id="deal-limited-cost"></span></td>
+							</tr>
+							<tr>
+							  <td>Cash flow: $<span id="deal-limited-cash-flow"></span></td>
+							</tr>
+							<tr>
+							  <td>Down pay: $<span id="deal-limited-down-payment"></span></td>
+							</tr>
+							<tr>
+							  <td>Liability: $<span id="deal-limited-liability"></span></td>
+							</tr>
+						  </table>
+						</div>
+						<div id="deal-card-automated">
+						  <h2 class="card-title"><span id="deal-automated-name"></span></h2>
+						  <p id="deal-automated-description"></p>
+						  <p id="deal-automated-rule"></p>
+						  <table id="automated-cost-table">
+							<tr>
+							  <td>Cost: $<span id="deal-automated-cost"></span></td>
+							</tr>
+							<tr>
+							  <td>Cash flow: $<span id="deal-automated-cash-flow"></span></td>
+							</tr>
+							<tr>
+							  <td>Down pay: $<span id="deal-automated-down-payment"></span></td>
+							</tr>
+							<tr>
+							  <td>Liability: $<span id="deal-automated-liability"></span></td>
+							</tr>
+						  </table>
+						</div>
+						<div id="doodad-card">
+						  <h2 class="card-title"><span id="doodad-title"></span></h2>
+						  <p id="doodad-text"></p>
+						  <br>
+						</div>
+						<div id="offer-card">
+						  <h2 class="card-title"><span id="offer-title"></span></h2>
+						  <p id="offer-description"></p>
+						  <br>
+						  <p id="offer-rule1"></p>
+						  <p id="offer-settlement"></p>
+						  <br>
+						  <p id="offer-rule2"></p>
+						</div>
+						<div id="charity-card">
+						  <h2 class="card-title">GIVE TO CHARITY</h2>
+						  <br>
+						  <p id="charity-text"> Donate 10% of your total income to roll 1 or 2 die over your next 3 turns.</p>
+						  <br>
+						</div>
+						<div id="kid-card">
+						  <h2 class="card-title">NEW BABY!</h2>
+						  <p id="child-text">Congratulations! One child has been added to your dependents<br>
+						  <h3>Child Expenses will be increased by $<span id="child-cost"></span></h3>
+						  </p>
+						  <br>
+						</div>
+						<div id="downsize-card">
+						  <h2 class="card-title">DOWNSIZED!</h2>
+						  <div id="default-ds">
+							  <p>Pay a full set of your expenses. Skip 3 turns.</p>
+							  <p style="font-size: 18pt"> Pay: $<span id="downsized-amt"></span></p>
+						  </div>
+						  <div id="insured-ds">
+							  <p>Spare Pay a full set of your expenses. Skip 3 turns.</p>
+							  <p style="font-size: 18pt"> You are covered for the full amount of $<span id="downsized-amt2"></span></p>
+						  </div>
+						  <br>
+						</div>
+						<div id="repay-card">
+						  <h2 class="card-title">PAY OFF LOAN</h2>
+						  <br>
+						  <p>Select a liability on your statement sheet to repay your debt.</p>
+						</div>
+						<div id="borrow-card">
+						  <h2 class="card-title">TAKE OUT A LOAN</h2>
+						  <br>
+						  <p>Loans must be in multiples of $1000 at 10% interest per month.</p>
+						  <form>
+							<div id="loan-amt">Amount: $<input id='loan-amt-input' type='text' name='loan-amount' value='1000'></div>
+							<div id="loan-amt-btns">
+							  <input type="button" id="increase-loan" onclick="APP.finance.increaseLoan();" value=" + "></input>
+							  <input type="button" id="decrease-loan" onclick="APP.finance.decreaseLoan();" value=" - "></input>
+							</div>
+							<input id="take-out-loan" type="button" value="BORROW" onclick="APP.finance.takeOutLoan(); APP.finance.statement(APP.currentPlayerArrPos());"></input>
+						  </form>
+						</div>
+						<div id="repay-loan-card">
+						  <h2 class="card-title">PAY OFF LOAN</h2>
+						  <p>Input an amount to repay your loan<br>Payments must be in multiples of $1,000</p>
+						  <form>
+							<div id="loan-amt">Amount: $<input id='loan-amt-input2' type='text' name='loan-amount' value='1000'></div>
+							<br>
+							<div id="loan-amt-btns">
+							  <input type="button" id="increase-loan" onclick="APP.finance.increaseLoan();" value=" + "></input>
+							  <input type="button" id="decrease-loan" onclick="APP.finance.decreaseLoan();" value=" - "></input>
+							</div>
+							<br>
+							<input id="repay-loan-input" type="button" value="PAY" onclick="APP.finance.pay(); APP.finance.statement(APP.currentPlayerArrPos());"></input>
+						  </form>
+						</div>
+						<div id="settlement-card">
+						  <h2 class="card-title">Confirm Settlement</h2>
+						  <p>Do you accept a settlement offer of $<span id="settlement-offer">?</span></p>
+						</div>
+						<div id="cannot-afford-card">
+						  <h2 class="card-title">
+							<!--PAY OFF LOAN-->
+						  </h2>
+						  <p>You do not have enough funds.</p>
+						</div>
+						<div id="cannot-afford-loan-card">
+						  <h2 class="card-title">TAKE OUT A LOAN</h2>
+						  <p>Not enough funds.</p>
+						  <p>Take out a loan of $<span id="loan-offer"></span> with a monthly payment of $<span id="loan-offer-monthly-payment"></span></p>
+						</div>
+						<div id="pay-confirm-card">
+						  <h2 class="card-title">PAY OFF LOAN</h2>
+						  <p>Are you sure?</p>
+						</div>
+						<div id="bankrupt-card">
+						  <h2 class="card-title">YOU ARE BANKRUPT!</h2>
+						  <p>You have $<span id="br-cash-flow"></span><br>To exit bankruptcy you need positive cash flow.</p>
+						  <ol>
+							<li>Sell assets for 1/2 the down payment.</li>
+							<li>Pay off debt.</li>
+							<li>Pay down your loan amount.</li>
+						  </ol>
+						  <p id="br-settlement-text">Sell asset for $<span id="br-settlement-offer"></span>.</p>
+						</div>
+						<div id="lose-card">
+						  <h2 class="card-title">YOU LOSE!</h2>
+						  <p>Your monthly cash flow is negative. You are officially out of the game.</p>
+						</div>
+						<div id="bankrupt-game-over-card">
+						  <h2 class="card-title">EVERYONE IN THE GAME HAS GONE BANKRUPT. GAME OVER. </h2>
+						  <p><button id="play-again-btn" onclick="window.location.reload(false);">Play Again</button></p>
+						</div>
+						<div id="fast-track-intro-card">
+						  <h2 class="card-title">CONGRATULATIONS!</h2>
+						  <h2 class="card-title">WELCOME TO THE FAST TRACK!</h2>
+						  <p><span id="ftic-player-name-intro"></span> can enter the Fast Track</p>
+						  <p>Receive 100x your passive income. Increase your CASHFLOW DAY income by $50,000 to win the game.</p>
+						</div>
+						<div id="fast-track-option-card">
+						  <h2 class="card-title">CONGRATULATIONS!</h2>
+						  <h2 class="card-title">YOU ARE OUT OF THE RAT RACE!</h2>
+						  <p><span id="ftic-player-name"></span> has built up their passive income to be greater than their total expenses.
+							<br>You may now enter the Fast Track.
+						  </p>
+						  <p>If you enter, receive 100x your passive income. Increase your CASHFLOW DAY income by $50,000 to win the game.</p>
+						</div>
+						<div id="ft-turn-instructions">
+						  <h2 class="card-title"><span id="ft-player-name"></span>'s turn</h2>
+						  <h3>When you are ready, roll the die and take your turn</h3>
+						</div>                   
+						<div id="ft-doodad-card">
+						  <h2 class="card-title"><span id="ft-doodad-title"></span></h2>
+						  <p id="ft-doodad-text"></p>
+						  <h2 id="ft-doodad-text2">You paid $<span id="ft-doodad-cost"></span></h2>
+						</div>
+						<div id="ft-opp-card">
+						  <div class="card-title">
+							<h2><span id="ft-opp-title"></span></h2>
+						  </div>
+						  <p id="ft-card-text"></p>
+						  <table id="ft-deal-cost-table">
+							<tr id="ft-deal-cash-flow-row">
+							  <td>Cash flow: <span id="ft-deal-cash-flow"></span></td>
+							</tr>
+							<tr id="ft-deal-return-row">
+							  <td>Possible Return: <span id="ft-deal-return"></span></td>
+							</tr>
+							<tr>
+							  <td>Cost: <span id="ft-deal-cost"></span></td>
+							</tr>
+						  </table>
+						  <h2 id="ft-opp-prompt"></h2>
+						</div>
+						<div id="ft-cashflow-day">
+						  <h2 class="card-title">CASHFLOW DAY!</h2>
+						  <h3></h3>
+						</div>
+						<div id="ft-finish-turn-card">
+						  <h2 class="card-title">
+						  FINISH YOUR TURN</h2>
+						  <h3 id="ft-finish-alert"></h3>
+						  <p>Before you end your turn, review your financial statement. You may also use this time to review your deals.</p>
+						</div>
+						<div id="win-game-card">
+						  <h2 class="card-title"><span id="winning-player"></span>
+						  wins the game!!!</h2>
+						  <p>
+						  <span id="winning-player"></span>
+						  <span id="win-text"></span>
+						  </p>
+						</div>
+						<div id="repay-borrow-btns">
+						  <button id="repay-btn" onclick="APP.display.repay();">Repay</button>
+						  <button id="borrow-btn" onclick="APP.display.borrow();">Borrow</button>
+						</div>
+						
+						
+						
+						
+						<button class="card-btn" id="ft-enter-btn" onclick="FASTTRACK.init();">ENTER FAST TRACK</button>
 					  </div>
-                      <br>
-                    </div>
-                    <div id="repay-card">
-                      <h2 class="card-title">PAY OFF LOAN</h2>
-                      <br>
-                      <p>Select a liability on your statement sheet to repay your debt.</p>
-                    </div>
-                    <div id="borrow-card">
-                      <h2 class="card-title">TAKE OUT A LOAN</h2>
-                      <br>
-                      <p>Loans must be in multiples of $1000 at 10% interest per month.</p>
-                      <form>
-                        <div id="loan-amt">Amount: $<input id='loan-amt-input' type='text' name='loan-amount' value='1000'></div>
-                        <div id="loan-amt-btns">
-                          <input type="button" id="increase-loan" onclick="APP.finance.increaseLoan();" value=" + "></input>
-                          <input type="button" id="decrease-loan" onclick="APP.finance.decreaseLoan();" value=" - "></input>
-                        </div>
-                        <input id="take-out-loan" type="button" value="BORROW" onclick="APP.finance.takeOutLoan(); APP.finance.statement(APP.currentPlayerArrPos());"></input>
-                      </form>
-                    </div>
-                    <div id="repay-loan-card">
-                      <h2 class="card-title">PAY OFF LOAN</h2>
-                      <p>Input an amount to repay your loan<br>Payments must be in multiples of $1,000</p>
-                      <form>
-                        <div id="loan-amt">Amount: $<input id='loan-amt-input2' type='text' name='loan-amount' value='1000'></div>
-                        <br>
-                        <div id="loan-amt-btns">
-                          <input type="button" id="increase-loan" onclick="APP.finance.increaseLoan();" value=" + "></input>
-                          <input type="button" id="decrease-loan" onclick="APP.finance.decreaseLoan();" value=" - "></input>
-                        </div>
-                        <br>
-                        <input id="repay-loan-input" type="button" value="PAY" onclick="APP.finance.pay(); APP.finance.statement(APP.currentPlayerArrPos());"></input>
-                      </form>
-                    </div>
-                    <div id="settlement-card">
-                      <h2 class="card-title">Confirm Settlement</h2>
-                      <p>Do you accept a settlement offer of $<span id="settlement-offer">?</span></p>
-                    </div>
-                    <div id="cannot-afford-card">
-                      <h2 class="card-title">
-                        <!--PAY OFF LOAN-->
-                      </h2>
-                      <p>You do not have enough funds.</p>
-                    </div>
-                    <div id="cannot-afford-loan-card">
-                      <h2 class="card-title">TAKE OUT A LOAN</h2>
-                      <p>Not enough funds.</p>
-                      <p>Take out a loan of $<span id="loan-offer"></span> with a monthly payment of $<span id="loan-offer-monthly-payment"></span></p>
-                    </div>
-                    <div id="pay-confirm-card">
-                      <h2 class="card-title">PAY OFF LOAN</h2>
-                      <p>Are you sure?</p>
-                    </div>
-                    <div id="bankrupt-card">
-                      <h2 class="card-title">YOU ARE BANKRUPT!</h2>
-                      <p>You have $<span id="br-cash-flow"></span><br>To exit bankruptcy you need positive cash flow.</p>
-                      <ol>
-                        <li>Sell assets for 1/2 the down payment.</li>
-                        <li>Pay off debt.</li>
-                        <li>Pay down your loan amount.</li>
-                      </ol>
-                      <p id="br-settlement-text">Sell asset for $<span id="br-settlement-offer"></span>.</p>
-                    </div>
-                    <div id="lose-card">
-                      <h2 class="card-title">YOU LOSE!</h2>
-                      <p>Your monthly cash flow is negative. You are officially out of the game.</p>
-                    </div>
-                    <div id="bankrupt-game-over-card">
-                      <h2 class="card-title">EVERYONE IN THE GAME HAS GONE BANKRUPT. GAME OVER. </h2>
-                      <p><button id="play-again-btn" onclick="window.location.reload(false);">Play Again</button></p>
-                    </div>
-                    <div id="fast-track-intro-card">
-                      <h2 class="card-title">CONGRATULATIONS!</h2>
-                      <h2 class="card-title">WELCOME TO THE FAST TRACK!</h2>
-                      <p><span id="ftic-player-name-intro"></span> can enter the Fast Track</p>
-                      <p>Receive 100x your passive income. Increase your CASHFLOW DAY income by $50,000 to win the game.</p>
-                    </div>
-                    <div id="fast-track-option-card">
-                      <h2 class="card-title">CONGRATULATIONS!</h2>
-                      <h2 class="card-title">YOU ARE OUT OF THE RAT RACE!</h2>
-                      <p><span id="ftic-player-name"></span> has built up their passive income to be greater than their total expenses.
-                        <br>You may now enter the Fast Track.
-                      </p>
-                      <p>If you enter, receive 100x your passive income. Increase your CASHFLOW DAY income by $50,000 to win the game.</p>
-                    </div>
-                    <div id="ft-turn-instructions">
-                      <h2 class="card-title"><span id="ft-player-name"></span>'s turn</h2>
-                      <h3>When you are ready, roll the die and take your turn</h3>
-                    </div>                   
-					<div id="ft-doodad-card">
-                      <h2 class="card-title"><span id="ft-doodad-title"></span></h2>
-                      <p id="ft-doodad-text"></p>
-					  <h2 id="ft-doodad-text2">You paid <span id="ft-doodad-cost"></span></h2>
-                    </div>
-					<div id="ft-opp-card">
-                      <div class="card-title">
-                        <h2><span id="ft-opp-title"></span></h2>
-                      </div>
-                      <p id="ft-card-text"></p>
-                      <table id="ft-deal-cost-table">
-                        <tr id="ft-deal-cash-flow-row">
-                          <td>Cash flow: <span id="ft-deal-cash-flow"></span></td>
-                        </tr>
-                        <tr id="ft-deal-return-row">
-                          <td>Possible Return: <span id="ft-deal-return"></span></td>
-                        </tr>
-                        <tr>
-                          <td>Cost: <span id="ft-deal-cost"></span></td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div id="ft-cashflow-day">
-                      <h2 class="card-title">CASHFLOW DAY!</h2>
-                      <h3></h3>
-                    </div>
-                    <div id="repay-borrow-btns">
-                      <button id="repay-btn" onclick="APP.display.repay();">Repay</button>
-                      <button id="borrow-btn" onclick="APP.display.borrow();">Borrow</button>
-                    </div>
-                    <div id="card-btns">
+						   </div>
+						</div>
+					</td>
+					
+					<td id="info-card-btns-td" colspan="1" rowspan="5">
+						<div id="info-btns">
+						  		
+				      <div id="card-btns">
                       <button class="card-btn" id="roll-btn" onclick="APP.movePlayer(1);">ROLL</button>
                       <button class="card-btn" id="roll2-btn" onclick="APP.movePlayer(2);">ROLL 2x</button>
                       <button class="card-btn" id="ft-roll-btn" onclick="FASTTRACK.movePlayer(1);">ROLL</button>
@@ -716,7 +749,7 @@
                       <button class="card-btn" id="buy-business-btn" onclick="APP.finance.buyBusiness();">BUY</button>
                       <button class="card-btn" id="borrow-offer-loan-btn" onclick="APP.finance.getLoan();" style="color: red">YES</button>
                       <button class="card-btn" id="pass-btn" onclick="APP.finishTurn();">PASS</button>
-                      <button class="card-btn" id="no-loan-btn" onclick="APP.finishTurn();">NO</button>
+                      <button class="card-btn" id="no-loan-btn" onclick="APP.finance.noLoan();">NO</button>
                       <button class="card-btn" id="confirm-pay-btn" onclick="APP.finance.pay();">CONFIRM</button>
                       <button class="card-btn" id="confirm-settlement-btn" onclick="APP.finance.sellAsset();">CONFIRM</button>
                       <button class="card-btn" id="show-offer-btn" onclick="APP.display.showOffer();">BACK</button>
@@ -730,128 +763,213 @@
                       
                       <button class="card-btn" id="ft-end-turn-btn" onclick="APP.nextTurn();">END TURN</button>
 					  <button class="card-btn" id="ft-doodad-roll-btn" onclick="FASTTRACK.doodad(APP.players[APP.currentPlayerArrPos()].position);">Roll</button>
+					  <button class="card-btn" id="ft-opp-buy-btn" onclick="FASTTRACK.opportunity(APP.players[APP.currentPlayerArrPos()].position);">Buy</button>
+					  <button class="card-btn" id="ft-pass-btn" onclick="FASTTRACK.finishTurn();">Pass</button>
 					 </div>
-                    
-                    <div id="finish-turn-container">
-                      <button class="card-btn" id="end-turn-btn" onclick="APP.nextTurn();">END TURN</button>
-                      <button class="card-btn" id="cancel-btn" onclick="APP.display.highlightLiabilities(2); APP.finishTurn();">CANCEL</button>
-                    </div>
-					
-					<button class="card-btn" id="ft-enter-btn" onclick="FASTTRACK.init();">ENTER FAST TRACK</button>
-                  </div>
-                </div>
-                <div id="finance-box">
-                  <div id="income-expenses-statement">
-                    <div id="financial-statement-left">
-                      <table id="income-table">
-                        <tr id="income-row-head">
-                          <th>INCOME</th>
-                        </tr>
-                        <tr class="income-row">
-                          <td><span id="player-job-income"></span> Salary</td>
-                          <td>$<span id="player-salary-income"></span></td>
-                        </tr>
-                        <tr class="income-row" id="income-interest-title">
-                          <td class="table-title">Interest/Dividends</td>
-                        </tr>
-                        <tr class="income-row">
-                          <td>
-                        <tbody id="income-interest-body">
-                        </tbody>
-                        </td>
-                        </tr>
-                        <tr class="income-row" id="income-real-estate-title">
-                          <td class="table-title">Real Estate/Business</td>
-                        </tr>
-                        <tr class="income-row">
-                          <td>
-                        <tbody id="income-real-estate-body">
-                        </tbody>
-                        </td>
-                        </tr>
-                        <!--test rows-- >
-                          <tr class="income-row">
-                            <td class="table-title">Test</td>
-                          </tr>
-                          <!--end test rows-->
-                      </table>
-                      <table id="expense-table">
-                        <tr id="expenses-row-head">
-                          <th>EXPENSES</th>
-                        </tr>
-                        <tr class="expenses-row">
-                          <td>Taxes</td>
-                          <td>$<span id="expenses-taxes"></span></td>
-                        </tr>
-                        <tr class="expenses-row" id="exp-mortgage-row">
-                          <td>Home Mortgage Payment</td>
-                          <td>$<span id="expenses-mortgage"></span></td>
-                        </tr>
-                        <tr class="expenses-row" id="exp-car-row">
-                          <td>Car Loan Payment</td>
-                          <td>$<span id="expenses-car"></span></td>
-                        </tr>
-                        <tr class="expenses-row" id="exp-credit-row">
-                          <td>Credit Card Payment</td>
-                          <td>$<span id="expenses-credit"></span></td>
-                        </tr>
-                        <tr class="expenses-row" id="exp-retail-row">
-                          <td>Retail Payment</td>
-                          <td>$<span id="expenses-retail"></span></td>
-                        </tr>
-                        <tr class="expenses-row" id="exp-boat-row">
-                          <td>Boat Loan Payment</td>
-                          <td>$<span id="expenses-boatloan"></span></td>
-                        </tr>
-						<tr class="expenses-row" id="exp-insurance-row">
-                          <td>Insurance Payment</td>
-                          <td>$<span id="expenses-insurance"></span></td>
-                        </tr>
-                        <tr class="expenses-row" id="exp-child-row">
-                          <td>Children (<span id="child-count"></span>x)</td>
-                          <td>$<span id="expenses-child"></span></td>
-                        </tr>
 						
-                        <tr class="expenses-row">
-                          <td>Other Expenses</td>
-                          <td>$<span id="expenses-other"></span></td>
-                        </tr>
-                        <tr class="expenses-row" id="exp-loans-row">
-                          <td>Loans</td>
-                          <td>$<span id="expenses-loans"></span></td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div id="financial-statement-right">
-                      <div id="expense-bar">
-                        <h3 style="font-size: 10pt; text-align: center;">INCREASE PASSIVE INCOME TO ESCAPE THE RAT RACE</h3>
-                        <h3 style="font-size: 10pt;">TOTAL EXPENSES: $<span id='summary-total-expenses-bar'></span></h3>
-                        <div id='income-expense-progress'>
-                          <div id='income-expense-bar'></div>
-                        </div>
-                        <h3 style="font-size: 10pt;">PASSIVE INCOME: $<span id='bar-passive-income'></span></h3>
-                      </div>
-                      <table id="finance-summary">
-                        <tr>
-                          <th id="summary-cash-title">CASH:</th>
-                          <th id="summary-cash-title2">$<span id="summary-cash" style="font-size: 16pt"></span></th>
-                        </tr>
-                        <tr>
-                          <td id="sum-td-left">TOTAL INCOME:</td>
-                          <td id="sum-td">$<span id="summary-total-income"></span></td>
-                        </tr>
-                        <tr>
-                          <td id="sum-td-left">TOTAL EXPENSES:</td>
-                          <td id="sum-td">$<span id="summary-total-expenses"></span></td>
-                        </tr>
-                        <tr>
-                          <td id="sum-td-left">PAYDAY:</td>
-                          <td id="sum-td">$<span id="summary-payday"></span></td>
-                        </tr>
-                      </table>
-                    </div>
-                  </div>
-                  <div id="assets-liabilities-statement">
+						<div id="finish-turn-container">
+							  <button class="card-btn" id="end-turn-btn" onclick="APP.nextTurn();">END TURN</button>
+							  <button class="card-btn" id="cancel-btn" onclick="APP.display.highlightLiabilities(2); APP.finishTurn();">CANCEL</button>
+							</div>	
+					</td>
+					</td>
+					
+					<td class="cell board-top off-space" id="cell7"></td>
+					
+				</tr>
+				<tr>
+					<td class="cell board-bot opp-space" id="cell22"></td>
+					
+					<td class="cell board-top opp-space" id="cell8"></td>
+					
+				</tr>
+				<tr>
+					<td class="cell board-bot pay-space" id="cell21"></td>
+					
+					<td class="cell board-top lia-space" id="cell9"></td>
+					
+				</tr>
+				<tr>
+					<td class="cell board-bot opp-space" id="cell20"></td>
+					
+					<td class="cell board-top opp-space" id="cell10"></td>
+					
+				</tr>
+				<tr>
+					<td class="cell board-bot dow-space" id="cell19"></td>
+					
+					<td class="cell board-top kid-space" id="cell11"></td>
+					
+				</tr>
+
+				<tr>
+				  <td class="cell board-bot opp-space" id="cell18"></td>
+                  <td class="cell board-bot lia-space" id="cell17"></td>
+                  <td class="cell board-bot opp-space" id="cell16"></td>
+                  <td class="cell board-bot off-space" id="cell15"></td>
+                  <td class="cell board-bot opp-space" id="cell14"></td>
+                  <td class="cell board-bot pay-space" id="cell13"></td>
+				  <td class="cell board-bot opp-space" id="cell12"></td>
+                  
+                </tr>
+              </table>
+            </div>  
+          </td>
+          <td class="cell2-right opp-space2" id="cell231"></td>
+        </tr>
+        <tr>
+          <td class="cell2-left opp-space2" id="cell216"></td>
+          <td class="cell2-right opp-space2" id="cell232"></td>
+        </tr>
+        <tr>
+          <td class="cell2-left opp-space2" id="cell215"></td>
+          <td class="cell2-right opp-space2" id="cell233"></td>
+        </tr>
+        <tr>
+          <td class="cell2-left dow-space" id="cell214"></td>
+          <td class="cell2-right dow-space" id="cell234"></td>
+        </tr>
+        <tr>
+          <td class="cell2-left opp-space2" id="cell213"></td>
+          <td class="cell2-right opp-space2" id="cell235"></td>
+        </tr>
+        <tr>
+          <td class="cell2-left opp-space2" id="cell212"></td>
+          <td class="cell2-right opp-space2" id="cell236"></td>
+        </tr>
+        <tr>
+          <td class="cell2-left opp-space2" id="cell211"></td>
+          <td class="cell2-right opp-space2" id="cell237"></td>
+        </tr>
+        <tr>
+          <td class="cell2 board-bot pay-space" id="cell210"></td>
+          <td class="cell2 board-bot opp-space2" id="cell209"></td>
+          <td class="cell2 board-bot opp-space2" id="cell208"></td>
+          <td class="cell2 board-bot dow-space" id="cell207"></td>
+          <td class="cell2 board-bot opp-space2" id="cell206"></td>
+          <td class="cell2 board-bot opp-space2" id="cell205"></td>
+          <td class="cell2 board-bot opp-space2" id="cell204"></td>
+          <td class="cell2 board-bot opp-space2" id="cell203"></td>
+          <td class="cell2 board-bot cha-space" id="cell202"></td>
+          <td class="cell2 board-bot dow-space" id="cell201"></td>
+          <td class="cell2 board-bot opp-space2" id="cell240"></td>
+          <td class="cell2 board-bot opp-space2" id="cell239"></td>
+          <td class="cell2 board-bot pay-space" id="cell238"></td>
+        </tr>
+      </table>
+	  </div>
+	  
+	  <div id="finance-box">
+			<div id="expense-bar">
+			<h3 style="font-size: 10pt; text-align: center;">INCREASE PASSIVE INCOME TO ESCAPE THE RAT RACE</h3>
+			<h3 style="font-size: 10pt;">TOTAL EXPENSES: $<span id='summary-total-expenses-bar'></span></h3>
+			<div id='income-expense-progress'>
+			  <div id='income-expense-bar'></div>
+			</div>
+			<h3 style="font-size: 9pt; margin: auto;">PASSIVE INCOME: $<span id='bar-passive-income'></span></h3>
+		  </div>
+		  <table id="finance-summary">
+			<tr>
+			  <th id="summary-cash-title">CASH:</th>
+			  <th id="summary-cash-title2">$<span id="summary-cash" style="font-size: 16pt"></span></th>
+			</tr>
+			<tr>
+			  <td id="sum-td-left">TOTAL INCOME:</td>
+			  <td id="sum-td">$<span id="summary-total-income"></span></td>
+			</tr>
+			<tr>
+			  <td id="sum-td-left">TOTAL EXPENSES:</td>
+			  <td id="sum-td">$<span id="summary-total-expenses"></span></td>
+			</tr>
+			<tr>
+			  <td id="sum-td-left">PAYDAY:</td>
+			  <td id="sum-td">$<span id="summary-payday"></span></td>
+			</tr>
+		  </table>
+		  
+		  <table id="income-table">
+			<tr id="income-row-head">
+			  <th>INCOME</th>
+			</tr>
+			<tr class="income-row">
+			  <td><span id="player-job-income"></span> Salary</td>
+			  <td>$<span id="player-salary-income"></span></td>
+			</tr>
+			<tr class="income-row" id="income-interest-title">
+			  <td class="table-title">Interest/Dividends</td>
+			</tr>
+			<tr class="income-row">
+			  <td>
+			<tbody id="income-interest-body">
+			</tbody>
+			</td>
+			</tr>
+			<tr class="income-row" id="income-real-estate-title">
+			  <td class="table-title">Real Estate/Business</td>
+			</tr>
+			<tr class="income-row">
+			  <td>
+			<tbody id="income-real-estate-body">
+			</tbody>
+			</td>
+			</tr>
+			<!--test rows-- >
+			  <tr class="income-row">
+				<td class="table-title">Test</td>
+			  </tr>
+			  <!--end test rows-->
+		  </table>
+		  <table id="expense-table">
+				<tr id="expenses-row-head">
+				  <th>EXPENSES</th>
+				</tr>
+				<tr class="expenses-row">
+				  <td>Taxes</td>
+				  <td>$<span id="expenses-taxes"></span></td>
+				</tr>
+				<tr class="expenses-row" id="exp-mortgage-row">
+				  <td>Home Mortgage Payment</td>
+				  <td>$<span id="expenses-mortgage"></span></td>
+				</tr>
+				<tr class="expenses-row" id="exp-car-row">
+				  <td>Car Loan Payment</td>
+				  <td>$<span id="expenses-car"></span></td>
+				</tr>
+				<tr class="expenses-row" id="exp-credit-row">
+				  <td>Credit Card Payment</td>
+				  <td>$<span id="expenses-credit"></span></td>
+				</tr>
+				<tr class="expenses-row" id="exp-retail-row">
+				  <td>Retail Payment</td>
+				  <td>$<span id="expenses-retail"></span></td>
+				</tr>
+				<tr class="expenses-row" id="exp-boat-row">
+				  <td>Boat Loan Payment</td>
+				  <td>$<span id="expenses-boatloan"></span></td>
+				</tr>
+				<tr class="expenses-row" id="exp-insurance-row">
+				  <td>Insurance Payment</td>
+				  <td>$<span id="expenses-insurance"></span></td>
+				</tr>
+				<tr class="expenses-row" id="exp-child-row">
+				  <td>Children (<span id="child-count"></span>x)</td>
+				  <td>$<span id="expenses-child"></span></td>
+				</tr>
+				
+				<tr class="expenses-row">
+				  <td>Other Expenses</td>
+				  <td>$<span id="expenses-other"></span></td>
+				</tr>
+				<tr class="expenses-row" id="exp-loans-row">
+				  <td>Loans</td>
+				  <td>$<span id="expenses-loans"></span></td>
+				</tr>
+			  </table>
+			
+		  
+		
+	    
+        <div id="assets-liabilities-statement">
                     <table id="asset-table">
                       <thead>
                         <tr id='asset-table-header'>
@@ -904,6 +1022,20 @@
                         <td class='lia-table-right' id='liability-boatloan'></td>
                       </tr>
                     </table>
+					<table id="ft-statement">
+						<thead>
+							<tr id='ft-assets-table-header'>
+							  <th>ASSETS</th>
+							</tr>
+							<tr id='ft-assets-table-header2'>
+							  <th>Title</th>
+							  <th>Cash Flow</th>
+							  <th>Cost</th>
+							</tr>
+						  </thead>
+						  <tbody id="ft-assets-body">
+						  </tbody>
+					</table>
                     <!--<table id="liability-table">
                       <tr id='lia-table-header'>
                         <th>LIABILITIES</th>
@@ -934,54 +1066,8 @@
                       </tr>
                       </table>-->
                   </div>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="cell2-right opp-space2" id="cell231"></td>
-        </tr>
-        <tr>
-          <td class="cell2-left opp-space2" id="cell216"></td>
-          <td class="cell2-right opp-space2" id="cell232"></td>
-        </tr>
-        <tr>
-          <td class="cell2-left opp-space2" id="cell215"></td>
-          <td class="cell2-right opp-space2" id="cell233"></td>
-        </tr>
-        <tr>
-          <td class="cell2-left dow-space" id="cell214"></td>
-          <td class="cell2-right dow-space" id="cell234"></td>
-        </tr>
-        <tr>
-          <td class="cell2-left opp-space2" id="cell213"></td>
-          <td class="cell2-right opp-space2" id="cell235"></td>
-        </tr>
-        <tr>
-          <td class="cell2-left opp-space2" id="cell212"></td>
-          <td class="cell2-right opp-space2" id="cell236"></td>
-        </tr>
-        <tr>
-          <td class="cell2-left opp-space2" id="cell211"></td>
-          <td class="cell2-right opp-space2" id="cell237"></td>
-        </tr>
-        <tr>
-          <td class="cell2 board-bot pay-space" id="cell210"></td>
-          <td class="cell2 board-bot opp-space2" id="cell209"></td>
-          <td class="cell2 board-bot opp-space2" id="cell208"></td>
-          <td class="cell2 board-bot dow-space" id="cell207"></td>
-          <td class="cell2 board-bot opp-space2" id="cell206"></td>
-          <td class="cell2 board-bot opp-space2" id="cell205"></td>
-          <td class="cell2 board-bot opp-space2" id="cell204"></td>
-          <td class="cell2 board-bot opp-space2" id="cell203"></td>
-          <td class="cell2 board-bot cha-space" id="cell202"></td>
-          <td class="cell2 board-bot dow-space" id="cell201"></td>
-          <td class="cell2 board-bot opp-space2" id="cell240"></td>
-          <td class="cell2 board-bot opp-space2" id="cell239"></td>
-          <td class="cell2 board-bot pay-space" id="cell238"></td>
-        </tr>
-      </table>
-    </div>
-    <button id="reset-btn" class="hide"> Reset</button>
+      </div>
+    <button id="reset-btn" class="hide">Reset</button>
   </body>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>

@@ -6,11 +6,11 @@ Color Paletter
 	
 	* Board Spaces *
 	opportunity - #43A047
-	fast track oppurtunity - #4E342E^
-	doodad - #546E7A
+	fast track oppurtunity - brown^
+	liability - #83A296
 	charity - #00BCD4
 	offer - #0277BD
-	payday - #FDD835^
+	payday - yellow^
 	downsize - #D32F2F
 */
 @viewport {
@@ -404,10 +404,6 @@ body {
     box-shadow: 1px 1px 1px 1px #d3d3d3;
 }
 
-#options-2 {}
-
-.options-2-container {}
-
 #start-game {
 	position: relative;
     margin: 5.5%;
@@ -452,7 +448,8 @@ body {
     display: none;
     margin: auto;
     border: 2pt solid white;
-    width: 99%;
+    width: 100%;
+	height: 98%;
 }
 
 #board2 {
@@ -463,7 +460,10 @@ body {
 	/*height: 1000px;*/
     border-radius: 5px;
 }
-
+.board2-top {
+	
+	
+}
 .cell {
     position: relative;
     top: 0px;
@@ -512,7 +512,7 @@ body {
     padding: 0px;
     color: white;
     height: 88px;
-    width: 94px;
+    width: 10%;
     font-size: 8pt;
     letter-spacing: .2pt;
     text-align: center;
@@ -550,7 +550,6 @@ body {
     position: relative;
     padding: 2px;
     color: #01030e;
-    /*width: 80%;*/
     border: 2pt solid white;
 }
 
@@ -573,16 +572,24 @@ body {
     bottom: 0;
     padding: 1.5px;
     height: 70px;
-    width: 95%;
+    width: 96%;
     text-align: center;
     font-family: "lato";
 }
+#cell219 {
+	width: 6%;
+}
+#cell229 {
+	width: 6%;
+}
+
 #cell224 {
 	background-color: #2AEEBF;
 }
 .fast-track-cell-info {
-    height: 80px;
-    padding: 2px;
+    /*height: 80px;*/
+	width: 100%;
+    padding: 0;
     font-size: 9px;
 }
 
@@ -616,10 +623,10 @@ body {
 #tokenSection22,
 #tokenSection23 {
     display: block;
-	position: relative;
-    height: 95.5%;
-    width: 95.5%;
-	padding: 2px;
+	margin: 0;
+	/*height: 70%;
+    width: 100%;*/
+	padding: 20px 2px;
 }
 
 .board-top {
@@ -645,7 +652,7 @@ body {
     width: 32px;
     margin: 0;
     box-shadow: 0 0 0 0;
-    position: fixed;
+    position: relative;
     text-align: center;
     color: gold;
     font-weight: bold;
@@ -700,7 +707,7 @@ body {
     margin: auto;
     padding: 5px 0;
     height: 400px;
-    width: 100%;
+    /*width: 98%;*/
 }
 
 #player-list,
@@ -727,11 +734,11 @@ body {
     border-radius: 6px;
     box-shadow: 0 0 2px #212121;
 	height: 100%;
-	width: 93%;
+	width: 94%;
 }
 
 #finance-box {
-    width: 240px;
+    width: 18%;
     height: 900px;
     padding: 4px;
     margin: auto;
@@ -752,7 +759,7 @@ body {
 }
 
 .lia-space {
-    background-color: #546E7A;
+    background-color: #83A296; 
 }
 
 .cha-space {
@@ -811,7 +818,6 @@ body {
 #dream-choices {
     display: block;
     height: 334px;
-    /*width: 310px;*/
 	margin: auto;
 }
 
@@ -878,7 +884,6 @@ body {
 #dream-info {
     font-size: 1.2em;
     width: 88%;
-    */
 }
 
 #dream-des {
@@ -1029,22 +1034,19 @@ body {
 .card-btn {
     font-weight: bold;
     font-family: 'lato';
-    color: #4E342E
-    /*#004D40*/
-    ;
+    color: #4E342E;
     text-shadow: .5px .5px .5px #7DCEA0;
     box-shadow: .4px .4px .5px #c2a500;
 }
 
 #card-btns {
-	top: 0;
+	width: 90%;
 	display: none;
-	/*height: 100%;*/
+	margin: auto;
 }
 #finish-turn-container {
+	width: 90%;
     margin: auto 0;
-    padding: 2px;
-	
 }
 
 #player-list-td {
@@ -1054,13 +1056,14 @@ body {
 	width: 350px;
 }
 #info-card-btns-td {
+	height: 30%;
 	width: 100px;
 	posiiton: absolute;
 }
 
 #info {
 	width: 95%;
-		position: relative;
+	position: relative;
 }
 #info-btns {
 	height: 95%;
@@ -1070,10 +1073,12 @@ body {
     /*height: 40px;*/
     width: 92px;
     border-radius: 5px;
-    background-color: white;
+    background-color: #83A296  ;
+	letter-spacing: 1.7pt;
+	color: #FFFED8  ;
     outline: none;
     font-size: 14pt;
-	margin: 5%;
+	margin: 5% auto;
 }
 
 #pass-btn,
@@ -1086,6 +1091,7 @@ body {
     outline: none;
     font-size: 16pt;
     letter-spacing: .5pt;
+	margin: 7% 0;
 }
 
 #done-btn,
@@ -1097,6 +1103,7 @@ body {
     outline: none;
     font-size: 16pt;
     letter-spacing: .5pt;
+	margin: 7% 0;
 }
 
 #cancel-btn {
@@ -1107,6 +1114,7 @@ body {
     outline: none;
     font-size: 16pt;
     letter-spacing: .5pt;
+	margin: 7% 0;
 }
 
 #done-repay-btn {
@@ -1117,6 +1125,7 @@ body {
     outline: none;
     font-size: 16pt;
     letter-spacing: .5pt;
+	margin: 7% 0;
 }
 
 #big-deal-btn {
@@ -1145,24 +1154,25 @@ body {
 #roll2-btn,
 #ft-roll2-btn {
     height: 40px;
-    width: 108px;
+    width: 100px;
     letter-spacing: .5pt;
     border-radius: 5px;
     background-color: white;
     outline: none;
     margin-bottom: 20px;
     font-size: 16pt;
-	margin: 7% 0;
+	margin: 6% 0;
 }
 
 #confirm-pay-btn {
     height: 40px;
-    width: 92px;
+    width: 100px;
     letter-spacing: .5pt;
     border-radius: 5px;
     background-color: white;
     outline: none;
-    font-size: 14pt;
+    font-size: 12pt;
+	margin: auto;
 }
 
 #buy-opp-button,
@@ -1207,11 +1217,11 @@ body {
 
 #confirm-settlement-btn {
     height: 40px;
-    width: 92px;
+    width: 108px;
     border-radius: 5px;
     background-color: white;
     outline: none;
-    font-size: 11pt;
+    font-size: 12pt;
     letter-spacing: .5pt;
 }
 

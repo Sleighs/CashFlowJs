@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cash Flow Js</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto|Lato|Montserrat|Quattrocento" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" media="screen and (max-width: 360px)" href="css/style.css">
-    <link rel="stylesheet" type="text/css" media="screen and (min-width: 361px) and (max-width: 480px)" href="css/style.css">
+    <link rel="stylesheet" type="text/css" media="screen and (max-width: 360px)" href="css/mobile-portrait.css">
+    <link rel="stylesheet" type="text/css" media="screen and (min-width: 361px) and (max-width: 480px)" href="css/mobile-landscape.css">
     <link rel="stylesheet" type="text/css" media="screen and (min-width: 481px)" href="css/style.css">
   </head>
   <body>
@@ -635,24 +635,7 @@
 						  <h2 class="card-title">PAY OFF LOAN</h2>
 						  <p>Are you sure?</p>
 						</div>
-						<div id="bankrupt-card">
-						  <h2 class="card-title">YOU ARE BANKRUPT!</h2>
-						  <p>You have $<span id="br-cash-flow"></span><br>To exit bankruptcy you need positive cash flow.</p>
-						  <ol>
-							<li>Sell assets for 1/2 the down payment.</li>
-							<li>Pay off debt.</li>
-							<li>Pay down your loan amount.</li>
-						  </ol>
-						  <p id="br-settlement-text">Sell asset for $<span id="br-settlement-offer"></span>.</p>
-						</div>
-						<div id="lose-card">
-						  <h2 class="card-title">YOU LOSE!</h2>
-						  <p>Your monthly cash flow is negative. You are officially out of the game.</p>
-						</div>
-						<div id="bankrupt-game-over-card">
-						  <h2 class="card-title">EVERYONE IN THE GAME HAS GONE BANKRUPT. GAME OVER. </h2>
-						  <p><button id="play-again-btn" onclick="window.location.reload(false);">Play Again</button></p>
-						</div>
+						
 						<div id="fast-track-intro-card">
 						  <h2 class="card-title">CONGRATULATIONS!</h2>
 						  <h2 class="card-title">WELCOME TO THE FAST TRACK!</h2>
@@ -707,10 +690,34 @@
 						<div id="win-game-card">
 						  <h2 class="card-title"><span id="winning-player"></span>
 						  wins the game!!!</h2>
-						  <p>
-						  <span id="winning-player"></span>
-						  <span id="win-text"></span>
-						  </p>
+							<table>
+								<tr>
+									<tr><th>FINAL 
+									<td>Cash</td><td><span id="win-cash-amount"></span></td>
+									<td>Income</td><td><span id="win-income-amount"></span></td>
+									<td>No. Assets</td><td><span id="win-asset-amount"></span></td>
+								</tr>
+							</table>
+								
+						</div>
+						
+						<div id="bankrupt-card">
+						  <h2 class="card-title">YOU ARE BANKRUPT!</h2>
+						  <p>You have $<span id="br-cash-flow"></span><br>To exit bankruptcy you need to get out of debt.</p>
+						  <ol>
+							<li>Sell assets for 1/2 the down payment.</li>
+							<li>Pay off debt.</li>
+							<li>Pay down your loan amount.</li>
+						  </ol>
+						  <p id="br-settlement-text">Sell asset for $<span id="br-settlement-offer"></span>.</p>
+						</div>
+						<div id="lose-card">
+						  <h2 class="card-title">YOU LOSE!</h2>
+						  <p>You are unable to afford your debt. You are officially out of the game.</p>
+						</div>
+						<div id="bankrupt-game-over-card">
+						  <h2 class="card-title">EVERYONE IN THE GAME HAS GONE BANKRUPT. GAME OVER. </h2>
+						  <p><button id="play-again-btn" onclick="window.location.reload(false);">Play Again</button></p>
 						</div>
 						<div id="repay-borrow-btns">
 						  <button id="repay-btn" onclick="APP.display.repay();">Repay</button>
@@ -726,51 +733,49 @@
 						</div>
 					</td>
 					
-					<td id="info-card-btns-td" colspan="1" rowspan="5">
-						<div id="info-btns">
-						  		
-				      <div id="card-btns">
-                      <button class="card-btn" id="roll-btn" onclick="APP.movePlayer(1);">ROLL</button>
-                      <button class="card-btn" id="roll2-btn" onclick="APP.movePlayer(2);">ROLL 2x</button>
-                      <button class="card-btn" id="ft-roll-btn" onclick="FASTTRACK.movePlayer(1);">ROLL</button>
-                      <button class="card-btn" id="ft-roll2-btn" onclick="FASTTRACK.movePlayer(2);">ROLL 2x</button>
-                      <button class="card-btn" id="small-deal-btn" onclick="APP.smallDeal();">SMALL</button>
-                      <button class="card-btn" id="big-deal-btn" onclick="APP.bigDeal();">BIG</button>
-                      <button class="card-btn" id="doodad-pay-button" onclick="APP.finance.payDoodad();">PAY</button>
-                      <button class="card-btn" id="ds-pay-button" onclick="APP.finance.payDownsize();">PAY</button>
-                      <button class="card-btn" id="pd-pay-button" onclick="APP.finance.payPropertyDamage();">PAY</button>
-                      <button class="card-btn" id="charity-donate-btn" onclick="APP.finance.donate();">DONATE</button>
-                      <button class="card-btn" id="show-stock-form-btn" onclick="APP.display.showBuyStockForm();">BUY</button>
-                      <button class="card-btn" id="buy-stock-btn" onclick="APP.finance.buyStock();" style="color: green;">BUY</button>
-                      <button class="card-btn" id="show-stock-sell-form-btn" onclick="APP.display.showSellStockForm();">SELL</button>
-                      <button class="card-btn" id="sell-stock-btn" onclick="APP.finance.sellStock();" style="color: red">SELL</button>
-                      <button class="card-btn" id="buy-real-estate-btn" onclick="APP.finance.buyRealEstate();">BUY</button>
-                      <button class="card-btn" id="buy-coin-btn" onclick="APP.finance.buyCoin();">BUY</button>
-                      <button class="card-btn" id="buy-business-btn" onclick="APP.finance.buyBusiness();">BUY</button>
-                      <button class="card-btn" id="borrow-offer-loan-btn" onclick="APP.finance.getLoan();" style="color: red">YES</button>
-                      <button class="card-btn" id="pass-btn" onclick="APP.finishTurn();">PASS</button>
-                      <button class="card-btn" id="no-loan-btn" onclick="APP.finance.noLoan();">NO</button>
-                      <button class="card-btn" id="confirm-pay-btn" onclick="APP.finance.pay();">CONFIRM</button>
-                      <button class="card-btn" id="confirm-settlement-btn" onclick="APP.finance.sellAsset();">CONFIRM</button>
-                      <button class="card-btn" id="show-offer-btn" onclick="APP.display.showOffer();">BACK</button>
-					  <button class="card-btn" id="cancel-l-btn" onclick="APP.display.highlightLiabilities(2); APP.finishTurn();">CANCEL</button>
-                      <!--<button class="card-btn" id="confirm-pay-btn2" onclick="APP.finance.pay();">CONFIRM</button>-->
-                      <button class="card-btn" id="done-repay-btn" onclick="APP.display.highlightLiabilities(2); APP.finishTurn(); ">DONE</button>
-                      <button class="card-btn" id="done-btn" onclick="APP.finishTurn();">DONE</button>
-                      <button class="card-btn" id="done-buy-sell-btn" onclick="APP.display.showStockCard();">DONE</button>
-                      <button class="card-btn" id="borrow-doodad-loan-btn" onclick="APP.finance.getLoan(); APP.finishTurn();">BORROW</button>
-                      <button class="card-btn" id="ftic-ok-btn" onclick="APP.display.continue();">OK</button>
-                      
-                      <button class="card-btn" id="ft-end-turn-btn" onclick="APP.nextTurn();">END TURN</button>
-					  <button class="card-btn" id="ft-doodad-roll-btn" onclick="FASTTRACK.doodad(APP.players[APP.currentPlayerArrPos()].position);">Roll</button>
-					  <button class="card-btn" id="ft-opp-buy-btn" onclick="FASTTRACK.opportunity(APP.players[APP.currentPlayerArrPos()].position);">Buy</button>
-					  <button class="card-btn" id="ft-pass-btn" onclick="FASTTRACK.finishTurn();">Pass</button>
-					 </div>
+					<td id="info-card-btns-td" colspan="1" rowspan="5">					  		
+						<div id="card-btns">
+							<button class="card-btn" id="roll-btn" onclick="APP.movePlayer(1);">ROLL</button>
+							<button class="card-btn" id="roll2-btn" onclick="APP.movePlayer(2);">ROLL 2x</button>
+							<button class="card-btn" id="ft-roll-btn" onclick="FASTTRACK.movePlayer(1);">ROLL</button>
+							<button class="card-btn" id="ft-roll2-btn" onclick="FASTTRACK.movePlayer(2);">ROLL 2x</button>
+							<button class="card-btn" id="small-deal-btn" onclick="APP.smallDeal();">SMALL</button>
+							<button class="card-btn" id="big-deal-btn" onclick="APP.bigDeal();">BIG</button>
+							<button class="card-btn" id="doodad-pay-button" onclick="APP.finance.payDoodad();">PAY</button>
+							<button class="card-btn" id="ds-pay-button" onclick="APP.finance.payDownsize();">PAY</button>
+							<button class="card-btn" id="pd-pay-button" onclick="APP.finance.payPropertyDamage();">PAY</button>
+							<button class="card-btn" id="charity-donate-btn" onclick="APP.finance.donate();">DONATE</button>
+							<button class="card-btn" id="show-stock-form-btn" onclick="APP.display.showBuyStockForm();">BUY</button>
+							<button class="card-btn" id="buy-stock-btn" onclick="APP.finance.buyStock();" style="color: green;">BUY</button>
+							<button class="card-btn" id="show-stock-sell-form-btn" onclick="APP.display.showSellStockForm();">SELL</button>
+							<button class="card-btn" id="sell-stock-btn" onclick="APP.finance.sellStock();" style="color: red">SELL</button>
+							<button class="card-btn" id="buy-real-estate-btn" onclick="APP.finance.buyRealEstate();">BUY</button>
+							<button class="card-btn" id="buy-coin-btn" onclick="APP.finance.buyCoin();">BUY</button>
+							<button class="card-btn" id="buy-business-btn" onclick="APP.finance.buyBusiness();">BUY</button>
+							<button class="card-btn" id="borrow-offer-loan-btn" onclick="APP.finance.getLoan();" style="color: red">YES</button>
+							<button class="card-btn" id="pass-btn" onclick="APP.finishTurn();">PASS</button>
+							<button class="card-btn" id="no-loan-btn" onclick="APP.finance.noLoan();">NO</button>
+							<button class="card-btn" id="confirm-pay-btn" onclick="APP.finance.pay();">CONFIRM</button>
+							<button class="card-btn" id="confirm-settlement-btn" onclick="APP.finance.sellAsset();">CONFIRM</button>
+							<button class="card-btn" id="show-offer-btn" onclick="APP.display.showOffer();">BACK</button>
+							<button class="card-btn" id="cancel-l-btn" onclick="APP.display.highlightLiabilities(2); APP.finishTurn();">CANCEL</button>
+							<!--<button class="card-btn" id="confirm-pay-btn2" onclick="APP.finance.pay();">CONFIRM</button>-->
+							<button class="card-btn" id="done-repay-btn" onclick="APP.display.highlightLiabilities(2); APP.finishTurn(); ">DONE</button>
+							<button class="card-btn" id="done-btn" onclick="APP.finishTurn();">DONE</button>
+							<button class="card-btn" id="done-buy-sell-btn" onclick="APP.display.showStockCard();">DONE</button>
+							<button class="card-btn" id="borrow-doodad-loan-btn" onclick="APP.finance.getLoan(); APP.finishTurn();">BORROW</button>
+							<button class="card-btn" id="ftic-ok-btn" onclick="APP.display.continue();">OK</button>
+
+							<button class="card-btn" id="ft-end-turn-btn" onclick="APP.nextTurn();">END TURN</button>
+							<button class="card-btn" id="ft-doodad-roll-btn" onclick="FASTTRACK.doodad(APP.players[APP.currentPlayerArrPos()].position);">Roll</button>
+							<button class="card-btn" id="ft-opp-buy-btn" onclick="FASTTRACK.opportunity(APP.players[APP.currentPlayerArrPos()].position);">Buy</button>
+							<button class="card-btn" id="ft-pass-btn" onclick="FASTTRACK.finishTurn();">Pass</button>
+						</div>
 						
 						<div id="finish-turn-container">
-							  <button class="card-btn" id="end-turn-btn" onclick="APP.nextTurn();">END TURN</button>
-							  <button class="card-btn" id="cancel-btn" onclick="APP.display.highlightLiabilities(2); APP.finishTurn();">CANCEL</button>
-							</div>	
+							<button class="card-btn" id="end-turn-btn" onclick="APP.nextTurn();">END TURN</button>
+							<button class="card-btn" id="cancel-btn" onclick="APP.display.highlightLiabilities(2); APP.finishTurn();">CANCEL</button>
+						</div>	
 					</td>
 					</td>
 					
@@ -862,11 +867,11 @@
 	  <div id="finance-box">
 			<div id="expense-bar">
 			<h3 style="font-size: 10pt; text-align: center;">INCREASE PASSIVE INCOME TO ESCAPE THE RAT RACE</h3>
-			<h3 style="font-size: 10pt;">TOTAL EXPENSES: $<span id='summary-total-expenses-bar'></span></h3>
+			<h3 style="font-size: 10pt; margin: 3px auto; width: 70%;">TOTAL EXPENSES: $<span id='summary-total-expenses-bar'></span></h3>
 			<div id='income-expense-progress'>
 			  <div id='income-expense-bar'></div>
 			</div>
-			<h3 style="font-size: 9pt; margin: auto;">PASSIVE INCOME: $<span id='bar-passive-income'></span></h3>
+			<h3 id="passive-income-count">PASSIVE INCOME: $<span id='bar-passive-income'></span></h3>
 		  </div>
 		  <table id="finance-summary">
 			<tr>

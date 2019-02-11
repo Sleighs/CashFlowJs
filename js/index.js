@@ -1109,9 +1109,17 @@ APP.finance = {
 			
 			if (100000 <= player.totalIncome) {
 				//show you win card
+				APP.display.clearCards();
+				APP.display.clearBtns();
 				
 				$("#win-card").show();
 				$("#winning-player").text(APP.name(APP.currentPlayer));
+				
+				document.getElementById("win-cash-amount").innerHTML = APP.display.numWithCommas(player.assetIncome);
+				document.getElementById("win-income-amount").innerHTML = APP.display.numWithCommas(Math.round(player.cash));
+				document.getElementById("win-asset-amount").innerHTML = APP.display.numWithCommas(player.totalIncome);
+
+				document.getElementById("win-card-new-game-btn").onclick = window.reload
 			}
 		} else {
 			$("#liability-table").show();
@@ -1845,6 +1853,11 @@ APP.finance = {
             }
 			
             APP.finance.statement();
+		}
+		
+		//--temp
+		if (boardPosition === 19) {
+            $("#no-loan-btn").hide();
 		}
 	},
 	getTaxes: function () {
@@ -6979,16 +6992,6 @@ APP.board = {
     }
 };
 
-// player amount
-// starting savings amount	
-// double savings
-// asset cards
-// limit
-// mix small and large deals
-// when a player lands on an opp spot 
-// skip large and small deall option card and load the card
-// default settings option
-
 var OPTIONS = {
 	playerNumber: document.getElementById("player-number"),
     slider: document.getElementById("start-savings-slide"),
@@ -7207,18 +7210,19 @@ var TEST = {
 };*/
 //-- testing
 /*
+// for setting start cash and fast track
 document.getElementById("start-game").addEventListener("click", function(){
 	APP.players[APP.currentPlayerArrPos()].fastTrack = true;
 	APP.players[APP.currentPlayerArrPos()].cash += 99999999;
-	APP.players[APP.currentPlayerArrPos()].totalIncome += 50999;
 });
+// for setting start income
 document.getElementById("ftic-ok-btn").addEventListener("click", function(){
 	APP.players[APP.currentPlayerArrPos()].totalIncome += 50999;
 });
 */
 
 $(document).ready(function () {
-	//init game
+	// init game
 	 APP.initGame();
     $("#start-game").on("click", function () {
         $("#window").css("background-image", "");
@@ -7227,9 +7231,6 @@ $(document).ready(function () {
     $("#reset-btn").on("click", function () {
         window.location.reload(false);
     });
-	
-	//tooltip
-	$("#po-insurance-p1").attr('title', 'Pay 8% of your income to cover downsize costs. Add 1% for each dependent.');
 	
 	// options
     OPTIONS.output.innerHTML = "Normal";
@@ -7255,10 +7256,10 @@ $(document).ready(function () {
         OPTIONS.checkState();
     };
 	
-	//--temp
+	//--temp hides options checkboxes
 	$(".off-options").hide();
 	
-	//show player settings
+	// game setup: show player options for selected amount of players
 	var playerInputs = document.querySelectorAll("div.player-input");
 	
 	function showPlayerInputs() {
@@ -7288,55 +7289,4 @@ $(document).ready(function () {
 		}
 	}
 	showPlayerInputs();
-	
-	
-
 });
-
-//$( document ).tooltip();
-
-/*
-  12/27/2018
-  DONE
-  * fast track board piece movement functionality
-  * enter phase three functionality
-  * fast track cashflow day added
-  * fast track board spaces added
-  * fast track charity functionality
-  1/6/2019
-  * added a function to convert integers and strings of numbers without commas after the 1000th place to have the comma
-  1/8/2019
-  * added starting savings game option
-  * added downsize insurance game option
-  * added asset options to choose which are included
-  * option screen redesign
-  * fixed bug in dream phase where second player scenario info was the first players info
-  * fixed boat loan row to being visible only when player has loan
-  1/12/2019
-  * changed real estate cards and offer cards to only highlight when user can outright afford the downpayment or has sellable property
-  * Updated player settings to dynamically show the settings for currently selected players
-  1/15/2019
-  * added fast track deal buying functionality
-  * added ft finance statement table to view owned assets
-  * fixed ft doodad spaces
-  1/16/2019
-  * added coin selling functionality
-  
-  
-  TODO
-  * add text for when a player cannot utilize an offer => 'you do not own any of this property' prompt
-  * press and hold functionality for increment buttons
-  * add sell software company functinality
-  * fix overpaying loans
-  * cashflow day income - passive income remains
-  * fix selling a 12 plex for 25k each unit
-  * automated business cash flow
-  * board blinks yellow when passing or stopping on pay day 
-  * every 12 paydays the player can opt out of insurance
-  * highlight stock splits if effected
-  * remove associated offers to unplayed assets
-  * fix selling assets so that the one is clicked is the one sold 
-  * check taxes
-  * fast track taxes
-  * show math on real estate offers
-*/

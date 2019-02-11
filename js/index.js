@@ -241,7 +241,7 @@ var APP = APP || {
 			$("#liability-table").show();
 			$("#ft-statement").hide();
 			
-            if (player.fastTrackOption == true) {
+             if (player.fastTrackOption == true) {
                 $("#ft-enter-btn").show();
             } else {
                 $("#ft-enter-btn").hide();
@@ -5859,17 +5859,12 @@ APP.display = {
             $(tableId).append(tableRow);
 		}
 	},
-    continue: function () {
+    continueFt: function () {
         //close fast track intro card
-        if (APP.players[APP.currentPlayerArrPos()].fastTrack == false) {
+        /*if (APP.players[APP.currentPlayerArrPos()].fastTrack == false) {
             $("#fast-track-intro-card").hide();
             $("#ftic-ok-btn").hide();
 
-            if (APP.players[APP.currentPlayerArrPos()].fastTrackOption == true) {
-                $("#ft-enter-btn").hide();
-            } else {
-                $("#ft-enter-btn").hide();
-            }
 
             $("#turn-instructions").show();
             $("#roll-btn").show();
@@ -5879,7 +5874,14 @@ APP.display = {
 
             $("#ft-turn-instructions").show();
             $("#ft-roll-btn").show();
-        }
+        }*/
+		APP.display.clearBtns();
+			$("#fast-track-option-card").hide();
+            $("#ftic-ok-btn").hide();
+			$("#ft-enter-btn").hide();
+
+            $("#ft-turn-instructions").show();
+            $("#ft-roll-btn").show();
     },
     numWithCommas: function (num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

@@ -944,6 +944,7 @@ body {
 #downsize-card,
 #lia-card,
 #repay-card,
+#repay-loan-card,
 #borrow-card,
 #deal-coin-card,
 #deal-cd-card,
@@ -1160,7 +1161,7 @@ body {
 #roll2-btn,
 #ft-roll2-btn {
     height: 40px;
-    width: 100px;
+    width: 104px;
     letter-spacing: .5pt;
     border-radius: 5px;
     background-color: white;
@@ -1179,6 +1180,13 @@ body {
     outline: none;
     font-size: 12pt;
 	margin: auto;
+}
+#repay-loan-input {
+    font-weight: bold;
+    font-family: 'lato';
+    color: #4E342E;
+    text-shadow: .5px .5px .5px #7DCEA0;
+    box-shadow: .4px .4px .5px #c2a500;
 }
 
 #buy-opp-button,

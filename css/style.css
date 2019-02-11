@@ -412,8 +412,8 @@ body {
 
 #start-game {
 	position: relative;
-    margin: 5.5%;
-    padding: 6% 20%;
+    margin: 2% 4.5% 5% 4.5%;
+    padding: 6% 22%;
     border-radius: 20px;
     background-color: #43A047;
     outline: none;
@@ -553,7 +553,7 @@ body {
 }
 
 .cell2-center {
-    position: relative;
+    
     padding: 2px;
     color: #01030e;
     border: 2pt solid white;
@@ -582,13 +582,9 @@ body {
     text-align: center;
     font-family: "lato";
 }
-#cell219 {
-	width: 6%;
+#cell209 {
+	width: 72px;
 }
-#cell229 {
-	width: 6%;
-}
-
 #cell224 {
 	background-color: #2AEEBF;
 }
@@ -638,6 +634,16 @@ body {
 .board-top {
     border: 2pt solid;
     position: relative;
+}
+.board-top2 {
+    border: 2pt solid;
+    position: relative;
+	width: 74px;
+}
+.board-top2-pay {
+    border: 2pt solid;
+    position: relative;
+	width: 102px;
 }
 
 .board-bot {
@@ -713,7 +719,6 @@ body {
     margin: auto;
     padding: 5px 0;
     height: 400px;
-    /*width: 98%;*/
 }
 
 #player-list,
@@ -782,8 +787,6 @@ body {
 
 .kid-space {
     background-color: #FFB74D;
-    #C51162;
-    #EC407A;
 }
 
 .dow-space {
@@ -933,7 +936,7 @@ body {
 
 #turn-info-box {
     height: 325px;
-	width: 100%;
+	width: 95%;
     padding: 5px;
 }
 
@@ -995,7 +998,7 @@ body {
 #offer-rule2,
 #deal-re-rule,
 #offer-settlement {
-    width: 95%;
+    width: 93%;
     margin: auto;
 }
 
@@ -1003,7 +1006,7 @@ body {
     color: #4E342E;
     text-shadow: .2px .2px .2px #7DCEA0;
     font-weight: bold;
-    width: 300px;
+    width: 90%;
     /*color: #263238;
      text-shadow: .5px .5px .4px #9CCFCB;
     */
@@ -1059,12 +1062,10 @@ body {
 	height: 400px;
 }
 #info-card-td {
-	width: 350px;
+	width: 100%;
 }
 #info-card-btns-td {
 	height: 30%;
-	width: 100px;
-	posiiton: absolute;
 }
 
 #info {
@@ -1160,7 +1161,7 @@ body {
 #roll2-btn,
 #ft-roll2-btn {
     height: 40px;
-    width: 100px;
+    width: 104px;
     letter-spacing: .5pt;
     border-radius: 5px;
     background-color: white;
@@ -1223,7 +1224,7 @@ body {
 
 #confirm-settlement-btn {
     height: 40px;
-    width: 108px;
+    width: 104px;
     border-radius: 5px;
     background-color: white;
     outline: none;

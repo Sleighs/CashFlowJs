@@ -54,6 +54,12 @@ body {
     font-family: "Roboto", sans-serif;
     padding: 0px;
     border-radius: 5px;
+	
+	-moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .hide {
@@ -1073,9 +1079,9 @@ body {
     /*height: 40px;*/
     width: 92px;
     border-radius: 5px;
-    background-color: #83A296  ;
+    background-color: #AF6868  ;
 	letter-spacing: 1.7pt;
-	color: #FFFED8  ;
+	color: white;
     outline: none;
     font-size: 14pt;
 	margin: 5% auto;

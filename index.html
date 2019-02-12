@@ -313,8 +313,9 @@
 	  
 	  
       
-	  <div style="display: inline-block; width: 1085px;">
-	  <table id="board2">
+	  <div id="game-container" style="display: inline-block; width: 1085px;">
+	    <table id="board2">
+	  
         <tr>
           <td class="cell2 board-top2-pay pay-space" id="cell218"></td>
           <td class="cell2 board-top2 opp-space2" id="cell219"></td>
@@ -847,24 +848,27 @@
           <td class="cell2-right opp-space2" id="cell237"></td>
         </tr>
         <tr>
-          <td class="cell2 board-bot pay-space" id="cell210"></td>
-          <td class="cell2 board-bot opp-space2" id="cell209"></td>
-          <td class="cell2 board-bot opp-space2" id="cell208"></td>
-          <td class="cell2 board-bot dow-space" id="cell207"></td>
-          <td class="cell2 board-bot opp-space2" id="cell206"></td>
-          <td class="cell2 board-bot opp-space2" id="cell205"></td>
-          <td class="cell2 board-bot opp-space2" id="cell204"></td>
-          <td class="cell2 board-bot opp-space2" id="cell203"></td>
-          <td class="cell2 board-bot cha-space" id="cell202"></td>
-          <td class="cell2 board-bot dow-space" id="cell201"></td>
-          <td class="cell2 board-bot opp-space2" id="cell240"></td>
-          <td class="cell2 board-bot opp-space2" id="cell239"></td>
-          <td class="cell2 board-bot pay-space" id="cell238"></td>
+          <td class="cell2 board-bot2 pay-space" id="cell210"></td>
+          <td class="cell2 board-bot2 opp-space2" id="cell209"></td>
+          <td class="cell2 board-bot2 opp-space2" id="cell208"></td>
+          <td class="cell2 board-bot2 dow-space" id="cell207"></td>
+          <td class="cell2 board-bot2 opp-space2" id="cell206"></td>
+          <td class="cell2 board-bot2 opp-space2" id="cell205"></td>
+          <td class="cell2 board-bot2 opp-space2" id="cell204"></td>
+          <td class="cell2 board-bot2 opp-space2" id="cell203"></td>
+          <td class="cell2 board-bot2 cha-space" id="cell202"></td>
+          <td class="cell2 board-bot2 dow-space" id="cell201"></td>
+          <td class="cell2 board-bot2 opp-space2" id="cell240"></td>
+          <td class="cell2 board-bot2 opp-space2" id="cell239"></td>
+          <td class="cell2 board-bot2 pay-space" id="cell238"></td>
         </tr>
       </table>
-	  </div>
+	    <div id="game-menu">
+		  <button id="menu-new-game-btn">New Game</button>
+		</div>
+		</div>
 	  
-	  <div id="finance-box">
+	    <div id="finance-box">
 			<div id="expense-bar">
 			<h3 style="font-size: 10pt; text-align: center;">INCREASE PASSIVE INCOME TO ESCAPE THE RAT RACE</h3>
 			<h3 style="font-size: 10pt; margin: 3px auto; width: 70%;">TOTAL EXPENSES: $<span id='summary-total-expenses-bar'></span></h3>
@@ -890,8 +894,7 @@
 			  <td id="sum-td-left">PAYDAY:</td>
 			  <td id="sum-td">$<span id="summary-payday"></span></td>
 			</tr>
-		  </table>
-		  
+		  </table>	  
 		  <table id="income-table">
 			<tr id="income-row-head">
 			  <th>INCOME</th>
@@ -971,9 +974,6 @@
 				</tr>
 			  </table>
 			
-		  
-		
-	    
         <div id="assets-liabilities-statement">
                     <table id="asset-table">
                       <thead>
@@ -1072,7 +1072,7 @@
                       </table>-->
                   </div>
       </div>
-    <button id="reset-btn" class="hide">Reset</button>
+	  
   </body>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>

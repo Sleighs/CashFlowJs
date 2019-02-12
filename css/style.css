@@ -466,18 +466,16 @@ body {
 	/*height: 1000px;*/
     border-radius: 5px;
 }
-.board2-top {
-	
-	
-}
 .cell {
     position: relative;
+	border: 2pt solid white;
+	border-radius: 4px;
     top: 0px;
     left: 0px;
     color: white;
     height: 88px;
-    width: 13.5%;
-    font-size: 0.6em;
+    width: 13%;
+    font-size: 0.7em;
     letter-spacing: .2pt;
     text-align: center;
     box-shadow: .2px .2px .2px .2px #4E342E;
@@ -485,6 +483,7 @@ body {
 
 .cell2 {
     position: absolute;
+	border: 2px outset #FDD835;
     top: 0px;
     left: 0px;
     padding: 0px;
@@ -507,12 +506,13 @@ body {
     font-size: 8pt;
     letter-spacing: .2pt;
     text-align: center;
-    border: 2pt solid;
+	border: 2pt outset #FDD835;
     box-shadow: .2px .2px .2px .2px #4E342E;
 }
 
 .cell2-right {
     position: relative;
+	margin: 2px;
     top: 0px;
     right: 0px;
     padding: 0px;
@@ -522,12 +522,13 @@ body {
     font-size: 8pt;
     letter-spacing: .2pt;
     text-align: center;
-    border: 2pt solid;
+	border: 2pt outset #FDD835;
     box-shadow: .2px .2px .2px .2px #4E342E;
 }
 
 .cell2-top {
 	position: absolute;
+	margin: 2px;
     top: 0px;
     left: 0px;
     padding: 0px;
@@ -537,10 +538,12 @@ body {
     letter-spacing: .2pt;
     text-align: center;
     box-shadow: .2px .2px .2px .2px #4E342E;
+	border: 2pt solid #FDD835;
 }
 
 .cell2-bottom {
 	position: absolute;
+	margin: 2px;
     top: 0px;
     left: 0px;
     padding: 0px;
@@ -549,11 +552,11 @@ body {
     font-size: 8pt;
     letter-spacing: .2pt;
     text-align: center;
+	border: 2pt solid #FDD835;
     box-shadow: .2px .2px .2px .2px #4E342E;
 }
 
 .cell2-center {
-    
     padding: 2px;
     color: #01030e;
     border: 2pt solid white;
@@ -587,6 +590,28 @@ body {
 }
 #cell224 {
 	background-color: #2AEEBF;
+}
+#cell210, #cell230, #cell218, #cell238 {
+	font-size: 10pt;
+	border: 3px outset;
+	border-radius: 4px;
+}
+.board-top {
+    position: relative;
+}
+.board-bot {
+    position: relative;
+}
+.board-top2 {
+    position: relative;
+	width: 74px;
+}
+.board-top2-pay {
+    position: relative;
+	width: 102px;
+}
+.board-bot2 {
+    position: relative;
 }
 .fast-track-cell-info {
     /*height: 80px;*/
@@ -629,26 +654,6 @@ body {
 	/*height: 70%;
     width: 100%;*/
 	padding: 20px 2px;
-}
-
-.board-top {
-    border: 2pt solid;
-    position: relative;
-}
-.board-top2 {
-    border: 2pt solid;
-    position: relative;
-	width: 74px;
-}
-.board-top2-pay {
-    border: 2pt solid;
-    position: relative;
-	width: 102px;
-}
-
-.board-bot {
-    border: 2pt solid;
-    position: relative;
 }
 
 #player1-piece,
@@ -750,7 +755,7 @@ body {
 
 #finance-box {
     width: 18%;
-    height: 900px;
+    height: 920px;
     padding: 4px;
     margin: auto;
     float: right;
@@ -1330,24 +1335,21 @@ body {
 
 #income-table {
     display: block;
-    /*height: 132px;*/
-    width: 264px;
+    width: 95%;
     overflow: auto;
 }
 
 #expense-table {
     display: block;
-    /*height: 138px;*/
-    width: 264px;
+    width: 95%;
     padding-top: 2px;
     overflow: auto;
 }
 
 #asset-table,
 #liability-table {
-    /*display: inline-block;*/
-    width: 264px;
-    height: 122px;
+    width: 95%;
+    height: 150px;
     padding: 4px;
     vertical-align: bottom;
     overflow: auto;
@@ -1485,10 +1487,11 @@ body {
     margin: 4px 2px;
     cursor: pointer;
 }
-
-#reset-btn {)
-    height: 25px;
-    width: 50px;
+#game-menu {
+	display: none;
+}
+#menu-new-game-btn {
+    width: 60px;
     border-radius: 5px;
     background-color: white;
     outline: none;

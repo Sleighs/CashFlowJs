@@ -26,21 +26,21 @@ Color Paletter
 @media screen and (max-width: 320px) {
     body {
         width: 120px;
-		height: 1000px
+		height: 1800px
     }
 }
 
 @media screen and (min-width: 321px) and (max-width: 480px) {
     body {
         width: 320px;
-		height: 1000px;
+		height: 1800px;
     }
 }
 
 @media screen and (min-width: 481px) {
     body {
         width: 480px;
-		height: 1000px;
+		height: 1800px;
     }
 }
 

@@ -54,12 +54,12 @@ var APP = APP || {
         });
     },
     setup: function () {
-		//Create players
+		// create players
         var pn = document.getElementById("player-number");
         APP.pCount = pn.options[pn.selectedIndex].value;
         
         for (var i = 1; i <= APP.pCount; i++) {
-            //choose selected scenario
+            // choose selected scenario
 			var jobId = "job-input-player" + parseInt(i, 10);
 			var pj = document.getElementById(jobId);
 			if (pj.options[pj.selectedIndex].value == 'Random Job'){
@@ -70,13 +70,13 @@ var APP = APP || {
 				var playerScenario = pj.selectedIndex - 1;
 			}
 			
-            //add each player and job to the players array
+            // add each player and job to the players array
             var playerObj = new APP.scenario(APP.scenarioChoices[playerScenario]);
 			
             playerObj.name = APP.name(i);
             APP.players.push(playerObj);
 
-            //send list of players to board
+            // send list of players to board
             var tableId = document.getElementById("player-list-table");
             tableId.insertAdjacentHTML(
                 "beforeend",
@@ -88,23 +88,23 @@ var APP = APP || {
             );
         }
 		
-        //highlight first player
+        // highlight first player
         var curPlayerRowId = document.getElementById(
             "table-row-player" + parseInt(APP.currentPlayer, 10)
         );
         curPlayerRowId.style.border = "3pt groove #FDD835";
 
-		//set game variables
+		// set game variables
 			// included assets
 			// starting cash
 		OPTIONS.setup();
 		
-        //start dream phase (phase 1)
+        // start dream phase (phase 1)
         APP.dreamPhase.openDreamPhase();
         APP.dreamPhase.dreamPhaseOn = true;
 		
-        //-- game reset button for testing
-        $("#reset-btn").show();
+		// show game menu
+        $("#game-menu").show();
 
         APP.display.clearBtns();
         APP.display.clearCards();
@@ -1092,7 +1092,7 @@ APP.finance = {
                 $("#finish-instructions").hide();
                 $("#ft-turn-instructions").hide();
                 $("#roll-btn").hide();
-                $("#ft-roll-btn").hide();
+                //$("#ft-roll-btn").hide();
                 $("#fast-track-option-card").hide();
 
                 document.getElementById("ftic-player-name").innerHTML = APP.name(APP.currentPlayer);
@@ -1100,6 +1100,7 @@ APP.finance = {
                 $("#ftic-ok-btn").show();
                 $("#ft-enter-btn").show();
             }
+			
         }
 		
 		if (player.fastTrack == true){
@@ -1119,11 +1120,33 @@ APP.finance = {
 				document.getElementById("win-income-amount").innerHTML = APP.display.numWithCommas(Math.round(player.cash));
 				document.getElementById("win-asset-amount").innerHTML = APP.display.numWithCommas(player.totalIncome);
 
-				document.getElementById("win-card-new-game-btn").onclick = window.reload
+				document.getElementById("win-card-new-game-btn").onclick = function(){
+					APP.display.hideHomeScreen();
+					APP.display.hideGameSelectionScreen();
+					$("#game-container").hide();
+					$("#finance-box").hide();
+					
+					APP.display.showGameSetupScreen();
+					
+					for (var i = APP.pCount; i >= APP.players.length; i--){
+						delete APP.players[i];
+					}
+					
+					$("#player-list-table").empty();
+					
+					setInterval(function(){
+						$("#home-screen").hide();
+					}, 1);
+				};
 			}
 		} else {
 			$("#liability-table").show();
-			$("#asset-statement").css("width", "264px%");
+			if (player.realEstateAssets.length >= 5){
+				$("#income-table").css("height","165px");
+			} else {
+				$("#income-table").css("height","15%");
+			}
+			$("#asset-statement").css("width", "98%");
 		}
     },
     progressBar: function () {
@@ -5262,6 +5285,7 @@ APP.display = {
         $("#board").show();
         $("#board2").show();
         $("#board-container").show();
+		$("#game-container").show();
         $("#info").show();
         $("#player-list").show();
 
@@ -6443,7 +6467,7 @@ var FASTTRACK = {
     printSquares: function () {
         document.getElementById("cell201").innerHTML =
             "<div class ='cellx2'><div id='tokenSection2-1'></div>" +
-            "<span class='fast-track-space-title'>HEALTHCARE!</span><br><div class='fast-track-cell-info' id='ft-doodad1'> " +
+            "<span class='fast-track-space-title' style='font-size: 7pt;'>HEALTHCARE</span><br><div class='fast-track-cell-info' id='ft-doodad1'> " +
 			FASTTRACK.square.doodad1.info
              + "</div>";
         document.getElementById("cell202").innerHTML =
@@ -6726,16 +6750,16 @@ var FASTTRACK = {
             case 21:
 				console.log(player.fastTrackAssets);
 				//find lowest number in fastTrackAssets
-				var lowest;
+				var lowest = player.fastTrackAssets[0].cashFlow;
 				
 				player.fastTrackAssets.forEach(function(current){	
-					if (current < lowest) {
+					if (current.cashFlow < lowest) {
 						lowest = current;
 					}
 									
 				});
 
-				player.totalIncome -= lowest.cashFlow;
+				player.totalIncome -= lowest;
 				delete lowest;	
 				
 				console.log(player.fastTrackAssets);
@@ -7035,10 +7059,9 @@ var OPTIONS = {
         this.kids.checked = false;
         this.paycheckDoodads.checked = false;
         this.playerLoans.checked = false;
-        this.chooseJob.checked = false;
+        //this.chooseJob.checked = false;
         this.oneDealDeck.checked = false;
 		
-
         OPTIONS.checkState();
     },
 	setup: function(){
@@ -7181,35 +7204,8 @@ var OPTIONS = {
 		
 	}
 };
-/*
-var TEST = {
-	players: [],
-	currentPlayer: 1,
-    currentPlayerArrPos: function () {
-        return TEST.currentPlayer - 1;
-    },
-	opportunity: function(boardPosition) {
-		var player = TEST.players[TEST.currentPlayerArrPos()];
-		var currentSquare = "square" + String(boardPosition);
-		var asset = this.square[currentSquare];
-		
-		console.log(asset);
 
-		if (asset.cost <= player.cash) {
-			player.cash -= asset.cost;
-			player.totalIncome += asset.cashFlow;
-			
-            var timestamp = new Date();
-            var newId = asset.title + parseInt(timestamp, 10);
-            asset.id = newId;
-			
-			//add asset to player assets
-			player.fastTrackAssets.push(asset);
-		}
-		console.log(player.fastTrackAssets[0]);
-		
-	}
-};*/
+/*
 //-- testing
 /*
 // for setting start cash and fast track
@@ -7230,8 +7226,23 @@ $(document).ready(function () {
         $("#window").css("background-image", "");
         $("#window").css("background-color", "white" /*"#4E342E"/*#010410*/ );
     });
-    $("#reset-btn").on("click", function () {
-        window.location.reload(false);
+    $("#menu-new-game-btn").on("click", function () {
+		APP.display.hideHomeScreen();
+		APP.display.hideGameSelectionScreen();
+		$("#game-container").hide();
+		$("#finance-box").hide();
+		
+		APP.display.showGameSetupScreen();
+		
+		for (var i = APP.pCount; i >= APP.players.length; i--){
+			delete APP.players[i];
+		}
+		
+		$("#player-list-table").empty();
+		
+		setInterval(function(){
+			$("#home-screen").hide();
+		}, 1);
     });
 	
 	// options

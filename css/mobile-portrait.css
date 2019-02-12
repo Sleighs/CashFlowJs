@@ -412,8 +412,8 @@ body {
 
 #start-game {
 	position: relative;
-    margin: 5.5%;
-    padding: 6% 20%;
+    margin: 2% 4.5% 5% 4.5%;
+    padding: 6% 22%;
     border-radius: 20px;
     background-color: #43A047;
     outline: none;
@@ -466,18 +466,16 @@ body {
 	/*height: 1000px;*/
     border-radius: 5px;
 }
-.board2-top {
-	
-	
-}
 .cell {
     position: relative;
+	border: 2pt solid white;
+	border-radius: 4px;
     top: 0px;
     left: 0px;
     color: white;
     height: 88px;
-    width: 13.5%;
-    font-size: 0.6em;
+    width: 13%;
+    font-size: 0.7em;
     letter-spacing: .2pt;
     text-align: center;
     box-shadow: .2px .2px .2px .2px #4E342E;
@@ -485,6 +483,7 @@ body {
 
 .cell2 {
     position: absolute;
+	border: 2px outset #FDD835;
     top: 0px;
     left: 0px;
     padding: 0px;
@@ -507,12 +506,13 @@ body {
     font-size: 8pt;
     letter-spacing: .2pt;
     text-align: center;
-    border: 2pt solid;
+	border: 2pt outset #FDD835;
     box-shadow: .2px .2px .2px .2px #4E342E;
 }
 
 .cell2-right {
     position: relative;
+	margin: 2px;
     top: 0px;
     right: 0px;
     padding: 0px;
@@ -522,12 +522,13 @@ body {
     font-size: 8pt;
     letter-spacing: .2pt;
     text-align: center;
-    border: 2pt solid;
+	border: 2pt outset #FDD835;
     box-shadow: .2px .2px .2px .2px #4E342E;
 }
 
 .cell2-top {
 	position: absolute;
+	margin: 2px;
     top: 0px;
     left: 0px;
     padding: 0px;
@@ -537,10 +538,12 @@ body {
     letter-spacing: .2pt;
     text-align: center;
     box-shadow: .2px .2px .2px .2px #4E342E;
+	border: 2pt solid #FDD835;
 }
 
 .cell2-bottom {
 	position: absolute;
+	margin: 2px;
     top: 0px;
     left: 0px;
     padding: 0px;
@@ -549,11 +552,11 @@ body {
     font-size: 8pt;
     letter-spacing: .2pt;
     text-align: center;
+	border: 2pt solid #FDD835;
     box-shadow: .2px .2px .2px .2px #4E342E;
 }
 
 .cell2-center {
-    position: relative;
     padding: 2px;
     color: #01030e;
     border: 2pt solid white;
@@ -582,15 +585,37 @@ body {
     text-align: center;
     font-family: "lato";
 }
-#cell219 {
-	width: 6%;
+#cell209 {
+	width: 72px;
 }
-#cell229 {
-	width: 6%;
-}
-
 #cell224 {
 	background-color: #2AEEBF;
+}
+#cell210, #cell230, #cell218, #cell238 {
+	font-size: 10pt;
+	border: 3px outset;
+	border-radius: 8px;
+}
+#cell201, #cell207, #cell214, #cell221, #cell227 {
+	border-color: white;
+}
+
+.board-top {
+    position: relative;
+}
+.board-bot {
+    position: relative;
+}
+.board-top2 {
+    position: relative;
+	width: 74px;
+}
+.board-top2-pay {
+    position: relative;
+	width: 102px;
+}
+.board-bot2 {
+    position: relative;
 }
 .fast-track-cell-info {
     /*height: 80px;*/
@@ -633,16 +658,6 @@ body {
 	/*height: 70%;
     width: 100%;*/
 	padding: 20px 2px;
-}
-
-.board-top {
-    border: 2pt solid;
-    position: relative;
-}
-
-.board-bot {
-    border: 2pt solid;
-    position: relative;
 }
 
 #player1-piece,
@@ -713,7 +728,6 @@ body {
     margin: auto;
     padding: 5px 0;
     height: 400px;
-    /*width: 98%;*/
 }
 
 #player-list,
@@ -745,7 +759,7 @@ body {
 
 #finance-box {
     width: 18%;
-    height: 900px;
+    height: 920px;
     padding: 4px;
     margin: auto;
     float: right;
@@ -782,8 +796,6 @@ body {
 
 .kid-space {
     background-color: #FFB74D;
-    #C51162;
-    #EC407A;
 }
 
 .dow-space {
@@ -933,7 +945,7 @@ body {
 
 #turn-info-box {
     height: 325px;
-	width: 100%;
+	width: 95%;
     padding: 5px;
 }
 
@@ -995,7 +1007,7 @@ body {
 #offer-rule2,
 #deal-re-rule,
 #offer-settlement {
-    width: 95%;
+    width: 93%;
     margin: auto;
 }
 
@@ -1003,7 +1015,7 @@ body {
     color: #4E342E;
     text-shadow: .2px .2px .2px #7DCEA0;
     font-weight: bold;
-    width: 300px;
+    width: 90%;
     /*color: #263238;
      text-shadow: .5px .5px .4px #9CCFCB;
     */
@@ -1059,12 +1071,10 @@ body {
 	height: 400px;
 }
 #info-card-td {
-	width: 350px;
+	width: 100%;
 }
 #info-card-btns-td {
 	height: 30%;
-	width: 100px;
-	posiiton: absolute;
 }
 
 #info {
@@ -1160,7 +1170,7 @@ body {
 #roll2-btn,
 #ft-roll2-btn {
     height: 40px;
-    width: 100px;
+    width: 104px;
     letter-spacing: .5pt;
     border-radius: 5px;
     background-color: white;
@@ -1223,7 +1233,7 @@ body {
 
 #confirm-settlement-btn {
     height: 40px;
-    width: 108px;
+    width: 104px;
     border-radius: 5px;
     background-color: white;
     outline: none;
@@ -1329,24 +1339,21 @@ body {
 
 #income-table {
     display: block;
-    /*height: 132px;*/
-    width: 264px;
+    width: 95%;
     overflow: auto;
 }
 
 #expense-table {
     display: block;
-    /*height: 138px;*/
-    width: 264px;
+    width: 95%;
     padding-top: 2px;
     overflow: auto;
 }
 
 #asset-table,
 #liability-table {
-    /*display: inline-block;*/
-    width: 264px;
-    height: 122px;
+    width: 95%;
+    height: 150px;
     padding: 4px;
     vertical-align: bottom;
     overflow: auto;
@@ -1484,10 +1491,11 @@ body {
     margin: 4px 2px;
     cursor: pointer;
 }
-
-#reset-btn {)
-    height: 25px;
-    width: 50px;
+#game-menu {
+	display: none;
+}
+#menu-new-game-btn {
+    width: 60px;
     border-radius: 5px;
     background-color: white;
     outline: none;

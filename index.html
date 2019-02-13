@@ -607,14 +607,14 @@
 						  <h2 class="card-title">PAY OFF LOAN</h2>
 						  <p>Input an amount to repay your loan<br>Payments must be in multiples of $1,000</p>
 						  <form>
-							<div id="loan-amt">Amount: $<input id='loan-amt-input2' type='text' name='loan-amount' value='1000'></div>
+							<div id="loan-amt">Amount: $ <input id='loan-amt-input2' type='text' name='loan-amount' value='1000'></div>
 							<br>
 							<div id="loan-amt-btns">
 							  <input type="button" id="increase-loan" onclick="APP.finance.increaseLoan();" value=" + "></input>
 							  <input type="button" id="decrease-loan" onclick="APP.finance.decreaseLoan();" value=" - "></input>
 							</div>
 							<br>
-							<input id="repay-loan-input" type="button" value="PAY" onclick="APP.finance.pay(); APP.finance.statement(APP.currentPlayerArrPos());"></input>
+							<input class="card-btn" id="repay-loan-input"  type="button" value="PAY" onclick="APP.finance.pay(); APP.finance.statement(APP.currentPlayerArrPos());"></input>
 						  </form>
 						</div>
 						<div id="settlement-card">

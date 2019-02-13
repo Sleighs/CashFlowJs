@@ -963,6 +963,7 @@ body {
 #repay-card,
 #borrow-card,
 #repay-loan-card,
+#pay-confirm-card,
 #deal-coin-card,
 #deal-cd-card,
 #deal-company-card,
@@ -1023,7 +1024,9 @@ body {
     font-weight: bold;
     width: 100%;
 }
-
+#loan-amt-btns {
+	font-weight: bold;
+}
 #repay-borrow-btns {
     margin: auto 0 auto 4.5%;
 	width: 83%;
@@ -1360,11 +1363,34 @@ body {
 #asset-table,
 #liability-table {
     width: 95%;
-    height: 150px;
     padding: 4px;
     vertical-align: bottom;
     overflow: auto;
     border-spacing: 0;
+}
+#income-table td {
+	padding: 0 4px;
+	height: 22px;
+	border-bottom: 1px solid rgb(60, 179, 113);
+    border-bottom: 1px solid rgba(60, 179, 113, .1);
+}
+#expense-table td {
+	padding: 0 4px;
+	height: 22px;
+	border-bottom: 1px solid rgb(60, 179, 113);
+    border-bottom: 1px solid rgba(60, 179, 113, .1);
+}
+#liability-table td {
+	padding: 0 4px;
+	height: 25px;
+	border-bottom: 1px solid rgb(60, 179, 113);
+    border-bottom: 1px solid rgba(60, 179, 113, .1);
+}
+#asset-table td {
+	padding: 0 4px;
+	height: 27px;
+	border-bottom: 1px solid rgb(60, 179, 113);
+    border-bottom: 1px solid rgba(60, 179, 113, .1);
 }
 #ft-statement {
     width: 264px;
@@ -1382,7 +1408,7 @@ body {
 }
 
 .lia-table-row {
-    font-size: 11pt;
+    font-size: 10pt;
 }
 
 .assets-row {

@@ -1143,11 +1143,11 @@ APP.finance = {
 		} else {
 			$("#liability-table").show();
 			if (player.realEstateAssets.length >= 5){
-				$("#income-table").css("height","170px");
+				$("#income-table").css("height","175px");
 				$("#asset-table").css("height","250px");
 			} else {
-				$("#income-table").css("height","15%");
-				$("#asset-table").css("height","15%");
+				$("#income-table").css("height","16%");
+				$("#asset-table").css("height","16%");
 			}
 			$("#asset-statement").css("width", "98%");
 		}
@@ -5708,7 +5708,7 @@ APP.display = {
 				//highlight card
 				$("#turn-info").css("box-shadow", ".2px .2px 3px 3px #0277BD");
 
-                $(rowId).click(function (a) {
+                $(rowId).click(function () {
                     $("#offer-card").hide();
                     $("#done-btn").hide();
 
@@ -5716,8 +5716,9 @@ APP.display = {
                     $("#confirm-settlement-btn").show();
                     $("#show-offer-btn").show();
                     $("#settlement-offer").html(parseInt(settlement, 10));
-					//get id of clicked row
 					
+					
+					//get id of clicked row
 					var currentId  = rowId;
 					//get number in id
 					currentId.split('');

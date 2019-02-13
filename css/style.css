@@ -594,12 +594,12 @@ body {
 #cell224 {
 	background-color: #2AEEBF;
 }
-#cell210, #cell230, #cell218, #cell238, #cell234 {
+#cell210, #cell230, #cell218, #cell238{
 	font-size: 10pt;
 	border: 3px outset;
 	border-radius: 8px;
 }
-#cell201, #cell207, #cell214, #cell221, #cell227 {
+#cell201, #cell202, #cell207, #cell214, #cell221, #cell224, #cell227, #cell234 {
 	border-color: white;
 }
 
@@ -957,22 +957,27 @@ body {
 #kid-card,
 #charity-card,
 #downsize-card,
+#doodad-card,
+#offer-card,
 #lia-card,
 #repay-card,
 #borrow-card,
+#repay-loan-card,
 #deal-coin-card,
 #deal-cd-card,
 #deal-company-card,
 #deal-personal-loan-card,
+#deal-card-real-estate,
+#deal-card-stock,
 #deal-card-limited,
 #deal-card-automated {
-    width: 87%;
+    width: 90%;
     color: #263238;
     margin: auto;
 }
 
 #opp-card {
-    width: 85%;
+    width: 90%;
     color: #263238;
     margin: auto;
 }
@@ -983,7 +988,6 @@ body {
 }
 
 #deal-card-stock h2 {
-    width: 85%;
     text-align: center;
     font-size: 23px;
 }
@@ -1010,7 +1014,6 @@ body {
 #offer-rule2,
 #deal-re-rule,
 #offer-settlement {
-    width: 93%;
     margin: auto;
 }
 
@@ -1018,10 +1021,7 @@ body {
     color: #4E342E;
     text-shadow: .2px .2px .2px #7DCEA0;
     font-weight: bold;
-    width: 90%;
-    /*color: #263238;
-     text-shadow: .5px .5px .4px #9CCFCB;
-    */
+    width: 100%;
 }
 
 #repay-borrow-btns {
@@ -1220,6 +1220,9 @@ body {
     letter-spacing: .5pt;
 	margin: 7% 0;
 }
+#repay-loan-input {
+	
+}
 
 #ft-enter-btn {
     height: 70px;
@@ -1232,6 +1235,7 @@ body {
     box-shadow: .6px .6px 2px #c2a500;
     text-shadow: .6px .6px 2px #c2a500;
     color: #4E342E;
+	margin: auto;
 }
 
 #confirm-settlement-btn {

@@ -496,6 +496,7 @@ body {
     letter-spacing: .2pt;
     text-align: center;
     box-shadow: .2px .2px .2px .2px #4E342E;
+	border-radius: 8px;
 }
 
 .cell2-left {
@@ -510,6 +511,7 @@ body {
     letter-spacing: .2pt;
     text-align: center;
 	border: 2pt outset #FDD835;
+	border-radius: 8px;
     box-shadow: .2px .2px .2px .2px #4E342E;
 }
 
@@ -526,6 +528,7 @@ body {
     letter-spacing: .2pt;
     text-align: center;
 	border: 2pt outset #FDD835;
+	border-radius: 8px;
     box-shadow: .2px .2px .2px .2px #4E342E;
 }
 
@@ -556,6 +559,7 @@ body {
     letter-spacing: .2pt;
     text-align: center;
 	border: 2pt solid #FDD835;
+	border-radius: 8px;
     box-shadow: .2px .2px .2px .2px #4E342E;
 }
 
@@ -596,7 +600,7 @@ body {
 }
 #cell210, #cell230, #cell218, #cell238{
 	font-size: 10pt;
-	border: 3px outset;
+	border: 3px outset white;
 	border-radius: 8px;
 }
 #cell201, #cell202, #cell207, #cell214, #cell221, #cell224, #cell227, #cell234 {
@@ -1070,7 +1074,7 @@ body {
 }
 #finish-turn-container {
 	width: 90%;
-    margin: auto 0;
+    margin: auto;
 }
 
 #player-list-td {
@@ -1092,15 +1096,17 @@ body {
 }
 #end-turn-btn,
 #ft-end-turn-btn {
-    /*height: 40px;*/
     width: 92px;
+	height: 60px;
+	padding: 1% 0;
     border-radius: 5px;
-    background-color: #AF6868  ;
+    background-color: #AF6868 ;
 	letter-spacing: 1.7pt;
 	color: white;
     outline: none;
-    font-size: 14pt;
-	margin: 5% auto;
+    font-size: 1.2em;
+	margin: 7% 0;
+	text-shadow: .5px .5px .5px rgb(242, 255, 91);
 }
 
 #pass-btn,

@@ -496,6 +496,7 @@ body {
     letter-spacing: .2pt;
     text-align: center;
     box-shadow: .2px .2px .2px .2px #4E342E;
+	border-radius: 8px;
 }
 
 .cell2-left {
@@ -510,6 +511,7 @@ body {
     letter-spacing: .2pt;
     text-align: center;
 	border: 2pt outset #FDD835;
+	border-radius: 8px;
     box-shadow: .2px .2px .2px .2px #4E342E;
 }
 
@@ -526,6 +528,7 @@ body {
     letter-spacing: .2pt;
     text-align: center;
 	border: 2pt outset #FDD835;
+	border-radius: 8px;
     box-shadow: .2px .2px .2px .2px #4E342E;
 }
 
@@ -556,6 +559,7 @@ body {
     letter-spacing: .2pt;
     text-align: center;
 	border: 2pt solid #FDD835;
+	border-radius: 8px;
     box-shadow: .2px .2px .2px .2px #4E342E;
 }
 
@@ -596,7 +600,7 @@ body {
 }
 #cell210, #cell230, #cell218, #cell238{
 	font-size: 10pt;
-	border: 3px outset;
+	border: 3px outset white;
 	border-radius: 8px;
 }
 #cell201, #cell202, #cell207, #cell214, #cell221, #cell224, #cell227, #cell234 {
@@ -963,6 +967,7 @@ body {
 #repay-card,
 #borrow-card,
 #repay-loan-card,
+#pay-confirm-card,
 #deal-coin-card,
 #deal-cd-card,
 #deal-company-card,
@@ -1023,7 +1028,9 @@ body {
     font-weight: bold;
     width: 100%;
 }
-
+#loan-amt-btns {
+	font-weight: bold;
+}
 #repay-borrow-btns {
     margin: auto 0 auto 4.5%;
 	width: 83%;
@@ -1067,7 +1074,7 @@ body {
 }
 #finish-turn-container {
 	width: 90%;
-    margin: auto 0;
+    margin: auto;
 }
 
 #player-list-td {
@@ -1089,15 +1096,17 @@ body {
 }
 #end-turn-btn,
 #ft-end-turn-btn {
-    /*height: 40px;*/
     width: 92px;
+	height: 60px;
+	padding: 1% 0;
     border-radius: 5px;
-    background-color: #AF6868  ;
+    background-color: #AF6868 ;
 	letter-spacing: 1.7pt;
 	color: white;
     outline: none;
-    font-size: 14pt;
-	margin: 5% auto;
+    font-size: 1.2em;
+	margin: 7% 0;
+	text-shadow: .5px .5px .5px rgb(242, 255, 91);
 }
 
 #pass-btn,
@@ -1360,11 +1369,34 @@ body {
 #asset-table,
 #liability-table {
     width: 95%;
-    height: 150px;
     padding: 4px;
     vertical-align: bottom;
     overflow: auto;
     border-spacing: 0;
+}
+#income-table td {
+	padding: 0 4px;
+	height: 22px;
+	border-bottom: 1px solid rgb(60, 179, 113);
+    border-bottom: 1px solid rgba(60, 179, 113, .1);
+}
+#expense-table td {
+	padding: 0 4px;
+	height: 22px;
+	border-bottom: 1px solid rgb(60, 179, 113);
+    border-bottom: 1px solid rgba(60, 179, 113, .1);
+}
+#liability-table td {
+	padding: 0 4px;
+	height: 25px;
+	border-bottom: 1px solid rgb(60, 179, 113);
+    border-bottom: 1px solid rgba(60, 179, 113, .1);
+}
+#asset-table td {
+	padding: 0 4px;
+	height: 27px;
+	border-bottom: 1px solid rgb(60, 179, 113);
+    border-bottom: 1px solid rgba(60, 179, 113, .1);
 }
 #ft-statement {
     width: 264px;
@@ -1382,7 +1414,7 @@ body {
 }
 
 .lia-table-row {
-    font-size: 11pt;
+    font-size: 10pt;
 }
 
 .assets-row {

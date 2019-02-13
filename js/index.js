@@ -8,7 +8,7 @@
 //      fast track
 //      cash flow day - start with 100 times passive income at end of rat race
 //      new income = cashflow day income + 50k
-//      rules = roll 2 die, cannot borrow money from bank
+//      rules = roll 2 die*, cannot borrow money from bank
 
 var APP = APP || {
     players: [],
@@ -201,7 +201,6 @@ var APP = APP || {
         APP.display.clearCards();
         APP.clearAmounts();
 		
-		
 		//remove card highlight
 		$("#turn-info").css("border", "2pt solid transparent");
 		$("#turn-info").css("box-shadow", "0 0 2px #212121");
@@ -236,6 +235,7 @@ var APP = APP || {
             $("#turn-instructions").show();
             
             $("#roll2-btn").hide();
+			$("#ftic-ok-btn").hide();
 			
 			$("#asset-table").show();
 			$("#liability-table").show();
@@ -247,6 +247,7 @@ var APP = APP || {
                 $("#ft-enter-btn").hide();
             }
         } else {
+			console.log(player);
             $("#ft-turn-instructions").show();
             $("#ft-roll-btn").show();
             $("#ft-roll2-btn").hide();
@@ -333,7 +334,7 @@ var APP = APP || {
     },
     finishTurn: function () {
         //hide opportunity card
-        $("#card-btns").hide();
+        //$("#card-btns").hide();
         $("#turn-instructions").hide();
         $("#cancel-btn").hide();
         $("#done-repay-btn").hide();
@@ -1142,9 +1143,11 @@ APP.finance = {
 		} else {
 			$("#liability-table").show();
 			if (player.realEstateAssets.length >= 5){
-				$("#income-table").css("height","165px");
+				$("#income-table").css("height","170px");
+				$("#asset-table").css("height","250px");
 			} else {
 				$("#income-table").css("height","15%");
+				$("#asset-table").css("height","15%");
 			}
 			$("#asset-statement").css("width", "98%");
 		}
@@ -1600,10 +1603,7 @@ APP.finance = {
             player.cash -= downPayment;
             player.assetIncome += APP.currentDeal.cashFlow;
 
-            var tag = APP.currentDeal.landType;
-            var timestamp = new Date();
-            var newId = tag + timestamp;
-            APP.currentDeal.id = newId;
+            APP.currentDeal.id = this.newId();
 
             arr.push(JSON.parse(JSON.stringify(APP.currentDeal)));
 
@@ -1612,6 +1612,9 @@ APP.finance = {
             this.loanOffer(downPayment);
         }
     },
+	newId: function(){
+		return Math.round(Math.random() * (9999999-1000000) + 1000000);
+	},
     sellAsset: function () {
         //Settlement = Sales Price – RE Mortgage
         var player = APP.players[APP.currentPlayerArrPos()];
@@ -1635,9 +1638,9 @@ APP.finance = {
 			
 			var id = APP.currentSettlementId;
 			var index = assetArr.findIndex(x => x.id == id);
-			//APP.currentSettlementIndex
-			
 
+			console.log(assetArr[index]);
+			console.log(id + " " + index);
 			assetArr.splice(index, 1);
 		}
 		
@@ -1691,8 +1694,9 @@ APP.finance = {
             player.cash -= downPayment;
 
             var type = businessAsset.businessType;
-            var timestamp = new Date();
-            var newId = type + parseInt(timestamp, 10);
+            var tag = APP.currentDeal.landType;
+            var idNum = Math.random() * (9999999-1000000) + 1000000;
+            var newId = tag + idNum;
             businessAsset.id = newId;
 
             arr.push(businessAsset);
@@ -5677,7 +5681,6 @@ APP.display = {
                                 realEstateAssetArr[i].units * APP.currentOffer.offerPerUnit -
                                 realEstateAssetArr[i].mortgage;
                             APP.currentSettlement = settlement;
-                            APP.currentSettlementId = realEstateAssetArr[i].id;
                             APP.currentSettlementCashFlow = realEstateAssetArr[i].cashFlow;
                             break;
                         case "apartment":
@@ -5685,7 +5688,6 @@ APP.display = {
                                 realEstateAssetArr[i].units * APP.currentOffer.offerPerUnit -
                                 realEstateAssetArr[i].mortgage;
                             APP.currentSettlement = settlement;
-                            APP.currentSettlementId = realEstateAssetArr[i].id;
                             APP.currentSettlementCashFlow = realEstateAssetArr[i].cashFlow;
                             break;
                             break;
@@ -5693,10 +5695,10 @@ APP.display = {
                             var settlement =
                                 APP.currentOfferOffered - realEstateAssetArr[i].mortgage;
                             APP.currentSettlement = settlement;
-                            APP.currentSettlementId = realEstateAssetArr[i].id;
                             APP.currentSettlementCashFlow = realEstateAssetArr[i].cashFlow;
                             break;
                     }
+					
                 }
 
                 var rowId = "#asset" + parseInt(i, 10) + "-row";
@@ -5706,7 +5708,7 @@ APP.display = {
 				//highlight card
 				$("#turn-info").css("box-shadow", ".2px .2px 3px 3px #0277BD");
 
-                $(rowId).click(function () {
+                $(rowId).click(function (a) {
                     $("#offer-card").hide();
                     $("#done-btn").hide();
 
@@ -5714,8 +5716,16 @@ APP.display = {
                     $("#confirm-settlement-btn").show();
                     $("#show-offer-btn").show();
                     $("#settlement-offer").html(parseInt(settlement, 10));
+					//get id of clicked row
 					
-					APP.currentSettlementIndex = i;
+					var currentId  = rowId;
+					//get number in id
+					currentId.split('');
+					console.log(currentId);
+					APP.currentSettlementIndex = Number(currentId[6]);
+					
+					APP.currentSettlementId = realEstateAssetArr[APP.currentSettlementIndex].id;
+					console.log(APP.currentSettlementId + " " + APP.currentSettlementIndex);
                 });
             }
 
@@ -5727,7 +5737,7 @@ APP.display = {
                     var bankruptcySettlement = realEstateAssetArr[i].downPayment / 2;
                     APP.currentSettlement = bankruptcySettlement;
                     APP.currentSettlementCashFlow = realEstateAssetArr[i].cashFlow;
-                    APP.currentSettlementId = realEstateAssetArr[i].id;
+                    //APP.currentSettlementId = realEstateAssetArr[i].id;
 
                     $("#confirm-settlement-btn").show();
                     $("#br-settlement-text").show();
@@ -5885,27 +5895,29 @@ APP.display = {
 	},
     continueFt: function () {
         //close fast track intro card
-        /*if (APP.players[APP.currentPlayerArrPos()].fastTrack == false) {
-            $("#fast-track-intro-card").hide();
-            $("#ftic-ok-btn").hide();
-
+		if (APP.players[APP.currentPlayerArrPos()].fastTrack == false){
+			$("#card-btns").show();
+			$("#roll-btn").show();
 
             $("#turn-instructions").show();
-            $("#roll-btn").show();
-        } else if (APP.players[APP.currentPlayerArrPos()].fastTrack == true) {
-            $("#fast-track-option-card").hide();
-            $("#ftic-ok-btn").hide();
+            
+            $("#roll2-btn").hide();
+			$("#ftic-ok-btn").hide();
+			
+			$("#asset-table").show();
+			$("#liability-table").show();
+			$("#ft-statement").hide();
+			
+		} else {
+		//APP.display.clearBtns();
+		$("#fast-track-option-card").hide();
+		$("#ftic-ok-btn").hide();
+		$("#ft-enter-btn").hide();
 
-            $("#ft-turn-instructions").show();
-            $("#ft-roll-btn").show();
-        }*/
-		APP.display.clearBtns();
-			$("#fast-track-option-card").hide();
-            $("#ftic-ok-btn").hide();
-			$("#ft-enter-btn").hide();
-
-            $("#ft-turn-instructions").show();
-            $("#ft-roll-btn").show();
+		$("#ft-turn-instructions").show();
+		$("#card-btns").show();
+		$("#ft-roll-btn").show();
+		}
     },
     numWithCommas: function (num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -6063,6 +6075,7 @@ var FASTTRACK = {
 
         $("#fast-track-option-card").show();
         $("#ftic-ok-btn").show();
+		$("#ft-end-turn-btn").hide();
         $("#fast-track-intro-card").hide();
         $("#ft-enter-btn").hide();
         $("#roll-btn").hide();

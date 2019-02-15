@@ -127,6 +127,7 @@ var APP = APP || {
         $("#exp-child-row").hide();
         $("#ft-turn-instructions").hide();
         $("#ft-roll-btn").hide();
+		$("#ft-dream-roll-btn").hide();
 		$("#ft-doodad-roll-btn").hide();
         $("#ft-enter-btn").hide();
 
@@ -134,19 +135,23 @@ var APP = APP || {
     },
     rollDie: function (dieCount) {
         var die = Math.floor(Math.random() * 6) + 1;
+		
         return die * dieCount;
     },
     movePlayer: function (dieCount) {
-        //move player piece the amount of rolledDie
+        // move player piece the amount of rolledDie
         var player = APP.currentPlayerArrPos();
         var pObj = APP.players[player];
         var previousPosition = pObj.position;
         var dice = this.rollDie(dieCount);
-        //if charity is selected roll twice
+		
+		// show rolled dice info
+		$("#roll-info-container").show();
+		$("#roll-info").text("Dice: " + String(dice));
 
         var token = APP.display.tokens[player];
 
-        //remove old piece
+        // remove old piece
         var oldTokenElement = document.getElementById(
             "tokenSection" + parseInt(pObj.position, 10)
         );
@@ -164,10 +169,10 @@ var APP = APP || {
         );
         $(token).appendTo(newSquare);
 
-        //when player lands on square load card
+        // when player lands on square load card
         APP.loadCard(currentPosition);
 
-        //if pass paycheck get payday - currently set to salary
+        // if pass paycheck get payday - currently set to salary
         if (previousPosition < 5 && currentPosition >= 5) {
             pObj.cash += pObj.payday;
         } else if (previousPosition < 13 && currentPosition >= 13) {
@@ -196,6 +201,7 @@ var APP = APP || {
         $("#ft-end-turn-btn").hide();
         $("#fast-track-intro-card").hide();
         $("#fast-track-option-card").hide();
+		$("#roll-info-container").hide();
 
         APP.display.clearBtns();
         APP.display.clearCards();
@@ -333,17 +339,19 @@ var APP = APP || {
         //else load you lose card if cash flow is negative and there are no assets to sell
     },
     finishTurn: function () {
-        //hide opportunity card
+        //hide card
         //$("#card-btns").hide();
         $("#turn-instructions").hide();
         $("#cancel-btn").hide();
         $("#done-repay-btn").hide();
         $("#done-btn").hide();
         $("#offer-settlement").hide();
+		$("#roll-info-container").hide();
 
         APP.display.clearCards();
         APP.display.clearBtns();
-
+		
+		// show instructions, bank options, and end turn btn
         $("#finish-turn-container").show();
         $("#finish-instructions").show();
         $("#end-turn-btn").show();
@@ -575,6 +583,9 @@ var APP = APP || {
 					}
 				}
                 break;
+				default:
+				
+				break;
         }
     },
     smallDeal: function () {
@@ -618,7 +629,7 @@ var APP = APP || {
                     currentDeal.range;
                 document.getElementById(
                     "deal-stock-shares-owned"
-                ).innerHTML = APP.ownedShares();
+                ).innerHTML = APP.display.numWithCommas(APP.ownedShares());
                 document.getElementById("share-cost").innerHTML = currentDeal.price;
                 document.getElementById("share-cost-sell").innerHTML = currentDeal.price;
 
@@ -665,11 +676,11 @@ var APP = APP || {
                     $("#done-btn").show();
 					$("#card-btns").show();
                 } else {
+					var damageType = APP.currentDeal.propertyType;
+                    var obj = player.realEstateAssets[i];
+                    var landType = obj.landType;
+						
                     for (var i = 0; i < player.realEstateAssets.length; i++) {
-                        var damageType = APP.currentDeal.propertyType;
-                        var obj = player.realEstateAssets[i];
-                        var landType = obj.landType;
-
                         if (
                             (damageType === "rental" &&
                                 landType ==
@@ -684,12 +695,28 @@ var APP = APP || {
                             document.getElementById("deal-re-rule").innerHTML =
                                 currentDeal.rule;
                             $("#pd-pay-button").show();
-                        }
-                        /* else {
-                                      $("#done-btn").show();
-                                    }*/
-
+                        } 
+						 else {
+							 $("#done-btn").show();
+						 }
+							 
                     }
+					
+					for (var i = 0; i < player.realEstateAssets.length; i++) {
+							if (
+                            (damageType === "rental" &&
+                                landType ==
+                                ("3Br/2Ba" ||
+                                    "2Br/1Ba" ||
+                                    "duplex" ||
+                                    "4-plex" ||
+                                    "8-plex" ||
+                                    "plex")) ||
+                            damageType === landType
+                        ) {
+						    $("#done-btn").hide();
+						}
+					}
                 }
                 break;
             case "Stock Split":
@@ -971,10 +998,12 @@ var APP = APP || {
 APP.finance = {
     statement: function () {
         var player = APP.players[APP.currentPlayerArrPos()];
-        //income
+		
+        // Income
         document.getElementById("player-job-income").innerHTML = APP.display.numWithCommas(player.jobTitle[0]);
         document.getElementById("player-salary-income").innerHTML = APP.display.numWithCommas(player.jobTitle[1]);
-        //expenses
+        
+		// Expenses
 		APP.finance.getTaxes();
         document.getElementById("expenses-taxes").innerHTML = APP.display.numWithCommas(player.jobTitle[3]);
         document.getElementById("expenses-mortgage").innerHTML = APP.display.numWithCommas(player.jobTitle[4]);
@@ -997,7 +1026,8 @@ APP.finance = {
         } else {
 			$("#exp-insurance-row").hide();
 		}
-		//Summary
+		
+		// Summary
 		if (APP.players[APP.currentPlayerArrPos()].hasInsurance == true){ 
 			this.getInsurance(APP.currentPlayerArrPos());
 		}
@@ -1010,10 +1040,12 @@ APP.finance = {
         document.getElementById("summary-total-expenses").innerHTML = APP.display.numWithCommas(player.totalExpenses);
         document.getElementById("summary-total-expenses-bar").innerHTML = APP.display.numWithCommas(player.totalExpenses);
         document.getElementById("summary-payday").innerHTML = APP.display.numWithCommas(player.payday);
-        //assets
+        
+		// Assets
         APP.display.renderStockTable();
         APP.display.renderAssetTable();
-        //liabilities
+        
+		//Liabilities
         var lTable = document.getElementById("liability-table");
 		
         //upgrade to a render function
@@ -1093,7 +1125,7 @@ APP.finance = {
                 $("#finish-instructions").hide();
                 $("#ft-turn-instructions").hide();
                 $("#roll-btn").hide();
-                //$("#ft-roll-btn").hide();
+				$("#end-turn-btn").hide();
                 $("#fast-track-option-card").hide();
 
                 document.getElementById("ftic-player-name").innerHTML = APP.name(APP.currentPlayer);
@@ -1101,12 +1133,13 @@ APP.finance = {
                 $("#ftic-ok-btn").show();
                 $("#ft-enter-btn").show();
             }
-			
         }
 		
 		if (player.fastTrack == true){
 			APP.display.renderFtAssets();
+			$("#income-table").hide();
 			$("#liability-table").hide();
+			$("#sum-total-expense-row").hide();
 			$("#asset-statement").css("width", "90%");
 			
 			if (100000 <= player.totalIncome) {
@@ -1141,6 +1174,8 @@ APP.finance = {
 				};
 			}
 		} else {
+			$("#sum-total-expense-row").show();
+			$("#income-table").show();
 			$("#liability-table").show();
 			if (player.realEstateAssets.length >= 5){
 				$("#income-table").css("height","175px");
@@ -1209,7 +1244,7 @@ APP.finance = {
                 boatPayment +
 				insurance;
         } else {
-            player.totalExpenses = 0;
+            player.totalExpenses = 0;//taxes + children + other;
         }
 
         //include assets
@@ -1224,7 +1259,7 @@ APP.finance = {
         if (player.fastTrack == false) {
             player.payday = pay;
         } else {
-            player.payday = player.cashFlowDay;
+            player.payday = player.cashFlowDay + income;
         }
     },
     payDoodad: function () {
@@ -1585,11 +1620,13 @@ APP.finance = {
         for (var i = 0; i < arr.length; i++) {
             var shares = arr[i].shares;
             if (arr[i].symbol == stockSymbol) {
-				$("#turn-info").css("box-shadow", "0 0 2px #43A047");
+				
                 if (type == "split") {
                     arr[i].shares = shares * 2;
+					$("#turn-info").css("box-shadow", ".2px .2px 3px 3px #43A047");
                 } else if (type == "reverse") {
                     arr[i].shares = shares / 2;
+					$("#turn-info").css("box-shadow", ".2px .2px 3px 3px#D32F2F");
                 }
             }
         }
@@ -1722,6 +1759,11 @@ APP.finance = {
 		
         $("#cannot-afford-loan-card").show();
         $("#borrow-offer-loan-btn").show();
+		
+		//remove card title color
+		if (player.position === 2 % 0 || player.position === 0){
+			$(".card-title").css("color", "#4E342E");
+		}
         
         document.getElementById("loan-offer").innerHTML = loan;
         document.getElementById("loan-offer-monthly-payment").innerHTML =
@@ -1769,9 +1811,11 @@ APP.finance = {
             //return to deal
             APP.display.clearCards();
             APP.display.clearBtns();
+			
+			$(".card-title").css("color", "#43A047");
 
             var dealType = APP.currentDeal.type;
-
+			
             switch (dealType) {
                 case "Stock":
                 case "Mutual Fund":
@@ -2046,7 +2090,6 @@ APP.loadCard = function (boardPosition) {
                 $("#ft-opp-card").show();
                 $("#ft-deal-cash-flow-row").show();
                 $("#ft-deal-retun-row").hide();
-                //buy button
 				$("#ft-opp-buy-btn").hide();
 				//show roll button
                 $("#ft-pass-btn").show();
@@ -2062,7 +2105,6 @@ APP.loadCard = function (boardPosition) {
                 $("#ft-opp-card").show();
                 $("#ft-deal-cash-flow-row").hide();
                 $("#ft-deal-retun-row").show();
-                //buy button
 				$("#ft-opp-buy-btn").hide();
 				//show roll button
                 $("#ft-pass-btn").show();
@@ -2078,7 +2120,6 @@ APP.loadCard = function (boardPosition) {
                 $("#ft-opp-card").show();
                 $("#ft-deal-cash-flow-row").hide();
                 $("#ft-deal-retun-row").show();
-                //buy button
 				$("#ft-opp-buy-btn").hide();
 				//roll
                 $("#ft-pass-btn").show();
@@ -2090,11 +2131,22 @@ APP.loadCard = function (boardPosition) {
                 $("#ft-deal-return").html(FASTTRACK.square[currentSquare].returnText);
                 $("#ft-deal-cost").html(FASTTRACK.square[currentSquare].costText);
                 break;
+			case 24:
+				$("#ft-opp-card").show();
+				$("#ft-deal-cash-flow-row").hide();
+                $("#ft-deal-return-row").hide();
+                $("#ft-pass-btn").show();
+				$("#ft-dream-roll-btn").show();
+				$(".card-title").css("color", "#43A047");
+
+                $("#ft-opp-title").html(FASTTRACK.square[currentSquare].title);
+                $("#ft-card-text").html(FASTTRACK.square[currentSquare].text);
+                $("#ft-deal-cost").html(FASTTRACK.square[currentSquare].costText);	
+				break;
             default:
                 $("#ft-opp-card").show();
                 $("#ft-deal-cash-flow-row").show();
                 $("#ft-deal-return-row").hide();
-                //buy btn
 				$("#ft-opp-buy-btn").show();
                 $("#ft-pass-btn").show();
 				$(".card-title").css("color", "#43A047");
@@ -3943,7 +3995,7 @@ APP.cards = {
         doodad26: {
             name: "Go to Coffee Shop",
             cost: 10,
-            text: "Pay $10 \n" + "\n" + "Buy a Cafe Latte & Cappuccino for You & a Friend"
+            text: "Pay $10 \n" + "\n" + "Buy a cafe latte & cappuccino for you and a friend"
         },
         doodad27: {
             name: "High School Reunion",
@@ -5489,6 +5541,7 @@ APP.display = {
         $("#show-offer-btn").hide();
         $("#ftic-ok-btn").hide();
         $("#ft-enter-btn").hide();
+		$("#ft-dream-roll-btn").hide();
 		$("#ft-doodad-roll-btn").hide();
 		$("#ft-opp-buy-btn").hide();
 		$("#ft-pass-btn").hide();
@@ -5702,13 +5755,15 @@ APP.display = {
                 }
 
                 var rowId = "#asset" + parseInt(i, 10) + "-row";
-
+				
+				// highlight row if offer matches asset type
                 $(rowId).css("background-color", "#FFEB3B");
-				//$(rowId).css("border", "1pt solid white");
-				//highlight card
+				
+				// highlight card
 				$("#turn-info").css("box-shadow", ".2px .2px 3px 3px #0277BD");
-
-                $(rowId).click(function () {
+				
+				// when user clicks row show offer
+                $(rowId).click(function (event) {
                     $("#offer-card").hide();
                     $("#done-btn").hide();
 
@@ -5717,16 +5772,19 @@ APP.display = {
                     $("#show-offer-btn").show();
                     $("#settlement-offer").html(parseInt(settlement, 10));
 					
-					
 					//get id of clicked row
-					var currentId  = rowId;
+					this.currentSettlementTarget = event.target;
+					console.log(this.currentSettlementId );
+					
 					//get number in id
+					var currentId = rowId;
 					currentId.split('');
-					console.log(currentId);
+					
 					APP.currentSettlementIndex = Number(currentId[6]);
 					
 					APP.currentSettlementId = realEstateAssetArr[APP.currentSettlementIndex].id;
-					console.log(APP.currentSettlementId + " " + APP.currentSettlementIndex);
+					
+					console.log(APP.currentSettlementTarget + " " + APP.currentSettlementIndex);
                 });
             }
 
@@ -5829,7 +5887,7 @@ APP.display = {
         for (var i = 0; i < assetArr.length; i++) {
             var symbol = assetArr[i].symbol;
             var cost = assetArr[i].price;
-            var shares = assetArr[i].shares;
+            var shares = this.numWithCommas(assetArr[i].shares);
 
             var stockRow =
                 "<tr class='assets-row stock-shares" +
@@ -5897,17 +5955,16 @@ APP.display = {
     continueFt: function () {
         //close fast track intro card
 		if (APP.players[APP.currentPlayerArrPos()].fastTrack == false){
-			$("#card-btns").show();
-			$("#roll-btn").show();
-
-            $("#turn-instructions").show();
-            
+			$("#fast-track-intro-card").hide();           
             $("#roll2-btn").hide();
 			$("#ftic-ok-btn").hide();
+			$("#ft-statement").hide();
 			
+			$("#card-btns").show();
+			$("#roll-btn").show();
+            $("#turn-instructions").show();
 			$("#asset-table").show();
 			$("#liability-table").show();
-			$("#ft-statement").hide();
 			
 		} else {
 		//APP.display.clearBtns();
@@ -5922,7 +5979,9 @@ APP.display = {
     },
     numWithCommas: function (num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
+    },
+	getCurrentSettlementAsset: function() {
+	}
 };
 
 APP.dreamPhase = {
@@ -6073,21 +6132,23 @@ var FASTTRACK = {
 
         APP.display.clearCards();
         APP.display.clearBtns();
-
-        $("#fast-track-option-card").show();
-        $("#ftic-ok-btn").show();
 		$("#ft-end-turn-btn").hide();
         $("#fast-track-intro-card").hide();
         $("#ft-enter-btn").hide();
         $("#roll-btn").hide();
         $("#roll2-btn").hide();
-
-        // new salary
-        playerObj.cash += playerObj.payday * 100;
-        playerObj.cashFlowDay = playerObj.payday + 50000;
+		
+        $("#fast-track-option-card").show();
+        $("#ftic-ok-btn").show();
 
         playerObj.fastTrack = true;
         playerObj.fastTrackTurn = 1;
+		
+		// new savings and salary
+        playerObj.cash += playerObj.payday * 100;
+        playerObj.cashFlowDay = playerObj.payday + 50000;
+		
+		//playerObj.totalIncome += APP.display.getExpenses(APP.currentPlayerArrPos());
 
         // remove assets
         playerObj.stockAssets.splice(0, playerObj.stockAssets.length);
@@ -6364,8 +6425,8 @@ var FASTTRACK = {
             cost: 120000*/
 			title: "Dream",
             text: "A chance to have your dream come true",
-            costText: "$100,000",
-            cost: 100000
+            costText: "$150,000",
+            cost: 150000
         },
         square25: {
             title: "400-Unit Apartment Building",
@@ -6712,30 +6773,36 @@ var FASTTRACK = {
 		var currentSquare = "square" + String(boardPosition);
 		var asset = this.square[currentSquare];
 		
-		//if regular space add asset to array
+		$("#ft-opp-prompt").hide();
 		
-		if (asset.cost <= player.cash) {
-			player.cash -= asset.cost;
-			player.totalIncome += asset.cashFlow;
-			
-            var timestamp = new Date();
-			//var rand = Math.floor((Math.random() * 900000000) + 1);
-            var newId = asset.title + timestamp;
-            asset.id = newId;
-			
-			//add asset to player assets
-			player.fastTrackAssets.push(asset);
+		// if dream space
+		if(currentSquare == "square24"){
+			//show win
 		} else {
-			// tell them they cannot afford it
-			document.getElementById("ft-opp-prompt").innerHTML = "You need $" + this.remainder() + " to get this deal!";
+			
+			//if regular space add asset to array
+			
+			if (asset.cost <= player.cash) {
+				player.cash -= asset.cost;
+				player.assetIncome += asset.cashFlow;
+				
+				asset.id = APP.finance.newId();
+				
+				//add asset to player assets
+				player.fastTrackAssets.push(asset);
+				
+			} /*else {
+				// tell them they cannot afford it
+				$("#ft-opp-prompt").show();
+				document.getElementById("ft-opp-prompt").innerHTML = "You need $" + APP.display.numWithCommas(this.remainder()) + " to get this deal!";
+			}*/
+			
+			//else if specific space...
+			
+			this.finishTurn();
 		}
 		
-		//else if specific space...
-	
-		this.finishTurn();
-		
 		APP.finance.statement();
-		
 	},
 	doodad: function(boardPosition) {
 		var player = APP.players[APP.currentPlayerArrPos()];
@@ -6788,12 +6855,23 @@ var FASTTRACK = {
 		
 		$("#ft-end-turn-btn").show();
 	},
+	dream: function(){
+		var roll = APP.rollDie();
+		
+		if (roll == 2 % 0) {
+			$("#ft-opp-buy-btn").show();
+			console.log("You rolled a " + roll + ".");
+		} else {
+			$("#ft-dream-roll-btn").hide();
+			console.log("You rolled a " + roll + ".");
+		}
+		console.log(roll)
+	},
 	remainder: function(){
 		var player = APP.players[APP.currentPlayerArrPos()];
 		var square = "square" + String(player.position);
-		var remainder = this.square[square].cost - player.cash;
 		
-		return remainder;
+		return Math.round(this.square[square].cost - player.cash);
 	},
 	finishTurn: function() {
 		var player = APP.players[APP.currentPlayerArrPos()];
@@ -7315,5 +7393,7 @@ $(document).ready(function () {
 			}
 		}
 	}
-	showPlayerInputs();
+	showPlayerInputs();	
+
+	
 });

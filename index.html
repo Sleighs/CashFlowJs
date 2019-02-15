@@ -349,14 +349,12 @@
 					<td class="cell board-bot off-space" id="cell23"></td>
 					
 					<td id="player-list-td" colspan="1" rowspan="5">
-						<div id="player-list" style="display: inline-block;">
+						<div id="player-list">
 						  <div id="player-list-table"></div>
-						  
 						</div>
 					</td>
-					<td id="info-card-td" colspan="3" rowspan="5">
-						
 					
+					<td id="info-card-td" colspan="3" rowspan="5">
 						<div id="info">				
 						  <div id="turn-info">
 						  <div id="dream-choices">
@@ -587,7 +585,7 @@
 						</div>
 						<div id="repay-card">
 						  <h2 class="card-title">PAY OFF LOAN</h2>
-						  <br>
+						  
 						  <p>Select a liability on your statement sheet to repay your debt.</p>
 						</div>
 						<div id="borrow-card">
@@ -724,10 +722,6 @@
 						  <button id="repay-btn" onclick="APP.display.repay();">Repay</button>
 						  <button id="borrow-btn" onclick="APP.display.borrow();">Borrow</button>
 						</div>
-						
-						
-						
-						
 						<button class="card-btn" id="ft-enter-btn" onclick="FASTTRACK.init();">ENTER FAST TRACK</button>
 					  </div>
 						   </div>
@@ -769,8 +763,11 @@
 
 							<button class="card-btn" id="ft-end-turn-btn" onclick="APP.nextTurn();">END TURN</button>
 							<button class="card-btn" id="ft-doodad-roll-btn" onclick="FASTTRACK.doodad(APP.players[APP.currentPlayerArrPos()].position);">Roll</button>
+							<button class="card-btn" id="ft-dream-roll-btn" onclick="FASTTRACK.dream();">Roll</button>
 							<button class="card-btn" id="ft-opp-buy-btn" onclick="FASTTRACK.opportunity(APP.players[APP.currentPlayerArrPos()].position);">Buy</button>
 							<button class="card-btn" id="ft-pass-btn" onclick="FASTTRACK.finishTurn();">Pass</button>
+							
+							
 						</div>
 						
 						<div id="finish-turn-container">
@@ -866,6 +863,9 @@
 	    <div id="game-menu">
 		  <button id="menu-new-game-btn">New Game</button>
 		</div>
+		<div id="roll-info-container">
+			<span id="roll-info"></span>
+		</div>
 		</div>
 	  
 	    <div id="finance-box">
@@ -886,7 +886,7 @@
 			  <td id="sum-td-left">TOTAL INCOME:</td>
 			  <td id="sum-td">$<span id="summary-total-income"></span></td>
 			</tr>
-			<tr>
+			<tr id="sum-total-expense-row">
 			  <td id="sum-td-left">TOTAL EXPENSES:</td>
 			  <td id="sum-td">$<span id="summary-total-expenses"></span></td>
 			</tr>
@@ -908,24 +908,19 @@
 			</tr>
 			<tr class="income-row">
 			  <td>
-			<tbody id="income-interest-body">
-			</tbody>
-			</td>
+				<tbody id="income-interest-body">
+				</tbody>
+			  </td>
 			</tr>
 			<tr class="income-row" id="income-real-estate-title">
 			  <td class="table-title">Real Estate/Business</td>
 			</tr>
 			<tr class="income-row">
 			  <td>
-			<tbody id="income-real-estate-body">
-			</tbody>
-			</td>
+				<tbody id="income-real-estate-body">
+				</tbody>
+			  </td>
 			</tr>
-			<!--test rows-- >
-			  <tr class="income-row">
-				<td class="table-title">Test</td>
-			  </tr>
-			  <!--end test rows-->
 		  </table>
 		  <table id="expense-table">
 				<tr id="expenses-row-head">
@@ -975,102 +970,102 @@
 			  </table>
 			
         <div id="assets-liabilities-statement">
-                    <table id="asset-table">
-                      <thead>
-                        <tr id='asset-table-header'>
-                          <th>ASSETS</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      <thead>
-                        <tr class="assets-row-title" id="asset-stock-title">
-                          <td class="assets-table-title">Stocks/Funds/CDs</td>
-                          <td class="assets-table-title">Cost/Share</td>
-                        </tr>
-                      </thead>
-                      <tbody id="asset-stock-body"></tbody>
-                      <thead>
-                        <tr class="assets-row-title" id="asset-real-estate-title">
-                          <td class="assets-table-title">Real Estate/Business</td>
-                          <td class="assets-table-title">Cost</td>
-                        </tr>
-                      </thead>
-                      <tbody id="asset-real-estate-body"></tbody>
-                      </tbody>
-                    </table>
-                    <table id="liability-table">
-                      <tr id='lia-table-header'>
-                        <th>LIABILITIES</th>
-                      </tr>
-                      <tr class='lia-table-row' id='lia-mortgage-row'>
-                        <td>Mortgage</td>
-                        <td class='lia-table-right' id='liability-mortgage'></td>
-                      </tr>
-                      <tr class='lia-table-row' id='lia-car-row'>
-                        <td>Car Loan</td>
-                        <td class='lia-table-right' id='liability-car'></td>
-                      </tr>
-                      <tr class='lia-table-row' id='lia-credit-row'>
-                        <td>Credit Card</td>
-                        <td class='lia-table-right' id='liability-credit'></td>
-                      </tr>
-                      <tr class='lia-table-row' id='lia-retail-row'>
-                        <td>Retail</td>
-                        <td class='lia-table-right' id='liability-retail'></td>
-                      </tr>
-                      <tr class='lia-table-row' id='lia-loans-row'>
-                        <td>Loans</td>
-                        <td class='lia-table-right' id='liability-loans'></td>
-                      </tr>
-                      <tr class='lia-table-row' id='lia-boatloan-row'>
-                        <td>Boat</td>
-                        <td class='lia-table-right' id='liability-boatloan'></td>
-                      </tr>
-                    </table>
-					<table id="ft-statement">
-						<thead>
-							<tr id='ft-assets-table-header'>
-							  <th>ASSETS</th>
-							</tr>
-							<tr id='ft-assets-table-header2'>
-							  <th>Title</th>
-							  <th>Cash Flow</th>
-							  <th>Cost</th>
-							</tr>
-						  </thead>
-						  <tbody id="ft-assets-body">
-						  </tbody>
-					</table>
-                    <!--<table id="liability-table">
-                      <tr id='lia-table-header'>
-                        <th>LIABILITIES</th>
-                      </tr>
-                      <tr class='lia-table-row' id='lia-mortgage-row'>
-                        <td>Mortgage</td>
-                        <td class='lia-table-right'><span id='liability-mortgage'></span></td>
-                      </tr>
-                      <tr class='lia-table-row' id='lia-car-row'>
-                        <td>Car Loan</td>
-                        <td class='lia-table-right'>$<span id='liability-car'></span></td>
-                      </tr>
-                      <tr class='lia-table-row' id='lia-credit-row'>
-                        <td>Credit Card</td>
-                        <td class='lia-table-right'>$<span id='liability-credit'></span></td>
-                      </tr>
-                      <tr class='lia-table-row' id='lia-retail-row'>
-                        <td>Retail</td>
-                        <td class='lia-table-right'>$<span id='liability-retail'></span></td>
-                      </tr>
-                      <tr class='lia-table-row' id='lia-loans-row'>
-                        <td>Loans</td>
-                        <td class='lia-table-right'>$<span id='liability-loans'></span></td>
-                      </tr>
-                      <tr class='lia-table-row' id='lia-boatloan-row'>
-                        <td>Boat</td>
-                        <td class='lia-table-right'>$<span id='liability-boatloan'></span></td>
-                      </tr>
-                      </table>-->
-                  </div>
+			<table id="asset-table">
+			  <thead>
+				<tr id='asset-table-header'>
+				  <th>ASSETS</th>
+				</tr>
+			  </thead>
+			  <tbody>
+			  <thead>
+				<tr class="assets-row-title" id="asset-stock-title">
+				  <td class="assets-table-title">Stocks/Funds/CDs</td>
+				  <td class="assets-table-title">Cost/Share</td>
+				</tr>
+			  </thead>
+			  <tbody id="asset-stock-body"></tbody>
+			  <thead>
+				<tr class="assets-row-title" id="asset-real-estate-title">
+				  <td class="assets-table-title">Real Estate/Business</td>
+				  <td class="assets-table-title">Cost</td>
+				</tr>
+			  </thead>
+			  <tbody id="asset-real-estate-body"></tbody>
+			  </tbody>
+			</table>
+			<table id="liability-table">
+			  <tr id='lia-table-header'>
+				<th>LIABILITIES</th>
+			  </tr>
+			  <tr class='lia-table-row' id='lia-mortgage-row'>
+				<td>Mortgage</td>
+				<td class='lia-table-right' id='liability-mortgage'></td>
+			  </tr>
+			  <tr class='lia-table-row' id='lia-car-row'>
+				<td>Car Loan</td>
+				<td class='lia-table-right' id='liability-car'></td>
+			  </tr>
+			  <tr class='lia-table-row' id='lia-credit-row'>
+				<td>Credit Card</td>
+				<td class='lia-table-right' id='liability-credit'></td>
+			  </tr>
+			  <tr class='lia-table-row' id='lia-retail-row'>
+				<td>Retail</td>
+				<td class='lia-table-right' id='liability-retail'></td>
+			  </tr>
+			  <tr class='lia-table-row' id='lia-loans-row'>
+				<td>Loans</td>
+				<td class='lia-table-right' id='liability-loans'></td>
+			  </tr>
+			  <tr class='lia-table-row' id='lia-boatloan-row'>
+				<td>Boat</td>
+				<td class='lia-table-right' id='liability-boatloan'></td>
+			  </tr>
+			</table>
+			<table id="ft-statement">
+				<thead>
+					<tr id='ft-assets-table-header'>
+					  <th>ASSETS</th>
+					</tr>
+					<tr id='ft-assets-table-header2'>
+					  <th>Title</th>
+					  <th>Cash Flow</th>
+					  <th>Cost</th>
+					</tr>
+				  </thead>
+				  <tbody id="ft-assets-body">
+				  </tbody>
+			</table>
+			<!--<table id="liability-table">
+			  <tr id='lia-table-header'>
+				<th>LIABILITIES</th>
+			  </tr>
+			  <tr class='lia-table-row' id='lia-mortgage-row'>
+				<td>Mortgage</td>
+				<td class='lia-table-right'><span id='liability-mortgage'></span></td>
+			  </tr>
+			  <tr class='lia-table-row' id='lia-car-row'>
+				<td>Car Loan</td>
+				<td class='lia-table-right'>$<span id='liability-car'></span></td>
+			  </tr>
+			  <tr class='lia-table-row' id='lia-credit-row'>
+				<td>Credit Card</td>
+				<td class='lia-table-right'>$<span id='liability-credit'></span></td>
+			  </tr>
+			  <tr class='lia-table-row' id='lia-retail-row'>
+				<td>Retail</td>
+				<td class='lia-table-right'>$<span id='liability-retail'></span></td>
+			  </tr>
+			  <tr class='lia-table-row' id='lia-loans-row'>
+				<td>Loans</td>
+				<td class='lia-table-right'>$<span id='liability-loans'></span></td>
+			  </tr>
+			  <tr class='lia-table-row' id='lia-boatloan-row'>
+				<td>Boat</td>
+				<td class='lia-table-right'>$<span id='liability-boatloan'></span></td>
+			  </tr>
+			  </table>-->
+		  </div>
       </div>
 	  
   </body>

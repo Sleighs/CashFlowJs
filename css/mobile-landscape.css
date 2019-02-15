@@ -496,7 +496,7 @@ body {
     letter-spacing: .2pt;
     text-align: center;
     box-shadow: .2px .2px .2px .2px #4E342E;
-	border-radius: 8px;
+	border-radius: 7px;
 }
 
 .cell2-left {
@@ -511,7 +511,7 @@ body {
     letter-spacing: .2pt;
     text-align: center;
 	border: 2pt outset #FDD835;
-	border-radius: 8px;
+	border-radius: 7px;
     box-shadow: .2px .2px .2px .2px #4E342E;
 }
 
@@ -528,7 +528,7 @@ body {
     letter-spacing: .2pt;
     text-align: center;
 	border: 2pt outset #FDD835;
-	border-radius: 8px;
+	border-radius: 7px;
     box-shadow: .2px .2px .2px .2px #4E342E;
 }
 
@@ -559,7 +559,7 @@ body {
     letter-spacing: .2pt;
     text-align: center;
 	border: 2pt solid #FDD835;
-	border-radius: 8px;
+	border-radius: 7px;
     box-shadow: .2px .2px .2px .2px #4E342E;
 }
 
@@ -661,9 +661,10 @@ body {
 #tokenSection22,
 #tokenSection23 {
     display: block;
-	margin: 0;
-	/*height: 70%;
-    width: 100%;*/
+	margin: auto;
+	z-index: 3;
+	height: 70%;
+    width: 90%;
 	padding: 20px 2px;
 }
 
@@ -817,9 +818,9 @@ body {
     text-align: left;
     font-weight: bold;
     color: #212121;
-    padding: 3px 5px;
+    padding: 0 5px 5px 5px;
     font-size: 14pt;
-    height: 97%;
+    height: 100%;
     background-color: white;
     border-radius: 4px;
 }
@@ -952,7 +953,7 @@ body {
 
 #turn-info-box {
     height: 325px;
-	width: 95%;
+	width: 98%;
     padding: 5px;
 }
 
@@ -968,6 +969,7 @@ body {
 #borrow-card,
 #repay-loan-card,
 #pay-confirm-card,
+#cannot-afford-loan-card,
 #deal-coin-card,
 #deal-cd-card,
 #deal-company-card,
@@ -975,9 +977,19 @@ body {
 #deal-card-real-estate,
 #deal-card-stock,
 #deal-card-limited,
-#deal-card-automated {
+#deal-card-automated,
+#ft-turn-instructions,
+#ft-doodad-card,
+#ft-opp-card,
+#ft-finish-turn-card {
     width: 90%;
     color: #263238;
+    margin: auto;
+}
+#fast-track-intro-card,
+#fast-track-option-card {
+	width: 92%;
+	color: #263238;
     margin: auto;
 }
 
@@ -1021,7 +1033,9 @@ body {
 #offer-settlement {
     margin: auto;
 }
-
+#doodad-text {
+	font-size: 1.2em;
+}
 .card-title {
     color: #4E342E;
     text-shadow: .2px .2px .2px #7DCEA0;
@@ -1039,9 +1053,9 @@ body {
 }
 
 #repay-btn {
-    height: 32px;
+    height: 29px;
     width: 80px;
-    border-radius: 7px;
+    border-radius: 8px;
     background-color: #FDD835;
     outline: none;
     font-size: 12pt;
@@ -1072,13 +1086,26 @@ body {
 	display: none;
 	margin: auto;
 }
+
 #finish-turn-container {
 	width: 90%;
     margin: auto;
 }
 
 #player-list-td {
-	height: 400px;
+	height: 473px;
+}
+#roll-info-container {
+	width: 60px;
+    border-radius: 5px;
+    background-color: white;
+    outline: none;
+    font-size: 11pt;
+    color: #757575;
+	display: inline-block;
+}
+#roll-info {
+	text-align: center;
 }
 #info-card-td {
 	width: 100%;
@@ -1176,11 +1203,13 @@ body {
     background-color: white;
     outline: none;
     font-size: 16pt;
-	margin: 6% 0;
+	margin: 7% 0;
 }
 
 #roll2-btn,
-#ft-roll2-btn {
+#ft-roll2-btn,
+#ft-dream-roll-btn,
+#ft-doodad-roll-btn {
     height: 40px;
     width: 104px;
     letter-spacing: .5pt;
@@ -1189,7 +1218,7 @@ body {
     outline: none;
     margin-bottom: 20px;
     font-size: 16pt;
-	margin: 6% 0;
+	margin: 7% 0;
 }
 
 #confirm-pay-btn {
@@ -1229,9 +1258,6 @@ body {
     letter-spacing: .5pt;
 	margin: 7% 0;
 }
-#repay-loan-input {
-	
-}
 
 #ft-enter-btn {
     height: 70px;
@@ -1245,6 +1271,8 @@ body {
     text-shadow: .6px .6px 2px #c2a500;
     color: #4E342E;
 	margin: auto;
+	position: relative;
+	display: block;
 }
 
 #confirm-settlement-btn {
@@ -1279,6 +1307,7 @@ body {
     background-color: white;
     outline: none;
     font-size: 14pt;
+	margin: 7% 0;
 }
 
 #play-again-btn {
@@ -1399,14 +1428,16 @@ body {
     border-bottom: 1px solid rgba(60, 179, 113, .1);
 }
 #ft-statement {
-    width: 264px;
+    width: 250px;
     /*height: 112px;*/
     padding: 4px;
     vertical-align: bottom;
     overflow: auto;
     border-spacing: 0;
 }
-
+#ft-assets-body td {
+	width: 85px;
+}
 #asset-table-header,
 #lia-table-header, #ft-assets-table-header {
     float: left;

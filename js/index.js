@@ -857,7 +857,7 @@ var APP = APP || {
                 document.getElementById("deal-re-down-payment").innerHTML =
                     currentDeal.downPayment;
 					
-				if (APP.currentDeal.downPayment < player.cash){
+				if (APP.currentDeal.downPayment <= player.cash){
 					$("#turn-info").css("box-shadow", ".2px .2px 3px 3px #43A047");
 				}
                 break;
@@ -918,6 +918,10 @@ var APP = APP || {
                     currentDeal.downPayment;
                 document.getElementById("deal-limited-liability").innerHTML =
                     currentDeal.liability;
+					
+				if (APP.currentDeal.downPayment <= player.cash){
+					$("#turn-info").css("box-shadow", ".2px .2px 3px 3px #43A047");
+				}
                 break;
             case "Automated Business":
                 $("#deal-card-automated").show();
@@ -940,6 +944,10 @@ var APP = APP || {
                     currentDeal.downPayment;
                 document.getElementById("deal-automated-liability").innerHTML =
                     currentDeal.liability;
+					
+				if (APP.currentDeal.downPayment <= player.cash){
+					$("#turn-info").css("box-shadow", ".2px .2px 3px 3px #43A047");
+				}
                 break;
         }
     },
@@ -1140,21 +1148,22 @@ APP.finance = {
 			$("#income-table").hide();
 			$("#liability-table").hide();
 			$("#sum-total-expense-row").hide();
+			$("#sum-total-income-row").hide();
 			$("#asset-statement").css("width", "90%");
 			
-			if (100000 <= player.totalIncome) {
+			if (50000 <= player.assetIncome) {
 				//show you win card
 				APP.display.clearCards();
 				APP.display.clearBtns();
 				
-				$("#win-card").show();
+				$("#win-game-card").show();
 				$("#winning-player").text(APP.name(APP.currentPlayer));
 				
-				document.getElementById("win-cash-amount").innerHTML = APP.display.numWithCommas(player.assetIncome);
-				document.getElementById("win-income-amount").innerHTML = APP.display.numWithCommas(Math.round(player.cash));
-				document.getElementById("win-asset-amount").innerHTML = APP.display.numWithCommas(player.totalIncome);
+				document.getElementById("win-cash-amount").innerHTML = APP.display.numWithCommas(player.cash);
+				document.getElementById("win-income-amount").innerHTML = APP.display.numWithCommas(Math.round(player.cashFlowDay + this.getIncome(APP.currentPlayerArrPos())));
+				document.getElementById("win-asset-amount").innerHTML = APP.display.numWithCommas(player.realEstateAssets.length);
 
-				document.getElementById("win-card-new-game-btn").onclick = function(){
+				$("#win-card-new-game-btn").click(function(){
 					APP.display.hideHomeScreen();
 					APP.display.hideGameSelectionScreen();
 					$("#game-container").hide();
@@ -1171,10 +1180,11 @@ APP.finance = {
 					setInterval(function(){
 						$("#home-screen").hide();
 					}, 1);
-				};
+				});
 			}
 		} else {
 			$("#sum-total-expense-row").show();
+			$("#sum-total-income-row").show();
 			$("#income-table").show();
 			$("#liability-table").show();
 			if (player.realEstateAssets.length >= 5){

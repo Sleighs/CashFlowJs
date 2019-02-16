@@ -482,6 +482,7 @@ body {
     letter-spacing: .2pt;
     text-align: center;
     box-shadow: .2px .2px .2px .2px #4E342E;
+	margin: auto;
 }
 
 .cell2 {
@@ -570,12 +571,12 @@ body {
 }
 
 .cellx {
-    position: absolute;
+	position: absolute;
     bottom: 0;
-    padding: 2px;
-    height: 40px;
-    width: 95%;
-	margin: auto;
+	padding-bottom: 20px;
+    height: 20px;
+	width: 90%;
+	margin: 0 auto;
     text-align: center;
     font-weight: 550;
     letter-spacing: 1px;

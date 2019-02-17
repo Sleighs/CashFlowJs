@@ -428,9 +428,9 @@
 							  <td>Cost: $<span id="deal-stock-cost"></span></td>
 							</tr>
 							<tr>
-							  <td>Cash flow: $<span id="deal-stock-cash-flow"></span></td>
+							  <td><span id="deal-stock-cash-flow"></span></td>
 							</tr>
-							<tr>
+							<tr id="stock-table-trading-range-row">
 							  <td>Trading range: <span id="deal-stock-trading-range"></span></td>
 							</tr>
 							<tr>
@@ -687,9 +687,11 @@
 						  <p>Before you end your turn, review your financial statement. You may also use this time to review your deals.</p>
 						</div>
 						<div id="win-game-card">
-						  <h2 class="card-title"><span id="winning-player"></span>
-						  wins the game!!!</h2>
-							<table>
+						  <h2 class="card-title">
+							<span id="win-scenario"></span>
+						  </h2>
+						  <p>You enjoy <span id="ft-dream-text"></span></p>
+							<table id="win-stats">
 								<tr><th>FINAL </th></tr>
 								<tr><td>Cash</td><td><span id="win-cash-amount"></span></td></tr>
 								<tr><td>Income</td><td><span id="win-income-amount"></span></td></tr>

@@ -603,6 +603,7 @@ body {
 	font-size: 10pt;
 	border: 3px outset white;
 	border-radius: 8px;
+	width: 95px;
 }
 #cell201, #cell202, #cell207, #cell214, #cell221, #cell224, #cell227, #cell234 {
 	border-color: white;
@@ -1285,6 +1286,9 @@ body {
     outline: none;
     font-size: 12pt;
     letter-spacing: .5pt;
+	color: white;
+	text-shadow: .2px .2px .2px #FDD835;
+	background-color: #43A047;
 }
 
 #borrow-loan-btn,

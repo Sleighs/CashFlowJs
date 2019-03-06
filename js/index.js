@@ -67,7 +67,8 @@ var APP = APP || {
 			var pj = document.getElementById(jobId);
 			if (pj.options[pj.selectedIndex].value == 'Random Job'){
 				var playerScenario = Math.floor(
-					Math.random() * APP.scenarioChoices.length
+				// doesn't include ceo job in random
+					Math.random() * (APP.scenarioChoices.length - 1)
 				);
 			} else {
 				var playerScenario = pj.selectedIndex - 1;
@@ -609,6 +610,57 @@ var APP = APP || {
 			
 			console.log("bankrupcy settlement:" + bankruptcySettlement);
 		} else {
+			//if (typeof APP.currentOffer == "object") {
+				switch (APP.currentOffer.type) {
+					case "4-plex":
+					case "8-plex":
+					case "duplex":
+					case "plex":
+						APP.currentSettlement =
+							player.realEstateAssets[index].units * APP.currentOffer.offerPerUnit -
+							player.realEstateAssets[index].mortgage;
+						APP.currentSettlementCashFlow = player.realEstateAssets[index].cashFlow;
+						break;
+					case "apartment":
+						APP.currentSettlement =
+							player.realEstateAssets[index].units * APP.currentOffer.offerPerUnit -
+							player.realEstateAssets[index].mortgage;
+						APP.currentSettlementCashFlow = player.realEstateAssets[index].cashFlow;
+						break;
+						break;
+					default:
+						APP.currentSettlement = APP.currentOfferOffered - player.realEstateAssets[index].mortgage;
+						APP.currentSettlementCashFlow = player.realEstateAssets[index].cashFlow;
+						break;
+				}			
+          //  }
+			/*
+			if (typeof APP.currentOffer == "object") {
+				switch (APP.currentOffer.type) {
+					case "4-plex":
+					case "8-plex":
+					case "duplex":
+					case "plex":
+						APP.currentSettlement =
+							player.realEstateAssets[index].units * APP.currentOffer.offerPerUnit -
+							player.realEstateAssets[index].mortgage;
+						APP.currentSettlementCashFlow = player.realEstateAssets[index].cashFlow;
+						break;
+					case "apartment":
+						APP.currentSettlement =
+							player.realEstateAssets[index].units * APP.currentOffer.offerPerUnit -
+							player.realEstateAssets[index].mortgage;
+						APP.currentSettlementCashFlow = player.realEstateAssets[index].cashFlow;
+						break;
+						break;
+					default:
+						APP.currentSettlement = APP.currentOfferOffered - player.realEstateAssets[index].mortgage;
+						APP.currentSettlementCashFlow = player.realEstateAssets[index].cashFlow;
+						break;
+				}			
+            }
+			*/
+				
 			$("#offer-card").hide();
 			$("#done-btn").hide();
 
@@ -709,13 +761,13 @@ var APP = APP || {
                 document.getElementById("deal-re-description").innerHTML =
                     currentDeal.description;
                 document.getElementById("deal-re-rule").innerHTML = currentDeal.rule;
-                document.getElementById("deal-re-cost").innerHTML = currentDeal.cost;
+                document.getElementById("deal-re-cost").innerHTML = APP.display.numWithCommas(currentDeal.cost);
                 document.getElementById("deal-re-cash-flow").innerHTML =
-                    currentDeal.cashFlow;
+                    APP.display.numWithCommas(currentDeal.cashFlow);
                 document.getElementById("deal-re-down-payment").innerHTML =
-                    currentDeal.downPayment;
+                    APP.display.numWithCommas(currentDeal.downPayment);
                 document.getElementById("deal-re-mortgage").innerHTML =
-                    currentDeal.mortgage;
+                    APP.display.numWithCommas(currentDeal.mortgage);
 					
 				//highlight card when player has enough cash to buy the deal
 				if (APP.currentDeal.downPayment < player.cash){
@@ -884,13 +936,13 @@ var APP = APP || {
                 document.getElementById("deal-re-description").innerHTML =
                     currentDeal.description;
                 document.getElementById("deal-re-rule").innerHTML = currentDeal.rule;
-                document.getElementById("deal-re-cost").innerHTML = currentDeal.cost;
+                document.getElementById("deal-re-cost").innerHTML = APP.display.numWithCommas(currentDeal.cost);
                 document.getElementById("deal-re-mortgage").innerHTML =
-                    currentDeal.mortgage;
+                    APP.display.numWithCommas(currentDeal.mortgage);
                 document.getElementById("deal-re-cash-flow").innerHTML =
-                    currentDeal.cashFlow;
+                    APP.display.numWithCommas(currentDeal.cashFlow);
                 document.getElementById("deal-re-down-payment").innerHTML =
-                    currentDeal.downPayment;
+                    APP.display.numWithCommas(currentDeal.downPayment);
 					
 				if (APP.currentDeal.downPayment <= player.cash){
 					$("#turn-info").css("box-shadow", ".2px .2px 3px 3px #43A047");
@@ -1120,6 +1172,7 @@ APP.finance = {
         this.loanPayment(APP.currentPlayerArrPos());
         document.getElementById("child-count").innerHTML = player.children;
         document.getElementById("expenses-loans").innerHTML = APP.display.numWithCommas(player.loanPayment);
+		
 		if (player.boatLoan > 0){
 			$("#exp-boat-row").show();
 			document.getElementById("expenses-boatloan").innerHTML = APP.display.numWithCommas(player.boatLoan);
@@ -1250,7 +1303,10 @@ APP.finance = {
 			$("#sum-total-income-row").hide();
 			$("#asset-statement").css("width", "90%");
 			
+			console.log("cashflow day: " + player.cashFlowDay + ", winpay: " + player.winPay);
+			
 			if (player.cashFlowDay >= player.winPay) {
+				
 				//show win card
 				APP.display.clearCards();
 				APP.display.clearBtns();
@@ -1270,22 +1326,7 @@ APP.finance = {
 				document.getElementById("win-asset-amount").innerHTML = APP.display.numWithCommas(player.realEstateAssets.length);
 
 				$("#win-card-new-game-btn").click(function(){
-					APP.display.hideHomeScreen();
-					APP.display.hideGameSelectionScreen();
-					$("#game-container").hide();
-					$("#finance-box").hide();
-					
-					APP.display.showGameSetupScreen();
-					
-					for (var i = APP.pCount; i >= APP.players.length; i--){
-						delete APP.players[i];
-					}
-					
-					$("#player-list-table").empty();
-					
-					setInterval(function(){
-						$("#home-screen").hide();
-					}, 1);
+					window.location.reload(false);
 				});
 			}
 		} else {
@@ -1293,13 +1334,15 @@ APP.finance = {
 			$("#sum-total-income-row").show();
 			$("#income-table").show();
 			$("#liability-table").show();
+			
 			if (player.realEstateAssets.length >= 5){
-				$("#income-table").css("height","175px");
-				$("#asset-table").css("height","250px");
+				$("#income-table").css("height","14%");
+				$("#asset-stock-body").css("height","300px");
 			} else {
-				$("#income-table").css("height","16%");
-				$("#asset-table").css("height","16%");
+				$("#income-table").css("height","10%");
+				$("#asset-stock-body").css("height","16%");
 			}
+			
 			$("#asset-statement").css("width", "98%");
 		}
     },
@@ -2128,20 +2171,18 @@ APP.finance = {
 	getTaxes: function () {
 		var player = APP.players[APP.currentPlayerArrPos()];
 		var taxes = player.jobTitle[3];
-		
-		if (10 <= APP.turnCount){
-			if (6875 < player.totalIncome && player.totalIncome < 13084) {
-				taxes = player.totalIncome * .24;		
-			} else if (13084 < player.totalIncome && player.totalIncome < 16667) {
-				taxes = player.totalIncome * .32;
-			} else if (16667 < player.totalIncome && player.totalIncome < 41667) {
-				taxes = player.totalIncome * .35;
-			} else if (41667 < player.totalIncome) {
-				taxes = player.totalIncome * .37;
-			}	else {
-				taxes = player.totalIncome * .22;
-			}				
-		}
+	
+		if (6875 < player.totalIncome && player.totalIncome < 13084) {
+			taxes = player.totalIncome * .24;		
+		} else if (13084 < player.totalIncome && player.totalIncome < 16667) {
+			taxes = player.totalIncome * .32;
+		} else if (16667 < player.totalIncome && player.totalIncome < 41667) {
+			taxes = player.totalIncome * .35;
+		} else if (41667 < player.totalIncome) {
+			taxes = player.totalIncome * .37;
+		}	else {
+			taxes = player.totalIncome * .22;
+		}				
 		
 		player.jobTitle[3] = Math.round(taxes);
 		return Math.round(taxes);
@@ -2409,10 +2450,7 @@ APP.loadCard = function (boardPosition) {
             var children = playerObj.children;
             var childCost = children * expense;
             playerObj.childExpense = childCost;
-            document.getElementById("expenses-child").innerHTML = parseInt(
-                playerObj.childExpense,
-                10
-            );
+            document.getElementById("expenses-child").innerHTML = APP.display.numWithCommas(playerObj.childExpense);
 
             APP.finance.statement(APP.currentPlayerArrPos());
 		
@@ -5878,7 +5916,8 @@ APP.display = {
                 "-row' id='asset" +
                 parseInt(i, 10) +
                 "-row'><td>" +
-                tag +
+                tag + " / $" +
+                cashFlow +
                 "</td><td>$" +
                 cost +
                 "</td></tr>";
@@ -5887,31 +5926,6 @@ APP.display = {
             $(assetTableId).append(assetRow);
 						
             if (realEstateAssetArr[i].highlight === "on") {
-                if (typeof APP.currentOffer == "object") {
-                    switch (APP.currentOffer.type) {
-                        case "4-plex":
-                        case "8-plex":
-                        case "duplex":
-                        case "plex":
-                            APP.currentSettlement =
-                                realEstateAssetArr[i].units * APP.currentOffer.offerPerUnit -
-                                realEstateAssetArr[i].mortgage;
-                            APP.currentSettlementCashFlow = realEstateAssetArr[i].cashFlow;
-                            break;
-                        case "apartment":
-                            APP.currentSettlement =
-                                realEstateAssetArr[i].units * APP.currentOffer.offerPerUnit -
-                                realEstateAssetArr[i].mortgage;
-                            APP.currentSettlementCashFlow = realEstateAssetArr[i].cashFlow;
-                            break;
-                            break;
-                        default:
-                            APP.currentSettlement = APP.currentOfferOffered - realEstateAssetArr[i].mortgage;
-                            APP.currentSettlementCashFlow = realEstateAssetArr[i].cashFlow;
-                            break;
-                    }
-					
-                }
 				
                 var rowId = "#asset" + parseInt(i, 10) + "-row";
 				
@@ -6974,7 +6988,7 @@ var FASTTRACK = {
 			APP.remainingPlayers -= 1;
 			
 			document.getElementById("win-cash-amount").innerHTML = APP.display.numWithCommas(player.cash);
-			document.getElementById("win-income-amount").innerHTML = APP.display.numWithCommas(Math.round(player.cashFlowDay + this.getIncome(APP.currentPlayerArrPos())));
+			document.getElementById("win-income-amount").innerHTML = APP.display.numWithCommas(Math.round(player.cashFlowDay + APP.finance.getIncome(APP.currentPlayerArrPos())));
 			document.getElementById("win-asset-amount").innerHTML = APP.display.numWithCommas(player.realEstateAssets.length);
 			
 		} else {
@@ -6983,7 +6997,7 @@ var FASTTRACK = {
 			
 			if (asset.cost <= player.cash) {
 				player.cash -= asset.cost;
-				//player.assetIncome += asset.cashFlow;
+				player.cashFlowDay += asset.cashFlow;
 				
 				asset.id = APP.finance.newId();
 				
@@ -7099,11 +7113,12 @@ var FASTTRACK = {
 				APP.remainingPlayers -= 1;
 				
 				document.getElementById("win-cash-amount").innerHTML = APP.display.numWithCommas(player.cash);
-				document.getElementById("win-income-amount").innerHTML = APP.display.numWithCommas(Math.round(player.cashFlowDay + this.getIncome(APP.currentPlayerArrPos())));
+				document.getElementById("win-income-amount").innerHTML = APP.display.numWithCommas(Math.round(player.cashFlowDay + APP.finance.getIncome(APP.currentPlayerArrPos())));
 				document.getElementById("win-asset-amount").innerHTML = APP.display.numWithCommas(player.realEstateAssets.length);
 
-				/*$("#win-card-new-game-btn").click(function(){
-					APP.display.hideHomeScreen();
+				$("#win-card-new-game-btn").click(function(){
+					window.location.reload(false);
+					/*APP.display.hideHomeScreen();
 					APP.display.hideGameSelectionScreen();
 					$("#game-container").hide();
 					$("#finance-box").hide();
@@ -7118,8 +7133,8 @@ var FASTTRACK = {
 					
 					setInterval(function(){
 						$("#home-screen").hide();
-					}, 1);
-				});*/
+					}, 1);*/
+				});
 			//highlight stuff
 		} else{
 
@@ -7222,7 +7237,8 @@ APP.scenarioChoices = [
     ["Police Officer", 3000, 520, 580, 400, 100, 60, 50, 690, 46000, 5000, 2000, 1000],
     ["Secretary", 2500, 710, 460, 400, 80, 60, 50, 570, 38000, 4000, 2000, 1000],
     ["Teacher (K-12)", 3300, 400, 630, 500, 100, 90, 50, 760, 50000, 5000, 3000, 1000],
-    ["Truck Driver", 2500, 750, 460, 400, 80, 60, 50, 570, 38000, 4000, 2000, 1000]
+    ["Truck Driver", 2500, 750, 460, 400, 80, 60, 50, 570, 38000, 4000, 2000, 1000],
+	["CEO", 24000, 1600000, 7200, 1900, 800, 250, 50, 4200, 750000, 30000, 11000, 1000]
 ];
 
 APP.board = {
@@ -7579,10 +7595,11 @@ $(document).ready(function () {
 		}
 		
 		$("#player-list-table").empty();
-		*/
+		
 		setInterval(function(){
 			$("#home-screen").hide();
 		}, 1);
+		*/
     });
 	
 	// options

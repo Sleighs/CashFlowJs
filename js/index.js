@@ -1084,6 +1084,7 @@ var APP = APP || {
         }
     },
 	randomDealText: function(playerPosition) {
+		//-- unused
 		var text;
 		if (APP.players[this.currentPlayerArrPos()].fastTrack == true) { 
 			if (playerPosition == 2) {
@@ -1193,11 +1194,28 @@ APP.finance = {
         this.getExpenses(APP.currentPlayerArrPos());
         this.getIncome(APP.currentPlayerArrPos());
         this.getPayday(APP.currentPlayerArrPos());
-        document.getElementById("bar-passive-income").innerHTML = APP.display.numWithCommas(player.passiveIncome);
+		
+		//if fast track show amount needed to win
+		if (player.fastTrack == true){
+			//hide total expenses and show winpay amount
+			$("#total-expenses-header").hide();
+			$("#win-pay-header").show();
+			document.getElementById("summary-win-bar").innerHTML = APP.display.numWithCommas(player.winPay);
+			document.getElementById("bar-passive-income").innerHTML = APP.display.numWithCommas(player.cashFlowDay);
+		} else {
+			$("#total-expenses-header").show();
+			$("#win-pay-header").hide();
+			//show total expenses
+			document.getElementById("summary-total-expenses").innerHTML = APP.display.numWithCommas(player.totalExpenses);
+			document.getElementById("summary-total-expenses-bar").innerHTML = APP.display.numWithCommas(player.totalExpenses);
+			document.getElementById("bar-passive-income").innerHTML = APP.display.numWithCommas(player.passiveIncome);
+		}
+			
+        
         document.getElementById("summary-cash").innerHTML = APP.display.numWithCommas(Math.round(player.cash));
         document.getElementById("summary-total-income").innerHTML = APP.display.numWithCommas(player.totalIncome);
-        document.getElementById("summary-total-expenses").innerHTML = APP.display.numWithCommas(player.totalExpenses);
-        document.getElementById("summary-total-expenses-bar").innerHTML = APP.display.numWithCommas(player.totalExpenses);
+        
+        
         document.getElementById("summary-payday").innerHTML = APP.display.numWithCommas(player.payday);
         
 		// Assets
@@ -1322,7 +1340,7 @@ APP.finance = {
 				APP.remainingPlayers -= 1;
 				
 				document.getElementById("win-cash-amount").innerHTML = APP.display.numWithCommas(player.cash);
-				document.getElementById("win-income-amount").innerHTML = APP.display.numWithCommas(Math.round(player.cashFlowDay + this.getIncome(APP.currentPlayerArrPos())));
+				document.getElementById("win-income-amount").innerHTML = APP.display.numWithCommas(player.cashFlowDay + Math.round(this.getIncome(APP.currentPlayerArrPos())));
 				document.getElementById("win-asset-amount").innerHTML = APP.display.numWithCommas(player.realEstateAssets.length);
 
 				$("#win-card-new-game-btn").click(function(){
@@ -1350,8 +1368,28 @@ APP.finance = {
         var player = APP.players[APP.currentPlayerArrPos()];
         var expenseBarEle = document.getElementById("income-expense-bar");
         var expenses = this.getExpenses(APP.currentPlayerArrPos());
-        var width = 100 * (player.passiveIncome / expenses);
-        if (width > 100) {
+        var width; 
+		
+		if(player.fastTrack == true){
+			width = 100 * (player.fastTrackIncome / player.winPay);
+			console.log("fasttrack: on, width: " + width + ", ft-income: " + player.fastTrackIncome);
+			
+			if (width > 100) {
+				expenseBarEle.style.width = "100%";
+			} else {
+				expenseBarEle.style.width = Math.round(width) + "%";
+			}
+		} else {
+			width = 100 * (player.passiveIncome / expenses);
+			
+			if (width > 100) {
+				expenseBarEle.style.width = "100%";
+			} else {
+				expenseBarEle.style.width = Math.round(width) + "%";
+			}
+        }
+		
+		if (width > 100) {
             expenseBarEle.style.width = "100%";
         } else {
             expenseBarEle.style.width = Math.round(width) + "%";
@@ -1733,6 +1771,11 @@ APP.finance = {
                 arr[index].shares += shares;
             }
         } else {
+			//-- fix hide
+			$("#show-stock-form-btn").hide();
+			$("#show-stock-sell-form-btn").hide();
+			$("#buy-stock-btn").hide();
+			
             this.loanOffer(cost);
         }
 
@@ -1954,9 +1997,6 @@ APP.finance = {
         APP.display.clearCards();
         APP.display.clearBtns();
 
-		$("#show-stock-form-btn").hide();
-		$("#show-stock-sell-form-btn").hide();
-		$("#buy-stock-btn").hide();
 		$("#done-btn").hide();
 		$("#ft-enter-btn").hide();
 		
@@ -5832,7 +5872,7 @@ APP.display = {
                     var anchor = rows[i];
                     var cell = row.getElementsByTagName("td")[1];
                     var id = cell.getAttribute("id");
-
+					
                     anchor.onclick = function () {
                         player.loanId = id;
 
@@ -5844,10 +5884,18 @@ APP.display = {
 							$("#pay-confirm-card").hide();
 							$("#confirm-pay-btn").hide();
                             $("#repay-card").hide();
+							
+							// form val is set to the highest amount the player can pay
+							for (var i = 0; i < player.cash - 1000; i += 1000) {
+								document.getElementById("loan-amt-input2").value = player.loans;
+							}
                         } else {
                             $("#confirm-pay-btn").show();
                             $("#cancel-btn").show();
                             $("#pay-confirm-card").show();
+							// show loan info in card
+							$("#repay-loan-name").text(id);
+							$("#repay-loan-amt").text();
 
                             $("#done-repay-btn").hide();
 							$("#repay-loan-card").hide();
@@ -6987,9 +7035,9 @@ var FASTTRACK = {
 			
 			APP.remainingPlayers -= 1;
 			
-			document.getElementById("win-cash-amount").innerHTML = APP.display.numWithCommas(player.cash);
+			document.getElementById("win-cash-amount").innerHTML = APP.display.numWithCommas(Math.round(100 * player.cash) / 100);
 			document.getElementById("win-income-amount").innerHTML = APP.display.numWithCommas(Math.round(player.cashFlowDay + APP.finance.getIncome(APP.currentPlayerArrPos())));
-			document.getElementById("win-asset-amount").innerHTML = APP.display.numWithCommas(player.realEstateAssets.length);
+			//document.getElementById("win-asset-amount").innerHTML = player.fastTrackAssets.length;
 			
 		} else {
 			
@@ -7104,42 +7152,41 @@ var FASTTRACK = {
 			
 			$("#win-game-card").show();
 				
-				if (APP.remainingPlayers == APP.pCount){
-					$("#win-scenario").text(APP.name(APP.currentPlayer) + "wins the game by adding over $50,000 to their Cash Flow Day!");
-				} else {
-					$("#win-scenario").text(APP.name(APP.currentPlayer) + "wins the game by adding over $50,000 to their Cash Flow Day!");
+			if (APP.remainingPlayers == APP.pCount){
+				$("#win-scenario").text(APP.name(APP.currentPlayer) + "wins the game by adding over $50,000 to their Cash Flow Day!");
+			} else {
+				$("#win-scenario").text(APP.name(APP.currentPlayer) + "wins the game by adding over $50,000 to their Cash Flow Day!");
+			}
+			
+			APP.remainingPlayers -= 1;
+			
+			document.getElementById("win-cash-amount").innerHTML = APP.display.numWithCommas(player.cash);
+			document.getElementById("win-income-amount").innerHTML = APP.display.numWithCommas(Math.round(player.cashFlowDay + APP.finance.getIncome(APP.currentPlayerArrPos())));
+			//document.getElementById("win-asset-amount").innerHTML = APP.display.numWithCommas(player.fastTrackAssets.length);
+
+			$("#win-card-new-game-btn").click(function(){
+				window.location.reload(false);
+				/*APP.display.hideHomeScreen();
+				APP.display.hideGameSelectionScreen();
+				$("#game-container").hide();
+				$("#finance-box").hide();
+				
+				APP.display.showGameSetupScreen();
+				
+				for (var i = APP.pCount; i >= APP.players.length; i--){
+					delete APP.players[i];
 				}
 				
-				APP.remainingPlayers -= 1;
+				$("#player-list-table").empty();
 				
-				document.getElementById("win-cash-amount").innerHTML = APP.display.numWithCommas(player.cash);
-				document.getElementById("win-income-amount").innerHTML = APP.display.numWithCommas(Math.round(player.cashFlowDay + APP.finance.getIncome(APP.currentPlayerArrPos())));
-				document.getElementById("win-asset-amount").innerHTML = APP.display.numWithCommas(player.realEstateAssets.length);
-
-				$("#win-card-new-game-btn").click(function(){
-					window.location.reload(false);
-					/*APP.display.hideHomeScreen();
-					APP.display.hideGameSelectionScreen();
-					$("#game-container").hide();
-					$("#finance-box").hide();
-					
-					APP.display.showGameSetupScreen();
-					
-					for (var i = APP.pCount; i >= APP.players.length; i--){
-						delete APP.players[i];
-					}
-					
-					$("#player-list-table").empty();
-					
-					setInterval(function(){
-						$("#home-screen").hide();
-					}, 1);*/
-				});
+				setInterval(function(){
+					$("#home-screen").hide();
+				}, 1);*/
+			});
 			//highlight stuff
 		} else{
-
-        $("#ft-finish-turn-card").show();
-        $("#ft-end-turn-btn").show();
+			$("#ft-finish-turn-card").show();
+			$("#ft-end-turn-btn").show();
 		}
 		
 		if (player.position == 2) {

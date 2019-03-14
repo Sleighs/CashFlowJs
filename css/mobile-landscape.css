@@ -984,7 +984,8 @@ body {
 #ft-turn-instructions,
 #ft-doodad-card,
 #ft-opp-card,
-#ft-finish-turn-card {
+#ft-finish-turn-card, 
+#win-game-card {
     width: 90%;
     color: #263238;
     margin: auto;
@@ -1045,9 +1046,7 @@ body {
     font-weight: bold;
     width: 100%;
 }
-#loan-amt-btns {
-	font-weight: bold;
-}
+
 #repay-borrow-btns {
     margin: auto 0 auto 4.5%;
 	width: 83%;
@@ -1295,7 +1294,7 @@ body {
 #take-out-loan,
 #borrow-offer-loan-btn {
     height: 40px;
-    width: 92px;
+    width: 104px;
     border-radius: 5px;
     background-color: white;
     outline: none;
@@ -1325,6 +1324,21 @@ body {
     font-size: 16pt;
     color: white;
     font-weight: bold;
+}
+#win-card-new-game-btn {
+	height: 60px;
+    width: 140px;
+    border-radius: 6px;
+    background-color: white;
+    outline: none;
+    font-size: 16pt;
+    letter-spacing: .5pt;
+    box-shadow: .6px .6px 2px #c2a500;
+    text-shadow: .6px .6px 2px #c2a500;
+    color: #4E342E;
+	margin: auto;
+	position: relative;
+	display: block;
 }
 
 #financial-statement-left,
@@ -1555,9 +1569,15 @@ body {
     margin: 4px 2px;
     cursor: pointer;
 }
-
+#loan-amt-btns {
+	margin: auto;
+	font-weight: bold;
+	width: 80%;
+	padding: 1%;
+}
 #increase-loan,
 #decrease-loan {
+	width: 30%;
     background-color: #1B5E20;
     border: none;
     border-radius: 3px;
@@ -1566,7 +1586,7 @@ body {
     text-align: center;
     text-decoration: none;
     font-size: 16px;
-    margin: 4px 2px;
+    margin: auto;
     cursor: pointer;
 }
 #game-menu {

@@ -630,22 +630,22 @@
 						</div>
 						<div id="pay-confirm-card">
 						  <h2 class="card-title">PAY OFF LOAN</h2>
+						  <p>Pay off <span id="repay-loan-name"></span> for <span id="repay-loan-amt"></span></p>
 						  <p>Are you sure?</p>
 						</div>
 						
 						<div id="fast-track-intro-card">
 						  <h2 class="card-title">CONGRATULATIONS!</h2>
-						  <h2 class="card-title">WELCOME TO THE FAST TRACK!</h2>
-						  <p><span id="ftic-player-name-intro"></span> can enter the Fast Track</p>
-						  <p>Receive 100x your passive income. Increase your CASHFLOW DAY income by $50,000 to win the game.</p>
+						  <h3 class="card-title">YOU ARE OUT OF THE RAT RACE!</h3>
+						  <p><span id="ftic-player-name-intro"></span> has built up their passive income to be greater than their total expenses and may now enter the Fast Track.</p>
+						  <p>If you enter, you will receive 100x your passive income in cash and race to increase your CASHFLOW DAY income by $50,000 to win the game.</p>
 						</div>
 						<div id="fast-track-option-card">
-						  <h2 class="card-title">CONGRATULATIONS!</h2>
-						  <h2 class="card-title">YOU ARE OUT OF THE RAT RACE!</h2>
-						  <p><span id="ftic-player-name"></span> has built up their passive income to be greater than their total expenses.
-							<br>You may now enter the Fast Track.
+						  <h2 class="card-title">WELCOME TO THE FAST TRACK!</h2>
+						  <p><span id="ftic-player-name"></span> has entered the Fast Track.
 						  </p>
-						  <p>If you enter, receive 100x your passive income. Increase your CASHFLOW DAY income by $50,000 to win the game.</p>
+						  <p>You receive 100x your passive income in cash. </p>
+						  <h3>Increase your income by $50,000 to win the game.</h3>
 						</div>
 						<div id="ft-turn-instructions">
 						  <h2 class="card-title"><span id="ft-player-name"></span>'s turn</h2>
@@ -690,11 +690,12 @@
 						  </h2>
 						  <p><span id="ft-dream-text"></span></p>
 							<table id="win-stats">
-								<tr><th>FINAL </th></tr>
-								<tr><td>Cash</td><td><span id="win-cash-amount"></span></td></tr>
-								<tr><td>Income</td><td><span id="win-income-amount"></span></td></tr>
-								<tr><td>No. Assets</td><td><span id="win-asset-amount"></span></td></tr></tr>
+								<th><h2>FINAL</h2></th>
+								<tr><td>Cash:</td><td>$<span id="win-cash-amount"></span></td></tr>
+								<tr><td>Income:</td><td>$<span id="win-income-amount"></span></td></tr>
+								<!--<tr><td>No. Assets:</td><td><span id="win-asset-amount"></span></td></tr></tr>-->
 							</table>
+							<br>
 							<button id="win-card-new-game-btn" class="card-btn">
 								New Game
 							</button>
@@ -871,7 +872,8 @@
 	    <div id="finance-box">
 			<div id="expense-bar">
 			<h3 style="font-size: 10pt; text-align: center;">INCREASE PASSIVE INCOME TO ESCAPE THE RAT RACE</h3>
-			<h3 style="font-size: 10pt; margin: 3px auto; width: 70%;">TOTAL EXPENSES: $<span id='summary-total-expenses-bar'></span></h3>
+			<h3 id="total-expenses-header" style="font-size: 10pt; margin: 3px auto; width: 70%;">TOTAL EXPENSES: $<span id='summary-total-expenses-bar'></span></h3>
+			<h3 id="win-pay-header" style="font-size: 10pt; margin: 3px auto; width: 70%;">Amount to Win: $<span id='summary-win-bar'></span></h3>
 			<div id='income-expense-progress'>
 			  <div id='income-expense-bar'></div>
 			</div>

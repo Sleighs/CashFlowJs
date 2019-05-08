@@ -1372,7 +1372,7 @@ APP.finance = {
 		
 		if(player.fastTrack == true){
 			width = 100 * (player.fastTrackIncome / player.winPay);
-			console.log("fasttrack: on, width: " + width + ", ft-income: " + player.fastTrackIncome);
+			//--console.log("fasttrack: on, width: " + width + ", ft-income: " + player.fastTrackIncome);
 			
 			if (width > 100) {
 				expenseBarEle.style.width = "100%";
@@ -1770,21 +1770,22 @@ APP.finance = {
             } else {
                 arr[index].shares += shares;
             }
+			
+			$("#show-stock-form-btn").show();
+			$("#show-stock-sell-form-btn").show();
+			$("#buy-shares-form").hide();
+			$("#buy-stock-btn").hide();
+			$("#done-buy-sell-btn").hide();
+			$("#done-btn").show();
         } else {
-			//-- fix hide
 			$("#show-stock-form-btn").hide();
 			$("#show-stock-sell-form-btn").hide();
 			$("#buy-stock-btn").hide();
+			$("#done-btn").hide();
+			$("#done-buy-sell-btn").hide();
 			
             this.loanOffer(cost);
-        }
-
-        $("#show-stock-form-btn").show();
-        $("#show-stock-sell-form-btn").show();
-        $("#buy-shares-form").hide();
-        $("#buy-stock-btn").hide();
-        $("#done-buy-sell-btn").hide();
-        $("#done-btn").show();
+        }        
 
         if (APP.ownedShares() > 0) {
             $("#show-stock-sell-form-btn").show();
@@ -2029,7 +2030,6 @@ APP.finance = {
 			
 			$("#cannot-afford-loan-card").show();
 			$("#borrow-offer-loan-btn").show();
-			$("#done-buy-sell-btn").show();
 			
 			//remove card title color
 			if (player.position === 2 % 0 || player.position === 0){
@@ -2095,6 +2095,7 @@ APP.finance = {
 				case "Preferred Stock":
                     $("#deal-card-stock").show();
                     $("#show-stock-form-btn").show();
+					$("#done-buy-sell-btn").show();
                     break;
                 case "Property Damage":
                     $("#deal-card-real-estate").show();
@@ -2172,6 +2173,7 @@ APP.finance = {
                 case "Mutual Fund":
                     $("#deal-card-stock").show();
                     $("#show-stock-form-btn").show();
+					$("#done-buy-sell-btn").show();
                     break;
                 case "Property Damage":
                     $("#deal-card-real-estate").show();
@@ -2302,7 +2304,7 @@ APP.loadCard = function (boardPosition) {
 				FASTTRACK.doodad(boardPosition);
 				
 				doodadTitle.innerHTML = FASTTRACK.square.doodad4.title;
-				doodadText.innerHTML = FASTTRACK.square.doodad4.text;
+				doodadText.innerHTML = FASTTRACK.square.doodad4.text + " - " + FASTTRACK.square.square21.lowestAsset;				
 				break;
             case 27:
 				$("#ft-doodad-card").show();
@@ -2339,13 +2341,14 @@ APP.loadCard = function (boardPosition) {
                 $("#ft-end-turn-btn").show();
 				$(".card-title").css("color", "#00BCD4");
                 break;
-			// Oppurtunities
+			// Opportunities
             case 17:
                 $("#ft-opp-card").show();
                 $("#ft-deal-cash-flow-row").show();
                 $("#ft-deal-retun-row").hide();
 				$("#ft-opp-buy-btn").hide();
-				//show roll button
+				
+				$("#ft-opp-roll").show();
                 $("#ft-pass-btn").show();
 				
 				$(".card-title").css("color", "#43A047");
@@ -2360,7 +2363,8 @@ APP.loadCard = function (boardPosition) {
                 $("#ft-deal-cash-flow-row").hide();
                 $("#ft-deal-retun-row").show();
 				$("#ft-opp-buy-btn").hide();
-				//show roll button
+				
+				$("#ft-opp-roll").show();
                 $("#ft-pass-btn").show();
 				
 				$(".card-title").css("color", "#43A047");
@@ -2375,7 +2379,8 @@ APP.loadCard = function (boardPosition) {
                 $("#ft-deal-cash-flow-row").hide();
                 $("#ft-deal-retun-row").show();
 				$("#ft-opp-buy-btn").hide();
-				//roll
+				
+				$("#ft-opp-roll").show();
                 $("#ft-pass-btn").show();
 				
 				$(".card-title").css("color", "#43A047");
@@ -2451,7 +2456,16 @@ APP.loadCard = function (boardPosition) {
 
         //paycheck
         if (boardPosition === 5 || boardPosition === 13 || boardPosition === 21) {
-            this.finishTurn();
+			if (OPTIONS.paycheckDoodads.checked == true){
+				$("#doodad-card").show();
+				$("#doodad-pay-button").show();
+				APP.getDoodad();
+			
+			//highlight title
+			$(".card-title").css("color", "#D32F2F");
+			} else {
+				this.finishTurn();
+			}
         }
 
         //charity
@@ -2482,8 +2496,8 @@ APP.loadCard = function (boardPosition) {
                 document.getElementById("child-cost").innerHTML = expense;
                 //children count ++
                 playerObj.children += 1;
-            } else if (playerObj.children == 3) {
-                //
+            } else if (playerObj.children == 3 && playerObj.kidLimit == true) {
+                //keep same kid count
             } else {
                 playerObj.children += 1;
             }
@@ -3133,8 +3147,8 @@ APP.cards = {
             liability: 0,
             cashFlow: 0,
             amount: 10
-        }/*,
-		cd1: {
+        },
+		/*cd1: {
           type: "Certificate of Deposit",
           name: "Certificate of Deposit",
           description: "A leading bank offers this special Certificate of Deposit to its customer. Guaranteed interest and redeemable after any holding period.",
@@ -3154,7 +3168,7 @@ APP.cards = {
           price: 4000,
           tradingRange: "$5,000 to $5,000"
         },*/
-        /*companyS1: {
+        companyS1: {
             type: "Company",
             name: "Start a Company Part Time",
             description: "Develop interesting idea for a software program, so you start a company to produce and sell it. No profits during startup, long hours, no extra pay.",
@@ -3182,18 +3196,7 @@ APP.cards = {
             landType: "business",
             businessType: "widget"
         }
-        /*,
-            personalS1: {
-              type: "Personal Loan",
-              name: "Sister-In-Law Borrows Money",
-              description: "Sister-In-Law is downsized. Needs $5,000 to make house payments. She promises to pay you back $10,000 after she finds a new job.",
-              rule: "Use this yourself or sell to another player. ??% ROI.",
-              roi: 0,
-              cost: 5000,
-              downPayment: 5000,
-              liability: 0,
-              cashFlow: 0
-            }*/
+        
     },
     bigDeal: {
         realEstateB1: {
@@ -3736,7 +3739,8 @@ APP.cards = {
             tag: "LAUNDRY",
             landType: "business"
         },
-        */propertyDamage1: {
+        */
+		propertyDamage1: {
             name: "Sewer Line Breaks",
             type: "Property Damage",
             description: "Water everywhere at your 8-plex! Broken sewer line needs repair immediately. <br> If you own an 8-plex, pay $2,000 for new line. (Bank loan available on usual terms.)",
@@ -5781,6 +5785,7 @@ APP.display = {
 		$("#ft-dream-roll-btn").hide();
 		$("#ft-doodad-roll-btn").hide();
 		$("#ft-opp-buy-btn").hide();
+		$("#ft-opp-roll-btn").hide();
 		$("#ft-pass-btn").hide();
 		$("#ft-end-turn-btn").hide();
 
@@ -6491,6 +6496,10 @@ var FASTTRACK = {
         } else if (previousPosition < 38 && previousPosition + dice >= 38) {
             pObj.cash += pObj.payday;
         }
+		
+		if (currentPosition == 24) {
+			this.dream();
+		}
 
         APP.finance.statement();
     },
@@ -6508,7 +6517,7 @@ var FASTTRACK = {
     square: {
         doodad1: {
             title: "Healthcare!",
-			info: "<span>Roll one die.</span><br><span>If it's 1-3, you're covered.</span><br><span>If it's 4-6, you're not- Pay all of your cash.</span>"
+			info: "<div id='doodad-text'><div><span>Roll one die.</span><br><span>If it's 1-3, you're covered.</span><br><span>If it's 4-6, you're not- Pay all of your cash.</span>"
         },
         charity: {
             title: "CHARITY",
@@ -6618,7 +6627,7 @@ var FASTTRACK = {
             text: "+75,000/mo Cash Flow if you roll a 6 on one die, or else $0 Cash Flow",
             costText: "$750,000",
             cashFlowText: "$75,000",
-            cashFlow: 75000,
+            cashFlow: 0,
             cost: 750000
         },
         cashFlowDay2: {
@@ -6642,7 +6651,8 @@ var FASTTRACK = {
         },
         doodad4: {
             title: "Bad Partner!",
-			text: "Lose lowest cash-flowing asset"
+			text: "Lose lowest cash-flowing asset",
+			lowestAsset: "<div id='lowest-asset'></div>"
         },
         square22: {
             title: "App Development Company",
@@ -7038,8 +7048,8 @@ var FASTTRACK = {
 			document.getElementById("win-cash-amount").innerHTML = APP.display.numWithCommas(Math.round(100 * player.cash) / 100);
 			document.getElementById("win-income-amount").innerHTML = APP.display.numWithCommas(Math.round(player.cashFlowDay + APP.finance.getIncome(APP.currentPlayerArrPos())));
 			//document.getElementById("win-asset-amount").innerHTML = player.fastTrackAssets.length;
-			
-		} else {
+
+		} else	{
 			
 			//if regular space add asset to array
 			
@@ -7058,8 +7068,6 @@ var FASTTRACK = {
 				document.getElementById("ft-opp-prompt").innerHTML = "You need $" + APP.display.numWithCommas(this.remainder()) + " to get this deal!";
 			}*/
 			
-			//else if specific space...
-			
 			this.finishTurn();
 		}
 		
@@ -7071,11 +7079,12 @@ var FASTTRACK = {
 		
 		switch(boardPosition) {
 			case 1:
-				if (roll >= 4) {
+				var newRoll = APP.rollDie(1);
+				if (newRoll >= 4) {
 					player.cash = 0;
-					document.getElementById("ft-doodad1").innerHTML = "<span>You spend all of your cash for the expenses.</span>";
+					document.getElementById("ft-doodad1").innerHTML = "<span>You rolled a " + newRoll + ". </span><span>You spend all of your cash for the expenses.</span>";
 				} else {
-					document.getElementById("ft-doodad1").innerHTML = "<span>You're covered.</span>";
+					document.getElementById("ft-doodad1").innerHTML = "<span>You rolled a " + newRoll + ". </span><span>You're covered.</span>";
 				}
 				//hide card info
 				//load info
@@ -7092,25 +7101,46 @@ var FASTTRACK = {
             case 21:
 				//console.log(player.fastTrackAssets);
 				//find lowest number in fastTrackAssets
+				var lowestAsset = player.fastTrackAssets[0];
 				var lowest = player.fastTrackAssets[0].cashFlow;
 				
 				player.fastTrackAssets.forEach(function(current){	
 					if (current.cashFlow < lowest) {
-						lowest = current;
+						lowestAsset = current
 					}
 									
 				});
 
 				player.totalIncome -= lowest;
-				delete lowest;	
-				
-				//console.log(player.fastTrackAssets);
+					
+				console.log(player.fastTrackAssets);
 				
 				$("#ft-doodad-text2").hide();
+				$("#lowestAsset").text(lowestAsset);
 				
+				delete lowestAsset;
 				break;
             case 34:
-				$("#ft-doodad-text2").hide();
+				var lowest = player.fastTrackAssets[0].cashFlow;
+					
+				player.fastTrackAssets.forEach(function(current){	
+					if (current.cashFlow < lowest) {
+						lowest = current;
+					}					
+				});
+				
+				console.log(lowest);
+				// pay ten times lowest asset or lose it
+				if ((10 * lowest) < player.cash) {
+					player.cash - (lowest * 10);
+					//show how much that player paid
+					$("#ft-doodad-cost").text(APP.display.numWithCommas(lowest * 10));
+				} else {
+					//remove asset
+					//show the player lost an asset
+					$("#ft-doodad-text").text("You lost an asset");
+					$("#ft-doodad-text2").hide();
+				}	
 				break;
 		}
 		
@@ -7122,11 +7152,55 @@ var FASTTRACK = {
 		if (roll == 2 % 0) {
 			$("#ft-opp-buy-btn").show();
 			//console.log("You rolled a " + roll + ".");
+			
 		} else {
 			$("#ft-dream-roll-btn").hide();
 			//console.log("You rolled a " + roll + ".");
 		}
 		//console.log(roll)
+	},
+	roll: function(){
+		var playerObj = APP.players[APP.currentPlayerArrPos()];
+		var currentPosition = playerObj.position;
+		var currentSquare = "square" + String(currentPosition);
+		var asset = this.square[currentSquare];
+		var dieNum = this.rollDie();
+		
+		console.log("rolling..." + currentPosition);
+		
+		switch(currentPosition){
+			case 17: 
+				if (asset.cost <= playerObj.cash) {
+					playerObj.cash -= asset.cost;
+					asset.id = APP.finance.newId();
+						
+					$("ft-opp-prompt").show()
+					$("#ft-opp-roll").hide();
+					
+					//roll
+					if (dieNum == 6) {
+						$("ft-opp-prompt").html("You rolled a " + dieNum + ".");
+						//increase player cash flow
+						asset.cashFlow = 75000;
+						playerObj.cashFlowDay += asset.cashFlow;
+					} else {
+						$("ft-opp-prompt").html("You rolled a " + dieNum + ".");
+						//do not increase player cash flow
+					}
+					//add asset to player assets
+					playerObj.fastTrackAssets.push(asset);
+					
+					console.log(dieNum);
+				} else {
+					//if cannot afford
+					this.finishTurn();
+				}
+			break;
+			case 23:
+			break;
+			case 33:
+			break;
+		};
 	},
 	remainder: function(){
 		var player = APP.players[APP.currentPlayerArrPos()];
@@ -7285,7 +7359,7 @@ APP.scenarioChoices = [
     ["Secretary", 2500, 710, 460, 400, 80, 60, 50, 570, 38000, 4000, 2000, 1000],
     ["Teacher (K-12)", 3300, 400, 630, 500, 100, 90, 50, 760, 50000, 5000, 3000, 1000],
     ["Truck Driver", 2500, 750, 460, 400, 80, 60, 50, 570, 38000, 4000, 2000, 1000],
-	["CEO", 24000, 120000, 7200, 1900, 800, 250, 50, 4200, 750000, 30000, 11000, 1000]
+	["CEO", 24000, 1600000, 7200, 1900, 800, 250, 50, 4200, 750000, 30000, 11000, 1000]
 ];
 
 APP.board = {
@@ -7435,7 +7509,7 @@ var OPTIONS = {
     chooseJob: document.getElementById("oo-choose-job"),
     oneDealDeck: document.getElementById("oo-one-deal-deck"),	
     checkState: function () {
-        if (this.smallRE.checked == true && this.bigRE.checked == true && this.stocks.checked == true && this.mutuals.checked == true && this.cds.checked == true && this.coins.checked == true && this.limitedPartnership.checked == true && this.companies.checked == true && this.startingSavings.value == 1 /*&& this.kids.checked == false && this.paycheckDoodads.checked == false && this.playerLoans.checked == false && this.chooseJob.checked == false && this.oneDealDeck.checked == false*/) {
+        if (this.smallRE.checked == true && this.bigRE.checked == true && this.stocks.checked == true && this.mutuals.checked == true && this.cds.checked == true && this.coins.checked == true && this.limitedPartnership.checked == true && this.companies.checked == true && this.startingSavings.value == 1 && this.kids.checked == false && this.paycheckDoodads.checked == false /*&& this.playerLoans.checked == false && this.chooseJob.checked == false && this.oneDealDeck.checked == false*/) {
             $("#default-game-indicator").css("color", "#FDD835");
             $("#custom-game-indicator").css("color", "#4E342E");
         } else {
@@ -7458,6 +7532,7 @@ var OPTIONS = {
         this.playerLoans.checked = false;
         //this.chooseJob.checked = false;
         this.oneDealDeck.checked = false;
+		this.paycheckDoodads.checked = false;
 		
         OPTIONS.checkState();
     },
@@ -7575,6 +7650,7 @@ var OPTIONS = {
 		for (var j = 0; j < APP.players.length; j++){
 			var player = APP.players[j];
 			
+			//set starting savings
 			if (this.startingSavings.value == 0){
 				player.cash = 0;
 			} else if (this.startingSavings.value == 1){
@@ -7583,6 +7659,13 @@ var OPTIONS = {
 				player.cash = player.jobTitle[1];
 			} else if (this.startingSavings.value == 3){
 				player.cash = player.jobTitle[1] * 2;					
+			}
+			
+			//set kid limit on or off
+			if (this.kids.checked == true){
+				player.kidLimit = false;
+			} else {
+				player.kidLimit = true;
 			}
 		}
 		
@@ -7707,4 +7790,3 @@ $(document).ready(function () {
 	}
 	showPlayerInputs();	
 });
-

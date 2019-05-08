@@ -1291,10 +1291,21 @@ body {
 }
 
 #borrow-loan-btn,
-#take-out-loan,
-#borrow-offer-loan-btn {
+#take-out-loan {
     height: 40px;
     width: 104px;
+    border-radius: 5px;
+    background-color: white;
+    outline: none;
+    font-size: 15pt;
+    letter-spacing: .5pt;
+    font-weight: bold;
+    font-family: 'lato';
+    color: #004D40;
+}
+#borrow-offer-loan-btn {
+    height: 40px;
+    width: 92px;
     border-radius: 5px;
     background-color: white;
     outline: none;

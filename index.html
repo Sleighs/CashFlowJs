@@ -79,6 +79,7 @@
 					<option>Secretary: $2500</option>
 					<option>Teacher (K-12): $3300</option>
 					<option>Truck Driver: $2500</option>
+					<option>CEO: $24000</option>
 				  </select>
               </div>
               <div id="player3input" class="player-input">
@@ -101,10 +102,11 @@
 					<option>Secretary: $2500</option>
 					<option>Teacher (K-12): $3300</option>
 					<option>Truck Driver: $2500</option>
+					<option>CEO: $24000</option>
 				  </select>
               </div>
               <div id="player4input" class="player-input">
-                Player 4: <input type="text" id="player4name" title="Player name" maxlength="16" value="Player 4" />
+                Player 4: <input type="text" id="player4name" title="Player name" maxlength="16" value="Player 4"/>
 				<label class="player-options-checkbox" title="Pay 8% of your income for Downsize insurance. Pay an additional 1% for every dependent.">
 				  <input id="po-insurance-p4" type="checkbox">
 				  <span class="player-input-checkmark">Insurance</span>
@@ -123,6 +125,7 @@
 					<option>Secretary: $2500</option>
 					<option>Teacher (K-12): $3300</option>
 					<option>Truck Driver: $2500</option>
+					<option>CEO: $24000</option>
 				  </select>
               </div>
               <div id="player5input" class="player-input">
@@ -145,6 +148,7 @@
 					<option>Secretary: $2500</option>
 					<option>Teacher (K-12): $3300</option>
 					<option>Truck Driver: $2500</option>
+					<option>CEO: $24000</option>
 				  </select>
               </div>
               <div id="player6input" class="player-input">
@@ -167,6 +171,7 @@
 					<option>Secretary: $2500</option>
 					<option>Teacher (K-12): $3300</option>
 					<option>Truck Driver: $2500</option>
+					<option>CEO: $24000</option>
 				  </select>
               </div>
               <div id="player7input" class="player-input">
@@ -189,6 +194,7 @@
 					<option>Secretary: $2500</option>
 					<option>Teacher (K-12): $3300</option>
 					<option>Truck Driver: $2500</option>
+					<option>CEO: $24000</option>
 				  </select>
               </div>
               <div id="player8input" class="player-input">
@@ -211,6 +217,7 @@
 					<option>Secretary: $2500</option>
 					<option>Teacher (K-12): $3300</option>
 					<option>Truck Driver: $2500</option>
+					<option>CEO: $24000</option>
 				  </select>
               </div>
             </div>
@@ -265,11 +272,11 @@
               <h1>Other</h1>
               <label class="options-checkbox">Have +3 kids
               <input id="oo-kids"  type="checkbox">
-              <span class="checkmark  off-options"></span>
+              <span class="checkmark"></span>
               </label>
               <label class="options-checkbox">Doodads with Paychecks
               <input id="oo-paycheck-doodads" type="checkbox">
-              <span class="checkmark  off-options"></span>
+              <span class="checkmark"></span>
               </label>
               <label class="options-checkbox">Player Loans
               <input id="oo-player-loans"type="checkbox">
@@ -734,7 +741,8 @@
 							<button class="card-btn" id="roll-btn" onclick="APP.movePlayer(1);">ROLL</button>
 							<button class="card-btn" id="roll2-btn" onclick="APP.movePlayer(2);">ROLL 2x</button>
 							<button class="card-btn" id="ft-roll-btn" onclick="FASTTRACK.movePlayer(1);">ROLL</button>
-							<button class="card-btn" id="ft-roll2-btn" onclick="FASTTRACK.movePlayer(2);">ROLL 2x</button>
+							<button class="card-btn" id="ft-roll2-btn" onclick="FASTTRACK.oppRoll();">ROLL</button>
+							<button class="card-btn" id="ft-opp-roll-btn" onclick="FASTTRACK.roll();">ROLL</button>
 							<button class="card-btn" id="small-deal-btn" onclick="APP.smallDeal();">SMALL</button>
 							<button class="card-btn" id="big-deal-btn" onclick="APP.bigDeal();">BIG</button>
 							<button class="card-btn" id="doodad-pay-button" onclick="APP.finance.payDoodad();">PAY</button>

@@ -6,7 +6,7 @@
 * Employ financial strategies.
 * Leverage assets and liabilaties.
 
-#Play game at https://sleighs.github.io/CashFlowJs/
+##Play game at https://sleighs.github.io/CashFlowJs/
 
 ### Features:
 * 8 player Multiplayer

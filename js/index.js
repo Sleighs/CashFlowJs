@@ -156,12 +156,10 @@ var APP = APP || {
         var token = APP.display.tokens[player];
 
         // remove old piece
-        var oldTokenElement = document.getElementById(
-            "tokenSection" + parseInt(pObj.position, 10)
-        );
         var playerTokenEle = document.getElementById(
             "player" + parseInt(APP.currentPlayer, 10) + "-piece"
         );
+		
         playerTokenEle.remove();
         //update board position
         this.updatePosition(dice);
@@ -391,6 +389,7 @@ var APP = APP || {
     },
     getDoodad: function () {
         var player = APP.players[APP.currentPlayerArrPos()];
+		
         //random doodad
         var obj = APP.cards.doodad;
         var keys = Object.keys(obj);
@@ -398,24 +397,31 @@ var APP = APP || {
             return object[keys[Math.floor(keys.length * Math.random())]];
         };
         var currentDoodad = randDoodad(obj);
-        this.currentDoodad = currentDoodad;
+		
+		//check if doodad requires children
+		
+		if (currentDoodad.child == true && player.children == 0) {
+			//get new doodad
+			this.getDoodad();
+		} else {
+			this.currentDoodad = currentDoodad;
+		} 
+			
+		
         //set doodad
         var doodadName = this.currentDoodad.name;
         var doodadCost = this.currentDoodad.cost;
         var text = this.currentDoodad.text;
 
-        //make switch statement for special doodads
         //if boat
-        if (doodadName == "New Boat" && player.boatLoan == 0) {
-            //--fix
+        if (doodadName == "New Boat!" && player.boatLoan == 0) {
             player.boatLoan = 17000;
             player.boatPayment = 340;
-        } else if (doodadName == "New Boat") {
+        } else if (doodadName == "New Boat!") {
             text = "You already own one.";
         }
         //if credit card
         if (doodadName == "Buy Big Screen TV") {
-            //--test
             player.creditDebt = 4000;
             player.tvPayment = 120;
         }
@@ -1050,7 +1056,7 @@ var APP = APP || {
     },
     clearAmounts: function () {
         APP.finance.loanAmount = 1000;
-        APP.finance.loanAmount;
+		APP.finance.mortgagePrepay = false;
 
         delete APP.currentDeal;
         delete APP.currentDoodad;
@@ -1176,7 +1182,7 @@ APP.finance = {
 		
 		if (player.boatLoan > 0){
 			$("#exp-boat-row").show();
-			document.getElementById("expenses-boatloan").innerHTML = APP.display.numWithCommas(player.boatLoan);
+			document.getElementById("expenses-boatloan").innerHTML = APP.display.numWithCommas(player.boatPayment);
         } else {
 			$("#exp-boat-row").hide();
 		}
@@ -1195,7 +1201,7 @@ APP.finance = {
         this.getIncome(APP.currentPlayerArrPos());
         this.getPayday(APP.currentPlayerArrPos());
 		
-		//if fast track show amount needed to win
+		// Show amount needed to win if player is in the fast track
 		if (player.fastTrack == true){
 			//hide total expenses and show winpay amount
 			$("#total-expenses-header").hide();
@@ -1211,83 +1217,21 @@ APP.finance = {
 			document.getElementById("bar-passive-income").innerHTML = APP.display.numWithCommas(player.passiveIncome);
 		}
 			
-        
+        // summary totals
         document.getElementById("summary-cash").innerHTML = APP.display.numWithCommas(Math.round(player.cash));
         document.getElementById("summary-total-income").innerHTML = APP.display.numWithCommas(player.totalIncome);
-        
-        
         document.getElementById("summary-payday").innerHTML = APP.display.numWithCommas(player.payday);
         
-		// Assets
+		// get asset table
         APP.display.renderStockTable();
         APP.display.renderAssetTable();
         
-		// Liabilities
-        var lTable = document.getElementById("liability-table");
+		// get liabilities table
+		APP.display.renderLiabilitiesTable();
 		
-        //upgrade to a render function
-        // v             v              v
-        var mortgage = player.jobTitle[9];
-        var carLoan = player.jobTitle[10];
-        var creditCard = player.jobTitle[11];
-        var retail = player.jobTitle[12];
-        var loans = player.loans;
-        var boatLoan = player.boatLoan;
-		
-        // if paid off remove rows, if no loans hide row
-        if (mortgage === 0) {
-            $("#lia-mortgage-row").hide();
-            $("#exp-mortgage-row").hide();
-        } else {
-            $("#lia-mortgage-row").show();
-            $("#exp-mortgage-row").show();
-        }
-        if (carLoan === 0) {
-            $("#lia-car-row").hide();
-            $("#exp-car-row").hide();
-        } else {
-            $("#lia-car-row").show();
-            $("#exp-car-row").show();
-        }
-        if (creditCard === 0) {
-            $("#lia-credit-row").hide();
-            $("#exp-credit-row").hide();
-        } else {
-            $("#lia-credit-row").show();
-            $("#exp-credit-row").show();
-        }
-        if (retail === 0) {
-            $("#lia-retail-row").hide();
-            $("#exp-retail-row").hide();
-        } else {
-            $("#lia-retail-row").show();
-            $("#exp-retail-row").show();
-        }
-        if (loans === 0) {
-            $("#lia-loans-row").hide();
-            $("#exp-loans-row").hide();
-        } else {
-            $("#lia-loans-row").show();
-            $("#exp-loans-row").show();
-        }
-        if (boatLoan === 0) {
-            $("#lia-boatloan-row").hide();
-            $("#exp-boat-row").hide();
-        } else {
-            $("#lia-boatloan-row").show();
-            $("#exp-boat-row").show();
-        }
-
-        document.getElementById("liability-mortgage").innerHTML = APP.display.numWithCommas("$" + mortgage);
-        document.getElementById("liability-car").innerHTML = APP.display.numWithCommas("$" + carLoan);
-        document.getElementById("liability-credit").innerHTML = APP.display.numWithCommas("$" + creditCard);
-        document.getElementById("liability-retail").innerHTML = APP.display.numWithCommas("$" + retail);
-        document.getElementById("liability-loans").innerHTML = APP.display.numWithCommas("$" + loans);
-        document.getElementById("liability-boatloan").innerHTML = APP.display.numWithCommas("$" + boatLoan);
-
+		// amount needed for fast track progress bar 
         this.progressBar();
-
-        //Phase 3
+       
         var expenseBarEle = document.getElementById("income-expense-bar");
 
         if (expenseBarEle.style.width == "100%") {
@@ -1313,6 +1257,7 @@ APP.finance = {
             }
         }
 		
+		//Check for Fast Track
 		if (player.fastTrack == true){
 			APP.display.renderFtAssets();
 			$("#income-table").hide();
@@ -1372,7 +1317,6 @@ APP.finance = {
 		
 		if(player.fastTrack == true){
 			width = 100 * (player.fastTrackIncome / player.winPay);
-			//--console.log("fasttrack: on, width: " + width + ", ft-income: " + player.fastTrackIncome);
 			
 			if (width > 100) {
 				expenseBarEle.style.width = "100%";
@@ -1606,12 +1550,32 @@ APP.finance = {
         var loan = parseInt(document.getElementById("loan-amt-input2").value, 10);
         var player = APP.players[APP.currentPlayerArrPos()];
         loan = isNaN(loan) ? 0 : loan;
-        player.loans -= loan;
-        player.cash -= loan;
-
+		
+		if (player.loanId == "liability-mortgage"){
+			player.cash -= loan;
+			player.jobTitle[9] -= loan;
+			
+			if (player.jobTitle[9] <= 0){
+				player.jobTitle[4] = 0;
+				player.jobTitle[9] = 0;
+			}
+		} else if (player.loanId == "liability-boat"){
+			player.cash -= loan;
+			player.boatLoan -= loan;
+			
+			if (player.boatLoan <= 0){
+				player.boatLoan = 0;
+				player.boatPayment = 0;
+			} 
+		} else {
+			player.loans -= loan;
+			player.cash -= loan;
+		}
+		
         $("#confirm-pay-btn").hide();
         APP.display.highlightLiabilities(2);
     },
+	mortgagePrepay: false,
     loanPayment: function (currentPlayer) {
         var player = APP.players[currentPlayer];
         var loanPayment = player.loans * 0.1;
@@ -1624,7 +1588,19 @@ APP.finance = {
 
         switch (loanId) {
             case "liability-mortgage":
-                if (player.cash < player.jobTitle[9]) {
+                if (this.mortgagePrepay == true) {										
+					$("#cancel-btn").hide();
+                    $("#pay-confirm-card").hide();
+                    $("#confirm-pay-btn").hide();
+
+                    $("#done-repay-btn").show();
+                    $("#repay-card").show();
+					
+					this.repayLoan();
+					APP.finishTurn();
+					
+					document.getElementById("loan-amt-input2").value = 1000;
+				} else if (player.cash < player.jobTitle[9]) {
                     $("#repay-card").hide();
                     $("#pay-confirm-card").hide();
                     $("#confirm-pay-btn").hide();
@@ -1703,26 +1679,6 @@ APP.finance = {
                     $("#confirm-pay-btn").hide();
                 }
                 break;
-            case "liability-boatloan":
-                if (player.cash < 17000) {
-                    $("#repay-card").hide();
-                    $("#pay-confirm-card").hide();
-                    $("#confirm-pay-btn").hide();
-
-                    $("#cannot-afford-loan-card").show();
-                } else {
-                    player.cash -= 17000;
-                    player.boatLoan = 0;
-                    player.boatPayment = 0;
-
-                    $("#pay-confirm-card").hide();
-                    $("#confirm-pay-btn").hide();
-                    $("#cancel-btn").hide();
-
-                    $("#done-repay-btn").show();
-                    $("#repay-card").show();
-                }
-                break;
             case "liability-loans":
                 var loanAmt = document.getElementById("loan-amt-input2").value;
                 if (player.cash < loanAmt) {
@@ -1736,6 +1692,19 @@ APP.finance = {
                     APP.finishTurn();
                 }
                 document.getElementById("loan-amt-input2").value = 1000;
+                break;
+			case "liability-boat":
+				$("#cancel-btn").hide();
+				$("#pay-confirm-card").hide();
+				$("#confirm-pay-btn").hide();
+
+				$("#done-repay-btn").show();
+				$("#repay-card").show();
+				
+				this.repayLoan();
+				APP.finishTurn();
+                
+				document.getElementById("loan-amt-input2").value = 1000;
                 break;
             default:
                 APP.finishTurn();
@@ -4115,7 +4084,7 @@ APP.cards = {
             offer: 5000
         }
     },
-    doodad: {
+	doodad: {
         doodad1: {
             name: "Water Heater Leaks",
             cost: 450,
@@ -4126,7 +4095,7 @@ APP.cards = {
             cost: 80,
             text: "Spend $80"
         },
-        doodad3: {
+		doodad3: {
           name: "New Boat!",
           cost: 1000,
           text: "Pay $1,000 down and $17,000 on time.",
@@ -4150,24 +4119,24 @@ APP.cards = {
           loan: 4000,
           payment: 120
         },*/
-        doodad7: {
+		doodad7: {
             name: "Your Anniversary!",
             cost: 200,
             text: "Spend $200"
         },
-        /*doodad8: {
+        doodad8: {
           name: "Son's College Tuition",
           cost: 1500,
-          text: "Pay $1500"
-          //if player has child
-        },*/
-        /*doodad9: {
+          text: "Pay $1500",
+          child: true
+        },
+        doodad9: {
           name: "Buy Toys for Your Kids",
           cost: 50,
-          text: "Spend $50"
-          //per child
-        },*/
-        doodad10: {
+          text: "Spend $50",
+          child: true
+        },
+		doodad10: {
             name: "Buy New Fishing Rod",
             cost: 100,
             text: "Pay $100"
@@ -4267,32 +4236,32 @@ APP.cards = {
         doodad29: {
             name: "Buy Painting",
             cost: 200,
-            text: "Costs you $200 \n" + "\n Couldn't Resist New Painting By Local Artist"
+            text: "Costs you $200. \n" + "\n Couldn't resist new painting by local artist"
         },
         doodad30: {
             name: "Your Child Needs Braces",
             cost: 2000,
-            text: "Pay $2000"
-            //if player has child
+            text: "Pay $2000",
+          child: true
         },
-        /*doodad31: {
-          name: "Buy New Music CDs",
+        doodad31: {
+          name: "Amusement Park",
           cost: 100,
-          text: "Take kids to the Amusement Park and spend $100"
-          //if player has child
-        },*/
-        doodad32: {
+          text: "Take kids to the Amusement Park and spend $100",
+          child: true
+        },
+		doodad32: {
             name: "Buy Cappuccino Machine",
             cost: 150,
             text: "Pay $150"
         },
-        /*doodad33: {
+        doodad33: {
           name: "Your Daughter's Wedding",
           cost: 2000,
-          text: "Costs you $2000"
-          //if player has child
-        },*/
-        doodad34: {
+          text: "Costs you $2000",
+          child: true          
+        },
+		doodad34: {
             name: "Buy New Tennis Racket",
             cost: 200,
             text: "You spend $200"
@@ -4305,9 +4274,7 @@ APP.cards = {
         doodad36: {
             name: "Rumor of Layoff",
             cost: 220,
-            text: "Pay $220 for tuition & books \n" +
-                "\n" +
-                "Go back to school for added skills."
+            text: "Go back to school for added skills." + "\n" + "Pay $220 for tuition & books."
         },
         doodad37: {
             name: "Go to the Air Show",
@@ -4333,7 +4300,23 @@ APP.cards = {
             name: "Car Needs Tires",
             cost: 300,
             text: "Pay $300"
-        }
+        },
+		doodad42: {
+            name: "Family Vacation!",
+            cost: 2000,
+            text: "Pay $2,000 to take the kids to a world famous theme park and resort.",
+			child: true
+        },
+		doodad43: {
+            name: "Smartphone Broke!",
+            cost: 250,
+            text: "Pay $250 for replacement"
+        },
+		doodad44: {
+			name: "Movie Streaming Service",
+            cost: 15,
+            text: "Pay $15"
+		}
     },
     allDeals: {
         mutual01: {
@@ -5880,6 +5863,32 @@ APP.display = {
 					
                     anchor.onclick = function () {
                         player.loanId = id;
+						
+						var loanName;
+						var loanAmt;
+						
+							switch (id){
+								case "liability-mortgage":
+									loanName = "Mortgage";
+									loanAmt = "$" + APP.display.numWithCommas(player.jobTitle[9]);
+									break;
+								case "liability-car":
+									loanName = "Car Loan";
+									loanAmt = "$" + APP.display.numWithCommas(player.jobTitle[10]);
+									break;
+								case "liability-credit":
+									loanName = "Credit Card";
+									loanAmt = "$" + APP.display.numWithCommas(player.jobTitle[11]);
+									break;
+								case "liability-retail":
+									loanName = "Retail Loan";
+									loanAmt = "$" + APP.display.numWithCommas(player.jobTitle[12]);
+									break;
+								case "liability-boat":
+									loanName = "Car Loan";
+									loanAmt = "$" + APP.display.numWithCommas(player.boatLoan);
+									break;
+							}
 
                         if (id === "liability-loans") {
                             $("#repay-loan-card").show();
@@ -5894,13 +5903,49 @@ APP.display = {
 							for (var i = 0; i < player.cash - 1000; i += 1000) {
 								document.getElementById("loan-amt-input2").value = player.loans;
 							}
-                        } else {
+                        } else if (id == "liability-mortgage"){
+							if (player.mortgagePrepay == true) {
+								APP.finance.mortgagePrepay = true;
+								
+								$("#repay-loan-card").show();
+								$("#cancel-btn").show();
+
+								$("#done-repay-btn").hide();
+								$("#pay-confirm-card").hide();
+								$("#confirm-pay-btn").hide();
+								$("#repay-card").hide();
+								
+								$("#repay-loan-name").text(loanName);
+								$("#repay-loan-amt").text(loanAmt);
+							}
+							
+							for (var i = 0; i < player.cash - 1000; i += 1000) {
+								document.getElementById("loan-amt-input2").value = 1000;
+							}
+							
+						} else if (id == "liability-boat"){
+							$("#repay-loan-card").show();
+							$("#cancel-btn").show();
+
+							$("#done-repay-btn").hide();
+							$("#pay-confirm-card").hide();
+							$("#confirm-pay-btn").hide();
+							$("#repay-card").hide();
+							
+							$("#repay-loan-name").text(loanName);
+							$("#repay-loan-amt").text(loanAmt);
+						
+						
+							for (var i = 0; i < player.cash - 1000; i += 1000) {
+								document.getElementById("loan-amt-input2").value = 1000;
+							}
+						} else {
                             $("#confirm-pay-btn").show();
                             $("#cancel-btn").show();
                             $("#pay-confirm-card").show();
 							// show loan info in card
-							$("#repay-loan-name").text(id);
-							$("#repay-loan-amt").text();
+							$("#repay-loan-name").text(loanName);
+							$("#repay-loan-amt").text(loanAmt);
 
                             $("#done-repay-btn").hide();
 							$("#repay-loan-card").hide();
@@ -5928,6 +5973,70 @@ APP.display = {
             }
         }
     },
+	renderLiabilitiesTable: function(){
+		// get current player
+        var player = APP.players[APP.currentPlayerArrPos()];
+        var lTable = document.getElementById("liability-table");
+		
+        var mortgage = player.jobTitle[9];
+        var carLoan = player.jobTitle[10];
+        var creditCard = player.jobTitle[11];
+        var retail = player.jobTitle[12];
+        var loans = player.loans;
+        var boatLoan = player.boatLoan;
+		
+        // if paid off remove rows, if no loans hide row
+        if (mortgage === 0) {
+            $("#lia-mortgage-row").hide();
+            $("#exp-mortgage-row").hide();
+        } else {
+            $("#lia-mortgage-row").show();
+            $("#exp-mortgage-row").show();
+        }
+        if (carLoan === 0) {
+            $("#lia-car-row").hide();
+            $("#exp-car-row").hide();
+        } else {
+            $("#lia-car-row").show();
+            $("#exp-car-row").show();
+        }
+        if (creditCard === 0) {
+            $("#lia-credit-row").hide();
+            $("#exp-credit-row").hide();
+        } else {
+            $("#lia-credit-row").show();
+            $("#exp-credit-row").show();
+        }
+        if (retail === 0) {
+            $("#lia-retail-row").hide();
+            $("#exp-retail-row").hide();
+        } else {
+            $("#lia-retail-row").show();
+            $("#exp-retail-row").show();
+        }
+        if (loans === 0) {
+            $("#lia-loans-row").hide();
+            $("#exp-loans-row").hide();
+        } else {
+            $("#lia-loans-row").show();
+            $("#exp-loans-row").show();
+        }
+        if (boatLoan === 0) {
+            $("#lia-boatloan-row").hide();
+            $("#exp-boat-row").hide();
+        } else {
+            $("#lia-boatloan-row").show();
+            $("#exp-boat-row").show();
+        }
+		
+		// add'$' signs and commas to loan amounts
+        document.getElementById("liability-mortgage").innerHTML = APP.display.numWithCommas("$" + mortgage);
+        document.getElementById("liability-car").innerHTML = APP.display.numWithCommas("$" + carLoan);
+        document.getElementById("liability-credit").innerHTML = APP.display.numWithCommas("$" + creditCard);
+        document.getElementById("liability-retail").innerHTML = APP.display.numWithCommas("$" + retail);
+        document.getElementById("liability-loans").innerHTML = APP.display.numWithCommas("$" + loans);
+        document.getElementById("liability-boat").innerHTML = APP.display.numWithCommas("$" + boatLoan);
+	},
     renderAssetTable: function () {
         var player = APP.players[APP.currentPlayerArrPos()];
         var realEstateAssetArr = player.realEstateAssets;
@@ -5947,6 +6056,7 @@ APP.display = {
 			}
 
         for (var i = 0; i < realEstateAssetArr.length; i++) {
+			//insert row for each asset the current player has
             var tag = realEstateAssetArr[i].tag;
             var cost = realEstateAssetArr[i].cost;
             var cashFlow = realEstateAssetArr[i].cashFlow;
@@ -5977,9 +6087,9 @@ APP.display = {
 
             $(incomeRealEstateTableId).append(incomeRow);
             $(assetTableId).append(assetRow);
-						
+			
+			// row highlight for when the asset is available for deals
             if (realEstateAssetArr[i].highlight === "on") {
-				
                 var rowId = "#asset" + parseInt(i, 10) + "-row";
 				
 				// highlight row if offer matches asset type
@@ -6467,13 +6577,11 @@ var FASTTRACK = {
         var token = APP.display.tokens[player];
 
         //remove old piece
-        var oldTokenElement = document.getElementById(
-            "tokenSection2-" + parseInt(pObj.position, 10)
-        );
         var playerTokenEle = document.getElementById(
             "player" + parseInt(APP.currentPlayer, 10) + "-piece"
         );
         playerTokenEle.remove();
+		
         //update board position
         this.updatePosition(dice);
         // Add token to new section
@@ -7344,6 +7452,7 @@ APP.scenario = function (
 	this.fastTrackAssets = [];
 	
 	this.loanApproval = true;
+	this.mortgagePrepay = false;
 };
 
 APP.scenarioChoices = [
@@ -7508,6 +7617,7 @@ var OPTIONS = {
     playerLoans: document.getElementById("oo-player-loans"),
     chooseJob: document.getElementById("oo-choose-job"),
     oneDealDeck: document.getElementById("oo-one-deal-deck"),	
+	mortgagePrepay: document.getElementById("oo-mortgage-prepay"),
     checkState: function () {
         if (this.smallRE.checked == true && this.bigRE.checked == true && this.stocks.checked == true && this.mutuals.checked == true && this.cds.checked == true && this.coins.checked == true && this.limitedPartnership.checked == true && this.companies.checked == true && this.startingSavings.value == 1 && this.kids.checked == false && this.paycheckDoodads.checked == false /*&& this.playerLoans.checked == false && this.chooseJob.checked == false && this.oneDealDeck.checked == false*/) {
             $("#default-game-indicator").css("color", "#FDD835");
@@ -7533,7 +7643,7 @@ var OPTIONS = {
         //this.chooseJob.checked = false;
         this.oneDealDeck.checked = false;
 		this.paycheckDoodads.checked = false;
-		
+		this.mortgagePrepay.checked = false;
         OPTIONS.checkState();
     },
 	setup: function(){
@@ -7647,6 +7757,7 @@ var OPTIONS = {
 			delete APP.cards.offer.offer42;
 		}
 		
+		//starting savings
 		for (var j = 0; j < APP.players.length; j++){
 			var player = APP.players[j];
 			
@@ -7669,6 +7780,7 @@ var OPTIONS = {
 			}
 		}
 		
+		// 3+ kids option
 		for (var k = 1; k <= APP.pCount; k++){
 			var playerArrPos = k - 1;
 			var player = APP.players[playerArrPos];
@@ -7680,6 +7792,11 @@ var OPTIONS = {
 				
 				APP.finance.getInsurance(playerArrPos);
 			}
+		}
+		
+		// mortgage prepay
+		if (this.mortgagePrepay.checked == true) {
+			player.mortgagePrepay = true;
 		}
 	},
 	fastTrackStart:function(){

@@ -251,7 +251,11 @@
               <input id="ao-mutuals" type="checkbox" checked>
               <span class="checkmark"></span>
               </label>
-              <label class="options-checkbox">CD's
+			  <label class="options-checkbox">Preferred Stocks
+              <input id="ao-preferred-stocks" type="checkbox" checked>
+              <span class="checkmark"></span>
+              </label>
+              <label class="options-checkbox">Certificates of Deposit
               <input id="ao-cds" type="checkbox" checked>
               <span class="checkmark"></span>
               </label>
@@ -270,7 +274,7 @@
             </div>
             <div id="other-options">
               <h1>Other</h1>
-              <label class="options-checkbox">Have +3 kids
+              <label class="options-checkbox">Have +3 Kids
               <input id="oo-kids"  type="checkbox">
               <span class="checkmark"></span>
               </label>
@@ -278,7 +282,7 @@
               <input id="oo-paycheck-doodads" type="checkbox">
               <span class="checkmark"></span>
               </label>
-			  <label class="options-checkbox">Mortgage Prepay
+			  <label class="options-checkbox">Early Mortgage Payoff
               <input id="oo-mortgage-prepay" type="checkbox">
               <span class="checkmark"></span>
               </label>
@@ -288,6 +292,10 @@
               </label>
               <label class="options-checkbox">One Deal Deck 
               <input id="oo-one-deal-deck" type="checkbox">
+              <span class="checkmark  off-options"></span>
+              </label>
+			  <label class="options-checkbox">_
+              <input id="oo-2" type="checkbox">
               <span class="checkmark  off-options"></span>
               </label>
 			  <label class="options-checkbox">_
@@ -487,11 +495,6 @@
 							</tr>
 						  </table>
 						</div>
-						<div id="deal-cd-card">
-						  <h2 class="card-title"><span id="deal-cd-name"></span></h2>
-						  <p id="deal-cd-description"></p>
-						  <p id="deal-cd-rule"></p>
-						</div>
 						<div id="deal-company-card">
 						  <h2 class="card-title"><span id="deal-company-name"></span></h2>
 						  <p id="deal-company-description"></p>
@@ -626,19 +629,19 @@
 						</div>
 						<div id="cannot-afford-card">
 						  <h2 class="card-title">
-							<!--PAY OFF LOAN-->
+							Insufficient Funds
 						  </h2>
-						  <p>You do not have enough funds.</p>
+						  <p>Not enough funds.</p>
 						</div>
 						<div id="cannot-afford-loan-card">
 						  <h2 class="card-title">TAKE OUT A LOAN</h2>
 						  <p>Not enough funds.</p>
-						  <p>Take out a loan of $<span id="loan-offer"></span> with a monthly payment of $<span id="loan-offer-monthly-payment"></span></p>
+						  <p id="loan-offered-text">Take out a loan of $<span id="loan-offer"></span> with a monthly payment of $<span id="loan-offer-monthly-payment"></span></p>
 						</div>
 						<div id="pay-confirm-card">
 						  <h2 class="card-title">PAY OFF LOAN</h2>
-						  <p>Pay off <span id="repay-loan-name"></span> for <span id="repay-loan-amt"></span></p>
-						  <p>Are you sure?</p>
+						  <p>Pay off <span id="repay-loan-name"></span> for <span id="repay-loan-amt">?</span></p>
+						  <p id="pay-loan-confirmation">Are you sure?</p>
 						</div>
 						
 						<div id="fast-track-intro-card">
@@ -750,7 +753,7 @@
 							<button class="card-btn" id="pd-pay-button" onclick="APP.finance.payPropertyDamage();">PAY</button>
 							<button class="card-btn" id="charity-donate-btn" onclick="APP.finance.donate();">DONATE</button>
 							<button class="card-btn" id="show-stock-form-btn" onclick="APP.display.showBuyStockForm();">BUY</button>
-							<button class="card-btn" id="buy-stock-btn" onclick="APP.finance.buyStock();" style="color: green;">BUY</button>
+							<button class="card-btn" id="buy-stock-btn" onclick="APP.finance.buyStock();">BUY</button>
 							<button class="card-btn" id="show-stock-sell-form-btn" onclick="APP.display.showSellStockForm();">SELL</button>
 							<button class="card-btn" id="sell-stock-btn" onclick="APP.finance.sellStock();" style="color: red">SELL</button>
 							<button class="card-btn" id="buy-real-estate-btn" onclick="APP.finance.buyRealEstate();">BUY</button>

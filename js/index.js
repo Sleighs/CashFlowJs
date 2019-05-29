@@ -6131,11 +6131,18 @@ var FASTTRACK = {
 			
 			/*	
 			
-			//the dream is a gamble.
-			//get random chance for dream success each time
-			//show odds of acquiring dream
-			//instructions 
+			//the dream is a gamble
+				//has new odds of success each land
+				//has new cost each time
 				
+			
+			//show instructions 
+			//roll btn , maybe warning message to player saying this ends the game
+			
+			//after roll
+				//show success or failure
+					//success - win game
+					//failure - get random event with outcome
 				
 			*/
 			

@@ -678,7 +678,8 @@ var APP = APP || {
     },
     smallDeal: function() {
         var player = APP.players[APP.currentPlayerArrPos()];
-        //get random deal
+        
+		//get random deal
         var obj = APP.cards.smallDeal;
         var keys = Object.keys(obj);
         var randDeal = function(object) {
@@ -728,7 +729,29 @@ var APP = APP || {
                 }
 
                 break;
-            case "Preferred Stock":
+            
+			case "Certificate of Deposit":
+				$("#deal-card-stock").show();
+                $("#show-stock-form-btn").show();
+                $("#done-btn").show();
+                $("#stock-cost-table").show();
+                $("#deal-stock-rule").hide();
+                $("#stock-table-trading-range-row").hide();
+
+                document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
+                document.getElementById("deal-stock-text").innerHTML = currentDeal.description;
+                document.getElementById("deal-stock-rule").innerHTML = currentDeal.rule;
+				
+				document.getElementById("deal-stock-cost").innerHTML = currentDeal.price;
+                document.getElementById("deal-stock-cash-flow").innerHTML = "Dividend: $" + currentDeal.dividend;
+                document.getElementById("deal-stock-trading-range").innerHTML = currentDeal.range;
+                document.getElementById(
+                    "deal-stock-shares-owned"
+                ).innerHTML = APP.display.numWithCommas(APP.ownedShares());
+                document.getElementById("share-cost").innerHTML = currentDeal.price;
+                document.getElementById("share-cost-sell").innerHTML = currentDeal.price;
+				break;
+			case "Preferred Stock":
                 $("#deal-card-stock").show();
                 $("#show-stock-form-btn").show();
                 $("#done-btn").show();
@@ -738,13 +761,10 @@ var APP = APP || {
 
                 document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
                 document.getElementById("deal-stock-name").innerHTML = currentDeal.name;
-                document.getElementById("deal-stock-text").innerHTML =
-                    currentDeal.description;
-                document.getElementById("deal-stock-cost").innerHTML =
-                    currentDeal.price;
+                document.getElementById("deal-stock-text").innerHTML = currentDeal.description;
+                document.getElementById("deal-stock-cost").innerHTML = currentDeal.price;
                 document.getElementById("deal-stock-cash-flow").innerHTML = "Dividend: $" + currentDeal.dividend;
-                document.getElementById("deal-stock-trading-range").innerHTML =
-                    currentDeal.range;
+                document.getElementById("deal-stock-trading-range").innerHTML = currentDeal.range;
                 document.getElementById(
                     "deal-stock-shares-owned"
                 ).innerHTML = APP.display.numWithCommas(APP.ownedShares());
@@ -809,7 +829,10 @@ var APP = APP || {
                             obj.type === "Real Estate"
                         ) {
                             document.getElementById("deal-re-rule").innerHTML = currentDeal.rule;
-                            $("#pd-pay-button").show();
+                            
+							$("#pd-pay-button").show();
+							
+							$(".card-title").css("color", "#D32F2F");
                         }
                     }
                 }
@@ -861,16 +884,6 @@ var APP = APP || {
                     currentDeal.cashFlow;
 
                 $("#buy-coin-btn").show();
-                $("#pass-btn").show();
-                break;
-            case "Certificate of Deposit":
-                $("#deal-cd-card").show();
-
-                document.getElementById("deal-cd-name").innerHTML = currentDeal.name;
-                document.getElementById("deal-cd-description").innerHTML =
-                    currentDeal.description;
-                document.getElementById("deal-cd-rule").innerHTML = currentDeal.rule;
-
                 $("#pass-btn").show();
                 break;
             case "Company":
@@ -1353,7 +1366,7 @@ APP.finance = {
 
         // get income from stocks, assets and businesses
         for (var i = 0; i < stockArr.length; i++) {
-            if (stockArr[i].type == "Preferred Stock") {
+            if (stockArr[i].type == "Preferred Stock" || stockArr[i].type == "Certificate of Deposit") {
                 var stockReturn = stockArr[i].shares * stockArr[i].dividend;
 
                 dividends += stockReturn;
@@ -1501,20 +1514,25 @@ APP.finance = {
     },
     increaseLoan: function() {
         var player = APP.players[APP.currentPlayerArrPos()];
-        var value = parseInt(document.getElementById("loan-amt-input").value, 10);
+        var value1 = parseInt(document.getElementById("loan-amt-input").value, 10);
         var value2 = parseInt(document.getElementById("loan-amt-input2").value, 10);
-
-        value = isNaN(value) ? 0 : value;
-        value += 1000;
-        document.getElementById("loan-amt-input").value = value;
-
-        value2 = isNaN(value2) ? 0 : value2;
-        if (value2 + 1000 > player.cash) {
-            value2 += 0;
-        } else {
-            value2 += 1000;
-        }
-        document.getElementById("loan-amt-input2").value = value2;
+		var loan = parseInt(document.getElementById("loan-amt-input2").value, 10);
+		
+        value1 = isNaN(value1) ? 0 : value1;
+        value1 += 1000;
+        document.getElementById("loan-amt-input").value = value1;
+		
+		if (loan < player.loans){
+			
+			value2 = isNaN(value2) ? 0 : value2;
+			
+			if (value2 + 1000 > player.cash) {				
+				value2 += 0;
+			} else {
+				value2 += 1000;
+			}
+			document.getElementById("loan-amt-input2").value = value2;	
+		}
     },
     decreaseLoan: function() {
         var value = parseInt(document.getElementById("loan-amt-input").value, 10);
@@ -1532,7 +1550,7 @@ APP.finance = {
         if (value2 > 1000) {
             value2 -= 1000;
         } else {
-            value2 = 1000;
+            value2 = 0;
         }
         document.getElementById("loan-amt-input2").value = value2;
     },
@@ -1550,7 +1568,8 @@ APP.finance = {
         var loan = parseInt(document.getElementById("loan-amt-input2").value, 10);
         var player = APP.players[APP.currentPlayerArrPos()];
         loan = isNaN(loan) ? 0 : loan;
-
+		
+		//if player can afford load
         if (player.loanId == "liability-mortgage") {
             player.cash -= loan;
             player.jobTitle[9] -= loan;
@@ -1585,7 +1604,7 @@ APP.finance = {
     pay: function() {
         var player = APP.players[APP.currentPlayerArrPos()];
         var loanId = player.loanId;
-
+		
         switch (loanId) {
             case "liability-mortgage":
                 if (this.mortgagePrepay == true) {
@@ -1601,10 +1620,8 @@ APP.finance = {
 
                     document.getElementById("loan-amt-input2").value = 1000;
                 } else if (player.cash < player.jobTitle[9]) {
-                    $("#repay-card").hide();
-                    $("#pay-confirm-card").hide();
                     $("#confirm-pay-btn").hide();
-                    $("#cannot-afford-loan-card").show();
+					$("#pay-loan-confirmation").html("Not enough funds");
                 } else {
                     player.cash -= player.jobTitle[9];
                     player.jobTitle[4] = 0;
@@ -1620,11 +1637,8 @@ APP.finance = {
                 break;
             case "liability-car":
                 if (player.cash < player.jobTitle[10]) {
-                    $("#repay-card").hide();
-                    $("#pay-confirm-card").hide();
                     $("#confirm-pay-btn").hide();
-
-                    $("#cannot-afford-loan-card").show();
+					$("#pay-loan-confirmation").html("Not enough funds");
                 } else {
                     player.cash -= player.jobTitle[10];
                     player.jobTitle[5] = 0;
@@ -1640,11 +1654,8 @@ APP.finance = {
                 break;
             case "liability-credit":
                 if (player.cash < player.jobTitle[11]) {
-                    $("#repay-card").hide();
-                    $("#pay-confirm-card").hide();
                     $("#confirm-pay-btn").hide();
-
-                    $("#cannot-afford-loan-card").show();
+					$("#pay-loan-confirmation").html("Not enough funds");
                 } else {
                     player.cash -= player.jobTitle[11];
                     player.jobTitle[6] = 0;
@@ -1660,11 +1671,8 @@ APP.finance = {
                 break;
             case "liability-retail":
                 if (player.cash < player.jobTitle[12]) {
-                    $("#repay-card").hide();
-                    $("#pay-confirm-card").hide();
                     $("#confirm-pay-btn").hide();
-
-                    $("#cannot-afford-loan-card").show();
+					$("#pay-loan-confirmation").html("Not enough funds");
                 } else {
                     player.cash -= 1000;
                     player.jobTitle[7] = 0;
@@ -1682,12 +1690,17 @@ APP.finance = {
             case "liability-loans":
                 var loanAmt = document.getElementById("loan-amt-input2").value;
                 if (player.cash < loanAmt) {
-                    $("#repay-card").hide();
+                    $("#confirm-pay-btn").hide();
+					$("#pay-loan-confirmation").html("Not enough funds");
+                } else if (loanAmt == 0) {
+					$("#repay-card").hide();
                     $("#pay-confirm-card").hide();
                     $("#confirm-pay-btn").hide();
-
-                    $("#cannot-afford-loan-card").show();
-                } else {
+					
+					$("#done-repay-btn").show();
+					$("#repay-card").show();
+				
+				} else {
                     this.repayLoan();
                     APP.finishTurn();
                 }
@@ -2000,6 +2013,7 @@ APP.finance = {
 
             $("#cannot-afford-loan-card").show();
             $("#borrow-offer-loan-btn").show();
+			$("#loan-offered-text").show();
 
             //remove card title color
             if (player.position === 2 % 0 || player.position === 0) {
@@ -3118,15 +3132,15 @@ APP.cards = {
             cashFlow: 0,
             amount: 10
         },
-        /*cd1: {
+        cd1: {
           type: "Certificate of Deposit",
           name: "Certificate of Deposit",
           description: "A leading bank offers this special Certificate of Deposit to its customer. Guaranteed interest and redeemable after any holding period.",
           rule: "Everyone may buy or sell as many as they wish at this time.",
           symbol: "CD",
-          interest: 20,
-          price: 5000,
-          tradingRange: "$5,000 to $5,000"
+          dividend: 12,
+          price: 500,
+          range: "$5,000 to $5,000"
         },
         cd2: {
           type: "Certificate of Deposit",
@@ -3134,10 +3148,10 @@ APP.cards = {
           description: "A leading bank offers this special Certificate of Deposit to its customer. Guaranteed interest and redeemable after any holding period.",
           rule: "Everyone may buy or sell as many as they wish at this time.",
           symbol: "CD",
-          interest: 20,
-          price: 4000,
-          tradingRange: "$5,000 to $5,000"
-        },*/
+          dividend: 60,
+          price: 2000,
+          range: "$5,000 to $5,000"
+        },
         companyS1: {
             type: "Company",
             name: "Start a Company Part Time",
@@ -4087,7 +4101,7 @@ APP.cards = {
         }
     },
     doodad: {
-        doodad1: {
+		doodad1: {
             name: "Water Heater Leaks",
             cost: 450,
             text: "Pay $450 for a new one"
@@ -4114,13 +4128,11 @@ APP.cards = {
             cost: 100,
             text: "Pay $100 fine"
         },
-        /*doodad6: {
+		doodad6: {
           name: "Buy Big Screen TV",
-          cost: 4000,
-          text: "Pay $4000",
-          loan: 4000,
-          payment: 120
-        },*/
+          cost: 600,
+          text: "Pay $600"
+        },
         doodad7: {
             name: "Your Anniversary!",
             cost: 200,
@@ -4319,7 +4331,7 @@ APP.cards = {
             cost: 15,
             text: "Pay $15"
         }
-    }	
+	}	
 };
 
 APP.cardText = {
@@ -4485,7 +4497,8 @@ APP.display = {
     },
     showOffer: function() {
         var player = APP.players[APP.currentPlayerArrPos()];
-        if (player.debt == true) {
+        
+		if (player.debt == true) {
             $("br-settlement-text").hide();
             $("#show-offer-btn").hide();
             $("#bankrupt-card").show();
@@ -4698,15 +4711,31 @@ APP.display = {
                         if (id === "liability-loans") {
                             $("#repay-loan-card").show();
                             $("#cancel-btn").show();
+							$("#repay-loan-input").show();
 
                             $("#done-repay-btn").hide();
                             $("#pay-confirm-card").hide();
                             $("#confirm-pay-btn").hide();
                             $("#repay-card").hide();
+							
 
+							if (player.cash < 1000) {
+								document.getElementById("loan-amt-input2").value = player.loans = 0;
+								$("#repay-loan-input").hide();
+							} else {
+								
                             // form val is set to the highest amount the player can pay
-                            for (var i = 0; i < player.cash - 1000; i += 1000) {
-                                document.getElementById("loan-amt-input2").value = player.loans;
+								var maxVal = function(cash){
+									if (cash < player.loans){
+										return cash;
+									} else {
+										return player.loans;
+									}
+								};
+								
+								for (var i = 0; i < maxVal(player.cash); i += 1000) {
+									document.getElementById("loan-amt-input2").value = i;
+								}
                             }
                         } else if (id == "liability-mortgage") {
                             if (player.mortgagePrepay == true) {
@@ -4748,6 +4777,7 @@ APP.display = {
                             $("#confirm-pay-btn").show();
                             $("#cancel-btn").show();
                             $("#pay-confirm-card").show();
+							$("#pay-loan-confirmation").html("Are you sure?");
                             // show loan info in card
                             $("#repay-loan-name").text(loanName);
                             $("#repay-loan-amt").text(loanAmt);
@@ -5064,7 +5094,7 @@ APP.display = {
                 "</td></tr>";
 
             $(incomeInterestTableId).append(incomeRow);
-            if (symbol == ("2BIG" || "1GLO")) {
+            if (symbol == "2BIG" || symbol == "1GLO" || symbol == "CD") {
                 $(tableId).append(stockRow2);
             } else {
                 $(tableId).append(stockRow);
@@ -5417,7 +5447,11 @@ var FASTTRACK = {
     },
     updatePosition: function(dice) {
         var player = APP.players[APP.currentPlayerArrPos()];
-
+		
+		/*
+		player.position = 24; //-- for testing
+		*/
+		
         if (player.position + dice <= 40) {
             player.position += dice;
         } else {
@@ -5425,6 +5459,7 @@ var FASTTRACK = {
             pos -= 40;
             player.position = pos;
         }
+		
     },
     square: {
         doodad1: {
@@ -6061,14 +6096,51 @@ var FASTTRACK = {
     },
     dream: function() {
         var roll = APP.rollDie();
-
-        if (roll == 2 % 0) {
+		var player = APP.players[APP.currentPlayerArrPos()];
+		            
+		$("#ft-dream-roll-btn").hide();
+					
+        //if (roll == 2 % 0) {
+		if (roll >= 0) {
             $("#ft-opp-buy-btn").show();
-            //console.log("You rolled a " + roll + ".");
+			
+            console.log("You rolled a " + roll + ".");
+			
+			$("#ft-card-text").text("dream successful");
 
         } else {
-            $("#ft-dream-roll-btn").hide();
-            //console.log("You rolled a " + roll + ".");
+			$("#ft-card-text").text("dream unsuccessful");
+			
+			//check career type
+			console.log(player.jobTitle[0]);
+			
+			var events = {
+				everyCareer: [
+					"daughter's wedding",
+					"company merger",
+					"lose finances"
+				]		
+				
+			};
+			
+			var outcomes = {
+				1: "lose asset",
+				2: "gain asset",
+				3: "roll again"
+			};
+			
+			/*	
+			
+			//the dream is a gamble.
+			//get random chance for dream success each time
+			//show odds of acquiring dream
+			//instructions 
+				
+				
+			*/
+			
+			
+            console.log("You rolled a " + roll + ".");
         }
         //console.log(roll)
     },
@@ -6273,7 +6345,7 @@ APP.scenarioChoices = [
     ["Secretary", 2500, 710, 460, 400, 80, 60, 50, 570, 38000, 4000, 2000, 1000],
     ["Teacher (K-12)", 3300, 400, 630, 500, 100, 90, 50, 760, 50000, 5000, 3000, 1000],
     ["Truck Driver", 2500, 750, 460, 400, 80, 60, 50, 570, 38000, 4000, 2000, 1000],
-    ["CEO", 24000, 1600000, 7200, 1900, 800, 250, 50, 4200, 750000, 30000, 11000, 1000]
+    ["CEO", 24000, 60000, 7200, 1900, 800, 250, 50, 4200, 750000, 30000, 11000, 1000]
 ];
 
 APP.board = {
@@ -6411,6 +6483,7 @@ var OPTIONS = {
     smallRE: document.getElementById("ao-small-real-estate"),
     bigRE: document.getElementById("ao-big-real-estate"),
     stocks: document.getElementById("ao-stocks"),
+	preferredStocks: document.getElementById("ao-preferred-stocks"),
     mutuals: document.getElementById("ao-mutuals"),
     cds: document.getElementById("ao-cds"),
     coins: document.getElementById("ao-coins"),
@@ -6424,7 +6497,7 @@ var OPTIONS = {
     oneDealDeck: document.getElementById("oo-one-deal-deck"),
     mortgagePrepay: document.getElementById("oo-mortgage-prepay"),
     checkState: function() {
-        if (this.smallRE.checked == true && this.bigRE.checked == true && this.stocks.checked == true && this.mutuals.checked == true && this.cds.checked == true && this.coins.checked == true && this.limitedPartnership.checked == true && this.companies.checked == true && this.startingSavings.value == 1 && this.kids.checked == false && this.paycheckDoodads.checked == false /*&& this.playerLoans.checked == false && this.chooseJob.checked == false && this.oneDealDeck.checked == false*/ ) {
+        if (this.smallRE.checked == true && this.bigRE.checked == true && this.stocks.checked == true && this.mutuals.checked == true && this.preferredStocks.checked == true && this.cds.checked == true && this.coins.checked == true && this.limitedPartnership.checked == true && this.companies.checked == true && this.startingSavings.value == 1 && this.kids.checked == false && this.paycheckDoodads.checked == false /*&& this.playerLoans.checked == false && this.chooseJob.checked == false && this.oneDealDeck.checked == false*/ ) {
             $("#default-game-indicator").css("color", "#FDD835");
             $("#custom-game-indicator").css("color", "#4E342E");
         } else {
@@ -6437,6 +6510,7 @@ var OPTIONS = {
         this.bigRE.checked = true;
         this.stocks.checked = true;
         this.mutuals.checked = true;
+		this.preferredStocks.checked = true;
         this.cds.checked = true;
         this.coins.checked = true;
         this.limitedPartnership.checked = true;
@@ -6519,8 +6593,6 @@ var OPTIONS = {
             delete APP.cards.smallDeal.stock206;
             delete APP.cards.smallDeal.stock207;
             delete APP.cards.smallDeal.stock208;
-            delete APP.cards.smallDeal.preferredStock1;
-            delete APP.cards.smallDeal.preferredStock2;
         }
         if (this.mutuals.checked == false) {
             delete APP.cards.smallDeal.mutual01;
@@ -6529,7 +6601,11 @@ var OPTIONS = {
             delete APP.cards.smallDeal.mutual04;
             delete APP.cards.smallDeal.mutual05;
         }
-        if (this.cds.checked == false) {
+        if (this.preferredStocks.checked == false) {
+			 delete APP.cards.smallDeal.preferredStock1;
+            delete APP.cards.smallDeal.preferredStock2;
+		}
+		if (this.cds.checked == false) {
             delete APP.cards.smallDeal.cd1;
             delete APP.cards.smallDeal.cd2;
         }
@@ -6612,7 +6688,7 @@ var OPTIONS = {
 /*
 //-- testing
 /*
-// for setting start cash and fast track
+// for setting custom starting cash and start in the fast track
 document.getElementById("start-game").addEventListener("click", function(){
 	APP.players[APP.currentPlayerArrPos()].fastTrack = true;
 	APP.players[APP.currentPlayerArrPos()].cash += 99999999;

@@ -972,6 +972,7 @@ body {
 #borrow-card,
 #repay-loan-card,
 #pay-confirm-card,
+#cannot-afford-card,
 #cannot-afford-loan-card,
 #deal-coin-card,
 #deal-cd-card,
@@ -989,6 +990,9 @@ body {
     width: 90%;
     color: #263238;
     margin: auto;
+}
+#cannot-afford-card {
+	
 }
 #fast-track-intro-card,
 #fast-track-option-card {
@@ -1261,6 +1265,12 @@ body {
 	margin: 7% 0;
 }
 
+#buy-stock-btn {
+	background-color: #43A047;
+	color: white;
+	text-shadow: 0.2px 0.2px 0.2px #FDD835;
+}
+
 #ft-enter-btn {
     height: 70px;
     width: 150px;
@@ -1330,7 +1340,7 @@ body {
     height: 50px;
     width: 147px;
     border-radius: 5px;
-    background-color: #D32F2F;
+    background-color: #4E342E;
     outline: none;
     font-size: 16pt;
     color: white;
@@ -1350,6 +1360,22 @@ body {
 	margin: auto;
 	position: relative;
 	display: block;
+}
+#ft-win-continue-btn {
+	height: 40px;
+    width: 110px;
+    border-radius: 6px;
+	margin: auto;
+	position: relative;
+	display: block;
+    outline: none;
+    font-size: 16pt;
+    letter-spacing: .5pt;
+    box-shadow: .6px .6px 2px #c2a500;
+	
+	background-color: #43A047;
+	color: white;
+	text-shadow: 0.2px 0.2px 0.2px #FDD835;
 }
 
 #financial-statement-left,

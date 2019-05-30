@@ -5438,10 +5438,10 @@ var FASTTRACK = {
     updatePosition: function(dice) {
         var player = APP.players[APP.currentPlayerArrPos()];
 		
-		
-		player.position = 24; //-- for testing
-		
 		/*
+		player.position = 24; //-- for testing
+		*/
+		
         if (player.position + dice <= 40) {
             player.position += dice;
         } else {
@@ -5449,7 +5449,7 @@ var FASTTRACK = {
             pos -= 40;
             player.position = pos;
         }
-		*/
+		
     },
     square: {
         doodad1: {

@@ -138,9 +138,15 @@ var APP = APP || {
         $("#finish-instructions").hide();
     },
     rollDie: function(dieCount) {
-        var die = Math.floor(Math.random() * 6) + 1;
+        var dieTotal = 0;
+		
+		for (i = 1; i <= dieCount; i++) {
+			var die = Math.floor(Math.random() * 6) + 1;
+			
+			dieTotal += die;
+		}
 
-        return die * dieCount;
+        return dieTotal;
     },
     movePlayer: function(dieCount) {
         // move player piece the amount of rolledDie
@@ -201,6 +207,7 @@ var APP = APP || {
         $("#finish-instructions").hide();
         $("#finish-turn-container").hide();
         $("#ft-end-turn-btn").hide();
+		$("#ft-dream-roll-btn").hide(); //--
         $("#fast-track-intro-card").hide();
         $("#fast-track-option-card").hide();
         $("#roll-info-container").hide();
@@ -1282,28 +1289,7 @@ APP.finance = {
             console.log("cashflow day: " + player.cashFlowDay + ", winpay: " + player.winPay);
 
             if (player.cashFlowDay >= player.winPay) {
-
-                //show win card
-                APP.display.clearCards();
-                APP.display.clearBtns();
-
-                $("#win-game-card").show();
-
-                if (APP.remainingPlayers == APP.pCount) {
-                    $("#win-scenario").text(APP.name(APP.currentPlayer) + "wins the game by adding over $50,000 to their Cash Flow Day!");
-                } else {
-                    $("#win-scenario").text(APP.name(APP.currentPlayer) + "wins the game by adding over $50,000 to their Cash Flow Day!");
-                }
-
-                APP.remainingPlayers -= 1;
-
-                document.getElementById("win-cash-amount").innerHTML = APP.display.numWithCommas(player.cash);
-                document.getElementById("win-income-amount").innerHTML = APP.display.numWithCommas(player.cashFlowDay + Math.round(this.getIncome(APP.currentPlayerArrPos())));
-                document.getElementById("win-asset-amount").innerHTML = APP.display.numWithCommas(player.realEstateAssets.length);
-
-                $("#win-card-new-game-btn").click(function() {
-                    window.location.reload(false);
-                });
+				FASTTRACK.winGame();
             }
         } else {
             $("#sum-total-expense-row").show();
@@ -4235,7 +4221,7 @@ APP.cards = {
         doodad26: {
             name: "Go to Coffee Shop",
             cost: 10,
-            text: "Pay $10 \n" + "\n" + "Buy a cafe latte & cappuccino for you and a friend"
+            text: "Pay $10 for lattes for you and a friend"
         },
         doodad27: {
             name: "High School Reunion",
@@ -4578,19 +4564,23 @@ APP.display = {
         $("#done-repay-btn").hide();
         $("#show-stock-form-btn").hide();
         $("#show-stock-sell-form-btn").hide();
+		$("#buy-stock-btn").hide();
         $("#sell-stock-btn").hide();
         $("#confirm-settlement-btn").hide();
         $("#show-offer-btn").hide();
+		
         $("#ftic-ok-btn").hide();
         $("#ft-enter-btn").hide();
         $("#ft-dream-roll-btn").hide();
         $("#ft-doodad-roll-btn").hide();
         $("#ft-opp-buy-btn").hide();
         $("#ft-opp-roll-btn").hide();
+		$("#ft-roll2-btn").hide()
         $("#ft-pass-btn").hide();
         $("#ft-end-turn-btn").hide();
+		$("#ft-dream-roll-btn").hide();
+		$("#ft-win-continue-btn").hide();
 
-        $("#buy-stock-btn").hide();
         $("#buy-real-estate-btn").hide();
         $("#buy-business-btn").hide();
     },
@@ -5448,10 +5438,10 @@ var FASTTRACK = {
     updatePosition: function(dice) {
         var player = APP.players[APP.currentPlayerArrPos()];
 		
-		/*
-		player.position = 24; //-- for testing
-		*/
 		
+		player.position = 24; //-- for testing
+		
+		/*
         if (player.position + dice <= 40) {
             player.position += dice;
         } else {
@@ -5459,7 +5449,7 @@ var FASTTRACK = {
             pos -= 40;
             player.position = pos;
         }
-		
+		*/
     },
     square: {
         doodad1: {
@@ -6095,32 +6085,48 @@ var FASTTRACK = {
         $("#ft-end-turn-btn").show();
     },
     dream: function() {
-        var roll = APP.rollDie();
+		$("#ft-dream-roll-btn").show();
+	},
+	dreamRoll: function(){
+		var roll = APP.rollDie(1);
 		var player = APP.players[APP.currentPlayerArrPos()];
-		            
+		
 		$("#ft-dream-roll-btn").hide();
-					
-        //if (roll == 2 % 0) {
-		if (roll >= 0) {
-            $("#ft-opp-buy-btn").show();
-			
-            console.log("You rolled a " + roll + ".");
-			
+		$("#ft-pass-btn").hide();
+		 			
+        if (roll % 2 == 0) {
 			$("#ft-card-text").text("dream successful");
+
+			$("#ft-win-continue-btn").show();
+			
+			var rollTextNode = document.createElement("div"); 
+			var textNode = document.createTextNode("You rolled a " + roll + ".");    
+			
+			rollTextNode.setAttribute("id", "dream-roll-text");				
+			rollTextNode.appendChild(textNode);                          
+			
+			document.getElementById("ft-card-text").appendChild(rollTextNode);
 
         } else {
 			$("#ft-card-text").text("dream unsuccessful");
 			
-			//check career type
-			console.log(player.jobTitle[0]);
+			$("#ft-end-turn-btn").show();
+			
+			//check career and dream type
+			console.log(player.jobTitle[0], APP.players[APP.currentPlayerArrPos()].dream);
 			
 			var events = {
-				everyCareer: [
-					"daughter's wedding",
-					"company merger",
-					"lose finances"
-				]		
-				
+				everyPlayer: {
+					family: {
+						1:"daughter's wedding"
+					},
+					business: {
+						2:"company merger",
+						3:"lose finances"
+					}
+				},
+				career: {},
+				dream: {}
 			};
 			
 			var outcomes = {
@@ -6146,10 +6152,15 @@ var FASTTRACK = {
 				
 			*/
 			
+			var rollTextNode = document.createElement("div"); 
+			//var textNode = document.createTextNode("You rolled a " + roll + ".");    
 			
-            console.log("You rolled a " + roll + ".");
+			rollTextNode.setAttribute("id", "dream-roll-text");				
+			//rollTextNode.appendChild(textNode);                          
+			
+			document.getElementById("ft-card-text").appendChild(rollTextNode);
+			document.getElementById("dream-roll-text").innerHTML = "You rolled a " + roll + ".";
         }
-        //console.log(roll)
     },
     roll: function() {
         var playerObj = APP.players[APP.currentPlayerArrPos()];
@@ -6202,54 +6213,16 @@ var FASTTRACK = {
     },
     finishTurn: function() {
         var player = APP.players[APP.currentPlayerArrPos()];
-        //hide 
-        //opportunity card
-        //charity card
 
-        $("#ft-opp-buy-btn").hide();
+        //$("#ft-opp-buy-btn").hide();
+		//$("#ft-dream-roll-btn").hide();
 
         APP.display.clearCards();
         APP.display.clearBtns();
-
+		
         // check for winning payday
         if (player.cashFlowDay >= player.winPay) {
-
-            console.log("game won," + "finishTurn(): " + player.winPay);
-
-            $("#win-game-card").show();
-
-            if (APP.remainingPlayers == APP.pCount) {
-                $("#win-scenario").text(APP.name(APP.currentPlayer) + "wins the game by adding over $50,000 to their Cash Flow Day!");
-            } else {
-                $("#win-scenario").text(APP.name(APP.currentPlayer) + "wins the game by adding over $50,000 to their Cash Flow Day!");
-            }
-
-            APP.remainingPlayers -= 1;
-
-            document.getElementById("win-cash-amount").innerHTML = APP.display.numWithCommas(player.cash);
-            document.getElementById("win-income-amount").innerHTML = APP.display.numWithCommas(Math.round(player.cashFlowDay + APP.finance.getIncome(APP.currentPlayerArrPos())));
-            //document.getElementById("win-asset-amount").innerHTML = APP.display.numWithCommas(player.fastTrackAssets.length);
-
-            $("#win-card-new-game-btn").click(function() {
-                window.location.reload(false);
-                /*APP.display.hideHomeScreen();
-                APP.display.hideGameSelectionScreen();
-                $("#game-container").hide();
-                $("#finance-box").hide();
-                
-                APP.display.showGameSetupScreen();
-                
-                for (var i = APP.pCount; i >= APP.players.length; i--){
-                	delete APP.players[i];
-                }
-                
-                $("#player-list-table").empty();
-                
-                setInterval(function(){
-                	$("#home-screen").hide();
-                }, 1);*/
-            });
-            //highlight stuff
+            this.winGame();
         } else {
             $("#ft-finish-turn-card").show();
             $("#ft-end-turn-btn").show();
@@ -6269,7 +6242,43 @@ var FASTTRACK = {
         $(".card-title").css("color", "#4E342E");
 
         APP.finance.statement();
-    }
+    },
+	winGame: function() {
+		var player = APP.players[APP.currentPlayerArrPos()];
+		
+		APP.display.clearCards();
+		APP.display.clearBtns();
+
+		$("#win-game-card").show();
+
+		if (APP.remainingPlayers == APP.pCount) {
+			$("#win-scenario").text(APP.name(APP.currentPlayer) + " wins the game by adding over $50,000 to their Cash Flow Day!");
+		} else {
+			$("#win-scenario").text(APP.name(APP.currentPlayer) + " wins the game by adding over $50,000 to their Cash Flow Day!");
+		}
+
+		APP.remainingPlayers -= 1;
+		player.finished = true;
+					
+			//remove player
+			//skip player if they finished game
+			//add player to finished players array
+
+		document.getElementById("win-cash-amount").innerHTML = APP.display.numWithCommas(player.cash);
+		document.getElementById("win-income-amount").innerHTML = APP.display.numWithCommas(player.cashFlowDay + Math.round(APP.finance.getIncome(APP.currentPlayerArrPos())));
+		if (player.realEstateAssets.length > 0) {
+			document.getElementById("win-asset-amount").innerHTML = APP.display.numWithCommas(player.realEstateAssets.length);
+
+		}
+		
+		if (APP.remainingPlayers > 0) {
+			$("#ft-end-turn-btn").show();
+		} else {
+			$("#win-card-new-game-btn").click(function() {
+				window.location.reload(false);
+			});
+		}
+	}
 };
 
 APP.scenario = function(
@@ -6503,8 +6512,10 @@ var OPTIONS = {
     chooseJob: document.getElementById("oo-choose-job"),
     oneDealDeck: document.getElementById("oo-one-deal-deck"),
     mortgagePrepay: document.getElementById("oo-mortgage-prepay"),
+	instantFastTrack: document.getElementById("oo-instant-ft"),
+	oneCentAway: document.getElementById("oo-one-cent-away"),
     checkState: function() {
-        if (this.smallRE.checked == true && this.bigRE.checked == true && this.stocks.checked == true && this.mutuals.checked == true && this.preferredStocks.checked == true && this.cds.checked == true && this.coins.checked == true && this.limitedPartnership.checked == true && this.companies.checked == true && this.startingSavings.value == 1 && this.kids.checked == false && this.paycheckDoodads.checked == false /*&& this.playerLoans.checked == false && this.chooseJob.checked == false && this.oneDealDeck.checked == false*/ ) {
+        if (this.smallRE.checked == true && this.bigRE.checked == true && this.stocks.checked == true && this.mutuals.checked == true && this.preferredStocks.checked == true && this.cds.checked == true && this.coins.checked == true && this.limitedPartnership.checked == true && this.companies.checked == true && this.startingSavings.value == 1 && this.kids.checked == false && this.paycheckDoodads.checked == false && this.instantFastTrack.checked == false && this.oneCentAway.checked == false) {
             $("#default-game-indicator").css("color", "#FDD835");
             $("#custom-game-indicator").css("color", "#4E342E");
         } else {
@@ -6529,6 +6540,8 @@ var OPTIONS = {
         this.oneDealDeck.checked = false;
         this.paycheckDoodads.checked = false;
         this.mortgagePrepay.checked = false;
+		this.instantFastTrack.checked = false;
+		this.oneCentAway.checked = false;
 
         OPTIONS.checkState();
     },
@@ -6666,6 +6679,23 @@ var OPTIONS = {
             } else {
                 player.kidLimit = true;
             }
+			
+			// mortgage prepay
+			if (this.mortgagePrepay.checked == true) {
+				player.mortgagePrepay = true;
+			}
+		
+			// instant fast track		
+			if (this.instantFastTrack.checked == true) {		
+				player.fastTrackOption = true;
+
+				$("#roll-btn").hide();
+			}
+			
+			// one cent away
+			if (this.oneCentAway.checked == true) {		
+				player.cash = 999999;
+			}
         }
 
         // 3+ kids option
@@ -6681,30 +6711,11 @@ var OPTIONS = {
                 APP.finance.getInsurance(playerArrPos);
             }
         }
-
-        // mortgage prepay
-        if (this.mortgagePrepay.checked == true) {
-            player.mortgagePrepay = true;
-        }
-    },
+	},
     fastTrackStart: function() {
 
     }
 };
-
-/*
-//-- testing
-/*
-// for setting custom starting cash and start in the fast track
-document.getElementById("start-game").addEventListener("click", function(){
-	APP.players[APP.currentPlayerArrPos()].fastTrack = true;
-	APP.players[APP.currentPlayerArrPos()].cash += 99999999;
-});
-// for setting start income
-document.getElementById("ftic-ok-btn").addEventListener("click", function(){
-	APP.players[APP.currentPlayerArrPos()].totalIncome += 50999;
-});
-*/
 
 $(document).ready(function() {
     // init game
@@ -6741,7 +6752,8 @@ $(document).ready(function() {
     OPTIONS.output.innerHTML = "Normal";
     $("#default-game-indicator").css("color", "#FDD835");
     $("#custom-game-indicator").css("color", "#4E342E");
-
+	
+	// listen for default settings on each change
     for (var i = 0; i < OPTIONS.checkbox.length; i++) {
         OPTIONS.checkbox[i].addEventListener('change', function() {
             OPTIONS.checkState();
@@ -6761,10 +6773,10 @@ $(document).ready(function() {
         OPTIONS.checkState();
     };
 
-    //--temp hides options checkboxes
+    //-- hides options checkboxes
     $(".off-options").hide();
 
-    // game setup: show player options for selected amount of players
+    // Show player options for selected amount of players, updates each input
     var playerInputs = document.querySelectorAll("div.player-input");
 
     function showPlayerInputs() {
@@ -6780,6 +6792,7 @@ $(document).ready(function() {
             }
         }
     }
+	
     OPTIONS.playerNumber.oninput = function() {
         var val = OPTIONS.playerNumber.value;
         var options = document.querySelectorAll("option.player-number-option");

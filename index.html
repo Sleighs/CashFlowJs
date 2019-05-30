@@ -286,11 +286,15 @@
               <input id="oo-mortgage-prepay" type="checkbox">
               <span class="checkmark"></span>
               </label>
-              <label class="options-checkbox">Player Loans
-              <input id="oo-player-loans"type="checkbox">
-              <span class="checkmark  off-options"></span>
+			  <label class="options-checkbox">Instant Fast Track
+              <input id="oo-instant-ft" type="checkbox">
+              <span class="checkmark"></span>
+              </label> 
+			  <label class="options-checkbox">One Cent Away
+              <input id="oo-one-cent-away" type="checkbox">
+              <span class="checkmark"></span>
               </label>
-              <label class="options-checkbox">One Deal Deck 
+			  <label class="options-checkbox">One Deal Deck 
               <input id="oo-one-deal-deck" type="checkbox">
               <span class="checkmark  off-options"></span>
               </label>
@@ -299,15 +303,11 @@
               <span class="checkmark  off-options"></span>
               </label>
 			  <label class="options-checkbox">_
-              <input id="oo-2" type="checkbox">
-              <span class="checkmark  off-options"></span>
-              </label>
-			  <label class="options-checkbox">_
               <input id="oo-3" type="checkbox">
               <span class="checkmark  off-options"></span>
               </label>
 			  <label class="options-checkbox">_
-              <input id="oo-3" type="checkbox">
+              <input id="oo-4" type="checkbox">
               <span class="checkmark  off-options"></span>
               </label>
             </div>
@@ -744,7 +744,7 @@
 							<button class="card-btn" id="roll-btn" onclick="APP.movePlayer(1);">ROLL</button>
 							<button class="card-btn" id="roll2-btn" onclick="APP.movePlayer(2);">ROLL 2x</button>
 							<button class="card-btn" id="ft-roll-btn" onclick="FASTTRACK.movePlayer(1);">ROLL</button>
-							<button class="card-btn" id="ft-roll2-btn" onclick="FASTTRACK.oppRoll();">ROLL</button>
+							<button class="card-btn" id="ft-roll2-btn" onclick="FASTTRACK.roll();">ROLL</button>
 							<button class="card-btn" id="ft-opp-roll-btn" onclick="FASTTRACK.roll();">ROLL</button>
 							<button class="card-btn" id="small-deal-btn" onclick="APP.smallDeal();">SMALL</button>
 							<button class="card-btn" id="big-deal-btn" onclick="APP.bigDeal();">BIG</button>
@@ -775,9 +775,10 @@
 
 							<button class="card-btn" id="ft-end-turn-btn" onclick="APP.nextTurn();">END TURN</button>
 							<button class="card-btn" id="ft-doodad-roll-btn" onclick="FASTTRACK.doodad(APP.players[APP.currentPlayerArrPos()].position);">Roll</button>
-							<button class="card-btn" id="ft-dream-roll-btn" onclick="FASTTRACK.dream();">Roll</button>
+							<button class="card-btn" id="ft-dream-roll-btn" onclick="FASTTRACK.dreamRoll();">Roll</button>
 							<button class="card-btn" id="ft-opp-buy-btn" onclick="FASTTRACK.opportunity(APP.players[APP.currentPlayerArrPos()].position);">Buy</button>
 							<button class="card-btn" id="ft-pass-btn" onclick="FASTTRACK.finishTurn();">Pass</button>
+							<button class="card-btn" id="ft-win-continue-btn" onclick="FASTTRACK.winGame();">Continue</button>
 							
 							
 						</div>

@@ -2867,7 +2867,6 @@ APP.board = {
 };
 
 
-
 $(document).ready(function() {
     // init game
     APP.initGame();

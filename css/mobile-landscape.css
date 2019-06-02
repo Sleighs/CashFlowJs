@@ -1,18 +1,21 @@
 /*
-Color Paletter
+Color Palette
 	brown - #4E342E
 	yellow - #FDD835
 	dark grey - #212121
+	green - #43A047
 	
 	* Board Spaces *
-	opportunity - #43A047
+	opportunity - green^
 	fast track oppurtunity - brown^
 	liability - #83A296
 	charity - #00BCD4
 	offer - #0277BD
 	payday - yellow^
 	downsize - #D32F2F
+	dream - #2AEEBF
 */
+
 @viewport {
     width: device-width;
     zoom: 1.0;
@@ -985,6 +988,7 @@ body {
 #ft-turn-instructions,
 #ft-doodad-card,
 #ft-opp-card,
+#ft-cashflow-day,
 #ft-finish-turn-card, 
 #win-game-card {
     width: 90%;

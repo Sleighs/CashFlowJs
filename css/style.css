@@ -1045,7 +1045,9 @@ body {
 #offer-settlement {
     margin: auto;
 }
-#doodad-text {
+#doodad-text, 
+#charity-text,
+.share-amt-box {
 	font-size: 1.2em;
 }
 #doodad-node {

@@ -408,7 +408,19 @@ APP.display = {
 
                                 $("#repay-loan-name").text(loanName);
                                 $("#repay-loan-amt").text(loanAmt);
-                            }
+                            } else {
+								$("#confirm-pay-btn").show();
+								$("#cancel-btn").show();
+								$("#pay-confirm-card").show();
+								$("#pay-loan-confirmation").html("Are you sure?");
+								// show loan info in card
+								$("#repay-loan-name").text(loanName);
+								$("#repay-loan-amt").text(loanAmt);
+
+								$("#done-repay-btn").hide();
+								$("#repay-loan-card").hide();
+								$("#repay-card").hide();
+							}
 
                             for (var i = 0; i < player.cash - 1000; i += 1000) {
                                 document.getElementById("loan-amt-input2").value = 1000;

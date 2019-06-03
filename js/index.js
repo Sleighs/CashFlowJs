@@ -749,6 +749,7 @@ var APP = APP || {
                 $("#stock-table-trading-range-row").hide();
 
                 document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
+				document.getElementById("deal-stock-name").innerHTML = currentDeal.name;
                 document.getElementById("deal-stock-text").innerHTML = currentDeal.description;
                 document.getElementById("deal-stock-rule").innerHTML = currentDeal.rule;
 				
@@ -1998,7 +1999,7 @@ APP.finance = {
                 loan * 0.1;
 
             if (player.position === (1 || 9 || 17)) {
-                $("#no-loan-btn").hide();
+                $("#no-loan-btn").hide(); //--
             } else {
                 $("#no-loan-btn").show();
             }
@@ -2220,7 +2221,6 @@ APP.loadCard = function(boardPosition) {
         var currentSquare = "square" + String(boardPosition);
         var doodadTitle = document.getElementById("ft-doodad-title");
         var doodadText = document.getElementById("ft-doodad-text");
-		
 		
         // show fast track finance statement
         switch (boardPosition) {

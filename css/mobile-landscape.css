@@ -1048,6 +1048,9 @@ body {
 #doodad-text {
 	font-size: 1.2em;
 }
+#doodad-node {
+	font-size: 1.2em;
+}
 .card-title {
     color: #4E342E;
     text-shadow: .2px .2px .2px #7DCEA0;

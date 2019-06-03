@@ -2220,19 +2220,20 @@ APP.loadCard = function(boardPosition) {
         var currentSquare = "square" + String(boardPosition);
         var doodadTitle = document.getElementById("ft-doodad-title");
         var doodadText = document.getElementById("ft-doodad-text");
-
+		
+		
         // show fast track finance statement
         switch (boardPosition) {
             // Doodads
             case 1:
                 $("#ft-doodad-card").show();
                 $("#ft-doodad-roll-btn").show();
-                //--temp
-                //$("#ft-end-turn-btn").show();
+
                 $(".card-title").css("color", "#D32F2F");
 				
                 doodadTitle.innerHTML = FASTTRACK.square.doodad1.title;
-                doodadText.innerHTML = FASTTRACK.square.doodad1.text;
+				
+				FASTTRACK.doodad(boardPosition);
                 break;
             case 7:
                 $("#ft-doodad-card").show();
@@ -2865,7 +2866,6 @@ APP.board = {
             " </p></div></div>";
     }
 };
-
 
 $(document).ready(function() {
     // init game

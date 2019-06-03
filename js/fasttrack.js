@@ -128,10 +128,17 @@ var FASTTRACK = {
     },
     updatePosition: function(dice) {
         var player = APP.players[APP.currentPlayerArrPos()];
-		/*
-		player.position = 24; //-- for testing
-		*/
 		
+		//-- for testing
+		//player.position = 21; 
+		/*
+		if (player.position + dice <= 40) {
+            player.position += dice;
+        } else {
+            player.position = 21;
+        }
+		
+		*/
         if (player.position + dice <= 40) {
             player.position += dice;
         } else {
@@ -144,7 +151,7 @@ var FASTTRACK = {
     square: {
         doodad1: {
             title: "Healthcare!",
-            info: "<div id='doodad-text'><div><span>Roll one die.</span><br><span>If it's 1-3, you're covered.</span><br><span>If it's 4-6, you're not- Pay all of your cash.</span>"
+            text: "<div id='doodad-text'><div><span>Roll one die.</span><br><span>If it's 1-3, you're covered.</span><br><span>If it's 4-6, you're not- Pay all of your cash.</span>"
         },
         charity: {
             title: "CHARITY",
@@ -424,7 +431,7 @@ var FASTTRACK = {
         document.getElementById("cell201").innerHTML =
             "<div class ='cellx2'><div id='tokenSection2-1'></div>" +
             "<span class='fast-track-space-title' style='font-size: 7pt;'>HEALTHCARE</span><br><div class='fast-track-cell-info' id='ft-doodad1'> " +
-            FASTTRACK.square.doodad1.info +
+            FASTTRACK.square.doodad1.text +
             "</div>";
         document.getElementById("cell202").innerHTML =
             "<div class ='cellx2'><div id='tokenSection2-2'></div>" +
@@ -704,19 +711,24 @@ var FASTTRACK = {
     doodad: function(boardPosition) {
         var player = APP.players[APP.currentPlayerArrPos()];
         var roll = APP.rollDie(1);
+		var doodadText = document.getElementById("ft-doodad-text");
+		var doodadNode = document.getElementById("doodad-node");
 
         switch (boardPosition) {
             case 1:
                 var newRoll = APP.rollDie(1);
+				
+				// Roll for outcome
                 if (newRoll >= 4) {
-                    player.cash = 0;
-                    document.getElementById("ft-doodad1").innerHTML = "<span>You rolled a " + newRoll + ". </span><span>You spend all of your cash for the expenses.</span>";
+					doodadNode.innerHTML = "You rolled a " + newRoll + ". You spend all of your cash for the expenses.";
+									
+					player.cash = 0;
                 } else {
-                    document.getElementById("ft-doodad1").innerHTML = "<span>You rolled a " + newRoll + ". </span><span>You're covered.</span>";
+					doodadNode.innerHTML = "You rolled a " + newRoll + ". You're covered.";
                 }
-                //hide card info
-                //load info
+
                 $("#ft-doodad-text2").hide();
+				$("#ft-doodad-roll-btn").hide();
                 break;
             case 7:
             case 14:
@@ -734,8 +746,6 @@ var FASTTRACK = {
 				})
 				// find lowest asset 
 				var lowestAssetId = assets[0].id;
-				
-                
 
                 console.log("sorted array: ", assets);
 
@@ -774,6 +784,8 @@ var FASTTRACK = {
         }
 
         $("#ft-end-turn-btn").show();
+		
+		APP.finance.statement();
     },
     dream: function() {
 		var player = APP.players[APP.currentPlayerArrPos()];
@@ -803,7 +815,7 @@ var FASTTRACK = {
 		}
 	},
 	dreamRoll: function(){
-		var roll = 1;//APP.rollDie(1);
+		var roll = APP.rollDie(1);
 		var player = APP.players[APP.currentPlayerArrPos()];
 		
 		document.getElementById("dream-roll-text").innerHTML = "Congratulations!";
@@ -1188,9 +1200,6 @@ var FASTTRACK = {
     },
     finishTurn: function() {
         var player = APP.players[APP.currentPlayerArrPos()];
-
-        //$("#ft-opp-buy-btn").hide();
-		//$("#ft-dream-roll-btn").hide();
 
         APP.display.clearCards();
         APP.display.clearBtns();

@@ -294,20 +294,20 @@
               <input id="oo-one-cent-away" type="checkbox">
               <span class="checkmark"></span>
               </label>
-			  <label class="options-checkbox">One Deal Deck 
-              <input id="oo-one-deal-deck" type="checkbox">
+			  <label class="options-checkbox">No Starting Loans 
+              <input id="oo-no-loans" type="checkbox">
+              <span class="checkmark"></span>
+              </label>
+			  <label class="options-checkbox">_
+              <input id="oo-" type="checkbox">
               <span class="checkmark  off-options"></span>
               </label>
 			  <label class="options-checkbox">_
-              <input id="oo-2" type="checkbox">
+              <input id="oo-" type="checkbox">
               <span class="checkmark  off-options"></span>
               </label>
 			  <label class="options-checkbox">_
-              <input id="oo-3" type="checkbox">
-              <span class="checkmark  off-options"></span>
-              </label>
-			  <label class="options-checkbox">_
-              <input id="oo-4" type="checkbox">
+              <input id="oo-" type="checkbox">
               <span class="checkmark  off-options"></span>
               </label>
             </div>
@@ -743,44 +743,83 @@
 					
 					<td id="info-card-btns-td" colspan="1" rowspan="5">					  		
 						<div id="card-btns">
-							<button class="card-btn" id="roll-btn" onclick="APP.movePlayer(1);">ROLL</button>
-							<button class="card-btn" id="roll2-btn" onclick="APP.movePlayer(2);">ROLL 2x</button>
-							<button class="card-btn" id="ft-roll-btn" onclick="FASTTRACK.movePlayer(1);">ROLL</button>
-							<button class="card-btn" id="ft-roll2-btn" onclick="FASTTRACK.movePlayer(2);">ROLL 2x</button>
-							<button class="card-btn" id="ft-opp-roll-btn" onclick="FASTTRACK.roll();">ROLL</button>
-							<button class="card-btn" id="small-deal-btn" onclick="APP.smallDeal();">SMALL</button>
-							<button class="card-btn" id="big-deal-btn" onclick="APP.bigDeal();">BIG</button>
-							<button class="card-btn" id="doodad-pay-button" onclick="APP.finance.payDoodad();">PAY</button>
-							<button class="card-btn" id="ds-pay-button" onclick="APP.finance.payDownsize();">PAY</button>
-							<button class="card-btn" id="pd-pay-button" onclick="APP.finance.payPropertyDamage();">PAY</button>
-							<button class="card-btn" id="charity-donate-btn" onclick="APP.finance.donate();">DONATE</button>
-							<button class="card-btn" id="show-stock-form-btn" onclick="APP.display.showBuyStockForm();">BUY</button>
-							<button class="card-btn" id="buy-stock-btn" onclick="APP.finance.buyStock();">BUY</button>
-							<button class="card-btn" id="show-stock-sell-form-btn" onclick="APP.display.showSellStockForm();">SELL</button>
-							<button class="card-btn" id="sell-stock-btn" onclick="APP.finance.sellStock();" style="color: red">SELL</button>
-							<button class="card-btn" id="buy-real-estate-btn" onclick="APP.finance.buyRealEstate();">BUY</button>
-							<button class="card-btn" id="buy-coin-btn" onclick="APP.finance.buyCoin();">BUY</button>
-							<button class="card-btn" id="buy-business-btn" onclick="APP.finance.buyBusiness();">BUY</button>
-							<button class="card-btn" id="borrow-offer-loan-btn" onclick="APP.finance.getLoan();" style="color: red">YES</button>
-							<button class="card-btn" id="pass-btn" onclick="APP.finishTurn();">PASS</button>
-							<button class="card-btn" id="no-loan-btn" onclick="APP.finance.noLoan();">NO</button>
-							<button class="card-btn" id="confirm-pay-btn" onclick="APP.finance.pay();">CONFIRM</button>
-							<button class="card-btn" id="confirm-settlement-btn" onclick="APP.finance.sellAsset();">CONFIRM</button>
-							<button class="card-btn" id="show-offer-btn" onclick="APP.display.showOffer();">BACK</button>
-							<button class="card-btn" id="cancel-l-btn" onclick="APP.display.highlightLiabilities(2); APP.finishTurn();">CANCEL</button>
+							<button class="card-btn" id="roll-btn" onclick="APP.movePlayer(1);">
+								ROLL</button>
+							<button class="card-btn" id="roll2-btn" onclick="APP.movePlayer(2);">
+								ROLL 2x</button>
+							<button class="card-btn" id="ft-roll-btn" onclick="FASTTRACK.movePlayer(1);">
+								ROLL</button>
+							<button class="card-btn" id="ft-roll2-btn" onclick="FASTTRACK.movePlayer(2);">
+								ROLL 2x</button>
+							<button class="card-btn" id="ft-opp-roll-btn" onclick="FASTTRACK.roll();">
+								ROLL</button>
+							<button class="card-btn" id="small-deal-btn" onclick="APP.smallDeal();">
+								SMALL</button>
+							<button class="card-btn" id="big-deal-btn" onclick="APP.bigDeal();">
+								BIG</button>
+							<button class="card-btn" id="doodad-pay-button" onclick="APP.finance.payDoodad();">
+								PAY</button>
+							<button class="card-btn" id="ds-pay-button" onclick="APP.finance.payDownsize();">
+								PAY</button>
+							<button class="card-btn" id="pd-pay-button" onclick="APP.finance.payPropertyDamage();">
+								PAY</button>
+							<button class="card-btn" id="charity-donate-btn" onclick="APP.finance.donate();">
+								DONATE</button>
+							<button class="card-btn" id="show-stock-form-btn" onclick="APP.display.showBuyStockForm();">
+								BUY</button>
+							<button class="card-btn" id="buy-stock-btn" onclick="APP.finance.buyStock();">
+								BUY</button>
+							<button class="card-btn" id="show-stock-sell-form-btn" onclick="APP.display.showSellStockForm();">
+								SELL</button>
+							<button class="card-btn" id="sell-stock-btn" onclick="APP.finance.sellStock();" style="color: #D32F2F">
+								SELL</button>
+							<button class="card-btn" id="buy-real-estate-btn" onclick="APP.finance.buyRealEstate();">
+								BUY</button>
+							<button class="card-btn" id="buy-coin-btn" onclick="APP.finance.buyCoin();">
+								BUY</button>
+							<button class="card-btn" id="buy-business-btn" onclick="APP.finance.buyBusiness();">
+								BUY</button>
+							<button class="card-btn" id="borrow-offer-loan-btn" onclick="APP.finance.getLoan();" style="color: #D32F2F">
+								YES</button>
+							<button class="card-btn" id="pass-btn" onclick="APP.finishTurn();">
+								PASS</button>
+							<button class="card-btn" id="no-loan-btn" onclick="APP.finance.noLoan();">
+								NO</button>
+							<button class="card-btn" id="confirm-pay-btn" onclick="APP.finance.pay();">
+								CONFIRM</button>
+							<button class="card-btn" id="confirm-settlement-btn" onclick="APP.finance.sellAsset();">
+								CONFIRM</button>
+							<button class="card-btn" id="show-offer-btn" onclick="APP.display.showOffer();">
+								BACK</button>
+							<button class="card-btn" id="cancel-l-btn" onclick="APP.display.highlightLiabilities(2); APP.finishTurn();" >
+							<!--APP.display.returnToCard();-->
+								CANCEL</button>
 							<!--<button class="card-btn" id="confirm-pay-btn2" onclick="APP.finance.pay();">CONFIRM</button>-->
-							<button class="card-btn" id="done-repay-btn" onclick="APP.display.highlightLiabilities(2); APP.finishTurn(); ">DONE</button>
-							<button class="card-btn" id="done-btn" onclick="APP.finishTurn();">DONE</button>
-							<button class="card-btn" id="done-buy-sell-btn" onclick="APP.display.showStockCard();">DONE</button>
-							<button class="card-btn" id="borrow-doodad-loan-btn" onclick="APP.finance.getLoan(); APP.finishTurn();">BORROW</button>
-							<button class="card-btn" id="ftic-ok-btn" onclick="APP.display.continueFt();">OK</button>
+							<button class="card-btn" id="done-repay-btn" onclick="APP.display.highlightLiabilities(2); APP.finishTurn(); ">
+								DONE</button>
+							<button class="card-btn" id="done-btn" onclick="APP.finishTurn();">
+								DONE</button>
+							<button class="card-btn" id="done-buy-sell-btn" onclick="APP.display.showStockCard();">
+								DONE</button>
+							<button class="card-btn" id="return-to-card-btn" onclick="APP.finance.statement(); APP.display.returnToCard(); ">
+								RETURN</button>
+							<button class="card-btn" id="borrow-doodad-loan-btn" onclick="APP.finance.getLoan(); APP.finishTurn();">
+								BORROW</button>
+							<button class="card-btn" id="ftic-ok-btn" onclick="APP.display.continueFt();">
+								OK</button>
 
-							<button class="card-btn" id="ft-end-turn-btn" onclick="APP.nextTurn();">END TURN</button>
-							<button class="card-btn" id="ft-doodad-roll-btn" onclick="FASTTRACK.doodad(APP.players[APP.currentPlayerArrPos()].position);">Roll</button>
-							<button class="card-btn" id="ft-dream-roll-btn" onclick="FASTTRACK.dreamRoll();">Roll</button>
-							<button class="card-btn" id="ft-opp-buy-btn" onclick="FASTTRACK.opportunity(APP.players[APP.currentPlayerArrPos()].position);">Buy</button>
-							<button class="card-btn" id="ft-pass-btn" onclick="FASTTRACK.finishTurn();">Pass</button>
-							<button class="card-btn" id="ft-win-continue-btn" onclick="FASTTRACK.winGame();">Continue</button>
+							<button class="card-btn" id="ft-end-turn-btn" onclick="APP.nextTurn();">
+								END TURN</button>
+							<button class="card-btn" id="ft-doodad-roll-btn" onclick="FASTTRACK.doodad(APP.players[APP.currentPlayerArrPos()].position);">
+								Roll</button>
+							<button class="card-btn" id="ft-dream-roll-btn" onclick="FASTTRACK.dreamRoll();">
+								Roll</button>
+							<button class="card-btn" id="ft-opp-buy-btn" onclick="FASTTRACK.opportunity(APP.players[APP.currentPlayerArrPos()].position);">
+								Buy</button>
+							<button class="card-btn" id="ft-pass-btn" onclick="FASTTRACK.finishTurn();">
+								Pass</button>
+							<button class="card-btn" id="ft-win-continue-btn" onclick="FASTTRACK.winGame();">
+								Continue</button>
 							
 							
 						</div>
@@ -1065,4 +1104,5 @@
   <script  src="js/cards.js"></script>
   <script  src="js/options.js"></script>
   <script  src="js/display.js"></script>
+  <script  src="js/board.js"></script>
 </html>

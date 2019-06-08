@@ -1046,12 +1046,14 @@ body {
     margin: auto;
 }
 #doodad-text, 
-#charity-text,
+#charity-text {
+	font-size: 1.1em;
+}
 .share-amt-box {
 	font-size: 1.2em;
 }
 #doodad-node {
-	font-size: 1.2em;
+	font-size: 1.1em;
 }
 .card-title {
     color: #4E342E;
@@ -1153,7 +1155,10 @@ body {
 
 #pass-btn,
 #show-offer-btn,
-#no-loan-btn {
+#no-loan-btn,
+
+#done-btn,
+#done-buy-sell-btn {
     height: 40px;
     width: 92px;
     border-radius: 5px;
@@ -1164,10 +1169,9 @@ body {
 	margin: 7% 0;
 }
 
-#done-btn,
-#done-buy-sell-btn {
+#return-to-card-btn {
     height: 40px;
-    width: 92px;
+    width: 102px;
     border-radius: 5px;
     background-color: white;
     outline: none;

@@ -129,16 +129,14 @@ var FASTTRACK = {
     updatePosition: function(dice) {
         var player = APP.players[APP.currentPlayerArrPos()];
 		
-		//-- for testing
-		//player.position = 21; 
-		/*
-		if (player.position + dice <= 40) {
-            player.position += dice;
-        } else {
-            player.position = 21;
-        }
+		//-- for testing	
+		//if (player.position + dice <= 24) {
+       //     player.position += dice;
+       // } else {
+           //player.position = 23;
+       // }
 		
-		*/
+		
         if (player.position + dice <= 40) {
             player.position += dice;
         } else {
@@ -146,7 +144,6 @@ var FASTTRACK = {
             pos -= 40;
             player.position = pos;
         }
-		
     },
     square: {
         doodad1: {
@@ -299,18 +296,14 @@ var FASTTRACK = {
         square23: {
             title: "Software Co. IPO",
             text: "Buy 250,000 shares at 10 cents/share. If you roll a 6 on one die, shares go to $2/share - get $500,000 cash from bank. Roll less than 6, get $0.",
-            returnText: "$500,000",
+            possibleReturn: "$500,000",
             costText: "$25,000",
-            return: 500000,
+			cashFlow: 0,
+            roi: 500000,
             cost: 25000
         },
         square24: {
-            /*title: "Coffee Shop",
-            text: "+5,000/mo Cash Flow 50% Cash-on-Cash return",
-            cashFlowText: "$5,000",
-            costText: "$120,000",
-            cashFlow: 5000,
-            cost: 120000*/
+
             title: "Dream",
             text: "A chance to have your dream come true",
             costText: "$150,000",
@@ -376,7 +369,8 @@ var FASTTRACK = {
             text: "If you invest, pay $50,000 and roll one die. If you roll a 5 or 6, collect $500,000! If less, you lose your investment and collect nothing",
             returnText: "$500,000",
             costText: "$50,000",
-            return: 500000,
+			cashFlow: 0,
+            roi: 500000,
             cost: 50000
         },
         doodad6: {
@@ -662,51 +656,84 @@ var FASTTRACK = {
         var asset = this.square[currentSquare];
 
         $("#ft-opp-prompt").hide();
-
-        // if dream space
-        if (currentSquare == "square24") {
-            //show win
-            APP.display.clearCards();
-            APP.display.clearBtns();
-
-            $("#win-game-card").show();
-
-            if (APP.remainingPlayers == APP.pCount) {
-                $("#win-scenario").text(APP.name(APP.currentPlayer) + "wins the game by achieving their dream!");
-            } else {
-                $("#win-scenario").text(APP.name(APP.currentPlayer) + "has achieved their dream!");
-            }
-
-            APP.remainingPlayers -= 1;
-
-            document.getElementById("win-cash-amount").innerHTML = APP.display.numWithCommas(Math.round(100 * player.cash) / 100);
-            document.getElementById("win-income-amount").innerHTML = APP.display.numWithCommas(Math.round(player.cashFlowDay + APP.finance.getIncome(APP.currentPlayerArrPos())));
-            //document.getElementById("win-asset-amount").innerHTML = player.fastTrackAssets.length;
-
-        } else {
-
-            //if regular space add asset to array
-
-            if (asset.cost <= player.cash) {
-                player.cash -= asset.cost;
-                player.cashFlowDay += asset.cashFlow;
-
-                asset.id = APP.finance.newId();
-
-                //add asset to player assets
-                player.fastTrackAssets.push(asset);
-
-            }
-            /*else {
-				// tell them they cannot afford it
+		
+		//subtract cost from cash
+		player.cash -= asset.cost;
+		//update income
+		player.cashFlowDay += asset.cashFlow;
+		//give unique id to asset
+		asset.id = APP.finance.newId();
+		//add asset to player assets
+		player.fastTrackAssets.push(asset);
+			
+		if (currentSquare == "square17") {
+			//roll for outcome
+			var dieNum = this.rollDie(1);
+			
+			
+			$("#ft-end-turn-btn").show();
+			
+			$("#ft-opp-buy-btn").hide();
+			$("#ft-pass-btn").hide();
+			
+			if (dieNum == 6) {
 				$("#ft-opp-prompt").show();
-				document.getElementById("ft-opp-prompt").innerHTML = "You need $" + APP.display.numWithCommas(this.remainder()) + " to get this deal!";
-			}*/
-
-            this.finishTurn();
-        }
-
-        APP.finance.statement();
+				$("#ft-opp-prompt").html("<p>You rolled a " + dieNum + ".</p><p>Deal Successful!</p>");
+				//increase player cash flow
+				asset.cashFlow = 75000;
+				player.cashFlowDay += asset.cashFlow;
+			} else {
+				$("#ft-opp-prompt").show();
+				$("#ft-opp-prompt").html("<p>You rolled a " + dieNum + ".</p><p>Deal Unsuccessful</p>");
+				//do not increase player cash flow
+				asset.cashFlow = 0;
+			}	
+			
+		    APP.finance.statement();
+		} else if (currentSquare == "square23"){
+			//roll for outcome
+			var dieNum = this.rollDie(1);
+			
+			$("#ft-end-turn-btn").show();
+			
+			$("#ft-opp-buy-btn").hide();
+			$("#ft-pass-btn").hide();
+			
+			if (dieNum == 6) {
+				$("#ft-opp-prompt").show();
+				$("#ft-opp-prompt").html("<p>You rolled a " + dieNum + ".</p><p>Stock purchase was a huge success! Purchase yielded $250,000</p>");
+				//add cash to player savings
+				player.cash += asset.roi;
+			} else {
+				$("#ft-opp-prompt").show();
+				$("#ft-opp-prompt").html("<p>You rolled a " + dieNum + ".</p><p>Stock purchase yielded $0</p>");
+			}
+			
+			APP.finance.statement();
+		} else if (currentSquare == "square33"){
+			//roll for outcome
+			var dieNum = this.rollDie(1);
+			
+			$("#ft-end-turn-btn").show();
+			
+			$("#ft-opp-buy-btn").hide();
+			$("#ft-pass-btn").hide();
+			
+			if (dieNum ==  5 || dieNum == 6) {
+				$("#ft-opp-prompt").show();
+				$("#ft-opp-prompt").html("<p>You rolled a " + dieNum + ".</p><p>IPO was a huge success! Investment yielded $500,000</p>");
+				//add cash to player savings
+				player.cash += asset.roi;
+			} else {
+				$("#ft-opp-prompt").show();
+				$("#ft-opp-prompt").html("<p>You rolled a " + dieNum + ".</p><p>IPO floped due to high costs and debt. Investment yielded $0</p>");
+			}
+			
+			APP.finance.statement();
+		} else {
+			APP.finance.statement();
+			this.finishTurn();
+		}
     },
     doodad: function(boardPosition) {
         var player = APP.players[APP.currentPlayerArrPos()];
@@ -743,7 +770,7 @@ var FASTTRACK = {
                 //find lowest number in fastTrackAssets
                 var assets = player.fastTrackAssets.sort(function(a, b){
 					return a.cashFlow - b.cashFlow;
-				})
+				});
 				// find lowest asset 
 				var lowestAssetId = assets[0].id;
 
@@ -769,6 +796,14 @@ var FASTTRACK = {
                 });
 
                 console.log(lowest);
+				
+				var assets = player.fastTrackAssets.sort(function(a, b){
+					return a.cashFlow - b.cashFlow;
+				});
+				// find lowest asset 
+				var lowestAssetId = assets[0].id;
+				
+				lowest= lowestAsse
                 // pay ten times lowest asset or lose it
                 if ((10 * lowest) < player.cash) {
                     player.cash - (lowest * 10);
@@ -1123,7 +1158,7 @@ var FASTTRACK = {
 				cashFlow: 10000,
 				cost: 200000
 			},
-			asset2: {
+		asset2: {
 				title: "Online Marketplace",
 				text: "+5,000/mo Cash Flow 70% Cash-on-Cash return",
 				cashFlowText: "$5,000",
@@ -1146,7 +1181,16 @@ var FASTTRACK = {
 				costText: "$80,000",
 				cashFlow: 3000,
 				cost: 80000
+			},
+			asset5: {
+				title: "Coffee Shop",
+				text: "+5,000/mo Cash Flow 50% Cash-on-Cash return",
+				cashFlowText: "$5,000",
+				costText: "$120,000",
+				cashFlow: 5000,
+				cost: 120000
 			}
+			
 		}
 	},
 	roll: function() {
@@ -1159,33 +1203,6 @@ var FASTTRACK = {
         console.log("rolling..." + currentPosition);
 
         switch (currentPosition) {
-            case 17:
-                if (asset.cost <= playerObj.cash) {
-                    playerObj.cash -= asset.cost;
-                    asset.id = APP.finance.newId();
-
-                    $("ft-opp-prompt").show()
-                    $("#ft-opp-roll").hide();
-
-                    //roll
-                    if (dieNum == 6) {
-                        $("ft-opp-prompt").html("You rolled a " + dieNum + ".");
-                        //increase player cash flow
-                        asset.cashFlow = 75000;
-                        playerObj.cashFlowDay += asset.cashFlow;
-                    } else {
-                        $("ft-opp-prompt").html("You rolled a " + dieNum + ".");
-                        //do not increase player cash flow
-                    }
-                    //add asset to player assets
-                    playerObj.fastTrackAssets.push(asset);
-
-                    console.log(dieNum);
-                } else {
-                    //if cannot afford
-                    this.finishTurn();
-                }
-                break;
             case 23:
                 break;
             case 33:

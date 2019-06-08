@@ -1086,7 +1086,7 @@ APP.cards = {
             mortgage: 160000,
             cashFlow: 1600,
             tag: "8PLEX",
-            landType: "8-plex",
+            landType: "plex",
             units: 8
         },
         realEstateB33: {
@@ -1113,7 +1113,7 @@ APP.cards = {
             downPayment: 30000,
             liability: 0,
             cashFlow: 1500,
-            tag: "LP-FOOD",
+            tag: "LP-Food",
             landType: "limited"
         },
         limitedPartnershipB2: {
@@ -1801,6 +1801,16 @@ APP.cards = {
             name: "Movie Streaming Service",
             cost: 15,
             text: "Pay $15"
+        },
+		doodad45: {
+            name: "Healthcare Costs",
+            text: "Pay half of your savings for medical bills.",
+			amount: .5	
+        },
+		doodad46: {
+            name: "Sports Injury",
+            text: "Pay a quarter to treat your child's injury.",
+			amount: .25
         }
 	}	
 };

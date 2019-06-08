@@ -21,8 +21,9 @@ var OPTIONS = {
     mortgagePrepay: document.getElementById("oo-mortgage-prepay"),
 	instantFastTrack: document.getElementById("oo-instant-ft"),
 	oneCentAway: document.getElementById("oo-one-cent-away"),
+	noLoans: document.getElementById("oo-no-loans"),
     checkState: function() {
-        if (this.smallRE.checked == true && this.bigRE.checked == true && this.stocks.checked == true && this.mutuals.checked == true && this.preferredStocks.checked == true && this.cds.checked == true && this.coins.checked == true && this.limitedPartnership.checked == true && this.companies.checked == true && this.startingSavings.value == 1 && this.kids.checked == false && this.paycheckDoodads.checked == false && this.instantFastTrack.checked == false && this.oneCentAway.checked == false) {
+        if (this.smallRE.checked == true && this.bigRE.checked == true && this.stocks.checked == true && this.mutuals.checked == true && this.preferredStocks.checked == true && this.cds.checked == true && this.coins.checked == true && this.limitedPartnership.checked == true && this.companies.checked == true && this.startingSavings.value == 1 && this.kids.checked == false && this.paycheckDoodads.checked == false && this.instantFastTrack.checked == false && this.oneCentAway.checked == false && this.noLoans.checked == false) {
             $("#default-game-indicator").css("color", "#FDD835");
             $("#custom-game-indicator").css("color", "#4E342E");
         } else {
@@ -49,6 +50,7 @@ var OPTIONS = {
         this.mortgagePrepay.checked = false;
 		this.instantFastTrack.checked = false;
 		this.oneCentAway.checked = false;
+		this.noLoans.checked = false;
 
         OPTIONS.checkState();
     },
@@ -164,8 +166,8 @@ var OPTIONS = {
             delete APP.cards.offer.offer38;
             delete APP.cards.offer.offer42;
         }
-
-        //starting savings
+		
+		//loop through all players to apply game settings
         for (var j = 0; j < APP.players.length; j++) {
             var player = APP.players[j];
 
@@ -203,9 +205,24 @@ var OPTIONS = {
 			if (this.oneCentAway.checked == true) {		
 				player.cash = 999999;
 			}
+			
+			//start with no loans
+			if (this.noLoans.checked == true) {
+				//set loans to 0
+				player.jobTitle[9] = 0;
+				player.jobTitle[10] = 0;
+				player.jobTitle[11] = 0;
+				player.jobTitle[12] = 0;
+				
+				//set payments to 0
+				player.jobTitle[4] = 0;
+				player.jobTitle[5] = 0;
+				player.jobTitle[6] = 0;
+				player.jobTitle[7] = 0;
+			}
         }
 
-        // 3+ kids option
+        // Insurance option
         for (var k = 1; k <= APP.pCount; k++) {
             var playerArrPos = k - 1;
             var player = APP.players[playerArrPos];

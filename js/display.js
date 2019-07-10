@@ -956,5 +956,34 @@ APP.display = {
     numWithCommas: function(num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
-    getCurrentSettlementAsset: function() {}
+    //getCurrentSettlementAsset: function() {},
+	newGame: function() {
+	//hide game board
+		$("#board").hide();
+        $("#board2").hide();
+        $("#board-container").hide();
+        $("#game-container").hide();
+        $("#info").hide();
+        $("#player-list").hide();
+		
+	//show game setup
+		APP.display.showGameSetupScreen();
+	
+	//clear player list
+		var tableId = document.getElementById("player-list-table");
+		for (var i = tableId.children.length; i >= tableId.children.length; i--) {
+			tableId.removeChild(tableId.childNodes[0]);
+		}
+
+		//clear APP.players
+		for (var i = APP.players.length; i >= 0; i--){
+			delete APP.players[i];
+			console.log(APP.players);
+		}
+		
+		//reset vars
+		APP.pCount = 1;
+		APP.turnCount = 1;
+		APP.currentPlayer = 1;
+	}
 };

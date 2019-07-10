@@ -2657,26 +2657,8 @@ $(document).ready(function() {
     });
     $("#menu-new-game-btn").on("click", function() {
 		//new game
-        window.location.reload(false);
-		
-        /*
-        APP.display.hideHomeScreen();
-        APP.display.hideGameSelectionScreen();
-        $("#game-container").hide();
-        $("#finance-box").hide();
-        
-        APP.display.showGameSetupScreen();
-        
-        for (var i = APP.pCount; i >= APP.players.length; i--){
-        	delete APP.players[i];
-        }
-        
-        $("#player-list-table").empty();
-        
-        setInterval(function(){
-        	$("#home-screen").hide();
-        }, 1);
-        */
+        //window.location.reload(false);
+		APP.display.newGame();
     });
 
     // options

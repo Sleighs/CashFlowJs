@@ -23,6 +23,7 @@
 * Doodads with Paychecks - More doodads. Players who land on the paycheck space will also get a doodad card
 * Mortgage Payments - Adds realistic mortgage payments
 * Job choice - Option to choose jobs
+* Speed Start - Players start with their total income in their savings
 
 ## Features In Development
 
@@ -31,7 +32,6 @@
 * Magnate Mode - Bigger deals, partnership agreements, limited property
 
 ### Rule Customization
-* Speed Start - Players start with their total income in their savings
 * Joint Ventures - Players can partner up to invest together on opportunities
 * Mixed Deals - Both small and big oppurtunity cards are shuffled together and players choose from the entire deck
 * Random Downsizing - Players roll for a random amount of missed turns after downsizing

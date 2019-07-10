@@ -1,4 +1,4 @@
-## Cash Flow Js
+## CashFlowJs
 
 **Cash Flow Js** is an adaptation of the Cash Flow 101 board game with additional gameplay options and rule customization that allows for many unique ways to play. 
 
@@ -36,6 +36,7 @@
 * Random Downsizing - Players roll for a random amount of missed turns after downsizing
 * Loan Sharking - Players can give loans to other players
 
+(This is a fan creation. I do not own or have rights to the *CashFlow* trademark, nor is this distributed in any way.)
 
 
 

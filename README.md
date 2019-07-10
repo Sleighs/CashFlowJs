@@ -8,8 +8,7 @@
 
 ## Play game at https://sleighs.github.io/CashFlowJs/
 
-### Features:
-* 8 player Multiplayer 
+## Features
 
 ### New Game Modes
 * Fast Track Mode - Each player starts with a big bank acount and random asset

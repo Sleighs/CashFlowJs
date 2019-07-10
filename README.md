@@ -36,7 +36,7 @@
 * Random Downsizing - Players roll for a random amount of missed turns after downsizing
 * Loan Sharking - Players can give loans to other players
 
-(This is a fan creation. I do not own or have rights to the *CashFlow* trademark, nor is this distributed in any way.)
+(This is a fan creation made for my own amusement. In no way is this distributed. I do not own or have rights to the *CashFlow* trademark.)
 
 
 

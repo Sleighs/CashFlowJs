@@ -1,6 +1,6 @@
 ## CashFlowJs
 
-**Cash Flow Js** is an adaptation of the Cash Flow 101 board game with additional gameplay options and rule customization that allows for many unique ways to play. 
+**CashFlowJs** is an adaptation of the CashFlow 101 board game with additional gameplay options and rule customization that allows for many unique ways to play. 
 
 * Practice real world investing.
 * Employ financial strategies.

@@ -156,8 +156,17 @@ var APP = APP || {
         var player = APP.currentPlayerArrPos();
         var pObj = APP.players[player];
         var previousPosition = pObj.position;
-        var dice = this.rollDie(dieCount);
-
+        var dice;
+		var manualDice = document.getElementById("manual-dice-input");
+		
+		if (OPTIONS.manualDice.checked == true){
+			//show dice input
+			dice = manualDice.value;
+		} else {
+			
+			dice = this.rollDie(dieCount);
+		}
+		
         // show rolled dice info
         $("#roll-info-container").show();
         $("#roll-info").text("Dice: " + String(dice));
@@ -247,6 +256,7 @@ var APP = APP || {
             if (APP.dreamPhase.dreamPhaseOn == false) {
                 $("#card-btns").show();
                 $("#roll-btn").show();
+				
             } else {
                 $("#roll-btn").hide();
             }
@@ -697,7 +707,10 @@ var APP = APP || {
         $("#small-deal-btn").hide();
         $("#big-deal-btn").hide();
         $("#sell-shares-form").hide();
-
+		
+		//--test
+		console.log(currentDeal);
+		
         //show deal card
         switch (dealType) {
             case "Stock":
@@ -939,6 +952,9 @@ var APP = APP || {
         } else {
             dealType = currentDeal.type;
             this.currentDeal = currentDeal;
+			
+			//--test
+			console.log(currentDeal);
         }
 
         APP.finance.statement();

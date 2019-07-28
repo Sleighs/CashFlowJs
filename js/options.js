@@ -22,8 +22,9 @@ var OPTIONS = {
 	instantFastTrack: document.getElementById("oo-instant-ft"),
 	oneCentAway: document.getElementById("oo-one-cent-away"),
 	noLoans: document.getElementById("oo-no-loans"),
+	manualDice: document.getElementById("oo-manual-dice"),
     checkState: function() {
-        if (this.smallRE.checked == true && this.bigRE.checked == true && this.stocks.checked == true && this.mutuals.checked == true && this.preferredStocks.checked == true && this.cds.checked == true && this.coins.checked == true && this.limitedPartnership.checked == true && this.companies.checked == true && this.startingSavings.value == 1 && this.kids.checked == false && this.paycheckDoodads.checked == false && this.instantFastTrack.checked == false && this.oneCentAway.checked == false && this.noLoans.checked == false) {
+        if (this.smallRE.checked == true && this.bigRE.checked == true && this.stocks.checked == true && this.mutuals.checked == true && this.preferredStocks.checked == true && this.cds.checked == true && this.coins.checked == true && this.limitedPartnership.checked == true && this.companies.checked == true && this.startingSavings.value == 1 && this.kids.checked == false && this.paycheckDoodads.checked == false && this.instantFastTrack.checked == false && this.oneCentAway.checked == false && this.noLoans.checked == false && this.manualDice.checked == false) {
             $("#default-game-indicator").css("color", "#FDD835");
             $("#custom-game-indicator").css("color", "#4E342E");
         } else {
@@ -51,6 +52,7 @@ var OPTIONS = {
 		this.instantFastTrack.checked = false;
 		this.oneCentAway.checked = false;
 		this.noLoans.checked = false;
+		this.manualDice.checked = false;
 
         OPTIONS.checkState();
     },
@@ -166,7 +168,13 @@ var OPTIONS = {
             delete APP.cards.offer.offer38;
             delete APP.cards.offer.offer42;
         }
-		
+		if (this.manualDice.checked == true) {
+			//replace roll button with roll input
+			document.getElementById("manual-dice-input").style.display = 'block';
+		} else {
+			document.getElementById("manual-dice-input").style.display = 'none';
+			
+		}
 		//loop through all players to apply game settings
         for (var j = 0; j < APP.players.length; j++) {
             var player = APP.players[j];

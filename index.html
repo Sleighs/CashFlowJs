@@ -298,9 +298,9 @@
               <input id="oo-no-loans" type="checkbox">
               <span class="checkmark"></span>
               </label>
-			  <label class="options-checkbox">_
-              <input id="oo-" type="checkbox">
-              <span class="checkmark  off-options"></span>
+			  <label class="options-checkbox">Manual Dice
+              <input id="oo-manual-dice" type="checkbox">
+              <span class="checkmark off-options"></span>
               </label>
 			  <label class="options-checkbox">_
               <input id="oo-" type="checkbox">
@@ -745,6 +745,7 @@
 						<div id="card-btns">
 							<button class="card-btn" id="roll-btn" onclick="APP.movePlayer(1);">
 								ROLL</button>
+							<input id="manual-dice-input" type="number" value=""> <!--min="1" max="6" -->  </input>
 							<button class="card-btn" id="roll2-btn" onclick="APP.movePlayer(2);">
 								ROLL 2x</button>
 							<button class="card-btn" id="ft-roll-btn" onclick="FASTTRACK.movePlayer(1);">
@@ -915,7 +916,7 @@
         </tr>
       </table>
 	    <div id="game-menu">
-		  <button id="menu-new-game-btn">New Game</button>
+		  <button id="menu-new-game-btn" onclick="APP.display.newGame()">New Game</button>
 		</div>
 		<div id="roll-info-container">
 			<span id="roll-info"></span>
@@ -1096,8 +1097,10 @@
       </div>
 	  
   </body>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+  <!--<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  -->
+  <script type="text/javascript" src="src/jquery-3.4.1.js"></script>
   
   <script  src="js/index.js"></script>
   <script  src="js/fasttrack.js"></script>

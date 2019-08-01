@@ -1224,6 +1224,12 @@ body {
     font-size: 16pt;
 	margin: 7% 0;
 }
+#manual-dice-input {
+	height: 100px;
+	width: 100px;
+	font-size: 28pt;	
+	margin: 7% 0;
+}
 
 #roll2-btn,
 #ft-roll2-btn,
@@ -1587,7 +1593,7 @@ body {
 
 #share-amt-input,
 #share-amt-input-sell {
-    width: 55px;
+    width: 85px;
     height: 25px;
     border: 1px solid #1B5E20;
     border-style: none none solid none;
@@ -1642,7 +1648,8 @@ body {
 #game-menu {
 	display: none;
 }
-#menu-new-game-btn {
+#menu-new-game-btn,
+#show-done-btn {
     width: 60px;
     border-radius: 5px;
     background-color: white;

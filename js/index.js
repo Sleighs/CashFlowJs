@@ -820,19 +820,17 @@ var APP = APP || {
 					player.businessAssets.length && 
 					player.coinAssets.length && 
 					player.stockAssets.length
-				)*/ player.realEstateAssets.length == -1 || 0 || undefined) {
-					
+				)*/ player.realEstateAssets.length < 1) {
+				player.debtSale = false;
+				
                 $("#bankrupt-game-over-card").show();
                 $("#bankrupt-card").hide();
 				$("#roll-btn").hide();
 				$("#roll2-btn").hide();
                 // continue button
-            } else if(player.realEstateAssets.length > -1){
+            } else if(player.realEstateAssets.length > 0 || undefined){
 				//if player has assets	
 				player.debtSale = true;
-				
-				APP.display.clearCards();
-				APP.display.clearCards();
 				
                 $("#bankrupt-card").show();
                 $("#br-cash-flow").html(String(APP.display.numWithCommas(player.cash)));

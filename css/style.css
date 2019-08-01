@@ -1113,16 +1113,18 @@ body {
 	height: 473px;
 }
 #roll-info-container {
-	width: 60px;
+	width: 98px;
     border-radius: 5px;
     background-color: white;
     outline: none;
-    font-size: 11pt;
+	font-weight: bold;
+    font-size: 12pt;
     color: #757575;
 	display: inline-block;
 }
 #roll-info {
 	text-align: center;
+	font-family: "Roboto", sans-serif;
 }
 #info-card-td {
 	width: 100%;

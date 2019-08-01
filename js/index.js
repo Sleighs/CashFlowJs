@@ -820,7 +820,7 @@ var APP = APP || {
 					player.businessAssets.length && 
 					player.coinAssets.length && 
 					player.stockAssets.length
-				)*/ player.realEstateAssets.length == -1 || player.realEstateAssets.length == undefined) {
+				)*/ player.realEstateAssets.length == -1 || 0 || undefined) {
 					
                 $("#bankrupt-game-over-card").show();
                 $("#bankrupt-card").hide();

@@ -637,6 +637,8 @@ var APP = APP || {
         currentId.split('');
 
         const index = Number(currentId[5]);
+		
+		console.log("current id: " + currentId + ", get settlement index: " + index);
 
         this.currentSettlementIndex = index;
 
@@ -697,12 +699,15 @@ var APP = APP || {
             return object[keys[Math.floor(keys.length * Math.random())]];
         };
         const currentDeal = randDeal(obj);
-        var dealType = currentDeal.type;
+        var dealType;
 
-        this.currentDeal = currentDeal;
-
-        APP.finance.statement();
-
+		if (!currentDeal) {
+            dealType = "none";
+        } else {
+			this.currentDeal = currentDeal;
+			dealType = currentDeal.type;
+		}
+		
         $("#opp-card").hide();
         $("#small-deal-btn").hide();
         $("#big-deal-btn").hide();
@@ -711,231 +716,7 @@ var APP = APP || {
 		//--test
 		console.log(currentDeal);
 		
-        //show deal card
-        switch (dealType) {
-            case "Stock":
-            case "Mutual Fund":
-                $("#deal-card-stock").show();
-                $("#show-stock-form-btn").show();
-                $("#done-btn").show();
-                $("#stock-cost-table").show();
-                $("#deal-stock-rule").hide();
-                $("#stock-table-trading-range-row").show();
-
-                document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
-                document.getElementById("deal-stock-name").innerHTML = currentDeal.name;
-                document.getElementById("deal-stock-text").innerHTML =
-                    currentDeal.description;
-                document.getElementById("deal-stock-cost").innerHTML =
-                    currentDeal.price;
-                document.getElementById("deal-stock-cash-flow").innerHTML = "Dividend: $0";
-                document.getElementById("deal-stock-trading-range").innerHTML =
-                    currentDeal.range;
-                document.getElementById(
-                    "deal-stock-shares-owned"
-                ).innerHTML = APP.display.numWithCommas(APP.ownedShares());
-                document.getElementById("share-cost").innerHTML = currentDeal.price;
-                document.getElementById("share-cost-sell").innerHTML = currentDeal.price;
-
-                var shares = APP.ownedShares();
-                if (shares > 0) {
-                    $("#show-stock-sell-form-btn").show();
-                }
-
-                break;
-            
-			case "Certificate of Deposit":
-				$("#deal-card-stock").show();
-                $("#show-stock-form-btn").show();
-                $("#done-btn").show();
-                $("#stock-cost-table").show();
-                $("#deal-stock-rule").hide();
-                $("#stock-table-trading-range-row").hide();
-
-                document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
-				document.getElementById("deal-stock-name").innerHTML = currentDeal.name;
-                document.getElementById("deal-stock-text").innerHTML = currentDeal.description;
-                document.getElementById("deal-stock-rule").innerHTML = currentDeal.rule;
-				
-				document.getElementById("deal-stock-cost").innerHTML = currentDeal.price;
-                document.getElementById("deal-stock-cash-flow").innerHTML = "Dividend: $" + currentDeal.dividend;
-                document.getElementById("deal-stock-trading-range").innerHTML = currentDeal.range;
-                document.getElementById(
-                    "deal-stock-shares-owned"
-                ).innerHTML = APP.display.numWithCommas(APP.ownedShares());
-                document.getElementById("share-cost").innerHTML = currentDeal.price;
-                document.getElementById("share-cost-sell").innerHTML = currentDeal.price;
-				break;
-			case "Preferred Stock":
-                $("#deal-card-stock").show();
-                $("#show-stock-form-btn").show();
-                $("#done-btn").show();
-                $("#stock-cost-table").show();
-                $("#deal-stock-rule").hide();
-                $("#stock-table-trading-range-row").hide();
-
-                document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
-                document.getElementById("deal-stock-name").innerHTML = currentDeal.name;
-                document.getElementById("deal-stock-text").innerHTML = currentDeal.description;
-                document.getElementById("deal-stock-cost").innerHTML = currentDeal.price;
-                document.getElementById("deal-stock-cash-flow").innerHTML = "Dividend: $" + currentDeal.dividend;
-                document.getElementById("deal-stock-trading-range").innerHTML = currentDeal.range;
-                document.getElementById(
-                    "deal-stock-shares-owned"
-                ).innerHTML = APP.display.numWithCommas(APP.ownedShares());
-                document.getElementById("share-cost").innerHTML = currentDeal.price;
-                document.getElementById("share-cost-sell").innerHTML = currentDeal.price;
-
-                var shares = APP.ownedShares();
-                if (shares > 0) {
-                    $("#show-stock-sell-form-btn").show();
-                }
-
-                break;
-            case "Real Estate":
-                $("#deal-card-real-estate").show();
-                $("#pass-btn").show();
-                $("#real-estate-cost-table").show();
-                $("#buy-real-estate-btn").show();
-
-                document.getElementById("deal-re-name").innerHTML = currentDeal.name;
-                document.getElementById("deal-re-description").innerHTML =
-                    currentDeal.description;
-                document.getElementById("deal-re-rule").innerHTML = currentDeal.rule;
-                document.getElementById("deal-re-cost").innerHTML = APP.display.numWithCommas(currentDeal.cost);
-                document.getElementById("deal-re-cash-flow").innerHTML =
-                    APP.display.numWithCommas(currentDeal.cashFlow);
-                document.getElementById("deal-re-down-payment").innerHTML =
-                    APP.display.numWithCommas(currentDeal.downPayment);
-                document.getElementById("deal-re-mortgage").innerHTML =
-                    APP.display.numWithCommas(currentDeal.mortgage);
-
-                //highlight card when player has enough cash to buy the deal
-                if (APP.currentDeal.downPayment < player.cash) {
-                    $("#turn-info").css("box-shadow", ".2px .2px 3px 3px #43A047");
-                }
-                break;
-            case "Property Damage":
-                $("#deal-card-real-estate").show();
-                $("#real-estate-cost-table").hide();
-
-                document.getElementById("deal-re-name").innerHTML = currentDeal.name;
-                document.getElementById("deal-re-description").innerHTML =
-                    currentDeal.description;
-
-                if (player.realEstateAssets.length <= 0) {
-                    document.getElementById("deal-re-rule").innerHTML =
-                        "You do not own any of this type of property.";
-                    $("#done-btn").show();
-                    $("#card-btns").show();
-                } else {
-                    for (var i = 0; i < player.realEstateAssets.length; i++) {
-                        var damageType = APP.currentDeal.propertyType;
-                        var obj = player.realEstateAssets[i];
-                        var landType = obj.landType;
-
-                        if ((damageType === "rental" && landType ==
-								("3Br/2Ba" ||
-                                    "2Br/1Ba" ||
-                                    "duplex" ||
-                                    "4-plex" ||
-                                    "8-plex" ||
-                                    "plex")) ||
-                            obj.type === 
-								("Real Estate" ||
-									"plex")
-                        ) {
-                            document.getElementById("deal-re-rule").innerHTML = currentDeal.rule;
-                            
-							$("#pd-pay-button").show();
-							
-							$(".card-title").css("color", "#D32F2F");
-                        }
-                    }
-                }
-                break;
-            case "Stock Split":
-                $("#deal-card-stock").show();
-                $("#deal-stock-rule").show();
-                $("#stock-cost-table").hide();
-
-                document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
-                document.getElementById("deal-stock-name").innerHTML = currentDeal.name;
-                document.getElementById("deal-stock-text").innerHTML =
-                    currentDeal.description;
-
-                //run split function
-                APP.finance.stockSplit("split");
-
-                $("#done-btn").show();
-                break;
-            case "Reverse Split":
-                $("#deal-card-stock").show();
-                $("#deal-stock-rule").show();
-                $("#stock-cost-table").hide();
-
-                document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
-                document.getElementById("deal-stock-name").innerHTML = currentDeal.name;
-                document.getElementById("deal-stock-text").innerHTML =
-                    currentDeal.description;
-                document.getElementById("deal-stock-rule").innerHTML = currentDeal.rule;
-
-                //run split function
-                APP.finance.stockSplit("reverse");
-
-                $("#done-btn").show();
-                break;
-            case "Coin":
-                $("#deal-coin-card").show();
-
-                document.getElementById("deal-coin-title").innerHTML = currentDeal.title;
-                document.getElementById("deal-coin-description").innerHTML =
-                    currentDeal.description;
-                document.getElementById("deal-coin-rule").innerHTML = currentDeal.rule;
-                document.getElementById("deal-coin-cost").innerHTML = currentDeal.cost;
-                document.getElementById("deal-coin-down-payment").innerHTML =
-                    currentDeal.downPayment;
-                document.getElementById("deal-coin-liability").innerHTML =
-                    currentDeal.liability;
-                document.getElementById("deal-coin-cash-flow").innerHTML =
-                    currentDeal.cashFlow;
-
-                $("#buy-coin-btn").show();
-                $("#pass-btn").show();
-                break;
-            case "Company":
-                $("#deal-company-card").show();
-
-                document.getElementById("deal-company-name").innerHTML =
-                    currentDeal.name;
-                document.getElementById("deal-company-description").innerHTML =
-                    currentDeal.description;
-                document.getElementById("deal-company-rule").innerHTML =
-                    currentDeal.rule;
-                document.getElementById("deal-company-cost").innerHTML =
-                    currentDeal.cost;
-                document.getElementById("deal-company-cash-flow").innerHTML =
-                    currentDeal.cashFlow;
-
-                $("#pass-btn").show();
-                $("#buy-business-btn").show();
-                break;
-            case "Personal Loan":
-                $("#deal-personal-loan-card").show();
-
-                document.getElementById("deal-personal-loan-name").innerHTML =
-                    currentDeal.name;
-                document.getElementById("deal-personal-loan-description").innerHTML =
-                    currentDeal.description;
-
-                $("#pass-btn").show();
-                break;
-            default:
-                //-- temp
-                $("#done-btn").show();
-                break;
-        }
-
+		APP.display.showCurrentDeal();
     },
     bigDeal: function() {
         var player = APP.players[APP.currentPlayerArrPos()];
@@ -957,135 +738,11 @@ var APP = APP || {
 			console.log(currentDeal);
         }
 
-        APP.finance.statement();
-
         $("#opp-card").hide();
         $("#small-deal-btn").hide();
         $("#big-deal-btn").hide();
-
-        //show deal card
-        switch (dealType) {
-            case "Real Estate":
-                $("#deal-card-real-estate").show();
-                $("#buy-real-estate-btn").show();
-                $("#pass-btn").show();
-                $("#real-estate-cost-table").show();
-
-                document.getElementById("deal-re-name").innerHTML = currentDeal.name;
-                document.getElementById("deal-re-description").innerHTML =
-                    currentDeal.description;
-                document.getElementById("deal-re-rule").innerHTML = currentDeal.rule;
-                document.getElementById("deal-re-cost").innerHTML = APP.display.numWithCommas(currentDeal.cost);
-                document.getElementById("deal-re-mortgage").innerHTML =
-                    APP.display.numWithCommas(currentDeal.mortgage);
-                document.getElementById("deal-re-cash-flow").innerHTML =
-                    APP.display.numWithCommas(currentDeal.cashFlow);
-                document.getElementById("deal-re-down-payment").innerHTML =
-                    APP.display.numWithCommas(currentDeal.downPayment);
-
-                if (APP.currentDeal.downPayment <= player.cash) {
-                    $("#turn-info").css("box-shadow", ".2px .2px 3px 3px #43A047");
-                }
-                break;
-            case "Property Damage":
-                $("#pass-btn").show();
-                $("#real-estate-cost-table").hide();
-
-                document.getElementById("deal-re-name").innerHTML = currentDeal.name;
-                document.getElementById("deal-re-description").innerHTML =
-                    currentDeal.description;
-
-                if (player.realEstateAssets.length == 0) {
-                    document.getElementById("deal-re-rule").innerHTML =
-                        "You do not own any of this type of property.";
-                    $("#done-btn").show();
-                } else {
-                    for (var i = 0; i < player.realEstateAssets.length; i++) {
-                        var damageType = APP.currentDeal.propertyType;
-                        var obj = player.realEstateAssets[i];
-                        var landType = obj.landType;
-
-                        if (
-                            (damageType === "rental" &&
-                                landType ==
-                                ("3Br/2Ba" ||
-                                    "2Br/1Ba" ||
-                                    "duplex" ||
-                                    "4-plex" ||
-                                    "8-plex" ||
-                                    "plex")) ||
-                            damageType === landType
-                        ) {
-                            document.getElementById("deal-re-rule").innerHTML =
-                                currentDeal.rule;
-                            $("#pd-pay-button").show();
-                        }
-                    }
-                }
-                break;
-            case "Limited Partnership":
-                $("#deal-card-limited").show();
-                $("#pass-btn").show();
-                $("#limited-cost-table").show();
-                //buy limited button
-                $("#buy-real-estate-btn").show();
-
-                document.getElementById("deal-limited-name").innerHTML =
-                    currentDeal.name;
-                document.getElementById("deal-limited-description").innerHTML =
-                    currentDeal.description;
-                document.getElementById("deal-limited-rule").innerHTML =
-                    currentDeal.rule;
-                document.getElementById("deal-limited-cost").innerHTML =
-                    currentDeal.cost;
-                document.getElementById("deal-limited-cash-flow").innerHTML =
-                    currentDeal.cashFlow;
-                document.getElementById("deal-limited-down-payment").innerHTML =
-                    currentDeal.downPayment;
-                document.getElementById("deal-limited-liability").innerHTML =
-                    currentDeal.liability;
-
-                if (APP.currentDeal.downPayment <= player.cash) {
-                    $("#turn-info").css("box-shadow", ".2px .2px 3px 3px #43A047");
-                }
-                break;
-            case "Automated Business":
-                $("#deal-card-automated").show();
-                $("#pass-btn").show();
-                $("#automated-cost-table").show();
-                //buy automated button
-                $("#buy-business-btn").show();
-
-                document.getElementById("deal-automated-name").innerHTML =
-                    currentDeal.name;
-                document.getElementById("deal-automated-description").innerHTML =
-                    currentDeal.description;
-                document.getElementById("deal-automated-rule").innerHTML =
-                    currentDeal.rule;
-                document.getElementById("deal-automated-cost").innerHTML =
-                    currentDeal.cost;
-                document.getElementById("deal-automated-cash-flow").innerHTML =
-                    currentDeal.cashFlow;
-                document.getElementById("deal-automated-down-payment").innerHTML =
-                    currentDeal.downPayment;
-                document.getElementById("deal-automated-liability").innerHTML =
-                    currentDeal.liability;
-
-                if (APP.currentDeal.downPayment <= player.cash) {
-                    $("#turn-info").css("box-shadow", ".2px .2px 3px 3px #43A047");
-                }
-                break;
-            case "none":
-                $("#done-btn").show();
-                $("#real-estate-cost-table").hide();
-
-                document.getElementById("deal-re-name").innerHTML = "No Deals to Choose From";
-                document.getElementById("deal-re-description").innerHTML = "";
-                document.getElementById("deal-re-rule").innerHTML = "";
-
-                break;
-
-        }
+		
+		APP.display.showCurrentDeal();
     },
     clearAmounts: function() {
         APP.finance.loanAmount = 1000;
@@ -1163,14 +820,14 @@ var APP = APP || {
 					player.businessAssets.length && 
 					player.coinAssets.length && 
 					player.stockAssets.length
-				)*/ player.realEstateAssets.length == 0 || player.realEstateAssets.length == undefined) {
+				)*/ player.realEstateAssets.length == -1 || player.realEstateAssets.length == undefined) {
 					
                 $("#bankrupt-game-over-card").show();
                 $("#bankrupt-card").hide();
 				$("#roll-btn").hide();
 				$("#roll2-btn").hide();
                 // continue button
-            } else {
+            } else if(player.realEstateAssets.length > -1){
 				//if player has assets	
 				player.debtSale = true;
 				
@@ -2003,9 +1660,10 @@ APP.finance = {
                 assetArr.splice(APP.currentSettlementIndex, 1);
             }
 
-            if (APP.currentOffer !== 'undefined') {
+            if (APP.currentOffer) {
                 $("#offer-card").show();
             }
+			
             if (player.payday > 0) {
                 $("#done-btn").show();
             }
@@ -2673,9 +2331,17 @@ $(document).ready(function() {
     });
     $("#menu-new-game-btn").on("click", function() {
 		//new game
-        //window.location.reload(false);
-		APP.display.newGame();
+        window.location.reload(false);
+		//APP.display.newGame();
     });
+	$("#show-done-btn").on("click", function() {
+		var doneBtn = document.getElementById("done-btn");
+		if ($(doneBtn).css('display') === 'none'){
+			$(doneBtn).show();
+		} else {
+			$(doneBtn).hide();
+		}
+	});
 
     // options
     OPTIONS.output.innerHTML = "Normal";

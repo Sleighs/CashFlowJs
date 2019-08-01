@@ -815,12 +815,15 @@ var APP = APP || {
             APP.display.clearCards();
             APP.display.clearBtns();
 
-            // if the player has no assets to sell they lose the game, else 
-            if (/*(player.realEstateAssets.length && 
+            // if the player has no assets to sell they lose the game, else allow selling assets at half the downpayment
+            
+		/*if ((player.realEstateAssets.length && 
 					player.businessAssets.length && 
 					player.coinAssets.length && 
 					player.stockAssets.length
-				)*/ player.realEstateAssets.length < 1) {
+				) ^ includes selling all assets for bankruptcy*/ 
+				
+			if (player.realEstateAssets.length < 1) {
 				player.debtSale = false;
 				
                 $("#bankrupt-game-over-card").show();
@@ -828,7 +831,7 @@ var APP = APP || {
 				$("#roll-btn").hide();
 				$("#roll2-btn").hide();
                 // continue button
-            } else if(player.realEstateAssets.length > 0 || undefined){
+            } else if(player.realEstateAssets.length > 0){
 				//if player has assets	
 				player.debtSale = true;
 				

@@ -181,11 +181,11 @@ APP.display = {
 				APP.finishTurn();
 			}
 
-            if (APP.currentDeal.downPayment < player.cash) {
+            if (APP.currentDeal.downPayment <= player.cash) {
                 $("#turn-info").css("box-shadow", ".2px .2px 3px 3px #43A047");
+				APP.display.showCurrentDeal();
             }
-			
-			
+	
         } else if (boardPosition === 19) {
             APP.display.clearCards();
             APP.display.clearBtns();
@@ -211,8 +211,6 @@ APP.display = {
 			player.debtSale = false;
 		}
 		
-		APP.finance.statement();
-		
 		APP.checkBankruptcy();
 	},
 	showCurrentDeal: function(){
@@ -224,6 +222,8 @@ APP.display = {
 		
 		APP.display.clearCards();
 		APP.display.clearBtns();
+		
+		APP.finance.statement();
 		
 		switch (dealType) {
             case "Real Estate":
@@ -312,6 +312,7 @@ APP.display = {
 			case "Stock":
             case "Mutual Fund":
                 $("#deal-card-stock").show();
+				$("#deal-stock-name").show();
                 $("#show-stock-form-btn").show();
                 $("#done-btn").show();
                 $("#stock-cost-table").show();
@@ -345,7 +346,9 @@ APP.display = {
                 $("#show-stock-form-btn").show();
                 $("#done-btn").show();
                 $("#stock-cost-table").show();
+				
                 $("#deal-stock-rule").hide();
+				$("#deal-stock-name").hide();
                 $("#stock-table-trading-range-row").hide();
 
                 document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
@@ -364,6 +367,7 @@ APP.display = {
 				break;
 			case "Preferred Stock":
                 $("#deal-card-stock").show();
+				$("#deal-stock-name").show();
                 $("#show-stock-form-btn").show();
                 $("#done-btn").show();
                 $("#stock-cost-table").show();
@@ -430,6 +434,8 @@ APP.display = {
             case "Stock Split":
                 $("#deal-card-stock").show();
                 $("#deal-stock-rule").show();
+				$("#deal-stock-name").show();
+				
                 $("#stock-cost-table").hide();
 
                 document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
@@ -445,6 +451,8 @@ APP.display = {
             case "Reverse Split":
                 $("#deal-card-stock").show();
                 $("#deal-stock-rule").show();
+				$("#deal-stock-name").show();
+				
                 $("#stock-cost-table").hide();
 
                 document.getElementById("deal-stock-type").innerHTML = currentDeal.type;
@@ -509,8 +517,6 @@ APP.display = {
                 break;
 				*/
         }
-		
-		APP.finance.statement();
 	},
     increaseShares: function() {
         var player = APP.players[APP.currentPlayerArrPos()];

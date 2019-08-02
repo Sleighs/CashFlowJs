@@ -831,6 +831,8 @@ var APP = APP || {
 				$("#roll-btn").hide();
 				$("#roll2-btn").hide();
                 // continue button
+				
+				APP.finance.statement();
             } else if(player.realEstateAssets.length > 0){
 				//if player has assets	
 				player.debtSale = true;

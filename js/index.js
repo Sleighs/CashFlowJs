@@ -633,13 +633,22 @@ var APP = APP || {
     getSettlement: function(row, debt) {
         var player = APP.players[APP.currentPlayerArrPos()];
         var currentId = row;
-
-        currentId.split('');
-
-        const index = Number(currentId[5]);
 		
-		console.log("current id: " + currentId + ", get settlement index: " + index);
-
+        currentId.split('');
+		
+        var index;
+		
+		if (currentId.length > 100){
+			index = Number(currentId[5] + currentId[6] + currentId[7]);
+			console.log("current id: " + currentId + ", getSettlement index: " + index);
+		} else if (currentId.length > 10){
+			index = Number(currentId[5] + currentId[6]);
+			console.log("current id: " + currentId + ", getSettlement index: " + index);
+		} else {
+			index = Number(currentId[5]);
+			console.log("current id: " + currentId + ", getSettlement index: " + index);
+		}
+		
         this.currentSettlementIndex = index;
 
         if (debt === true) {
@@ -1665,6 +1674,7 @@ APP.finance = {
 
             if (APP.currentOffer) {
                 $("#offer-card").show();
+				$("#done-btn").show();
             }
 			
             if (player.payday > 0) {

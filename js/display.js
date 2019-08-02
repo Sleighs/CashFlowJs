@@ -914,6 +914,13 @@ APP.display = {
         if (player.position != 19) {
             $("#turn-info").css("box-shadow", "0 0 2px #212121");
         }
+		
+		//if table is long keep it a certain width
+        if (realEstateAssetArr.length > 15) {
+            $("#asset-table").css("height", "300px");
+        } else {
+            $("#asset-table").css("height", "auto");
+        }
 
         for (var i = 0; i < realEstateAssetArr.length; i++) {
             //insert row for each asset the current player has
@@ -988,8 +995,6 @@ APP.display = {
                 // when user clicks row show offer
                 $(rowId).click(addOnClick());
             }
-
-            
         }
         for (var j = 0; j < coinAssetArr.length; j++) {
             var amount = coinAssetArr[j].amount;
@@ -1078,13 +1083,6 @@ APP.display = {
                 "</td></tr>";
 
             $(incomeRealEstateTableId).append(businessIncomeRow);
-        }
-
-        //if table is long keep it a certain width
-        if (6 <= realEstateAssetArr.length /* + businessAssetArr.length*/ ) {
-            $("#asset-table").css("height", "228px");
-        } else {
-            $("#asset-table").css("height", "auto");
         }
     },
     renderStockTable: function() {

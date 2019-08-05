@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cash Flow Js</title>
+    <title>CashFlowJs</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto|Lato|Montserrat|Quattrocento" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen and (max-width: 360px)" href="css/mobile-portrait.css">
     <link rel="stylesheet" type="text/css" media="screen and (min-width: 361px) and (max-width: 480px)" href="css/mobile-landscape.css">
@@ -240,7 +240,7 @@
 				  <span class="checkmark"></span>
 				  </label>
 				  <div>
-					<!--list of individual land types-->
+					<!--sublist of individual land types-->
 				  </div>
 			  </div>
               <label class="options-checkbox">Stocks
@@ -920,7 +920,14 @@
 	    <div id="game-menu">
 		  <button id="menu-new-game-btn">New Game</button>
 		  <button id="show-done-btn">Done Button</button>
+		  
+			<span id="turn-info--"></span>
 		</div>
+		<div id="financial-ratios" style="display: none;">
+			<span>ROI = (Current Value of Investment - Cost of Investment) / Cost of Investment</span>
+			<br>
+			<span>ROA=Average Total Assets/Net Income</span>
+		</div>		
 	  </div>
 	  
 	    <div id="finance-box">
@@ -1094,6 +1101,7 @@
 			</table>
 			
 		  </div>
+		  
       </div>
 	  
   </body>

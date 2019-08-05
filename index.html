@@ -225,8 +225,8 @@
 		  <div id="options-container">
 			<input id="start-game" type="button" value="Start Game" onclick="APP.setup()" title="Begin playing." />
             <div id="mode-indicator-container">
-              <button id="default-game-indicator" onclick="OPTIONS.defaultOptions();">Default</button>
-              <div id="custom-game-indicator" onclick="">Custom</div>
+              <button id="default-game-indicator" onclick="OPTIONS.defaultOptions()">Default</button>
+              <div id="custom-game-indicator" onclick="OPTIONS.selectGameMode()"></div>
             </div>
             <div id="asset-deck-selection">
               <h1>Assets</h1>
@@ -911,9 +911,9 @@
           <td class="cell2 board-bot2 opp-space2" id="cell204"></td>
           <td class="cell2 board-bot2 opp-space2" id="cell203"></td>
           <td class="cell2 board-bot2 cha-space" id="cell202"></td>
-          <td class="cell2 board-bot2 dow-space" id="cell201"></td>
-          <td class="cell2 board-bot2 opp-space2" id="cell240"></td>
-          <td class="cell2 board-bot2 opp-space2" id="cell239"></td>
+          <td class="cell2 board-bot2 dow-space hoverText" id="cell201"></td>
+          <td class="cell2 board-bot2 opp-space2 hoverText" id="cell240"></td>
+          <td class="cell2 board-bot2 opp-space2 hoverText" id="cell239"></td>
           <td class="cell2 board-bot2 pay-space" id="cell238"></td>
         </tr>
       </table>

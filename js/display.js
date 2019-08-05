@@ -306,7 +306,6 @@ APP.display = {
                 document.getElementById("deal-re-name").innerHTML = "No Deals to Choose From";
                 document.getElementById("deal-re-description").innerHTML = "";
                 document.getElementById("deal-re-rule").innerHTML = "";
-
                 break;
 			case "Stock":
             case "Mutual Fund":
@@ -337,9 +336,7 @@ APP.display = {
                 if (shares > 0) {
                     $("#show-stock-sell-form-btn").show();
                 }
-
                 break;
-            
 			case "Certificate of Deposit":
 				$("#deal-card-stock").show();
                 $("#show-stock-form-btn").show();
@@ -911,7 +908,7 @@ APP.display = {
 		
 		//if table is long keep it a certain width
         if (realEstateAssetArr.length > 15) {
-            $("#asset-table").css("height", "300px");
+            $("#asset-table").css("height", "280px");
         } else {
             $("#asset-table").css("height", "auto");
         }
@@ -960,7 +957,7 @@ APP.display = {
                     var id = anchor.getAttribute("id");
 
                     anchor.onclick = function() {
-                        APP.getSettlement(id, true, i);
+                        APP.getSettlement(id, true);
                     };
                 };
 
@@ -1212,7 +1209,6 @@ APP.display = {
     numWithCommas: function(num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
-    //getCurrentSettlementAsset: function() {},
 	newGame: function() {
 	//hide game board
 		$("#board").hide();

@@ -15,9 +15,7 @@ var OPTIONS = {
     startingSavings: document.getElementById("start-savings-slide"),
     kids: document.getElementById("oo-kids"),
     paycheckDoodads: document.getElementById("oo-paycheck-doodads"),
-    playerLoans: document.getElementById("oo-player-loans"),
     chooseJob: document.getElementById("oo-choose-job"),
-    oneDealDeck: document.getElementById("oo-one-deal-deck"),
     mortgagePrepay: document.getElementById("oo-mortgage-prepay"),
 	instantFastTrack: document.getElementById("oo-instant-ft"),
 	oneCentAway: document.getElementById("oo-one-cent-away"),
@@ -30,6 +28,57 @@ var OPTIONS = {
         } else {
             $("#default-game-indicator").css("color", "#4E342E");
             $("#custom-game-indicator").css("color", "#FDD835");
+        }
+		
+		if (this.smallRE.checked == true &&
+			this.bigRE.checked == true &&
+			this.stocks.checked == false &&
+			this.mutuals.checked == true &&
+			this.preferredStocks.checked == false&&
+			this.cds.checked == true &&
+			this.coins.checked == true &&
+			this.limitedPartnership.checked == true&&
+			this.companies.checked == true &&
+			this.startingSavings.value == 0 &&
+			this.kids.checked == true &&
+			this.paycheckDoodads.checked == true &&
+			this.mortgagePrepay.checked == false &&
+			this.instantFastTrack.checked == false &&
+			this.oneCentAway.checked == false &&
+			this.noLoans.checked == false &&
+			this.manualDice.checked == false){
+			document.getElementById("custom-game-indicator").innerText = "Hard";
+		} else 		
+		if (this.smallRE.checked == true &&
+			this.bigRE.checked == true &&
+			this.stocks.checked == true &&
+			this.mutuals.checked == true &&
+			this.preferredStocks.checked == false&&
+			this.cds.checked == false &&
+			this.coins.checked == false &&
+			this.limitedPartnership.checked == true&&
+			this.companies.checked == true &&
+			this.startingSavings.value == 3 &&
+			this.kids.checked == false &&
+			this.paycheckDoodads.checked == false &&
+			this.mortgagePrepay.checked == true &&
+			this.instantFastTrack.checked == false &&
+			this.oneCentAway.checked == false &&
+			this.noLoans.checked == false &&
+			this.manualDice.checked == false){
+			document.getElementById("custom-game-indicator").innerText = "Fast";
+		} else {
+			document.getElementById("custom-game-indicator").innerText = "Custom";
+		}
+
+		if (this.slider.value == 0) {
+            OPTIONS.output.innerHTML = "None";
+        } else if (this.slider.value == 1) {
+            OPTIONS.output.innerHTML = "Normal";
+        } else if (this.slider.value == 2) {
+            OPTIONS.output.innerHTML = "Salary";
+        } else if (this.slider.value == 3) {
+            OPTIONS.output.innerHTML = "2x Salary";
         }
     },
     defaultOptions: function() {
@@ -45,14 +94,10 @@ var OPTIONS = {
         this.startingSavings.value = 1;
         this.kids.checked = false;
         this.paycheckDoodads.checked = false;
-        this.playerLoans.checked = false;
-        this.oneDealDeck.checked = false;
-        this.paycheckDoodads.checked = false;
         this.mortgagePrepay.checked = false;
 		this.instantFastTrack.checked = false;
 		this.oneCentAway.checked = false;
 		this.noLoans.checked = false;
-		this.manualDice.checked = false;
 
         OPTIONS.checkState();
     },
@@ -244,7 +289,58 @@ var OPTIONS = {
             }
         }
 	},
-    fastTrackStart: function() {
+	selectGameMode: function() {
+		var title = document.getElementById("custom-game-indicator");
+		
+		if (title.innerText == "Custom"){	
+			//fast track mode
+			$(title).text("Fast");
+			
+			this.smallRE.checked = true;
+			this.bigRE.checked = true;
+			this.stocks.checked = true;
+			this.mutuals.checked = true;
+			this.preferredStocks.checked = false;
+			this.cds.checked = false;
+			this.coins.checked = false;
+			this.limitedPartnership.checked = true;
+			this.companies.checked = true;
+			this.startingSavings.value = 3;
+			this.kids.checked = false;
+			this.paycheckDoodads.checked = false;
+			this.mortgagePrepay.checked = true;
+			this.instantFastTrack.checked = false;
+			this.oneCentAway.checked = false;
+			this.noLoans.checked = false;
+			this.manualDice.checked = false;
+			
+			this.checkState();
+		} else if (title.innerText == "Fast"){
+			//hard mode
+			$(title).text("Hard");
 
-    }
+			this.smallRE.checked = true;
+			this.bigRE.checked = true;
+			this.stocks.checked = false;
+			this.mutuals.checked = true;
+			this.preferredStocks.checked = false;
+			this.cds.checked = true;
+			this.coins.checked = true;
+			this.limitedPartnership.checked = true;
+			this.companies.checked = true;
+			this.startingSavings.value = 0;
+			this.kids.checked = true;
+			this.paycheckDoodads.checked = true;
+			this.mortgagePrepay.checked = false;
+			this.instantFastTrack.checked = false;
+			this.oneCentAway.checked = false;
+			this.noLoans.checked = false;
+			this.manualDice.checked = false;
+			
+			this.checkState();
+		} else if (title.innerText == "Hard"){
+			$(title).text("Custom");
+			this.checkState();
+		}
+	}
 };

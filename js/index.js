@@ -716,9 +716,6 @@ var APP = APP || {
         $("#big-deal-btn").hide();
         $("#sell-shares-form").hide();
 		
-		//--test
-		console.log(currentDeal);
-		
 		APP.display.showCurrentDeal();
     },
     bigDeal: function() {
@@ -767,7 +764,7 @@ var APP = APP || {
     ownedShares: function() {
         var player = APP.players[APP.currentPlayerArrPos()];
         var arr = player.stockAssets;
-        var stockId = APP.currentDeal.id;
+        //var stockId = APP.currentDeal.id;
         var stockSymbol = APP.currentDeal.symbol;
         var shares = 0;
 
@@ -1114,6 +1111,7 @@ APP.finance = {
         }
     },
     getTaxes: function() {
+		//based on 2019 United States federal income tax brackets
         var player = APP.players[APP.currentPlayerArrPos()];
         var taxes = player.jobTitle[3];
 
@@ -1289,7 +1287,7 @@ APP.finance = {
     },
     loanPayment: function(currentPlayer) {
         var player = APP.players[currentPlayer];
-        var loanPayment = player.loans * 0.1;
+        var loanPayment = player.loans * 0.1;		
         player.loanPayment = loanPayment;
         return loanPayment;
     },
@@ -1415,7 +1413,7 @@ APP.finance = {
                 APP.finishTurn();
                 break;
         }
-        APP.finance.statement(APP.currentPlayerArrPos());
+        APP.finance.statement();
     },
     buyStock: function() {
         var player = APP.players[APP.currentPlayerArrPos()];
@@ -1531,7 +1529,6 @@ APP.finance = {
         for (var i = 0; i < arr.length; i++) {
             var shares = arr[i].shares;
             if (arr[i].symbol == stockSymbol) {
-
                 if (type == "split") {
                     arr[i].shares = shares * 2;
                     $("#turn-info").css("box-shadow", ".2px .2px 3px 3px #43A047");
@@ -1872,7 +1869,7 @@ APP.loadCard = function(boardPosition) {
                 $(".card-title").css("color", "#00BCD4");
                 break;
 				
-            // Opportunitie spaces
+            //Opportunity spaces
             case 17:
                 $("#ft-deal-retun-row").hide();
                 $("#ft-opp-buy-btn").hide();
@@ -2068,7 +2065,6 @@ APP.loadCard = function(boardPosition) {
             document.getElementById("expenses-child").innerHTML = APP.display.numWithCommas(playerObj.childExpense);
 
             APP.finance.statement(APP.currentPlayerArrPos());
-
         }
 
         //downsize
@@ -2344,6 +2340,26 @@ $(document).ready(function() {
 			$(doneBtn).hide();
 		}
 	});
+	$("#custom-game-indicator").text("Custom");
+	
+	/*var h, w, f;
+	$(".hoverText").hover(function(){
+		//get element id of hovered space
+		console.log("id: " + this.id);
+		
+		h = document.getElementById(this.id).style.height;
+		w = document.getElementById(this.id).style.width;
+		f = document.getElementById(this.id).style.fontSize;
+		
+		document.getElementById(this.id).style.height = "200px";
+		document.getElementById(this.id).style.width = "200px";
+		document.getElementById(this.id).style.fontSize = "1.9em";
+		
+	},function(){
+		document.getElementById(this.id).style.height = h;
+		document.getElementById(this.id).style.width = w;
+		document.getElementById(this.id).style.fontSize = f;
+	});*/
 
     // options
     OPTIONS.output.innerHTML = "Normal";

@@ -64,7 +64,7 @@ var OPTIONS = {
 			this.mortgagePrepay.checked == true &&
 			this.instantFastTrack.checked == false &&
 			this.oneCentAway.checked == false &&
-			this.noLoans.checked == false &&
+			this.noLoans.checked == true &&
 			this.manualDice.checked == false){
 			document.getElementById("custom-game-indicator").innerText = "Fast";
 		} else {
@@ -311,7 +311,7 @@ var OPTIONS = {
 			this.mortgagePrepay.checked = true;
 			this.instantFastTrack.checked = false;
 			this.oneCentAway.checked = false;
-			this.noLoans.checked = false;
+			this.noLoans.checked = true;
 			this.manualDice.checked = false;
 			
 			this.checkState();

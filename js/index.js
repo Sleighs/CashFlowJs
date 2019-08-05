@@ -330,8 +330,7 @@ var APP = APP || {
         document.getElementById("ft-player-name").innerHTML = APP.name(APP.currentPlayer);
 
         APP.turnCount++;
-		
-		//--temp
+		//--testing
 		$("#turn-info--").html("Turn: " + APP.turnCount);
 
         if (player.charityTurns === 0) {
@@ -476,6 +475,8 @@ var APP = APP || {
             return object[keys[Math.floor(keys.length * Math.random())]];
         };
         var currentOffer = randOffer(obj);
+		
+		console.log(currentOffer);
 
         this.currentOffer = currentOffer;
         this.currentOfferOffered = currentOffer.offer;
@@ -1209,13 +1210,13 @@ APP.finance = {
         var value2 = parseInt(document.getElementById("loan-amt-input2").value, 10);
 		var loan = parseInt(document.getElementById("loan-amt-input2").value, 10);
 		
-        value1 = isNaN(value1) ? 0 : value1;
+        //value1 = isNaN(value1) ? 0 : value1;
         value1 += 1000;
         document.getElementById("loan-amt-input").value = value1;
 		
 		if (loan < player.loans){
 			
-			value2 = isNaN(value2) ? 0 : value2;
+			//value2 = isNaN(value2) ? 0 : value2;
 			
 			if (value2 + 1000 > player.cash) {				
 				value2 += 0;
@@ -1658,15 +1659,15 @@ APP.finance = {
 
                 assetArr.splice(APP.currentSettlementIndex, 1);
             }
-
-            if (APP.currentOffer) {
-                $("#offer-card").show();
-            }
 			
-            if (player.payday > 0) {
-                $("#done-btn").show();
-            }
+			if (APP.currentOffer) {
+                $("#offer-card").show();
+            }   
         }
+	
+        if (player.debt == false) {
+		   $("#done-btn").show();
+		}   
 
         APP.finance.statement();
     },
@@ -2360,6 +2361,14 @@ $(document).ready(function() {
 		document.getElementById(this.id).style.width = w;
 		document.getElementById(this.id).style.fontSize = f;
 	});*/
+	
+	//stock form
+	$("#share-amt-input-sell", "#decrease-shares-sell", "#increase-shares-sell").on("change", function(){
+		var price = APP.currentDeal.price;
+		var shares = this.value;
+		
+		document.getElementById("share-sell-total").innerHTML = price * shares;
+	});
 
     // options
     OPTIONS.output.innerHTML = "Normal";

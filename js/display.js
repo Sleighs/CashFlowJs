@@ -509,48 +509,36 @@ APP.display = {
                 break;
         }
 	},
-    increaseShares: function() {
+    increaseShares: function(option) {
         var player = APP.players[APP.currentPlayerArrPos()];
-        var value = parseInt(document.getElementById("share-amt-input-sell").value, 10);
         var arr = player.stockAssets;
-        var stockSymbol = APP.currentDeal.symbol;
 
-        var index;
-        for (var i = 0; i < arr.length; i++) {
-            if (arr[i].selected != 'undefined') {
-                index = i;
-            }
-        }
-
-        var shares = Number(arr[index].shares);
-
-        if (value < shares) {
-            document.getElementById('share-amt-input-sell').stepUp(1);
+		if (option == 1) {
+			if (document.getElementById("share-amt-input").value){
+				document.getElementById("share-amt-input").stepUp(1);
+			}
+        } else if (option == 2) {
+			var index;
+			for (var i = 0; i < arr.length; i++) {
+				if (arr[i].selected != "undefined") {
+					index = i;
+				}
+			}
+			var shares = Number(arr[index].shares);
+			if (document.getElementById("share-amt-input-sell").value < shares){
+				document.getElementById("share-amt-input-sell").stepUp(1);
+			}
         }
     },
-    decreaseShares: function(option) {
+    decreaseShares: function(option) {		
         if (option == 1) {
-            var value = parseInt(document.getElementById("share-amt-input").value, 10);
-            value = isNaN(value) ? 0 : value;
-            value -= 1;
-
-            if (value > 1) {
-                value -= 1;
-            } else {
-                value = 1;
-            }
-            document.getElementById("share-amt-input").value = value;
-        } else {
-            var value2 = parseInt(document.getElementById("share-amt-input-sell").value, 10);
-            value2 = isNaN(value2) ? 0 : value2;
-            value2 -= 1;
-
-            if (value2 > 1) {
-                value2 -= 1;
-            } else {
-                value2 = 1;
-            }
-            document.getElementById("share-amt-input-sell").value = value2;
+			if (document.getElementById("share-amt-input").value > 0){
+				document.getElementById("share-amt-input").stepDown(1);
+			}
+        } else if (option == 2) {
+			if (document.getElementById("share-amt-input-sell").value > 0){
+				document.getElementById("share-amt-input-sell").stepDown(1);
+			}
         }
     },
     clearBtns: function() {
@@ -1148,6 +1136,10 @@ APP.display = {
                     assetArr[curIndex].selected = true;
                     document.getElementById("share-cost-bought").innerHTML = String(assetArr[curIndex].price);
                     document.getElementById("share-amt-input-sell").value = assetArr[curIndex].shares;
+					
+					document.getElementById("share-sell-total").innerHTML = APP.display.numWithCommas(
+						assetArr[curIndex].price * assetArr[curIndex].shares
+					);	
                 });
             }
         }

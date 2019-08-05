@@ -1324,7 +1324,7 @@ body {
 #borrow-loan-btn,
 #take-out-loan {
     height: 40px;
-    width: 104px;
+    width: 112px;
     border-radius: 5px;
     background-color: white;
     outline: none;
@@ -1649,6 +1649,8 @@ body {
 }
 #game-menu {
 	display: none;
+    border-radius: 5px;
+    color: #757575;
 }
 #menu-new-game-btn,
 #show-done-btn {
@@ -1658,4 +1660,18 @@ body {
     outline: none;
     font-size: 9pt;
     color: #757575;
+}
+#roll-info-container {
+	width: 98px;
+    border-radius: 5px;
+    background-color: white;
+    outline: none;
+	font-weight: bold;
+    font-size: 12pt;
+    color: #757575;
+	display: inline-block;
+}
+#turn-info-- {
+	font-weight: bold;
+    font-size: 12pt;
 }

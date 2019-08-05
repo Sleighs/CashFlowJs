@@ -184,8 +184,7 @@ APP.display = {
             if (APP.currentDeal.downPayment <= player.cash) {
                 $("#turn-info").css("box-shadow", ".2px .2px 3px 3px #43A047");
 				APP.display.showCurrentDeal();
-            }
-	
+            }	
         } else if (boardPosition === 19) {
             APP.display.clearCards();
             APP.display.clearBtns();
@@ -511,11 +510,6 @@ APP.display = {
 
                 $("#pass-btn").show();
                 break;
-            /*default:
-                //-- temp
-                $("#done-btn").show();
-                break;
-				*/
         }
 	},
     increaseShares: function() {
@@ -966,7 +960,7 @@ APP.display = {
                     var id = anchor.getAttribute("id");
 
                     anchor.onclick = function() {
-                        APP.getSettlement(id, true);
+                        APP.getSettlement(id, true, i);
                     };
                 };
 

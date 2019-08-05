@@ -144,8 +144,7 @@ var APP = APP || {
         var dieTotal = 0;
 		
 		for (i = 1; i <= dieCount; i++) {
-			var die = Math.floor(Math.random() * 6) + 1;
-			
+			var die = Math.floor(Math.random() * 6) + 1;		
 			dieTotal += die;
 		}
 
@@ -251,7 +250,6 @@ var APP = APP || {
             $(coinRowClass).hide();
         }
 
-
         if (player.fastTrack == false) {
             if (APP.dreamPhase.dreamPhaseOn == false) {
                 $("#card-btns").show();
@@ -332,6 +330,9 @@ var APP = APP || {
         document.getElementById("ft-player-name").innerHTML = APP.name(APP.currentPlayer);
 
         APP.turnCount++;
+		
+		//--temp
+		$("#turn-info--").html("Turn: " + APP.turnCount);
 
         if (player.charityTurns === 0) {
             $("#roll2-btn").hide();
@@ -387,9 +388,10 @@ var APP = APP || {
         if (realEstateAssets.length > 0) {
             for (var i = 0; i < realEstateAssets.length; i++) {
                 realEstateAssets[i].highlight = "off";
-                var rowId = "#asset" + parseInt(i, 10) + "-row";
-
-                $(rowId).click(function() {
+                
+				var rowId = "#asset" + parseInt(i, 10) + "-row";
+                
+				$(rowId).click(function() {
                     return 0;
                 });
             }
@@ -397,24 +399,25 @@ var APP = APP || {
         if (coinAssets.length > 0) {
             for (var i = 0; i < coinAssets.length; i++) {
                 coinAssets[i].highlight = false;
-                var rowId = "#asset-c" + parseInt(i, 10) + "-row";
+                
+				var rowId = "#asset-c" + parseInt(i, 10) + "-row";
 
                 $(rowId).click(function() {
                     return 0;
                 });
             }
-        }
+        }		
 		
 		if (player.debt == false) {
 			if (realEstateAssets.length > 0) {
-            for (var i = 0; i < realEstateAssets.length; i++) {
-                var rowId = "#asset" + parseInt(i, 10) + "-row";
+				for (var i = 0; i < realEstateAssets.length; i++) {
+					var rowId = "#asset" + parseInt(i, 10) + "-row";
 
-                $(rowId).click(function() {
-                    return 0;
-                });
-            }
-        }
+					$(rowId).click(function() {
+						return 0;
+					});
+				}
+			}
 		}
 
         APP.finance.statement();
@@ -431,18 +434,15 @@ var APP = APP || {
         var currentDoodad = randDoodad(obj);
 
         //check if doodad requires children
-
         if (currentDoodad.child == true && player.children == 0) {
             //get new doodad
             this.getDoodad();
         } else {
             this.currentDoodad = currentDoodad;
         }
-
-
-        //set doodad
-        var doodadName = this.currentDoodad.name;
 		
+        //set doodad
+        var doodadName = this.currentDoodad.name;		
         
 		if (this.currentDoodad.amount) {
 			this.currentDoodad.cost = player.cash * this.currentDoodad.amount;
@@ -462,7 +462,6 @@ var APP = APP || {
             player.creditDebt = 4000;
             player.tvPayment = 120;
         }
-        //if child required
 
         //display doodad
         document.getElementById("doodad-title").innerHTML = doodadName;
@@ -544,7 +543,6 @@ var APP = APP || {
             case "3Br/2Ba-":
                 //Remove 3br2ba and cashFlow
 
-
                 for (var i = 0; i < assetArr.length; i++) {
 
                     if (assetArr[i].landType == "3Br/2Ba") {
@@ -583,7 +581,7 @@ var APP = APP || {
                 }
                 break;
             case "franchise":
-                //?
+                //unused
                 break;
             case "business":
                 var businessAssetArr = player.businessAssets;
@@ -640,13 +638,10 @@ var APP = APP || {
 		
 		if (currentId.length > 100){
 			index = Number(currentId[5] + currentId[6] + currentId[7]);
-			console.log("current id: " + currentId + ", getSettlement index: " + index);
 		} else if (currentId.length > 10){
 			index = Number(currentId[5] + currentId[6]);
-			console.log("current id: " + currentId + ", getSettlement index: " + index);
 		} else {
 			index = Number(currentId[5]);
-			console.log("current id: " + currentId + ", getSettlement index: " + index);
 		}
 		
         this.currentSettlementIndex = index;
@@ -665,7 +660,6 @@ var APP = APP || {
             $("#br-settlement-offer").html(parseInt(bankruptcySettlement, 10));
 			
         } else {
-            //if (typeof APP.currentOffer == "object") {
             switch (APP.currentOffer.type) {
                 case "4-plex":
                 case "8-plex":
@@ -1087,7 +1081,6 @@ APP.finance = {
         var insurance = player.insurance;
 
         if (player.hasInsurance == true) {
-
             this.getInsurance(currentPlayer);
         }
 
@@ -1106,8 +1099,6 @@ APP.finance = {
         } else {
             player.totalExpenses = 0; //taxes + children + other;
         }
-
-        //include assets
 
         return player.totalExpenses;
     },
@@ -1593,7 +1584,6 @@ APP.finance = {
         } else {
             this.loanOffer(cost);
         }
-
     },
     buyBusiness: function() {
         var player = APP.players[APP.currentPlayerArrPos()];
@@ -1626,8 +1616,8 @@ APP.finance = {
         if (player.debt == true) {
             player.cash += APP.currentSettlement;
             player.assetIncome -= APP.currentSettlementCashFlow;
-            //--temp
-            assetArr.splice(0, 1);
+			
+            assetArr.splice(APP.currentSettlementIndex, 1);
 
             $("#confirm-settlement-btn").hide();
 			
@@ -1674,7 +1664,6 @@ APP.finance = {
 
             if (APP.currentOffer) {
                 $("#offer-card").show();
-				$("#done-btn").show();
             }
 			
             if (player.payday > 0) {

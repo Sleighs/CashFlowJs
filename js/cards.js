@@ -605,23 +605,27 @@ APP.cards = {
         },
         cd1: {
           type: "Certificate of Deposit",
-          name: "Certificate of Deposit",
+          name: "Certificate of Deposit 1",
           description: "A leading bank offers this special Certificate of Deposit to its customer. Guaranteed interest and redeemable after any holding period.",
           rule: "Everyone may buy or sell as many as they wish at this time.",
-          symbol: "CD",
+          symbol: "CD-A",
           dividend: 12,
           price: 500,
-          range: "$5,000 to $5,000"
+          range: "$5,000 to $5,000",
+		  id: "cd1",
+		  shares: 0
         },
         cd2: {
           type: "Certificate of Deposit",
-          name: "Certificate of Deposit",
+          name: "Certificate of Deposit 2",
           description: "A leading bank offers this special Certificate of Deposit to its customer. Guaranteed interest and redeemable after any holding period.",
           rule: "Everyone may buy or sell as many as they wish at this time.",
-          symbol: "CD",
+          symbol: "CD-B",
           dividend: 60,
           price: 2000,
-          range: "$5,000 to $5,000"
+          range: "$5,000 to $5,000",
+		  id: "cd2",
+		  shares: 0
         },
         companyS1: {
             type: "Company",
@@ -651,7 +655,6 @@ APP.cards = {
             landType: "business",
             businessType: "widget"
         }
-
     },
     bigDeal: {
         realEstateB1: {
@@ -920,7 +923,7 @@ APP.cards = {
             mortgage: 500000,
             downPayment: 75000,
             cashFlow: 3400,
-            unit: 48,
+            units: 48,
             tag: "2x 24u",
             landType: "apartment",
             units: 48
@@ -1433,8 +1436,7 @@ APP.cards = {
             lowestUnit: 0,
             type: "apartment"
         },
-        /*offer28: {
-	
+        offer28: {
           name: "House Buyer - 3Br/2Ba",
           description: "Your brother-in-law lost his job and wants to buy your 3/2 rental house. He promises to pay you $100,000 four years from now, but has no income or savings. He can pay a small monthly amount, but no down payment...",
           rule1: "",
@@ -1443,7 +1445,7 @@ APP.cards = {
           offer: 100000,
           cashFlow: -500,
           type: "3Br/2Ba"
-        },*/
+        },
         offer29: {
             name: "Limited Partnership Sold",
             type: "limited",
@@ -1805,12 +1807,13 @@ APP.cards = {
 		doodad45: {
             name: "Healthcare Costs",
             text: "Pay half of your savings for medical bills.",
-			amount: .5	
+			amount: .5
         },
 		doodad46: {
             name: "Sports Injury",
-            text: "Pay a quarter to treat your child's injury.",
-			amount: .25
+            text: "Pay a quarter of your savings to treat your child's injury.",
+			amount: .25,
+			child: true
         }
 	}	
 };

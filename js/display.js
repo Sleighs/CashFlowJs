@@ -423,7 +423,13 @@ APP.display = {
 							$("#pd-pay-button").show();
 							
 							$(".card-title").css("color", "#D32F2F");
-                        }
+                        } else if (damageType === "8-plex") {
+							document.getElementById("deal-re-rule").innerHTML = currentDeal.rule;
+                            
+							$("#pd-pay-button").show();
+							
+							$(".card-title").css("color", "#D32F2F");
+						}							
                     }
                 }
                 break;
@@ -775,7 +781,8 @@ APP.display = {
 
 
                             for (var i = 0; i < player.cash - 1000; i += 1000) {
-                                document.getElementById("loan-amt-input2").value = 1000;
+								var loanB = APP.finance.roundLoan(loanAmt);
+                                document.getElementById("loan-amt-input2").value = loanB;
                             }
                         } else {
                             $("#confirm-pay-btn").show();
@@ -898,7 +905,7 @@ APP.display = {
         if (realEstateAssetArr.length > 15) {
             $("#asset-table").css("height", "280px");
         } else {
-            $("#asset-table").css("height", "auto");
+            $("#asset-table").css("height", "380px");
         }
 
         for (var i = 0; i < realEstateAssetArr.length; i++) {
@@ -1116,7 +1123,7 @@ APP.display = {
                 "</td></tr>";
 
             $(incomeInterestTableId).append(incomeRow);
-            if (symbol == "2BIG" || symbol == "1GLO" || symbol == "CD") {
+            if (symbol == "2BIG" || symbol == "1GLO" || symbol == "CD-A" || symbol == "CD-B") {
                 $(tableId).append(stockRow2);
             } else {
                 $(tableId).append(stockRow);
@@ -1137,9 +1144,9 @@ APP.display = {
                     document.getElementById("share-cost-bought").innerHTML = String(assetArr[curIndex].price);
                     document.getElementById("share-amt-input-sell").value = assetArr[curIndex].shares;
 					
-					document.getElementById("share-sell-total").innerHTML = APP.display.numWithCommas(
+					/*document.getElementById("share-sell-total").innerHTML = APP.display.numWithCommas(
 						assetArr[curIndex].price * assetArr[curIndex].shares
-					);	
+					);*/	
                 });
             }
         }

@@ -476,6 +476,7 @@ var APP = APP || {
         };
         var currentOffer = randOffer(obj);
 		
+		//--testing
 		console.log(currentOffer);
 
         this.currentOffer = currentOffer;
@@ -735,7 +736,7 @@ var APP = APP || {
             dealType = currentDeal.type;
             this.currentDeal = currentDeal;
 			
-			//--test
+			//--testing
 			console.log(currentDeal);
         }
 
@@ -1055,7 +1056,7 @@ APP.finance = {
 
         // get total income
         if (player.fastTrack == false) {
-            player.totalIncome = salary + player.assetIncome + assetIncome + dividends;
+            player.totalIncome = salary + /*player.assetIncome +*/ assetIncome + dividends;
             player.passiveIncome = assetIncome + dividends;
         } else {
             player.totalIncome = player.cashFlowDay + fastTrackIncome;
@@ -2363,17 +2364,18 @@ $(document).ready(function() {
 	});*/
 	
 	//stock form
-	$("#share-amt-input-sell", "#decrease-shares-sell", "#increase-shares-sell").on("change", function(){
+	/*$("#share-amt-input-sell", "#decrease-shares-sell", "#increase-shares-sell").on("change", function(){
 		var price = APP.currentDeal.price;
 		var shares = this.value;
 		
 		document.getElementById("share-sell-total").innerHTML = price * shares;
-	});
+	});*/
 
-    // options
+    // Options
     OPTIONS.output.innerHTML = "Normal";
     $("#default-game-indicator").css("color", "#FDD835");
     $("#custom-game-indicator").css("color", "#4E342E");
+    $(".off-options").hide(); //-- hides unnused option menu checkboxes
 	
 	// listen for default settings on each change
     for (var i = 0; i < OPTIONS.checkbox.length; i++) {
@@ -2394,9 +2396,6 @@ $(document).ready(function() {
         }
         OPTIONS.checkState();
     };
-
-    //-- hides options checkboxes
-    $(".off-options").hide();
 
     // Show player options for selected amount of players, updates each input
     var playerInputs = document.querySelectorAll("div.player-input");

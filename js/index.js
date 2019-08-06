@@ -1721,18 +1721,12 @@ APP.finance = {
     },
     roundLoan: function(cost) {
         var player = APP.players[APP.currentPlayerArrPos()];
-        var value = cost - player.cash;
-        var pay;
-
-        if (value < 1000) {
+        var val = cost - player.cash;
+		
+        if (val < 1000) {
             this.loanAmount = 1000;
         } else {
-            var string = value.toString().split("");
-            for (var i = 1; i < string.length; i++) {
-                string[i] = 0;
-            }
-            string[0] = Number(string[0]) + 1;
-            this.loanAmount = Number(string.join(""));
+			this.loanAmount = Math.ceil(val/1000)*1000;
         }
     },
     getLoan: function() {

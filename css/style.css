@@ -108,6 +108,12 @@ body {
     }
 }
 
+#game-selection-screen,
+#game-setup-screen,
+#setup-screen,
+#turn-info-box {
+    display: none;
+}
 #game-selection-screen {
     font-size: 40px;
     margin: auto;
@@ -116,7 +122,6 @@ body {
     width: 100%;
     height: 100%;
 }
-
 #new-room-button {
     height: 150px;
     width: 425px;
@@ -130,7 +135,6 @@ body {
     text-shadow: .8px .8px 1px #4E342E;
     margin: 9% 33%;
 }
-
 #setup-screen {
     color: white;
     display: none;
@@ -145,7 +149,6 @@ body {
     width: 78%;
     height: 800px;
 }
-
 #player-setup-container {
     box-shadow: 0px 0px 1px 1px #FDD835;
     border-radius: 8px;
@@ -156,7 +159,6 @@ body {
     display: inline-block;
     width: 39%;
 }
-
 #player-setup-input-container {
     margin: auto;
 }
@@ -218,7 +220,6 @@ body {
     content: "";
     position: absolute;
     display: none;
-	
 }
 .player-options-checkbox:hover input~.player-input-checkmark {
     background-color: #FFFBB9;
@@ -229,7 +230,6 @@ body {
 	color: white;
 	text-shadow: .2px .2px .3px #4E342E;
 	box-shadow: .8px .8px .8px #212121;
-
 }
 .player-options-checkbox input:checked~.player-input-checkmark:after {
     
@@ -245,13 +245,6 @@ body {
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
-#game-selection-screen,
-#game-setup-screen,
-#setup-screen,
-#turn-info-box {
-    display: none;
-}
-
 #player-number-option {
     font-weight: 500;
     font-size: 20pt;
@@ -318,25 +311,20 @@ body {
     width: 25px;
     background-color: #eee;
 }
-
 .options-checkbox:hover input~.checkmark {
     background-color: #ccc;
 }
-
 .options-checkbox input:checked~.checkmark {
     background-color: #2196F3;
 }
-
 .checkmark:after {
     content: "";
     position: absolute;
     display: none;
 }
-
 .options-checkbox input:checked~.checkmark:after {
     display: block;
 }
-
 .options-checkbox .checkmark:after {
     left: 9px;
     top: 5px;
@@ -459,7 +447,7 @@ body {
 #board {
     display: none;
     margin: auto;
-    border: 2pt solid white;
+    border: 1pt solid white;
     width: 100%;
 	height: 98%;
 }
@@ -467,7 +455,7 @@ body {
 #board2 {
     display: none;
     margin: auto;
-    border: 2pt solid white;
+    border: 1pt solid white;
     width: 100%;
 	/*height: 1000px;*/
     border-radius: 5px;
@@ -510,7 +498,7 @@ body {
     padding: 0px;
     color: white;
     height: 88px;
-    width: 94px;
+    width: 10%;
     font-size: 8pt;
     letter-spacing: .2pt;
     text-align: center;
@@ -739,8 +727,9 @@ body {
     display: none;
     background-color: white;
     margin: auto;
-    padding: 5px 0;
+    padding: 1px 0;
     height: 400px;
+	width: 330px;
 }
 
 #player-list,
@@ -767,7 +756,7 @@ body {
     border-radius: 6px;
     box-shadow: 0 0 2px #212121;
 	height: 100%;
-	width: 94%;
+	width: 330px;
 }
 
 #finance-box {
@@ -1140,6 +1129,48 @@ body {
 #info-btns {
 	height: 95%;
 }
+
+#roll-btn,
+#ft-roll-btn {
+    height: 40px;
+    width: 92px;
+    letter-spacing: .5pt;
+    border-radius: 5px;
+    background-color: white;
+    outline: none;
+    font-size: 16pt;
+	margin: 7% 0;
+}
+#manual-dice-input {
+	height: 100px;
+	width: 100px;
+	font-size: 28pt;	
+	margin: 7% 0;
+}
+#roll2-btn,
+#ft-roll2-btn {
+    height: 70px;
+    width: 92px;
+    letter-spacing: .5pt;
+    border-radius: 5px;
+    background-color: white;
+    outline: none;
+    margin-bottom: 20px;
+    font-size: 16pt;
+	margin: 7% 0;
+}
+#ft-dream-roll-btn,
+#ft-doodad-roll-btn {
+    height: 40px;
+    width: 92px;
+    letter-spacing: .5pt;
+    border-radius: 5px;
+    background-color: white;
+    outline: none;
+    margin-bottom: 20px;
+    font-size: 16pt;
+	margin: 7% 0;
+}
 #end-turn-btn,
 #ft-end-turn-btn {
     width: 92px;
@@ -1154,11 +1185,9 @@ body {
 	margin: 7% 0;
 	text-shadow: .5px .5px .5px rgb(242, 255, 91);
 }
-
 #pass-btn,
 #show-offer-btn,
 #no-loan-btn,
-
 #done-btn,
 #done-buy-sell-btn {
     height: 40px;
@@ -1214,40 +1243,6 @@ body {
     letter-spacing: .5pt;
 	margin: 7% 0;
 }
-
-#roll-btn,
-#ft-roll-btn {
-    height: 40px;
-    width: 92px;
-    letter-spacing: .5pt;
-    border-radius: 5px;
-    background-color: white;
-    outline: none;
-    font-size: 16pt;
-	margin: 7% 0;
-}
-#manual-dice-input {
-	height: 100px;
-	width: 100px;
-	font-size: 28pt;	
-	margin: 7% 0;
-}
-
-#roll2-btn,
-#ft-roll2-btn,
-#ft-dream-roll-btn,
-#ft-doodad-roll-btn {
-    height: 40px;
-    width: 104px;
-    letter-spacing: .5pt;
-    border-radius: 5px;
-    background-color: white;
-    outline: none;
-    margin-bottom: 20px;
-    font-size: 16pt;
-	margin: 7% 0;
-}
-
 #confirm-pay-btn {
     height: 40px;
     width: 100px;
@@ -1258,7 +1253,6 @@ body {
     font-size: 12pt;
 	margin: auto;
 }
-
 #buy-opp-button,
 #small-deal-btn,
 #ds-pay-button,
@@ -1615,7 +1609,9 @@ body {
 }
 
 #increase-shares,
-#decrease-shares {
+#decrease-shares,
+#increase-shares-sell,
+#decrease-shares-sell  {
     background-color: #1B5E20;
     border: none;
     border-radius: 4px;

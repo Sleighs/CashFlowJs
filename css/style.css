@@ -406,17 +406,32 @@ body {
 
 #start-game {
 	position: relative;
-    margin: 2% 4.5% 5% 4.5%;
-    padding: 6% 22%;
+    margin: auto; /*2% 4.5% 5% 4.5%;*/
+    padding: 6% 8%;
     border-radius: 20px;
     background-color: #43A047;
     outline: none;
-    font-size: 3em;
+    font-size: 2em;
     font-family: 'lato';
     text-shadow: 1px 1px 1px #212111;
     color: white;
     font-weight: 600;
+    display: inline-block;
 	
+}
+#continue-game {
+    position: relative;
+    margin: auto;/*2% 4.5% 5% 4.5%;*/
+    padding: 6% 5%;
+    border-radius: 20px;
+    background-color: #FDD835;
+    outline: none;
+    font-size: 2em;
+    font-family: 'lato';
+    text-shadow: 1px 1px 1px #212111;
+    color: white;
+    font-weight: 600;
+    display: none;
 }
 
 #player1name,
@@ -732,6 +747,15 @@ body {
 	width: 330px;
 }
 
+#alert {
+    text-align: center;
+    padding: 20px;
+    height: 40px;
+    width: 25%;
+    margin: auto;
+    font-size: 1.4em;
+}
+
 #player-list,
 #turn-info,
 #finance-box {
@@ -817,6 +841,7 @@ body {
     height: 100%;
     background-color: white;
     border-radius: 4px;
+    border: 1pt double #F5F5F5;
 }
 
 #table-row-player1 {}
@@ -1146,10 +1171,11 @@ body {
 	width: 100px;
 	font-size: 28pt;	
 	margin: 7% 0;
+    display: none;
 }
 #roll2-btn,
 #ft-roll2-btn {
-    height: 70px;
+    height: 60px;
     width: 92px;
     letter-spacing: .5pt;
     border-radius: 5px;
@@ -1648,14 +1674,18 @@ body {
     border-radius: 5px;
     color: #757575;
 }
+.menu-btn/*,
 #menu-new-game-btn,
-#show-done-btn {
+#show-done-btn*/ {
     width: 60px;
     border-radius: 5px;
     background-color: white;
     outline: none;
     font-size: 9pt;
     color: #757575;
+}
+#menu-save-btn {
+    display: none;
 }
 #roll-info-container {
 	width: 98px;

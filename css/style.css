@@ -406,7 +406,7 @@ body {
 
 #start-game {
 	position: relative;
-    margin: auto; /*2% 4.5% 5% 4.5%;*/
+    margin: auto; 
     padding: 6% 8%;
     border-radius: 20px;
     background-color: #43A047;
@@ -421,7 +421,7 @@ body {
 }
 #continue-game {
     position: relative;
-    margin: auto;/*2% 4.5% 5% 4.5%;*/
+    margin: auto;
     padding: 6% 5%;
     border-radius: 20px;
     background-color: #FDD835;
@@ -432,6 +432,15 @@ body {
     color: white;
     font-weight: 600;
     display: none;
+}
+#delete-save {
+    outline: none;
+    color: white;
+    font-weight: 600;
+    display: none;
+    padding: 1% 12%;
+    background-color: #212121;
+    opacity: .6;
 }
 
 #player1name,

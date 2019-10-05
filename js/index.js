@@ -596,7 +596,8 @@ var APP = APP || {
                 }
                 break;
             case "bed breakfast":
-			case "Mansion":
+            case "6Br/6Ba":
+            case "5Br/4Ba":
             case "10 acres":
             case "20 acres":
             case "3Br/2Ba":

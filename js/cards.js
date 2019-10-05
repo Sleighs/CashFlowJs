@@ -655,7 +655,7 @@ APP.cards = {
             landType: "business",
             businessType: "widget"
         }
-    },
+    },    
     bigDeal: {
         realEstateB1: {
             name: "8-plex for Sale",
@@ -1109,28 +1109,28 @@ APP.cards = {
         realEstateB34: {
             name: "Mansion for Sale - 5 Br/4 Ba",
             type: "Real Estate",
-            description: "5/4 house outside of metropolitan area offers potential capital gain plus current cash flow. Good rentals and nice financing.",
+            description: "5/4.5 house outside of metropolitan area offers potential capital gain plus current cash flow. Good rentals and nice financing.",
             rule: "Use this yourself or sell to another player. 51% ROI, may sell for $650,000 to $1,350,000.",
             roi: 0.51,
             cost: 820000,
             mortgage: 750000,
             downPayment: 80000,
             cashFlow: 8200,
-            tag: "Mansion",
-            landType: "Mansion"
+            tag: "5Br/4Ba",
+            landType: "5Br/4Ba"
         },
-		realEstateB35: {
+        realEstateB35: {
             name: "Mansion for Sale - 6 Br/6 Ba",
             type: "Real Estate",
             description: "6/6 house in exclusive hollywood neighborhood offers potential capital gain plus current cash flow. Good rentals and nice financing.",
-            rule: "Use this yourself or sell to another player. 51% ROI, may sell for $6,500,000 to $10,350,000.",
+            rule: "Use this yourself or sell to another player. 51% ROI, may sell for $6,500,000 to $12,150,000.",
             roi: 0.51,
             cost: 11000000,
             mortgage: 8000000,
             downPayment: 3000000,
             cashFlow: 55000,
-            tag: "Mansion",
-            landType: "Mansion"
+            tag: "6Br/6Ba",
+            landType: "6Br/6Ba"
         },
 		limitedPartnershipB1: {
             name: "Limited Partner Wanted",
@@ -1534,14 +1534,7 @@ APP.cards = {
             offer: 250000,
             type: "bed breakfast"
         },
-        /* offer37: {
-             name: "Inflation Hits!",
-             description: "Infaltion goes to 10%. Interest rates climb to 20% on home loans.",
-             rule1: "All 3Br/2Ba rental houses that you (no  other players) own are now in foreclosure. You financed with variable rate mortgages. You must give your 3Br/2Ba house(s) back to the bank. You lose your cash flow from the properties.",
-             rule2: "",
-             cashFlow: 0,
-             type: "3Br/2Ba-"
-         },*/
+        
         offer38: {
             name: "Software Company Buyer",
             description: "Large integrated software company offers $100,000 cash for inventive software program and related company.",
@@ -1550,15 +1543,7 @@ APP.cards = {
             offer: 100000,
             type: "software"
         },
-        /*
-                offer39: {
-                    name: "Interest Rates Drop!",
-                    description: "Interest rates on home loans drop to 5%.",
-                    rule1: "If you (no other players) own any 3Br/2Ba rental houses you may sell them for $50,000 more than the original cost.",
-                    rule2: "If you sell, pay off the mortgage and give up the cash flow you currently receive on each property.",
-                    valueIncrease: 50000,
-                    type: "3Br/2Ba+"
-                },*/
+        
         offer40: {
             name: "Shopping Mall Wanted",
             description: "Major retailer is moving to you town. Looking for small shopping mall to purchase.",
@@ -1598,16 +1583,49 @@ APP.cards = {
             rule1: "Cash offer of $5,000 foor each coin to everyone.",
             rule2: "",
             offer: 5000
-        }
-		/*,
+        },
 		offer45: {
-            name: "Mansion Buyer",
-            description: "You are offered $135,000 for a 3/2 rental house. Buyer has own financing.",
+            name: "Mansion Buyer - 6Br/6Ba",
+            description: "You are offered $17,000,000 for a 6/6 mansion. Buyer has own financing.",
             rule1: "Everyone may sell at this price",
             rule2: "If you sell, pay off the related mortgage and give up the cash flow you currently receive on this property.",
-            offer: 135000,
+            offer: 17000000,
+            type: "6Br/6Ba"
+        },
+        offer46: {
+            name: "Mansion Buyer - 5Br/4Ba",
+            description: "You are offered $1,800,000 for a 5/4 mansion. Buyer has own financing.",
+            rule1: "Everyone may sell at this price",
+            rule2: "If you sell, pay off the related mortgage and give up the cash flow you currently receive on this property.",
+            offer: 1800000,
+            type: "5Br/4Ba"
+        }
+        /*, 
+        offer46: {
+            name: "Mansion Buyer",
+            description: "You are offered $15,500,000 for a mansion. Buyer has own financing.",
+            rule1: "Everyone may sell at this price",
+            rule2: "If you sell, pay off the related mortgage and give up the cash flow you currently receive on this property.",
+            offer: 15000000,
             type: "Mansion"
-        }*/
+        }
+        , offer37: {
+             name: "Inflation Hits!",
+             description: "Infaltion goes to 10%. Interest rates climb to 20% on home loans.",
+             rule1: "All 3Br/2Ba rental houses that you (no  other players) own are now in foreclosure. You financed with variable rate mortgages. You must give your 3Br/2Ba house(s) back to the bank. You lose your cash flow from the properties.",
+             rule2: "",
+             cashFlow: 0,
+             type: "3Br/2Ba-"
+         },
+
+        offer39: {
+            name: "Interest Rates Drop!",
+            description: "Interest rates on home loans drop to 5%.",
+            rule1: "If you (no other players) own any 3Br/2Ba rental houses you may sell them for $50,000 more than the original cost.",
+            rule2: "If you sell, pay off the mortgage and give up the cash flow you currently receive on each property.",
+            valueIncrease: 50000,
+            type: "3Br/2Ba+"
+        },*/
     },
     doodad: {
 		doodad1: {

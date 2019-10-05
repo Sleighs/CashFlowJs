@@ -11,12 +11,13 @@
 //      cash flow day - start with 100 times passive income at end of rat race
 //      new income = cashflow day income + 50k
 //      rules = roll 2 die*, cannot borrow money from bank
-
+ 
 var APP = APP || {
     players: [],
     pCount: 1,
     turnCount: 1,
     currentPlayer: 1,
+    saveKey: '',
     currentPlayerArrPos: function() {
         return APP.currentPlayer - 1;
     },
@@ -51,94 +52,162 @@ var APP = APP || {
             APP.display.showGameSetupScreen();
         });
         $("#start-game").click(function() {
+            $("#window").css("background-image", "");
+            $("#window").css("background-color", "white" /*"#4E342E"/*#010410*/ );
             APP.display.hideSetup();
             APP.display.renderBoard();
         });
-    },
-    setup: function() {
-        // create players
-        var pn = document.getElementById("player-number");
-        APP.pCount = pn.options[pn.selectedIndex].value;
-        APP.remainingPlayers = this.pCount;
+        $("#continue-game").click(function() {
+            $("#window").css("background-image", "");
+            $("#window").css("background-color", "white" /*"#4E342E"/*#010410*/ );
+            APP.display.hideSetup();
+            APP.display.showFinanceBox();
+            APP.display.renderBoard();
+        });
 
-        for (var i = 1; i <= APP.pCount; i++) {
-            // choose selected scenario
-            var jobId = "job-input-player" + parseInt(i, 10);
-            var pj = document.getElementById(jobId);
-            if (pj.options[pj.selectedIndex].value == 'Random Job') {
-                var playerScenario = Math.floor(
-                    // doesn't include ceo job in random
-                    Math.random() * (APP.scenarioChoices.length - 1)
+        //APP.saveKey = Math.random().toString(36).substring(7);
+    },
+    setup: function(gameState) {
+        if (gameState == 'new game') {
+            // create players
+            var pn = document.getElementById("player-number");
+            APP.pCount = pn.options[pn.selectedIndex].value;
+            APP.remainingPlayers = this.pCount;
+
+            for (var i = 1; i <= APP.pCount; i++) {
+                // choose selected scenario
+                var jobId = "job-input-player" + parseInt(i, 10);
+                var pj = document.getElementById(jobId);
+                if (pj.options[pj.selectedIndex].value == 'Random Job') {
+                    var playerScenario = Math.floor(
+                        // doesn't include ceo job in random
+                        Math.random() * (APP.scenarioChoices.length - 1)
+                    );
+                } else {
+                    var playerScenario = pj.selectedIndex - 1;
+                }
+
+                // create object for each player with occupation scenario
+                var playerObj = new APP.scenario(APP.scenarioChoices[playerScenario]);
+    			
+    			// add player name to player objecti
+                playerObj.name = APP.name(i);
+    			
+    			// add player object to array of players
+                APP.players.push(playerObj);
+
+                // send list of players to board
+                var tableId = document.getElementById("player-list-table");
+                tableId.insertAdjacentHTML(
+                    "beforeend",
+                    "<div class='table-row-player' id='table-row-player" +
+                    parseInt(i, 10) +
+                    "'> " +
+                    playerObj.name +
+                    " </div>"
                 );
-            } else {
-                var playerScenario = pj.selectedIndex - 1;
             }
 
-            // create object for each player with occupation scenario
-            var playerObj = new APP.scenario(APP.scenarioChoices[playerScenario]);
-			
-			// add player name to player objecti
-            playerObj.name = APP.name(i);
-			
-			// add player object to array of players
-            APP.players.push(playerObj);
-
-            // send list of players to board
-            var tableId = document.getElementById("player-list-table");
-            tableId.insertAdjacentHTML(
-                "beforeend",
-                "<div class='table-row-player' id='table-row-player" +
-                parseInt(i, 10) +
-                "'> " +
-                playerObj.name +
-                " </div>"
+            // highlight first player
+            var curPlayerRowId = document.getElementById(
+                "table-row-player" + parseInt(APP.currentPlayer, 10)
             );
+            curPlayerRowId.style.border = "3pt groove #FDD835";
+
+            // set game variables
+            // included assets
+            // starting cash
+
+            OPTIONS.setup();
+
+            // start dream phase (phase 1)
+            APP.dreamPhase.openDreamPhase();
+            APP.dreamPhase.dreamPhaseOn = true;
+
+            // show game menu
+            $("#game-menu").show();
+
+            APP.display.clearBtns();
+            APP.display.clearCards();
+            APP.clearAmounts();
+
+            $("#end-turn-btn").hide();
+            $("#ft-end-turn-btn").hide();
+
+            $("#opp-card-btns").hide();
+            $("#buy-opp-button").hide();
+            $("#doodad-pay-button").hide();
+            $("#ds-pay-button").hide();
+            $("#pd-pay-button").hide();
+            $("#charity-donate-btn").hide();
+            $("#done-btn").hide();
+            $("#pass-button").hide();
+            $("#roll2-btn").hide();
+            $("#ft-roll2-btn").hide();
+            $("#confirm-pay-btn").hide();
+            $("#exp-child-row").hide();
+            $("#ft-turn-instructions").hide();
+            $("#ft-roll-btn").hide();
+            $("#ft-dream-roll-btn").hide();
+            $("#ft-doodad-roll-btn").hide();
+            $("#ft-enter-btn").hide();
+
+            $("#finish-instructions").hide();
+
+        } else if (gameState == 'continue game') {
+            load();
+
+            for(var i = 0; i < APP.players.length; i++){
+                var tableId = document.getElementById("player-list-table");
+                tableId.insertAdjacentHTML(
+                    "beforeend",
+                    "<div class='table-row-player' id='table-row-player" +
+                    parseInt(i + 1, 10) +
+                    "'> " +
+                    APP.players[i]['name'] +
+                    " </div>"
+                );
+            }
+
+            $("#game-menu").show();
+
+            APP.display.clearBtns();
+            APP.display.clearCards();
+
+            $("#end-turn-btn").hide();
+            $("#ft-end-turn-btn").hide();
+
+            $("#opp-card-btns").hide();
+            $("#buy-opp-button").hide();
+            $("#doodad-pay-button").hide();
+            $("#ds-pay-button").hide();
+            $("#pd-pay-button").hide();
+            $("#charity-donate-btn").hide();
+            $("#done-btn").hide();
+            $("#pass-button").hide();
+            $("#roll2-btn").hide();
+            $("#ft-roll2-btn").hide();
+            $("#confirm-pay-btn").hide();
+            $("#exp-child-row").hide();
+            $("#ft-turn-instructions").hide();
+            $("#ft-roll-btn").hide();
+            $("#ft-dream-roll-btn").hide();
+            $("#ft-doodad-roll-btn").hide();
+            $("#ft-enter-btn").hide();
+
+            $("#finish-instructions").hide();
+
+            APP.dreamPhase.endDreamPhase();
+            APP.dreamPhase.dreamPhaseOn = false;
+
+            APP.nextTurn('continued game');
+
+            var curPlayerRowId = document.getElementById(
+                "table-row-player" + parseInt(APP.currentPlayer, 10)
+            );
+
+            curPlayerRowId.style.border = "3pt groove #FDD835";
         }
-
-        // highlight first player
-        var curPlayerRowId = document.getElementById(
-            "table-row-player" + parseInt(APP.currentPlayer, 10)
-        );
-        curPlayerRowId.style.border = "3pt groove #FDD835";
-
-        // set game variables
-        // included assets
-        // starting cash
-        OPTIONS.setup();
-
-        // start dream phase (phase 1)
-        APP.dreamPhase.openDreamPhase();
-        APP.dreamPhase.dreamPhaseOn = true;
-
-        // show game menu
-        $("#game-menu").show();
-
-        APP.display.clearBtns();
-        APP.display.clearCards();
-        APP.clearAmounts();
-
-        $("#end-turn-btn").hide();
-        $("#ft-end-turn-btn").hide();
-
-        $("#opp-card-btns").hide();
-        $("#buy-opp-button").hide();
-        $("#doodad-pay-button").hide();
-        $("#ds-pay-button").hide();
-        $("#pd-pay-button").hide();
-        $("#charity-donate-btn").hide();
-        $("#done-btn").hide();
-        $("#pass-button").hide();
-        $("#roll2-btn").hide();
-        $("#ft-roll2-btn").hide();
-        $("#confirm-pay-btn").hide();
-        $("#exp-child-row").hide();
-        $("#ft-turn-instructions").hide();
-        $("#ft-roll-btn").hide();
-        $("#ft-dream-roll-btn").hide();
-        $("#ft-doodad-roll-btn").hide();
-        $("#ft-enter-btn").hide();
-
-        $("#finish-instructions").hide();
     },
     rollDie: function(dieCount) {
         var dieTotal = 0;
@@ -213,8 +282,9 @@ var APP = APP || {
             p.position = x;
         }
     },
-    nextTurn: function() {
+    nextTurn: function(gameState) {
         var player = APP.players[this.currentPlayerArrPos()];
+
         $("#finish-instructions").hide();
         $("#finish-turn-container").hide();
         $("#ft-end-turn-btn").hide();
@@ -249,15 +319,17 @@ var APP = APP || {
                 ".coin-asset" + parseInt(APP.currentPlayerArrPos(), 10) + "-row";
             $(coinRowClass).hide();
         }
-
+        
         if (player.fastTrack == false) {
             if (APP.dreamPhase.dreamPhaseOn == false) {
                 $("#card-btns").show();
                 $("#roll-btn").show();
-				
+                $("#menu-save-btn").show();				
             } else {
+                $("#menu-save-btn").hide();
                 $("#roll-btn").hide();
             }
+
             $("#turn-instructions").show();
 
             $("#roll2-btn").hide();
@@ -311,26 +383,11 @@ var APP = APP || {
             $(coinRowClass).show();
         }
 
-        if (APP.pCount == 1) {
-            var player1RowId = document.getElementById("table-row-player1");
-            player1RowId.style.border = "3pt grove #827717";
-        } else {
-            var curPlayerRowId = document.getElementById(
-                "table-row-player" + parseInt(APP.currentPlayer, 10)
-            );
-            var prevPlayerRowId = document.getElementById(
-                "table-row-player" + parseInt(APP.previousPlayer(), 10)
-            );
-            //highlight next player
-            curPlayerRowId.style.border = "3pt groove #FDD835";
-            prevPlayerRowId.style.border = "1pt double #F5F5F5";
-        }
-
-        document.getElementById("player-name").innerHTML = APP.name(APP.currentPlayer);
-        document.getElementById("ft-player-name").innerHTML = APP.name(APP.currentPlayer);
-
+        document.getElementById("player-name").innerHTML = APP.players[APP.currentPlayerArrPos()]['name'];
+        document.getElementById("ft-player-name").innerHTML = APP.players[APP.currentPlayerArrPos()]['name'];
+        
         APP.turnCount++;
-		//--testing
+
 		$("#turn-info--").html("Turn: " + APP.turnCount);
 
         if (player.charityTurns === 0) {
@@ -349,6 +406,24 @@ var APP = APP || {
             player.downsizedTurns--;
             if (APP.pCount != 1) {
                 this.nextTurn();
+            }
+        }
+    
+        if (gameState !== 'continued game'){
+            if (APP.pCount == 1) {
+                var player1RowId = document.getElementById("table-row-player1");
+                player1RowId.style.border = "3pt grove #827717";
+            } else {
+                var curPlayerRowId = document.getElementById(
+                    "table-row-player" + parseInt(APP.currentPlayer, 10)
+                );
+                var prevPlayerRowId = document.getElementById(
+                    "table-row-player" + parseInt(APP.previousPlayer(), 10)
+                );
+
+                //highlight next player
+                curPlayerRowId.style.border = "3pt groove #FDD835";
+                prevPlayerRowId.style.border = "1pt double #F5F5F5";
             }
         }
 
@@ -475,9 +550,6 @@ var APP = APP || {
             return object[keys[Math.floor(keys.length * Math.random())]];
         };
         var currentOffer = randOffer(obj);
-		
-		//--testing
-		console.log(currentOffer);
 
         this.currentOffer = currentOffer;
         this.currentOfferOffered = currentOffer.offer;
@@ -524,6 +596,7 @@ var APP = APP || {
                 }
                 break;
             case "bed breakfast":
+			case "Mansion":
             case "10 acres":
             case "20 acres":
             case "3Br/2Ba":
@@ -735,9 +808,6 @@ var APP = APP || {
         } else {
             dealType = currentDeal.type;
             this.currentDeal = currentDeal;
-			
-			//--testing
-			console.log(currentDeal);
         }
 
         $("#opp-card").hide();
@@ -780,9 +850,6 @@ var APP = APP || {
         } else {
             return 0;
         }
-    },
-    saveState: function() {
-        setInterval(function() {}, 2000);
     },
     checkBankruptcy: function(amountOwed) {
         var player = APP.players[APP.currentPlayerArrPos()];
@@ -2319,14 +2386,14 @@ APP.scenarioChoices = [
 $(document).ready(function() {
     // init game
     APP.initGame();
-    $("#start-game").on("click", function() {
-        $("#window").css("background-image", "");
-        $("#window").css("background-color", "white" /*"#4E342E"/*#010410*/ );
-    });
+
     $("#menu-new-game-btn").on("click", function() {
 		//new game
         window.location.reload(false);
 		//APP.display.newGame();
+    });
+    $("#menu-save-btn").on("click", function() {
+        save(APP.saveKey);
     });
 	$("#show-done-btn").on("click", function() {
 		var doneBtn = document.getElementById("done-btn");
@@ -2423,3 +2490,38 @@ $(document).ready(function() {
     }
     showPlayerInputs();
 });
+
+//update to support multiple saves, create save states
+function save() {
+    var saveState = {
+        players: APP.players,
+        pCount: APP.pCount,
+        turnCount: APP.turnCount,
+        currentPlayer: APP.currentPlayer,
+        dreamPhaseOn: APP.dreamPhase.dreamPhaseOn
+    };
+
+    localStorage.setItem('saveState', JSON.stringify(saveState));
+    localStorage.setItem('player array', JSON.stringify(APP.players));
+
+    //alert
+    document.getElementById("alert").innerHTML = 'Game Saved!';
+    //remove alert
+    setTimeout(function(){document.getElementById("alert").innerHTML = ''; }, 4000);
+}
+
+
+function load(saveKey) {
+    var gameState = JSON.parse(localStorage.getItem('saveState'));
+    var players = JSON.parse(localStorage.getItem('player array'));
+
+    APP.dreamPhase.dreamPhaseOn = gameState['dreamPhaseOn'];
+    APP.players = players;
+    APP.pCount = gameState['pCount'];
+    APP.turnCount = gameState['turnCount'];
+    APP.currentPlayer = gameState['currentPlayer'];
+}
+
+if (localStorage) {
+    $("#continue-game").css("display", "inline-block");
+}

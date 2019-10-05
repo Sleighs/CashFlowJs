@@ -410,6 +410,7 @@ APP.display = {
                         if ((damageType === "rental" && landType ==
 								("3Br/2Ba" ||
                                     "2Br/1Ba" ||
+									"Mansion" ||
                                     "duplex" ||
                                     "4-plex" ||
                                     "8-plex" ||

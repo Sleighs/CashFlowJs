@@ -2510,7 +2510,6 @@ function save() {
     setTimeout(function(){document.getElementById("alert").innerHTML = ''; }, 4000);
 }
 
-
 function load(saveKey) {
     var gameState = JSON.parse(localStorage.getItem('saveState'));
     var players = JSON.parse(localStorage.getItem('player array'));
@@ -2522,6 +2521,16 @@ function load(saveKey) {
     APP.currentPlayer = gameState['currentPlayer'];
 }
 
-if (localStorage) {
+function deleteSave(saveKey) {
+    localStorage.removeItem('saveState');
+    localStorage.removeItem('player array');
+}
+
+if (localStorage.length > 0) {
     $("#continue-game").css("display", "inline-block");
+    $("#start-game").css("padding", "6% 8%");
+    $("#start-game").css("margin", "auto");
+} else {
+    $("#continue-game").css("display", "none");
+    $("#start-game").css("padding", "6% 33.5%");
 }

@@ -1106,7 +1106,33 @@ APP.cards = {
             landType: "duplex",
             units: 2
         },
-        limitedPartnershipB1: {
+        realEstateB34: {
+            name: "Mansion for Sale - 5 Br/4 Ba",
+            type: "Real Estate",
+            description: "5/4 house outside of metropolitan area offers potential capital gain plus current cash flow. Good rentals and nice financing.",
+            rule: "Use this yourself or sell to another player. 51% ROI, may sell for $650,000 to $1,350,000.",
+            roi: 0.51,
+            cost: 820000,
+            mortgage: 750000,
+            downPayment: 80000,
+            cashFlow: 8200,
+            tag: "Mansion",
+            landType: "Mansion"
+        },
+		realEstateB35: {
+            name: "Mansion for Sale - 6 Br/6 Ba",
+            type: "Real Estate",
+            description: "6/6 house in exclusive hollywood neighborhood offers potential capital gain plus current cash flow. Good rentals and nice financing.",
+            rule: "Use this yourself or sell to another player. 51% ROI, may sell for $6,500,000 to $10,350,000.",
+            roi: 0.51,
+            cost: 11000000,
+            mortgage: 8000000,
+            downPayment: 3000000,
+            cashFlow: 55000,
+            tag: "Mansion",
+            landType: "Mansion"
+        },
+		limitedPartnershipB1: {
             name: "Limited Partner Wanted",
             type: "Limited Partnership",
             description: "Non-franchise sandwich shop doubling the number of locations. Owner needs additional equity capital to get operating loan.",
@@ -1213,7 +1239,8 @@ APP.cards = {
             rule: "Pay $1,000 if you own any rental real estate",
             propertyType: "rental",
             cost: 1000
-        }
+        },
+		//property damage mansion - weather protectiom
     },
     offer: {
         offer1: {
@@ -1572,6 +1599,15 @@ APP.cards = {
             rule2: "",
             offer: 5000
         }
+		/*,
+		offer45: {
+            name: "Mansion Buyer",
+            description: "You are offered $135,000 for a 3/2 rental house. Buyer has own financing.",
+            rule1: "Everyone may sell at this price",
+            rule2: "If you sell, pay off the related mortgage and give up the cash flow you currently receive on this property.",
+            offer: 135000,
+            type: "Mansion"
+        }*/
     },
     doodad: {
 		doodad1: {

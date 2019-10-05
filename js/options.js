@@ -340,7 +340,7 @@ var OPTIONS = {
 			this.checkState();
 		} else if (title.innerText == "Hard"){
 			$(title).text("Custom");
-			this.checkState();
+			this.defaultOptions();
 		}
 	}
 };

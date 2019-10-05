@@ -2524,13 +2524,17 @@ function load(saveKey) {
 function deleteSave(saveKey) {
     localStorage.removeItem('saveState');
     localStorage.removeItem('player array');
+    $("#continue-game").css("display", "none");
+    $("#start-game").css("padding", "6% 33.5%");
 }
 
-if (localStorage.length > 0) {
+if (localStorage.getItem("saveState")) {
     $("#continue-game").css("display", "inline-block");
     $("#start-game").css("padding", "6% 8%");
     $("#start-game").css("margin", "auto");
+    $("#delete-save").css("display", "block");
 } else {
     $("#continue-game").css("display", "none");
+    $("#delete-save").css("display", "none");
     $("#start-game").css("padding", "6% 33.5%");
 }

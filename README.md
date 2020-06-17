@@ -16,7 +16,7 @@
 * Same Career Mode - Each player starts with the same career, savings, and debts
 
 ### New Rule Customization
-* Inusrance - Players can avoid downsizing by paying a insurance fee each paycheck
+* Insurance - Players can avoid downsizing by paying an insurance fee each paycheck
 * Big Families - Raise the limit of children players can have
 * Liquidating Assets - Players can sell off assets for 50% back to the bank when under threat of bankruptcy
 * Doodads with Paychecks - More doodads. Players who land on the paycheck space will also get a doodad card

@@ -91,6 +91,13 @@ body {
     text-shadow: 2px 2px 5px #c2a500;
 }
 
+#version {
+    opacity: .75;
+    float: right;
+    font-size: 1em;
+    color: #37474F;
+}
+
 #click-to-start {
     text-align: center;
     padding-top: 20%;
@@ -123,9 +130,9 @@ body {
     height: 100%;
 }
 #new-room-button {
-    height: 150px;
-    width: 425px;
-    font-size: 40px;
+    height: 145px;
+    width: 445px;
+    font-size: 48px;
     font-family: 'lato';
     border-radius: 20px;
     background-color: #FDD835;
@@ -174,9 +181,6 @@ body {
 	color: #FDD835;
 	background-color: #4E342E;
 	font-family: lato;
-}
-.player-input {
-
 }
 .player-options-checkbox {
 	display: inline-block;
@@ -283,7 +287,6 @@ body {
     color: #4E342E;
     float: right;
 }
-
 .options-checkbox {
     display: block;
     position: relative;
@@ -811,6 +814,7 @@ body {
 
 .opp-space2 {
     background-color: #4E342E;
+    opacity: .4;
 }
 
 .lia-space {

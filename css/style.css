@@ -615,7 +615,9 @@ body {
 	width: 72px;
 }
 #cell224 {
-	background-color: #2AEEBF;
+    /*background-color: #c20ba3;*/
+    background: rgb(252,70,107);
+background: radial-gradient(circle, rgba(252,70,107,1) 0%, rgba(72,0,91,1) 100%);
 }
 #cell210, #cell230, #cell218, #cell238{
 	font-size: 10pt;
@@ -809,11 +811,19 @@ body {
 }
 
 .opp-space {
-    background-color: #43A047;
+    background: rgb(67,160,71);
+    /*background: radial-gradient(circle, rgba(67,160,71,1) 97%, rgba(30,104,82,1) 100%);*/
 }
 
 .opp-space2 {
-    background-color: #173200;/*554600; /*4E342E; 806D15*/
+    background: rgb(28,60,0);
+    background: radial-gradient(circle, rgba(28,60,0,1) 40%, rgba(7,36,1,1) 97%, rgba(4,38,10,1) 100%);
+
+    /*background-color: #173200;/*554600; /*4E342E; 806D15*/
+
+    /*background: rgb(23,50,0);
+background: radial-gradient(circle, rgba(23,50,0,1) 40%, rgba(38,39,4,1) 97%, rgba(69,18,13,1) 100%);
+*/
     opacity: .9;
 }
 

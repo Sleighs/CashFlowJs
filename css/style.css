@@ -615,6 +615,7 @@ body {
 	width: 72px;
 }
 #cell224 {
+    opacity: .75;
     /*background-color: #c20ba3;*/
     background: rgb(252,70,107);
 background: radial-gradient(circle, rgba(252,70,107,1) 0%, rgba(72,0,91,1) 100%);

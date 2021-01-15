@@ -359,7 +359,7 @@ body {
     width: 40%;
     height: 90%;
     text-shadow: 1px 1px 1px #4E342E;
-    padding: 0 6%;
+    padding: 5% 6% 0 6%;
     font-family: Roboto;
 }
 
@@ -813,8 +813,8 @@ body {
 }
 
 .opp-space2 {
-    background-color: #554600; /*4E342E; 806D15*/
-    opacity: .75;
+    background-color: #173200;/*554600; /*4E342E; 806D15*/
+    opacity: .9;
 }
 
 .lia-space {

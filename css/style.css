@@ -410,7 +410,7 @@ body {
 #start-game {
 	position: relative;
     margin: auto; 
-    padding: 6% 8%;
+    padding: 5% 2%;
     border-radius: 20px;
     background-color: #43A047;
     outline: none;
@@ -425,7 +425,7 @@ body {
 #continue-game {
     position: relative;
     margin: auto;
-    padding: 6% 5%;
+    padding: 5% 2%;
     border-radius: 20px;
     background-color: #FDD835;
     outline: none;
@@ -813,8 +813,8 @@ body {
 }
 
 .opp-space2 {
-    background-color: #4E342E;
-    opacity: .4;
+    background-color: #554600; /*4E342E; 806D15*/
+    opacity: .75;
 }
 
 .lia-space {

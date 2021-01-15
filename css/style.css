@@ -700,8 +700,8 @@ background: radial-gradient(circle, rgba(252,70,107,1) 0%, rgba(72,0,91,1) 100%)
 #player7-piece,
 #player8-piece {
     display: inline-block;
-    height: 12px;
-    width: 32px;
+    height: 20px;
+    width: 20px;
     margin: 0;
     box-shadow: 0 0 0 0;
     position: relative;
@@ -709,48 +709,55 @@ background: radial-gradient(circle, rgba(252,70,107,1) 0%, rgba(72,0,91,1) 100%)
     color: gold;
     font-weight: bold;
     font-size: 7pt;
-    border-radius: 3px;
     z-index: 3;
+    position: sticky;
+    border-radius: 50%;
+    border: 1.5pt ridge gold;
+    line-height: 2.25;
 }
 
 #player1-piece {
-    background-color: #4E342E;
-    border: 1.5pt ridge gold;
-}
-
+    background: rgb(20,232,85);
+    background: radial-gradient(circle, rgba(20,232,85,1) 0%, rgba(38,85,66,1) 55%, rgba(15,66,46,1) 97%);
+    /*background: rgb(20,232,140);
+    background: radial-gradient(circle, rgba(20,232,140,1) 0%, rgba(36,80,62,1) 55%, rgba(13,60,41,1) 97%);
+*/}
 #player2-piece {
-    background-color: #B71C1C;
-    border: 1.5pt ridge gold;
+    background: rgb(232,20,20);
+    background: radial-gradient(circle, rgba(232,20,20,1) 0%, rgba(80,36,36,1) 55%, rgba(60,13,13,1) 97%);
 }
-
 #player3-piece {
-    background-color: #40C4FF;
-    border: 1.5pt ridge gold;
+    background: rgb(40,89,235);
+background: radial-gradient(circle, rgba(40,89,235,1) 0%, rgba(6,32,94,1) 58%, rgba(6,25,96,1) 97%);
 }
-
 #player4-piece {
-    background-color: #FFF59D;
-    border: 1.5pt ridge gold;
-}
+    background: rgb(182,0,0);
+background: radial-gradient(circle, rgba(182,0,0,1) 0%, rgba(255,122,13,1) 52%, rgba(255,236,17,0.9864320728291317) 100%);
+/*
+background: rgb(155,251,255);
+background: radial-gradient(circle, rgba(155,251,255,1) 4%, rgba(255,0,224,1) 67%, rgba(33,6,6,0.9864320728291317) 88%);
 
+    background: rgb(236,241,35);
+background: radial-gradient(circle, rgba(236,241,35,1) 0%, rgba(244,189,36,1) 54%, rgba(108,45,11,1) 97%);
+  */  
+  /*background: rgb(235,225,40);
+background: radial-gradient(circle, rgba(235,225,40,1) 0%, rgba(94,61,6,1) 58%, rgba(70,65,3,1) 97%);
+*/}
 #player5-piece {
-    background-color: #00E676;
-    border: 1.5pt ridge gold;
+    background: rgb(233,16,123);
+    background: radial-gradient(circle, rgba(233,16,123,1) 0%, rgba(109,11,117,1) 55%, rgba(41,3,23,1) 97%);
 }
-
 #player6-piece {
-    background-color: #90A4AE;
-    border: 1.5pt ridge gold;
+    background: rgb(0,194,195);
+    background: radial-gradient(circle, rgba(0,194,195,1) 0%, rgba(27,99,102,1) 54%, rgba(9,4,46,1) 97%);
 }
-
 #player7-piece {
-    background-color: #EC407A;
-    border: 1.5pt ridge gold;
+    background: rgb(238,146,25);
+    background: radial-gradient(circle, rgba(238,146,25,1) 0%, rgba(117,50,11,1) 55%, rgba(34,26,3,1) 97%);
 }
-
 #player8-piece {
-    background-color: #AD1457;
-    border: 1.5pt ridge gold;
+    background: rgb(75,75,75);
+    background: radial-gradient(circle, rgba(75,75,75,1) 0%, rgba(255,247,247,1) 59%, rgba(0,0,0,1) 97%);
 }
 
 #info {
@@ -868,7 +875,13 @@ background: radial-gradient(circle, rgba(23,50,0,1) 40%, rgba(38,39,4,1) 97%, rg
     border: 1pt double #F5F5F5;
 }
 
-#table-row-player1 {}
+#table-row-player1 {
+    /*opacity: .8;
+    color: white;
+    background: rgb(20,232,85);
+    background: radial-gradient(circle, rgba(20,232,85,1) 0%, rgba(38,85,66,1) 55%, rgba(15,66,46,1) 97%);
+    */
+}
 
 #table-row-player2 {}
 

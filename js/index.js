@@ -69,31 +69,46 @@ var APP = APP || {
     },
     setup: function(gameState) {
         if (gameState == 'new game') {
-            // create players
+            // Create players
             var pn = document.getElementById("player-number");
             APP.pCount = pn.options[pn.selectedIndex].value;
             APP.remainingPlayers = this.pCount;
 
             for (var i = 1; i <= APP.pCount; i++) {
-                // choose selected scenario
+                // Choose selected scenario
                 var jobId = "job-input-player" + parseInt(i, 10);
                 var pj = document.getElementById(jobId);
+                var colorId = "color-input-player" + parseInt(i, 10);
+                var pc = document.getElementById(colorId);
+
+                // Get selected job
                 if (pj.options[pj.selectedIndex].value == 'Random Job') {
                     var playerScenario = Math.floor(
-                        // doesn't include ceo job in random
+                        // Excludes ceo job from random job
                         Math.random() * (APP.scenarioChoices.length - 1)
                     );
                 } else {
                     var playerScenario = pj.selectedIndex - 1;
                 }
 
-                // create object for each player with occupation scenario
+                var playerColor;
+
+                // Get selected color
+                if (pc.options[pc.selectedIndex].value == 'Random Color') {
+                    playerColor = pc.options[Math.floor(Math.random() * (APP.display.playerColors.length))].value;
+                } else {
+                    playerColor = pc.options[pc.selectedIndex].value;
+                    
+                }
+
+                // Create object for each player with occupation scenario
                 var playerObj = new APP.scenario(APP.scenarioChoices[playerScenario]);
     			
-    			// add player name to player objecti
+    			// Add player name to player objecti
                 playerObj.name = APP.name(i);
+                playerObj.color = playerColor;
     			
-    			// add player object to array of players
+    			// Add player object to array of players
                 APP.players.push(playerObj);
 
                 // send list of players to board

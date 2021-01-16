@@ -162,9 +162,10 @@ body {
     border: 3pt ridge #FDD835;
     color: #FAFAFA;
     background-color: #4E342E;
-    padding: 25px 2%;
+    padding: 20px 1%;
     display: inline-block;
     width: 39%;
+    margin: 0 1%;
 }
 #player-setup-input-container {
     margin: auto;
@@ -173,15 +174,15 @@ body {
 	display: inline-block;
 	text-shadow: .9px .9px .9px #212121;
 }
-.job-input {
-	display: block;
-	padding: 3px;
-	font-size: 12pt;
-	margin: 5px;
-	color: #FDD835;
-	background-color: #4E342E;
-	font-family: lato;
+.player-input {
+    font-family: 'roboto';
+    font-size: 15pt;
+    margin: 3%;
+    display: inline-block;
+	text-shadow: .9px .9px .9px #212121;
 }
+
+/* Insurance */
 .player-options-checkbox {
 	display: inline-block;
     position: relative;
@@ -202,9 +203,64 @@ body {
     height: 0;
     width: 0;
 }
+
+.player-option-dropdowns {
+    
+}
+
+/* Player Job Selection */
+.job-input {
+	display: inline-block;
+	padding: 3px;
+	font-size: .7em;
+	margin: 5px;
+	color: #FDD835;
+	background-color: #4E342E;
+	font-family: lato;
+}
+.job-input option {
+    /*font-family: .6em;*/
+}
+
+/* Player Color Selection */
+.color-input {
+    display: inline-block;
+}
+
+.green-option {
+    background: green;
+    color: white;
+}
+
+/* Player Number Selection */
+#player-number-option {
+    font-weight: 500;
+    font-size: 1.2em;
+    width: 350px;
+    height: 50px;
+    text-shadow: .8px .8px 1px #212121;
+    text-align: center;
+    margin: 0 5%;
+}
+.player-number-option {
+	font-family: lato;
+	text-shadow: .8px .8px 1px #212121;
+}
+#player-number {
+    box-shadow: 0px 0px 2px 2px white;
+    background-color: #FDD835;
+    height: 30px;
+    width: 40px;
+    font-size: 1em;
+    color: #4E342E;
+    /*border: 1pt ridge white;*/
+    border-radius: 5px;
+}
+
+/* Insurance Option */
 .player-input-checkmark {
     position: absolute;
-    top: 0;
+    top: -6px;
     left: 10px;
     height: 28px;
 	margin: auto;
@@ -249,33 +305,8 @@ body {
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
-#player-number-option {
-    font-weight: 500;
-    font-size: 20pt;
-    width: 350px;
-    height: 60px;
-	text-shadow: .8px .8px 1px #212121;
-}
-.player-number-option {
-	font-family: lato;
-	text-shadow: .8px .8px 1px #212121;
-}
-#player-number {
-    box-shadow: 0px 0px 2px 2px white;
-    background-color: #FDD835;
-    height: 35px;
-    width: 40px;
-    font-size: 18pt;
-    color: #4E342E;
-    /*border: 1pt ridge white;*/
-    border-radius: 5px;
-}
 
-.player-input {
-    font-familiy: 'roboto';
-    font-size: 15pt;
-	margin: 3%;
-}
+/* Player Color Picker */
 
 #options-container {
     padding: 25px;
@@ -731,18 +762,9 @@ background: radial-gradient(circle, rgba(252,70,107,1) 0%, rgba(72,0,91,1) 100%)
 background: radial-gradient(circle, rgba(40,89,235,1) 0%, rgba(6,32,94,1) 58%, rgba(6,25,96,1) 97%);
 }
 #player4-piece {
-    background: rgb(182,0,0);
-background: radial-gradient(circle, rgba(182,0,0,1) 0%, rgba(255,122,13,1) 52%, rgba(255,236,17,0.9864320728291317) 100%);
-/*
-background: rgb(155,251,255);
-background: radial-gradient(circle, rgba(155,251,255,1) 4%, rgba(255,0,224,1) 67%, rgba(33,6,6,0.9864320728291317) 88%);
-
-    background: rgb(236,241,35);
-background: radial-gradient(circle, rgba(236,241,35,1) 0%, rgba(244,189,36,1) 54%, rgba(108,45,11,1) 97%);
-  */  
-  /*background: rgb(235,225,40);
-background: radial-gradient(circle, rgba(235,225,40,1) 0%, rgba(94,61,6,1) 58%, rgba(70,65,3,1) 97%);
-*/}
+    background: rgb(102,126,125);
+background: radial-gradient(circle, rgba(102,126,125,1) 4%, rgba(32,34,57,1) 67%, rgba(33,6,6,0.9864320728291317) 88%);
+}
 #player5-piece {
     background: rgb(233,16,123);
     background: radial-gradient(circle, rgba(233,16,123,1) 0%, rgba(109,11,117,1) 55%, rgba(41,3,23,1) 97%);
@@ -756,8 +778,8 @@ background: radial-gradient(circle, rgba(235,225,40,1) 0%, rgba(94,61,6,1) 58%, 
     background: radial-gradient(circle, rgba(238,146,25,1) 0%, rgba(117,50,11,1) 55%, rgba(34,26,3,1) 97%);
 }
 #player8-piece {
-    background: rgb(75,75,75);
-    background: radial-gradient(circle, rgba(75,75,75,1) 0%, rgba(255,247,247,1) 59%, rgba(0,0,0,1) 97%);
+    background: rgb(212,212,212);
+    background: radial-gradient(circle, rgba(212,212,212,1) 0%, rgba(246,246,246,1) 0%, rgba(255,255,255,0.9864320728291317) 93%);
 }
 
 #info {

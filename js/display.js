@@ -24,6 +24,80 @@ APP.display = {
             ele: "<div id='player8-piece'>8</div>"
         }
     ],
+    playerColors: [
+        // Green
+        'background: rgb(20,232,85); background: radial-gradient(circle, rgba(20,232,85,1) 0%, rgba(38,85,66,1) 55%, rgba(15,66,46,1) 97%);',
+        // Red
+        'background: rgb(232,20,20); background: radial-gradient(circle, rgba(232,20,20,1) 0%, rgba(80,36,36,1) 55%, rgba(60,13,13,1) 97%);',
+        // Blue
+        'background: rgb(40,89,235); background: radial-gradient(circle, rgba(40,89,235,1) 0%, rgba(6,32,94,1) 58%, rgba(6,25,96,1) 97%);',
+        // Black
+        'background: rgb(102,126,125); background: radial-gradient(circle, rgba(102,126,125,1) 4%, rgba(32,34,57,1) 67%, rgba(33,6,6,0.98) 88%);',
+        //Pink
+        'background: rgb(233,16,123); background: radial-gradient(circle, rgba(233,16,123,1) 0%, rgba(109,11,117,1) 55%, rgba(41,3,23,1) 97%);',
+        // Teal
+        'background: rgb(0,194,195); background: radial-gradient(circle, rgba(0,194,195,1) 0%, rgba(27,99,102,1) 54%, rgba(9,4,46,1) 97%);',
+        // Orange 
+        'background: rgb(238,146,25); background: radial-gradient(circle, rgba(238,146,25,1) 0%, rgba(117,50,11,1) 55%, rgba(34,26,3,1) 97%);',
+        // White
+        'background: rgb(212,212,212); background: radial-gradient(circle, rgba(212,212,212,1) 0%, rgba(246,246,246,1) 0%, rgba(255,255,255, 0.98) 93%);'
+    ],
+    getPlayerColor: function(){
+        // Get random color
+            // else 
+
+    },
+    updatePlayerColor: function(type, player){
+        if (type === 'menu'){
+
+            var color;
+            var p = document.getElementById('color-input-player' + parseInt( player, 10));
+            
+            console.log(p.options[p.selectedIndex].value)
+
+            switch(p.options[p.selectedIndex].value){
+                case 'Random Color':
+                    //var randNum = Math.floor(Math.random() * (APP.display.playerColors.length))
+                    //APP.playerObj.color = p.options.[randNum].value;
+
+                    //p.style.cssText += this.playerColors[randNum];
+                    //p.style.cssText += 'color: white;';
+                    break;
+                case 'Green':
+                    p.style.cssText += this.playerColors[0];
+                    p.style.cssText += 'color: white;';
+                    break;
+                case 'Red':
+                    p.style.cssText += this.playerColors[1];
+                    p.style.cssText += 'color: white;';
+                    break;
+                case 'Blue':
+                    p.style.cssText += this.playerColors[2];
+                    p.style.cssText += 'color: white;';
+                    break;
+                case 'Black':
+                    p.style.cssText += this.playerColors[3];
+                    p.style.cssText += 'color: white;';
+                    break;
+                case 'Pink':
+                    p.style.cssText += this.playerColors[4];
+                    p.style.cssText += 'color: white;';
+                    break;
+                case 'Aqua':
+                    p.style.cssText += this.playerColors[5];
+                    p.style.cssText += 'color: white;';
+                    break;
+                case 'Orange':
+                    p.style.cssText += this.playerColors[6];
+                    p.style.cssText += 'color: white;';
+                    break;
+                case 'White':
+                    p.style.cssText += this.playerColors[7];
+                    p.style.cssText += 'color: darkgrey;';
+                    break;
+            }
+        }
+    },
     renderBoard: function() {
         $("#board").show();
         $("#board2").show();

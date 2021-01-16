@@ -42,26 +42,47 @@ APP.display = {
         // White
         'background: rgb(212,212,212); background: radial-gradient(circle, rgba(212,212,212,1) 0%, rgba(246,246,246,1) 0%, rgba(255,255,255, 0.98) 93%);'
     ],
-    getPlayerColor: function(){
-        // Get random color
-            // else 
+    colorGamePiece: function(num, color){
+        var p = 'player' + parseInt(num, 10) + '-piece';
+        var player = document.getElementById(p);
+        console.log(player);
+
+        switch(color){
+            case 'Green':
+                player.style.cssText += this.playerColors[0];
+                break;
+            case 'Red':
+                player.style.cssText += this.playerColors[1];
+                break;
+            case 'Blue':
+                player.style.cssText += this.playerColors[2];
+                break;
+            case 'Black':
+                player.style.cssText += this.playerColors[3];
+                break;
+            case 'Pink':
+                player.style.cssText += this.playerColors[4];
+                break;
+            case 'Aqua':
+                player.style.cssText += this.playerColors[5];
+                break;
+            case 'Orange':
+                player.style.cssText += this.playerColors[6];
+                break;
+            case 'White':
+                player.style.cssText += this.playerColors[7];
+                break;
+        }
 
     },
     updatePlayerColor: function(type, player){
         if (type === 'menu'){
-
-            var color;
             var p = document.getElementById('color-input-player' + parseInt( player, 10));
             
-            console.log(p.options[p.selectedIndex].value)
-
             switch(p.options[p.selectedIndex].value){
                 case 'Random Color':
-                    //var randNum = Math.floor(Math.random() * (APP.display.playerColors.length))
-                    //APP.playerObj.color = p.options.[randNum].value;
-
-                    //p.style.cssText += this.playerColors[randNum];
-                    //p.style.cssText += 'color: white;';
+                    p.style.cssText += 'background: white';
+                    p.style.cssText += 'color: black';
                     break;
                 case 'Green':
                     p.style.cssText += this.playerColors[0];
@@ -117,6 +138,9 @@ APP.display = {
             var token = this.tokens[i].ele;
             var startSpace = document.getElementById("tokenSection0");
             startSpace.insertAdjacentHTML("beforeend", token);
+            
+            // Add color to game piece
+            APP.display.colorGamePiece((i+1), APP.players[i].color);
         }
     },
     hideHomeScreen: function() {

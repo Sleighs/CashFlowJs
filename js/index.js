@@ -91,9 +91,8 @@ var APP = APP || {
                     var playerScenario = pj.selectedIndex - 1;
                 }
 
-                var playerColor;
-
                 // Get selected color
+                var playerColor;
                 if (pc.options[pc.selectedIndex].value == 'Random Color') {
                     playerColor = pc.options[Math.floor(Math.random() * (APP.display.playerColors.length))].value;
                 } else {

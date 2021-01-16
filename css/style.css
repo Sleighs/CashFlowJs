@@ -750,9 +750,7 @@ background: radial-gradient(circle, rgba(252,70,107,1) 0%, rgba(72,0,91,1) 100%)
 #player1-piece {
     background: rgb(20,232,85);
     background: radial-gradient(circle, rgba(20,232,85,1) 0%, rgba(38,85,66,1) 55%, rgba(15,66,46,1) 97%);
-    /*background: rgb(20,232,140);
-    background: radial-gradient(circle, rgba(20,232,140,1) 0%, rgba(36,80,62,1) 55%, rgba(13,60,41,1) 97%);
-*/}
+    }
 #player2-piece {
     background: rgb(232,20,20);
     background: radial-gradient(circle, rgba(232,20,20,1) 0%, rgba(80,36,36,1) 55%, rgba(60,13,13,1) 97%);

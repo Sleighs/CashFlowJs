@@ -72,6 +72,9 @@ APP.display = {
             case 'White':
                 player.style.cssText += this.playerColors[7];
                 break;
+            default:
+                player.style.cssText += this.playerColors[7];
+
         }
 
     },
@@ -114,7 +117,7 @@ APP.display = {
                     break;
                 case 'White':
                     p.style.cssText += this.playerColors[7];
-                    p.style.cssText += 'color: darkgrey;';
+                    p.style.cssText += 'color: #23232b;';
                     break;
             }
         }
@@ -153,7 +156,7 @@ APP.display = {
                     break;
                 case 'White':
                     row.style.cssText += this.playerColors[7];
-                    row.style.cssText += 'color: darkgrey;';
+                    row.style.cssText += 'color: #23232b;';
                     break;
             }
         }
@@ -179,7 +182,6 @@ APP.display = {
             startSpace.insertAdjacentHTML("beforeend", token);
             
             // Add color to game piece
-            console.log('showTokens', APP.players[i].color);
             APP.display.colorGamePiece((i+1), APP.players[i].color);
         }
     },

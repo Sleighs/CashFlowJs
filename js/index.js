@@ -93,12 +93,14 @@ var APP = APP || {
 
                 // Get selected color
                 var playerColor;
+                
                 if (pc.options[pc.selectedIndex].value === 'Random Color') {
                     var randVal = Math.floor(Math.random() * (APP.display.playerColors.length))
                     console.log('randVal', randVal)
                     playerColor = pc.options[randVal].value;
                 } else {
                     playerColor = pc.options[pc.selectedIndex].value;
+                    console.log(pc.options, pc.selectedIndex);
                 }
                 console.log('setup', playerColor)
                 

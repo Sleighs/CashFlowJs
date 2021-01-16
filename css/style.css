@@ -860,7 +860,9 @@ background: radial-gradient(circle, rgba(23,50,0,1) 40%, rgba(38,39,4,1) 97%, rg
 }
 
 .cha-space {
-    background-color: #00BCD4;
+    background: rgb(0,193,218);
+ /*background: radial-gradient(circle, rgba(0,193,218,1) 0%, rgba(109,120,168,0.9864320728291317) 100%);
+   */
 }
 
 .pay-space {

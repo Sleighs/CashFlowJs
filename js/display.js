@@ -134,12 +134,13 @@ APP.display = {
         APP.display.showTokens();
     },
     showTokens: function() {
-        for (var i = 0; i < APP.pCount; i++) {
+        for (var i = 0; i < APP.players.length; i++) {
             var token = this.tokens[i].ele;
             var startSpace = document.getElementById("tokenSection0");
             startSpace.insertAdjacentHTML("beforeend", token);
             
             // Add color to game piece
+            console.log('showTokens', APP.players[i].color);
             APP.display.colorGamePiece((i+1), APP.players[i].color);
         }
     },

@@ -1,16 +1,14 @@
 // Game Phases
-//   Phase 1 - select dream/path
-//		each dream will have an interest perk that can earn and save money at times in the game
-//		
-//   Phase 2 - race
-//      starting out - 0 assets, pay off liabilities, buy low sell high
-//      middle/the race - 1st big acquisition
-//      end game - paid off liabilities and looking for a big deal
-//   Phase 3 - acuire dream
-//      fast track
-//      cash flow day - start with 100 times passive income at end of rat race
-//      new income = cashflow day income + 50k
-//      rules = roll 2 die*, cannot borrow money from bank
+//   Phase 1 - Choose your path and destination (Occupation & Dream)
+//		Each dream will have an interest perk that can earn and save money at times in the game
+//   Phase 2 - Rat Race
+//      Starting out - 0 assets, pay off liabilities, buy low sell high
+//      Middle/the race - 1st big acquisition
+//      End game - paid off liabilities and looking for a big deal
+//   Phase 3 - Fast Track (Acquire dream)
+//      Cash flow day - start with 100 times rat race passive income
+//      New income = cashflow day income + 50k
+//      New rules - roll 2 die * cannot borrow money from bank
  
 var APP = APP || {
     players: [],
@@ -93,13 +91,13 @@ var APP = APP || {
 
                 // Get selected color
                 var playerColor;
-                if (pc.options[pc.selectedIndex].value == 'Random Color') {
+                if (pc.options[pc.selectedIndex].value === 'Random Color') {
                     playerColor = pc.options[Math.floor(Math.random() * (APP.display.playerColors.length))].value;
                 } else {
                     playerColor = pc.options[pc.selectedIndex].value;
-                    
                 }
-
+                console.log('setup', playerColor)
+                
                 // Create object for each player with occupation scenario
                 var playerObj = new APP.scenario(APP.scenarioChoices[playerScenario]);
     			
@@ -110,7 +108,7 @@ var APP = APP || {
     			// Add player object to array of players
                 APP.players.push(playerObj);
 
-                // send list of players to board
+                // Send list of players to board
                 var tableId = document.getElementById("player-list-table");
                 tableId.insertAdjacentHTML(
                     "beforeend",
@@ -122,23 +120,23 @@ var APP = APP || {
                 );
             }
 
-            // highlight first player
+            // Highlight first player
             var curPlayerRowId = document.getElementById(
                 "table-row-player" + parseInt(APP.currentPlayer, 10)
             );
             curPlayerRowId.style.border = "3pt groove #FDD835";
 
-            // set game variables
-            // included assets
-            // starting cash
+            // Set game variables
+            // Included assets
+            // Starting cash
 
             OPTIONS.setup();
 
-            // start dream phase (phase 1)
+            // Start dream phase (phase 1)
             APP.dreamPhase.openDreamPhase();
             APP.dreamPhase.dreamPhaseOn = true;
 
-            // show game menu
+            // Show game menu
             $("#game-menu").show();
 
             APP.display.clearBtns();
@@ -234,7 +232,7 @@ var APP = APP || {
         return dieTotal;
     },
     movePlayer: function(dieCount) {
-        // move player piece the amount of rolledDie
+        // Move player piece the amount of rolledDie
         var player = APP.currentPlayerArrPos();
         var pObj = APP.players[player];
         var previousPosition = pObj.position;
@@ -255,13 +253,24 @@ var APP = APP || {
 
         var token = APP.display.tokens[player];
 
-        // remove old piece
+        // Remove old piece
         var playerTokenEle = document.getElementById(
-            "player" + parseInt(APP.currentPlayer, 10) + "-piece"
+            ("player" + parseInt(APP.currentPlayer, 10) + "-piece")
         );
 
+        // Add highlight to current player piece
+        playerTokenEle.style.boxShadow = '5px 5px 1px yellow';
+
+        // Remove highlight from other pieces
+        for (var i = 1; i < this.pCount; i++){
+            var playerPiece = "player" + parseInt(i, 10) + "-piece";
+            if (i !== APP.currentPlayer){
+                document.getElementById(playerpiece).style.boxShadow = '';
+            }
+        }
+
         playerTokenEle.remove();
-        //update board position
+        // Update board position
         this.updatePosition(dice);
         // Add token to new section
         var token = APP.display.tokens[player].ele;
@@ -270,11 +279,14 @@ var APP = APP || {
             "tokenSection" + parseInt(currentPosition, 10)
         );
         $(token).appendTo(newSquare);
+        // Color piece after move
+        APP.display.colorGamePiece(APP.currentPlayer, pObj.color);
+        
 
-        // when player lands on square load card
+        // When player lands on square load card
         APP.loadCard(currentPosition);
 
-        // if pass paycheck get payday - currently set to salary
+        // If pass paycheck get payday - currently set to salary
         if (previousPosition < 5 && currentPosition >= 5) {
             pObj.cash += pObj.payday;
         } else if (previousPosition < 13 && currentPosition >= 13) {

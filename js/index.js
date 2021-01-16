@@ -78,9 +78,11 @@ var APP = APP || {
                 var pj = document.getElementById(jobId);
                 var colorId = "color-input-player" + parseInt(i, 10);
                 var pc = document.getElementById(colorId);
+                var tableRow = "table-row-player" + parseInt(i, 10);
+                var rowId = document.getElementById(tableRow);
 
                 // Get selected job
-                if (pj.options[pj.selectedIndex].value == 'Random Job') {
+                if (pj.options[pj.selectedIndex].value === 'Random Job') {
                     var playerScenario = Math.floor(
                         // Excludes ceo job from random job
                         Math.random() * (APP.scenarioChoices.length - 1)
@@ -92,7 +94,9 @@ var APP = APP || {
                 // Get selected color
                 var playerColor;
                 if (pc.options[pc.selectedIndex].value === 'Random Color') {
-                    playerColor = pc.options[Math.floor(Math.random() * (APP.display.playerColors.length))].value;
+                    var randVal = Math.floor(Math.random() * (APP.display.playerColors.length))
+                    console.log('randVal', randVal)
+                    playerColor = pc.options[randVal].value;
                 } else {
                     playerColor = pc.options[pc.selectedIndex].value;
                 }
@@ -117,7 +121,9 @@ var APP = APP || {
                     "'> " +
                     playerObj.name +
                     " </div>"
-                );
+                    );
+                    APP.display.updatePlayerColor('table row', i)
+
             }
 
             // Highlight first player

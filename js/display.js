@@ -118,6 +118,45 @@ APP.display = {
                     break;
             }
         }
+
+        if (type === 'table row'){    
+            var row = document.getElementById(("table-row-player" + parseInt(player, 10)));
+
+            switch(APP.players[player-1].color){
+                case 'Green':
+                    row.style.cssText += this.playerColors[0];
+                    row.style.cssText += 'color: white;';
+                    break;
+                case 'Red':
+                    row.style.cssText += this.playerColors[1];
+                    row.style.cssText += 'color: white;';
+                    break;
+                case 'Blue':
+                    row.style.cssText += this.playerColors[2];
+                    row.style.cssText += 'color: white;';
+                    break;
+                case 'Black':
+                    row.style.cssText += this.playerColors[3];
+                    row.style.cssText += 'color: white;';
+                    break;
+                case 'Pink':
+                    row.style.cssText += this.playerColors[4];
+                    row.style.cssText += 'color: white;';
+                    break;
+                case 'Aqua':
+                    row.style.cssText += this.playerColors[5];
+                    row.style.cssText += 'color: white;';
+                    break;
+                case 'Orange':
+                    row.style.cssText += this.playerColors[6];
+                    row.style.cssText += 'color: white;';
+                    break;
+                case 'White':
+                    row.style.cssText += this.playerColors[7];
+                    row.style.cssText += 'color: darkgrey;';
+                    break;
+            }
+        }
     },
     renderBoard: function() {
         $("#board").show();

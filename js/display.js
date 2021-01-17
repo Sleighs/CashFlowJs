@@ -45,7 +45,6 @@ APP.display = {
     colorGamePiece: function(num, color){
         var p = 'player' + parseInt(num, 10) + '-piece';
         var player = document.getElementById(p);
-        console.log(player);
 
         switch(color){
             case 'Green':
@@ -811,6 +810,9 @@ APP.display = {
             var currentRow = table.rows[i];
 
             if (option === 1) {
+                $('#fast-track-intro-card').hide();
+                $('#fast-track-option-card').hide();
+                
                 currentRow.style.backgroundColor = "#FFEB3B";
 
                 var addOnClick = function(row) {

@@ -1,5 +1,6 @@
 // Game Phases
-//   Phase 1 - Choose your path and destination (Occupation & Dream)
+//   Phase 1 - Dream Phase 
+//      Choose your path and destination (Occupation & Dream)
 //		Each dream will have an interest perk that can earn and save money at times in the game
 //   Phase 2 - Rat Race
 //      Starting out - 0 assets, pay off liabilities, buy low sell high
@@ -72,6 +73,19 @@ var APP = APP || {
             APP.pCount = pn.options[pn.selectedIndex].value;
             APP.remainingPlayers = this.pCount;
 
+            // A collection of player colors
+            var newColorsArr = [];
+
+            for (var a = 1; a <= APP.pCount; a++) {
+                var colorId = document.getElementById(("color-input-player" + parseInt(a, 10)));
+                
+                if (colorId.options[colorId.selectedIndex].value !== 'Random Color'){
+                    newColorsArr.push(colorId.options[colorId.selectedIndex].value);
+                }
+            }
+
+            console.log(newColorsArr)
+
             for (var i = 1; i <= APP.pCount; i++) {
                 // Choose selected scenario
                 var jobId = "job-input-player" + parseInt(i, 10);
@@ -95,14 +109,27 @@ var APP = APP || {
                 var playerColor;
                 
                 if (pc.options[pc.selectedIndex].value === 'Random Color') {
-                    var randVal = Math.floor(Math.random() * (APP.display.playerColors.length))
-                    console.log('randVal', randVal)
+                    function getRandomColor(){
+                        return Math.floor(Math.random() * (APP.display.playerColors.length));
+                    }
+
+                    var randVal = getRandomColor();
+
+
+                    /*newColorsArr.forEach((ele)=>{
+                        playerColor = pc.options[randVal].value;
+
+                        if (ele !== pc.options[randVal].value){
+                            
+                            newColorsArr.push(playerColor)
+                        } 
+                    })*/
+                    
                     playerColor = pc.options[randVal].value;
+                    
                 } else {
                     playerColor = pc.options[pc.selectedIndex].value;
-                    console.log(pc.options, pc.selectedIndex);
                 }
-                console.log('setup', playerColor)
                 
                 // Create object for each player with occupation scenario
                 var playerObj = new APP.scenario(APP.scenarioChoices[playerScenario]);
@@ -266,17 +293,6 @@ var APP = APP || {
             ("player" + parseInt(APP.currentPlayer, 10) + "-piece")
         );
 
-        // Add highlight to current player piece
-        playerTokenEle.style.boxShadow = '5px 5px 1px yellow';
-
-        // Remove highlight from other pieces
-        for (var i = 1; i < this.pCount; i++){
-            var playerPiece = "player" + parseInt(i, 10) + "-piece";
-            if (i !== APP.currentPlayer){
-                document.getElementById(playerpiece).style.boxShadow = '';
-            }
-        }
-
         playerTokenEle.remove();
         // Update board position
         this.updatePosition(dice);
@@ -289,6 +305,16 @@ var APP = APP || {
         $(token).appendTo(newSquare);
         // Color piece after move
         APP.display.colorGamePiece(APP.currentPlayer, pObj.color);
+        
+        // Add highlight to current player piece
+        //playerTokenEle.style.boxShadow = '5px 5px 1px yellow';
+        // Remove highlight from other pieces
+        for (var i = 1; i < this.pCount; i++){
+            var playerPiece = "player" + parseInt(i, 10) + "-piece";
+            if (i !== APP.currentPlayer){
+                //document.getElementById(playerPiece).style.boxShadow = '';
+            }
+        }
         
 
         // When player lands on square load card

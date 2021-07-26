@@ -84,7 +84,7 @@ var APP = APP || {
                 }
             }
 
-            console.log(newColorsArr)
+            //console.log(newColorsArr)
 
             for (var i = 1; i <= APP.pCount; i++) {
                 // Choose selected scenario
@@ -316,7 +316,6 @@ var APP = APP || {
             }
         }
         
-
         // When player lands on square load card
         APP.loadCard(currentPosition);
 

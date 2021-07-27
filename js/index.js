@@ -590,6 +590,7 @@ var APP = APP || {
         } else if (doodadName == "New Boat!") {
             text = "You already own one.";
         }
+
         //if credit card
         if (doodadName == "Buy Big Screen TV") {
             player.creditDebt = 4000;
@@ -1223,7 +1224,7 @@ APP.finance = {
                 boatPayment +
                 insurance;
         } else {
-            player.totalExpenses = 0; //taxes + children + other;
+            player.totalExpenses = 0; 
         }
 
         return player.totalExpenses;
@@ -1265,8 +1266,14 @@ APP.finance = {
         var income = this.getIncome(player);
 
         //pay a base 8% and 1% for every dependent
-        curPlayer.insurance = Math.round(income * (0.08 + (0.01 * APP.players[player].children)));
+        if (curPlayer.children > 0){
+            curPlayer.insurance = Math.round(income * (0.08 + (0.01 * APP.players[player].children)));
 
+        } else {
+            curPlayer.insurance = Math.round(income * (0.08);
+
+        }
+        
         return curPlayer.insurance;
     },
 	payDoodad: function() {

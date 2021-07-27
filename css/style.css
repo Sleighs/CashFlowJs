@@ -1553,9 +1553,13 @@ background: radial-gradient(circle, rgba(23,50,0,1) 40%, rgba(38,39,4,1) 97%, rg
     padding-top: 2px;
     overflow: auto;
 }
+#asset-table tr {
+    max-height: 28px;
+}
 
 #asset-table,
 #liability-table {
+    
     width: 95%;
     padding: 4px;
     vertical-align: bottom;
@@ -1618,8 +1622,7 @@ background: radial-gradient(circle, rgba(23,50,0,1) 40%, rgba(38,39,4,1) 97%, rg
 }
 
 .lia-table-right {
-    /*float: right;
-    */
+
 }
 
 .table-title {
@@ -1661,6 +1664,7 @@ background: radial-gradient(circle, rgba(23,50,0,1) 40%, rgba(38,39,4,1) 97%, rg
 .assets-table-title {
     font-weight: bold;
     font-size: 10pt;
+    max-height: 26px;
 }
 
 #buy-shares-form {

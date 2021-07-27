@@ -1270,7 +1270,7 @@ APP.finance = {
             curPlayer.insurance = Math.round(income * (0.08 + (0.01 * APP.players[player].children)));
 
         } else {
-            curPlayer.insurance = Math.round(income * (0.08);
+            curPlayer.insurance = Math.round(income * (0.08));
 
         }
         

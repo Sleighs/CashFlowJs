@@ -73,7 +73,7 @@ var APP = APP || {
             APP.pCount = pn.options[pn.selectedIndex].value;
             APP.remainingPlayers = this.pCount;
 
-            // A collection of player colors
+            // Get colors for each player
             var newColorsArr = [];
 
             for (var a = 1; a <= APP.pCount; a++) {
@@ -105,7 +105,7 @@ var APP = APP || {
                     var playerScenario = pj.selectedIndex - 1;
                 }
 
-                // Get selected color
+                // Set selected color
                 var playerColor;
                 
                 if (pc.options[pc.selectedIndex].value === 'Random Color') {

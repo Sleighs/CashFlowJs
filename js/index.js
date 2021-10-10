@@ -568,7 +568,7 @@ var APP = APP || {
 
         //check if doodad requires children
         if (currentDoodad.child == true && player.children == 0) {
-            //get new doodad
+            //get new doodad if player has none
             this.getDoodad();
         } else {
             this.currentDoodad = currentDoodad;

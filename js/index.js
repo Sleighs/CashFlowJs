@@ -2451,11 +2451,14 @@ APP.scenarioChoices = [
 ];
 
 $(document).ready(function() {
+    
+
     // init game
     APP.initGame();
 
     $("#menu-new-game-btn").on("click", function() {
 		//new game
+        window.scrollTo(0, 0)
         window.location.reload(false);
 		//APP.display.newGame();
     });

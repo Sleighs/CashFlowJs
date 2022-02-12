@@ -159,7 +159,7 @@ body {
 #player-setup-container {
     box-shadow: 0px 0px 1px 1px #FDD835;
     border-radius: 8px;
-    border: 3pt ridge #FDD835;
+    /*border: 3pt ridge #FDD835;*/
     color: #FAFAFA;
     background-color: #4E342E;
     padding: 20px 1%;
@@ -314,7 +314,7 @@ body {
     background-color: white;
     box-shadow: 0px 0px 1px 1px #FDD835;
     border-radius: 8px;
-    border: 3pt ridge #FDD835;
+    /*border: 3pt ridge #FDD835;*/
     color: #4E342E;
     float: right;
 }

@@ -312,7 +312,7 @@ body {
     padding: 25px;
     display: inline-block;
     background-color: white;
-    box-shadow: 0px 0px 1px 1px #FDD835;
+    box-shadow: 0px 0px 2px 2px #fdd83533;
     border-radius: 8px;
     /*border: 3pt ridge #FDD835;*/
     color: #4E342E;
@@ -992,12 +992,13 @@ background: radial-gradient(circle, rgba(23,50,0,1) 40%, rgba(38,39,4,1) 97%, rg
 }
 
 #dream-des {
-    font-size: 1em;
+    font-size: .88em;
     font-family: 'lato';
     display: block;
     position: relative;
     padding: 2% 1%;
     color: #3E2723;
+    margin-top: 5px;
 }
 
 #dream-choice-btn {
@@ -1011,7 +1012,7 @@ background: radial-gradient(circle, rgba(23,50,0,1) 40%, rgba(38,39,4,1) 97%, rg
     margin: 4% auto;
     padding: 5px;
     color: #3E2723;
-    text-shadow: .5px .5px 3px #c2a500;
+    text-shadow: .5px .5px 2px #c2a500;
     font-size: 1.33em;
     font-weight: bold;
     font-family: "lato";
@@ -1024,10 +1025,11 @@ background: radial-gradient(circle, rgba(23,50,0,1) 40%, rgba(38,39,4,1) 97%, rg
     width: 90%;
     margin: auto;
     font-family: 'lato';
-    font-size: 1em;
+    font-size: .92em;
     letter-spacing: .2px;
     font-weight: bold;
     color: #3E2723;
+    margin-top: 5px;
 }
 
 #turn-info-box {

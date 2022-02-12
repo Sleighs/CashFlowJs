@@ -1567,7 +1567,10 @@ background: radial-gradient(circle, rgba(23,50,0,1) 40%, rgba(38,39,4,1) 97%, rg
     vertical-align: bottom;
     overflow: auto;
     border-spacing: 0;
+    height: fit-content;
+    max-height: 324px
 }
+
 #income-table td {
 	padding: 0 4px;
 	height: 22px;

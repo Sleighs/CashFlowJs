@@ -1044,13 +1044,6 @@ APP.display = {
             $("#turn-info").css("box-shadow", "0 0 2px #212121");
         }
 		
-		//if table is long keep it a certain width
-        if (realEstateAssetArr.length > 15) {
-            $("#asset-table").css("height", "280px");
-        } else {
-            $("#asset-table").css("height", "380px");
-        }
-
         for (var i = 0; i < realEstateAssetArr.length; i++) {
             //insert row for each asset the current player has
             var tag = realEstateAssetArr[i].tag;

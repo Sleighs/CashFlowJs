@@ -743,7 +743,8 @@ background: radial-gradient(circle, rgba(252,70,107,1) 0%, rgba(72,0,91,1) 100%)
     z-index: 3;
     position: sticky;
     border-radius: 50%;
-    border: 1.5pt ridge gold;
+    /*border: 1.5pt ridge gold;*/
+    box-shadow:  0px 0px 4px rgba(255, 217, 0, 0.932);
     line-height: 2.25;
 }
 

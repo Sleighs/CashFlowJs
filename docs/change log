@@ -5,7 +5,8 @@ change log 2021
     - players can choose cholors 
 
 todo
-    - get pics for board pieces
+    - try board with responsive grid layout 
+    - use image assets for board pieces
     - highlight board pieces on players turn 
     - player status effects
         - downsized

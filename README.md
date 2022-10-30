@@ -1,44 +1,39 @@
 ## CashFlowJs
 
-**CashFlowJs** is an adaptation of the CashFlow 101 board game with additional gameplay options and rule customization that allows for many unique ways to play. 
+**CashFlowJs** est une adaptation du jeu de société CashFlow 101 avec des options de jeu supplémentaires et une personnalisation des règles qui permet de nombreuses façons uniques de jouer.
 
-* Practice real world investing.
-* Employ financial strategies.
-* Leverage assets and liabilaties.
+* Pratiquez l'investissement dans le monde réel.
+* Employer des stratégies financières.
+* Effet de levier actifs et passifs.
 
-### Play game at https://sleighs.github.io/CashFlowJs/
+### Jouez au jeu sur https://sleighs.github.io/CashFlowJs/
 
-## Features
+## Fonctionnalités
 
-### New Game Modes
-* Fast Track Mode - Each player starts with a big bank acount and random asset
-* Hard Mode - Extra doodads, limited loans
-* Same Career Mode - Each player starts with the same career, savings, and debts
+### Nouveaux modes de jeu
+* Mode Fast Track - Chaque joueur commence avec un gros compte bancaire et un actif aléatoire
+* Mode difficile - gadgets supplémentaires, prêts limités
+* Même mode carrière - Chaque joueur commence avec la même carrière, les mêmes économies et les mêmes dettes
 
-### New Rule Customization
-* Insurance - Players can avoid downsizing by paying an insurance fee each paycheck
-* Big Families - Raise the limit of children players can have
-* Liquidating Assets - Players can sell off assets for 50% back to the bank when under threat of bankruptcy
-* Doodads with Paychecks - More doodads. Players who land on the paycheck space will also get a doodad card
-* Mortgage Payments - Adds realistic mortgage payments
-* Job choice - Option to choose jobs
-* Speed Start - Players start with their total income in their savings
+### Nouvelle personnalisation des règles
+* Assurance - Les joueurs peuvent éviter la réduction des effectifs en payant des frais d'assurance à chaque chèque de paie
+* Grandes familles - Augmentez la limite d'enfants que les joueurs peuvent avoir
+* Liquidation d'actifs - Les joueurs peuvent revendre des actifs pour 50 % à la banque lorsqu'ils sont menacés de faillite
+* Doodads avec chèques de paie - Plus de doodads. Les joueurs qui atterrissent sur l'espace de paiement recevront également une carte doodad
+* Paiements hypothécaires - Ajoute des paiements hypothécaires réalistes
+* Choix d'emploi - Possibilité de choisir des emplois
+* Speed ​​Start - Les joueurs commencent avec leur revenu total dans leurs économies
 
-## Features In Development
+## Fonctionnalités en développement
 
-### Game Modes
-* Team Mode - Players play in pairs
-* Magnate Mode - Bigger deals, partnership agreements, limited property
+### Modes de jeu
+* Mode équipe - Les joueurs jouent par paires
+* Mode Magnat - Transactions plus importantes, accords de partenariat, propriété limitée
 
-### Rule Customization
-* Joint Ventures - Players can partner up to invest together on opportunities
-* Mixed Deals - Both small and big oppurtunity cards are shuffled together and players choose from the entire deck
-* Random Downsizing - Players roll for a random amount of missed turns after downsizing
-* Loan Sharking - Players can give loans to other players
+### Personnalisation des règles
+* Coentreprises - Les joueurs peuvent s'associer pour investir ensemble dans des opportunités
+* Offres mixtes - Les petites et les grandes cartes d'opportunité sont mélangées ensemble et les joueurs choisissent parmi l'ensemble du jeu
+* Réduction aléatoire des effectifs - Les joueurs roulent pour un nombre aléatoire de tours manqués après la réduction des effectifs
+* Prêt usuraire - Les joueurs peuvent accorder des prêts à d'autres joueurs
 
-(This is a fan creation made for my own amusement. This game is not sold or distributed. I do not own or have rights to the *CashFlow* trademark.)
-
-
-
-
-
+(Ceci est une création de fan faite pour mon propre amusement. Ce jeu n'est ni vendu ni distribué. Je ne possède ni n'ai de droits sur la marque *CashFlow*.)

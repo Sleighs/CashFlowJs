@@ -5,7 +5,7 @@
 
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="keywords" content="cashflow, cashflowjs, game, board, play, cash, flow, single, player, investing, assets, liabilities">
+        <meta name="keywords" content="cashflow, cashflowjs, game, board, play, cash, flow, single, player, investing, assets, liabilities, jeu, joueur, investir,investissement">
 	    <meta name="description" content="CashFlow JS">
 	    <meta name="author" content="Samuel Wright">
         <meta name="robots" content="all">
@@ -19,18 +19,18 @@
         <div id="window">
         <div id="home-screen">
             <h1 id="home-title">CashFlowJs</h1>
-            <h2 id="click-to-start">Click to start</h2>
+            <h2 id="click-to-start">Cliquez pour commencer</h2>
             <span id="version">v1.5</span>
         </div>
         <div id="game-selection-screen">
             <h1 id="home-title">CashFlowJs</h1>
-            <button id="new-room-button">Create New Game</button>
+            <button id="new-room-button">Créer un nouveau jeu</button>
         </div>
         <div id="setup-screen">
             <div id="setup-container">
                 <div id="player-setup-container">
                     <div id="player-number-option">
-                        Number of Players:
+                        Nombre de joueurs:
                         <select id="player-number" title="Select the number of players for the game.">
                         <option class="player-number-option" selected="selected">1</option>
                         <option class="player-number-option" >2</option>
@@ -44,74 +44,74 @@
                     </div>
                     <div id="player-setup-input-container">
                         <div id="player1input" class="player-input" >
-                            Player 1: <input type="text" id="player1name" title="Player name" maxlength="16" value="Player 1" />
+                            Joueur 1: <input type="text" id="player1name" title="Player name" maxlength="16" value="Player 1" />
                             <label class="player-options-checkbox" title="Pay 8% of your income for Downsize insurance. Pay an additional 1% for every dependent.">
                                 <input id="po-insurance-p1" type="checkbox">
-                                <span class="player-input-checkmark">Insurance</span>
+                                <span class="player-input-checkmark">Assurance</span>
                             </label>
                             <div class="player-option-dropdowns">
                                 <select id="job-input-player1" class="job-input">
-                                    <option selected="selected">Random Job</option>
-                                    <option>Airline Pilot: $9500</option>
-                                    <option>Business Manager: $4600</option>
-                                    <option>Doctor (MD): $13200</option>
-                                    <option>Engineer: $4900</option>
-                                    <option>Janitor: $1600</option>
-                                    <option>Lawyer: $7500</option>
-                                    <option>Mechanic: $2000</option>
-                                    <option>Nurse: $3100</option>
-                                    <option>Police Officer $3000</option>
-                                    <option>Secretary: $2500</option>
-                                    <option>Teacher (K-12): $3300</option>
-                                    <option>Truck Driver: $2500</option>
+                                    <option selected="selected">Emploi aléatoire</option>
+                                    <option>Pilote de ligne: $9500</option>
+                                    <option>Chef d'entreprise: $4600</option>
+                                    <option>Docteur (MD): $13200</option>
+                                    <option>Ingénieur: $4900</option>
+                                    <option>Concierge: $1600</option>
+                                    <option>Avocat: $7500</option>
+                                    <option>Mécanicien: $2000</option>
+                                    <option>Infirmière: $3100</option>
+                                    <option>Officier de police: $3000</option>
+                                    <option>Secrétaire: $2500</option>
+                                    <option>Enseignant : $3300</option>
+                                    <option>Chauffeur de camion: $2500</option>
                                     <option>CEO: $24000</option>
                                 </select>
                                 <select id="color-input-player1" class="color-input" onChange="APP.display.updatePlayerColor('menu', 1)">
-                                    <option>Green</option>
-                                    <option>Red</option>
-                                    <option>Blue</option>
-                                    <option>Black</option>
-                                    <option>Pink</option>
-                                    <option>Aqua</option>
+                                    <option>Vert</option>
+                                    <option>Rouge</option>
+                                    <option>Bleu</option>
+                                    <option>Noir</option>
+                                    <option>Rose</option>
+                                    <option>Cyan</option>
                                     <option>Orange</option>
-                                    <option>White</option>
-                                    <option selected="selected">Random Color</option>
+                                    <option>Blanc</option>
+                                    <option selected="selected">Couleur aléatoire</option>
                                 </select>
                             </div>
                         </div>
                         <div id="player2input" class="player-input">
-                            Player 2: <input type="text" id="player2name" title="Player name" maxlength="16" value="Player 2" />
+                            Joueur 2: <input type="text" id="player2name" title="Player name" maxlength="16" value="Player 2" />
                             <label class="player-options-checkbox" title="Pay 8% of your income for Downsize insurance. Pay an additional 1% for every dependent.">
                                 <input id="po-insurance-p2" type="checkbox">
-                                <span class="player-input-checkmark">Insurance</span>
+                                <span class="player-input-checkmark">Assurance</span>
                             </label>
                             <div class="player-option-dropdowns">
                                 <select id="job-input-player2" class="job-input">
-                                    <option selected="selected">Random Job</option>
-                                    <option>Airline Pilot: $9500</option>
-                                    <option>Business Manager: $4600</option>
-                                    <option>Doctor (MD): $13200</option>
-                                    <option>Engineer: $4900</option>
-                                    <option>Janitor: $1600</option>
-                                    <option>Lawyer: $7500</option>
-                                    <option>Mechanic: $2000</option>
-                                    <option>Nurse: $3100</option>
-                                    <option>Police Officer $3000</option>
-                                    <option>Secretary: $2500</option>
-                                    <option>Teacher (K-12): $3300</option>
-                                    <option>Truck Driver: $2500</option>
+                                    <option selected="selected">Emploi aléatoire</option>
+                                    <option>Pilote de ligne: $9500</option>
+                                    <option>Chef d'entreprise: $4600</option>
+                                    <option>Docteur (MD): $13200</option>
+                                    <option>Ingénieur: $4900</option>
+                                    <option>Concierge: $1600</option>
+                                    <option>Avocat: $7500</option>
+                                    <option>Mécanicien: $2000</option>
+                                    <option>Infirmière: $3100</option>
+                                    <option>Officier de police: $3000</option>
+                                    <option>Secrétaire: $2500</option>
+                                    <option>Enseignant : $3300</option>
+                                    <option>Chauffeur de camion: $2500</option>
                                     <option>CEO: $24000</option>
                                 </select>
                                 <select id="color-input-player2" class="color-input" onChange="APP.display.updatePlayerColor('menu', 2)">
-                                    <option>Green</option>
-                                    <option>Red</option>
-                                    <option>Blue</option>
-                                    <option>Black</option>
-                                    <option>Pink</option>
-                                    <option>Aqua</option>
-                                    <option>Gold</option>
-                                    <option>White</option>
-                                    <option selected="selected">Random Color</option>
+                                    <option>Vert</option>
+                                    <option>Rouge</option>
+                                    <option>Bleu</option>
+                                    <option>Noir</option>
+                                    <option>Rose</option>
+                                    <option>Cyan</option>
+                                    <option>Orange</option>
+                                    <option>Blanc</option>
+                                    <option selected="selected">Couleur aléatoire</option>
                                 </select>
                             </div>
                         </div>
@@ -123,31 +123,31 @@
                             </label>
                             <div class="player-option-dropdowns">
                                 <select id="job-input-player3" class="job-input">
-                                    <option selected="selected">Random Job</option>
-                                    <option>Airline Pilot: $9500</option>
-                                    <option>Business Manager: $4600</option>
-                                    <option>Doctor (MD): $13200</option>
-                                    <option>Engineer: $4900</option>
-                                    <option>Janitor: $1600</option>
-                                    <option>Lawyer: $7500</option>
-                                    <option>Mechanic: $2000</option>
-                                    <option>Nurse: $3100</option>
-                                    <option>Police Officer $3000</option>
-                                    <option>Secretary: $2500</option>
-                                    <option>Teacher (K-12): $3300</option>
-                                    <option>Truck Driver: $2500</option>
+                                    <option selected="selected">Emploi aléatoire</option>
+                                    <option>Pilote de ligne: $9500</option>
+                                    <option>Chef d'entreprise: $4600</option>
+                                    <option>Docteur (MD): $13200</option>
+                                    <option>Ingénieur: $4900</option>
+                                    <option>Concierge: $1600</option>
+                                    <option>Avocat: $7500</option>
+                                    <option>Mécanicien: $2000</option>
+                                    <option>Infirmière: $3100</option>
+                                    <option>Officier de police: $3000</option>
+                                    <option>Secrétaire: $2500</option>
+                                    <option>Enseignant : $3300</option>
+                                    <option>Chauffeur de camion: $2500</option>
                                     <option>CEO: $24000</option>
                                 </select>
                                 <select id="color-input-player3" class="color-input" onChange="APP.display.updatePlayerColor('menu', 3)">
-                                    <option>Green</option>
-                                    <option>Red</option>
-                                    <option>Blue</option>
-                                    <option>Black</option>
-                                    <option>Pink</option>
-                                    <option>Aqua</option>
-                                    <option>Gold</option>
-                                    <option>White</option>
-                                    <option selected="selected">Random Color</option>
+                                    <option>Vert</option>
+                                    <option>Rouge</option>
+                                    <option>Bleu</option>
+                                    <option>Noir</option>
+                                    <option>Rose</option>
+                                    <option>Cyan</option>
+                                    <option>Orange</option>
+                                    <option>Blanc</option>
+                                    <option selected="selected">Couleur aléatoire</option>
                                 </select>
                             </div>
                         </div>
@@ -159,31 +159,31 @@
                             </label>
                             <div class="player-option-dropdowns">
                                 <select id="job-input-player4" class="job-input">
-                                    <option selected="selected">Random Job</option>
-                                    <option>Airline Pilot: $9500</option>
-                                    <option>Business Manager: $4600</option>
-                                    <option>Doctor (MD): $13200</option>
-                                    <option>Engineer: $4900</option>
-                                    <option>Janitor: $1600</option>
-                                    <option>Lawyer: $7500</option>
-                                    <option>Mechanic: $2000</option>
-                                    <option>Nurse: $3100</option>
-                                    <option>Police Officer $3000</option>
-                                    <option>Secretary: $2500</option>
-                                    <option>Teacher (K-12): $3300</option>
-                                    <option>Truck Driver: $2500</option>
+                                    <option selected="selected">Emploi aléatoire</option>
+                                    <option>Pilote de ligne: $9500</option>
+                                    <option>Chef d'entreprise: $4600</option>
+                                    <option>Docteur (MD): $13200</option>
+                                    <option>Ingénieur: $4900</option>
+                                    <option>Concierge: $1600</option>
+                                    <option>Avocat: $7500</option>
+                                    <option>Mécanicien: $2000</option>
+                                    <option>Infirmière: $3100</option>
+                                    <option>Officier de police: $3000</option>
+                                    <option>Secrétaire: $2500</option>
+                                    <option>Enseignant : $3300</option>
+                                    <option>Chauffeur de camion: $2500</option>
                                     <option>CEO: $24000</option>
                                 </select>
                                 <select id="color-input-player4" class="color-input" onChange="APP.display.updatePlayerColor('menu', 4)">
-                                    <option>Green</option>
-                                    <option>Red</option>
-                                    <option>Blue</option>
-                                    <option>Black</option>
-                                    <option>Pink</option>
-                                    <option>Aqua</option>
-                                    <option>Gold</option>
-                                    <option>White</option>
-                                    <option selected="selected">Random Color</option>
+                                    <option>Vert</option>
+                                    <option>Rouge</option>
+                                    <option>Bleu</option>
+                                    <option>Noir</option>
+                                    <option>Rose</option>
+                                    <option>Cyan</option>
+                                    <option>Orange</option>
+                                    <option>Blanc</option>
+                                    <option selected="selected">Couleur aléatoire</option>
                                 </select>
                             </div>
                         </div>
@@ -195,31 +195,31 @@
                             </label>
                             <div class="player-option-dropdowns">
                                 <select id="job-input-player5" class="job-input">
-                                    <option selected="selected">Random Job</option>
-                                    <option>Airline Pilot: $9500</option>
-                                    <option>Business Manager: $4600</option>
-                                    <option>Doctor (MD): $13200</option>
-                                    <option>Engineer: $4900</option>
-                                    <option>Janitor: $1600</option>
-                                    <option>Lawyer: $7500</option>
-                                    <option>Mechanic: $2000</option>
-                                    <option>Nurse: $3100</option>
-                                    <option>Police Officer $3000</option>
-                                    <option>Secretary: $2500</option>
-                                    <option>Teacher (K-12): $3300</option>
-                                    <option>Truck Driver: $2500</option>
+                                    <option selected="selected">Emploi aléatoire</option>
+                                    <option>Pilote de ligne: $9500</option>
+                                    <option>Chef d'entreprise: $4600</option>
+                                    <option>Docteur (MD): $13200</option>
+                                    <option>Ingénieur: $4900</option>
+                                    <option>Concierge: $1600</option>
+                                    <option>Avocat: $7500</option>
+                                    <option>Mécanicien: $2000</option>
+                                    <option>Infirmière: $3100</option>
+                                    <option>Officier de police: $3000</option>
+                                    <option>Secrétaire: $2500</option>
+                                    <option>Enseignant : $3300</option>
+                                    <option>Chauffeur de camion: $2500</option>
                                     <option>CEO: $24000</option>
                                 </select>
                                 <select id="color-input-player5" class="color-input" onChange="APP.display.updatePlayerColor('menu', 5)">
-                                    <option>Green</option>
-                                    <option>Red</option>
-                                    <option>Blue</option>
-                                    <option>Black</option>
-                                    <option>Pink</option>
-                                    <option>Aqua</option>
-                                    <option>Gold</option>
-                                    <option>White</option>
-                                    <option selected="selected">Random Color</option>
+                                    <option>Vert</option>
+                                    <option>Rouge</option>
+                                    <option>Bleu</option>
+                                    <option>Noir</option>
+                                    <option>Rose</option>
+                                    <option>Cyan</option>
+                                    <option>Orange</option>
+                                    <option>Blanc</option>
+                                    <option selected="selected">Couleur aléatoire</option>
                                 </select>
                             </div>
                         </div>
@@ -231,31 +231,31 @@
                             </label>
                             <div class="player-option-dropdowns">
                                 <select id="job-input-player6" class="job-input">
-                                    <option selected="selected">Random Job</option>
-                                    <option>Airline Pilot: $9500</option>
-                                    <option>Business Manager: $4600</option>
-                                    <option>Doctor (MD): $13200</option>
-                                    <option>Engineer: $4900</option>
-                                    <option>Janitor: $1600</option>
-                                    <option>Lawyer: $7500</option>
-                                    <option>Mechanic: $2000</option>
-                                    <option>Nurse: $3100</option>
-                                    <option>Police Officer $3000</option>
-                                    <option>Secretary: $2500</option>
-                                    <option>Teacher (K-12): $3300</option>
-                                    <option>Truck Driver: $2500</option>
+                                    <option selected="selected">Emploi aléatoire</option>
+                                    <option>Pilote de ligne: $9500</option>
+                                    <option>Chef d'entreprise: $4600</option>
+                                    <option>Docteur (MD): $13200</option>
+                                    <option>Ingénieur: $4900</option>
+                                    <option>Concierge: $1600</option>
+                                    <option>Avocat: $7500</option>
+                                    <option>Mécanicien: $2000</option>
+                                    <option>Infirmière: $3100</option>
+                                    <option>Officier de police: $3000</option>
+                                    <option>Secrétaire: $2500</option>
+                                    <option>Enseignant : $3300</option>
+                                    <option>Chauffeur de camion: $2500</option>
                                     <option>CEO: $24000</option>
                                 </select>
                                 <select id="color-input-player6" class="color-input" onChange="APP.display.updatePlayerColor('menu', 6)">
-                                    <option>Green</option>
-                                    <option>Red</option>
-                                    <option>Blue</option>
-                                    <option>Black</option>
-                                    <option>Pink</option>
-                                    <option>Aqua</option>
-                                    <option>Gold</option>
-                                    <option>White</option>
-                                    <option selected="selected">Random Color</option>
+                                    <option>Vert</option>
+                                    <option>Rouge</option>
+                                    <option>Bleu</option>
+                                    <option>Noir</option>
+                                    <option>Rose</option>
+                                    <option>Cyan</option>
+                                    <option>Orange</option>
+                                    <option>Blanc</option>
+                                    <option selected="selected">Couleur aléatoire</option>
                                 </select>
                             </div>
                         </div>
@@ -267,31 +267,31 @@
                             </label>
                             <div class="player-option-dropdowns">
                                 <select id="job-input-player7" class="job-input">
-                                    <option selected="selected">Random Job</option>
-                                    <option>Airline Pilot: $9500</option>
-                                    <option>Business Manager: $4600</option>
-                                    <option>Doctor (MD): $13200</option>
-                                    <option>Engineer: $4900</option>
-                                    <option>Janitor: $1600</option>
-                                    <option>Lawyer: $7500</option>
-                                    <option>Mechanic: $2000</option>
-                                    <option>Nurse: $3100</option>
-                                    <option>Police Officer $3000</option>
-                                    <option>Secretary: $2500</option>
-                                    <option>Teacher (K-12): $3300</option>
-                                    <option>Truck Driver: $2500</option>
+                                    <option selected="selected">Emploi aléatoire</option>
+                                    <option>Pilote de ligne: $9500</option>
+                                    <option>Chef d'entreprise: $4600</option>
+                                    <option>Docteur (MD): $13200</option>
+                                    <option>Ingénieur: $4900</option>
+                                    <option>Concierge: $1600</option>
+                                    <option>Avocat: $7500</option>
+                                    <option>Mécanicien: $2000</option>
+                                    <option>Infirmière: $3100</option>
+                                    <option>Officier de police: $3000</option>
+                                    <option>Secrétaire: $2500</option>
+                                    <option>Enseignant : $3300</option>
+                                    <option>Chauffeur de camion: $2500</option>
                                     <option>CEO: $24000</option>
                                 </select>
                                 <select id="color-input-player7" class="color-input" onChange="APP.display.updatePlayerColor('menu', 7)">
-                                    <option>Green</option>
-                                    <option>Red</option>
-                                    <option>Blue</option>
-                                    <option>Black</option>
-                                    <option>Pink</option>
-                                    <option>Aqua</option>
-                                    <option>Gold</option>
-                                    <option>White</option>
-                                    <option selected="selected">Random Color</option>
+                                    <option>Vert</option>
+                                    <option>Rouge</option>
+                                    <option>Bleu</option>
+                                    <option>Noir</option>
+                                    <option>Rose</option>
+                                    <option>Cyan</option>
+                                    <option>Orange</option>
+                                    <option>Blanc</option>
+                                    <option selected="selected">Couleur aléatoire</option>
                                 </select>
                             </div>
                         </div>
@@ -303,31 +303,31 @@
                             </label>
                             <div class="player-option-dropdowns">
                                 <select id="job-input-player8" class="job-input">
-                                    <option selected="selected">Random Job</option>
-                                    <option>Airline Pilot: $9500</option>
-                                    <option>Business Manager: $4600</option>
-                                    <option>Doctor (MD): $13200</option>
-                                    <option>Engineer: $4900</option>
-                                    <option>Janitor: $1600</option>
-                                    <option>Lawyer: $7500</option>
-                                    <option>Mechanic: $2000</option>
-                                    <option>Nurse: $3100</option>
-                                    <option>Police Officer $3000</option>
-                                    <option>Secretary: $2500</option>
-                                    <option>Teacher (K-12): $3300</option>
-                                    <option>Truck Driver: $2500</option>
+                                    <option selected="selected">Emploi aléatoire</option>
+                                    <option>Pilote de ligne: $9500</option>
+                                    <option>Chef d'entreprise: $4600</option>
+                                    <option>Docteur (MD): $13200</option>
+                                    <option>Ingénieur: $4900</option>
+                                    <option>Concierge: $1600</option>
+                                    <option>Avocat: $7500</option>
+                                    <option>Mécanicien: $2000</option>
+                                    <option>Infirmière: $3100</option>
+                                    <option>Officier de police: $3000</option>
+                                    <option>Secrétaire: $2500</option>
+                                    <option>Enseignant : $3300</option>
+                                    <option>Chauffeur de camion: $2500</option>
                                     <option>CEO: $24000</option>
                                 </select>
                                 <select id="color-input-player8" class="color-input" onChange="APP.display.updatePlayerColor('menu', 8)">
-                                    <option >Green</option>
-                                    <option>Red</option>
-                                    <option>Blue</option>
-                                    <option>Black</option>
-                                    <option>Pink</option>
-                                    <option>Aqua</option>
-                                    <option>Gold</option>
-                                    <option>White</option>
-                                    <option selected="selected">Random Color</option>
+                                    <option>Vert</option>
+                                    <option>Rouge</option>
+                                    <option>Bleu</option>
+                                    <option>Noir</option>
+                                    <option>Rose</option>
+                                    <option>Cyan</option>
+                                    <option>Orange</option>
+                                    <option>Blanc</option>
+                                    <option selected="selected">Couleur aléatoire</option>
                                 </select>
                             </div>
                         </div>
@@ -343,11 +343,11 @@
                     <div id="asset-deck-selection">
                         <h1>Assets</h1>
                         <div id="re-options">
-                            <label class="options-checkbox">Small Real Estate
+                            <label class="options-checkbox">Petit Immobilier
                             <input id="ao-small-real-estate" class="asset-checkbox" type="checkbox" checked>
                             <span class="checkmark"></span>
                             </label>
-                            <label class="options-checkbox">Big Real Estate
+                            <label class="options-checkbox">Grand Immobilier
                             <input id="ao-big-real-estate" class="asset-checkbox" type="checkbox" checked>
                             <span class="checkmark"></span>
                             </label>
@@ -355,62 +355,62 @@
                                 <!--sublist of individual land types-->
                             </div>
                         </div>
-                        <label class="options-checkbox">Stocks
+                        <label class="options-checkbox">Marché
                         <input id="ao-stocks" type="checkbox" checked>
                         <span class="checkmark"></span>
                         </label>
-                        <label class="options-checkbox">Mutuals
+                        <label class="options-checkbox">Mutuelles
                         <input id="ao-mutuals" type="checkbox" checked>
                         <span class="checkmark"></span>
                         </label>
-                        <label class="options-checkbox">Preferred Stocks
+                        <label class="options-checkbox">Actions privilégiées
                         <input id="ao-preferred-stocks" type="checkbox" checked>
                         <span class="checkmark"></span>
                         </label>
-                        <label class="options-checkbox">Certificates of Deposit
+                        <label class="options-checkbox">Certificats de dépôt
                         <input id="ao-cds" type="checkbox" checked>
                         <span class="checkmark"></span>
                         </label>
-                        <label class="options-checkbox">Coins
+                        <label class="options-checkbox">Pièces
                         <input id="ao-coins" type="checkbox" checked>
                         <span class="checkmark"></span>
                         </label>
-                        <label class="options-checkbox">Limited Partnership
+                        <label class="options-checkbox">Partenariat limité
                         <input id="ao-limited-partnership" type="checkbox" checked>
                         <span class="checkmark"></span>
                         </label>
-                        <label class="options-checkbox">Companies
+                        <label class="options-checkbox">Entreprises
                         <input id="ao-companies" type="checkbox" checked>
                         <span class="checkmark"></span>
                         </label>
                     </div>
                     <div id="other-options">
-                        <h1>Other</h1>
-                        <label class="options-checkbox">Have +3 Kids
+                        <h1>Autres</h1>
+                        <label class="options-checkbox">Avoir +3 enfants
                         <input id="oo-kids"  type="checkbox">
                         <span class="checkmark"></span>
                         </label>
-                        <label class="options-checkbox">Doodads with Paychecks
+                        <label class="options-checkbox">Machin avec chèques de paie
                         <input id="oo-paycheck-doodads" type="checkbox">
                         <span class="checkmark"></span>
                         </label>
-                        <label class="options-checkbox">Early Mortgage Payoff
+                        <label class="options-checkbox">Remboursement hypothécaire anticipé
                         <input id="oo-mortgage-prepay" type="checkbox">
                         <span class="checkmark"></span>
                         </label>
-                        <label class="options-checkbox">Instant Fast Track
+                        <label class="options-checkbox">Péage
                         <input id="oo-instant-ft" type="checkbox">
                         <span class="checkmark"></span>
                         </label> 
-                        <label class="options-checkbox">One Cent Away
+                        <label class="options-checkbox">À un centime près
                         <input id="oo-one-cent-away" type="checkbox">
                         <span class="checkmark"></span>
                         </label>
-                        <label class="options-checkbox">No Starting Loans 
+                        <label class="options-checkbox">Aucun prêt de démarrage 
                         <input id="oo-no-loans" type="checkbox">
                         <span class="checkmark"></span>
                         </label>
-                        <label class="options-checkbox">Manual Dice
+                        <label class="options-checkbox">Dés manuels
                         <input id="oo-manual-dice" type="checkbox">
                         <span class="checkmark off-options"></span>
                         </label>
@@ -418,11 +418,11 @@
                         <input id="oo-" type="checkbox">
                         <span class="checkmark off-options"></span>
                         </label>
-                        <button class="options-checkbox" id="delete-save" onclick="deleteSave()">Delete Save File</button>
+                        <button class="options-checkbox" id="delete-save" onclick="deleteSave()">Supprimer le fichier de sauvegarde</button>
                     </div>
                     <div id="options-2">
                         <div class="options-2-container">
-                            <h2>Starting Savings: <span id="start-savings-option-value"></span></h2>
+                            <h2>Épargne de départ: <span id="start-savings-option-value"></span></h2>
                             <div class="sso-slidecontainer">
                                 <!--<div id="sso-scale">
                                     None, Normal, Salary or 2x
@@ -483,38 +483,38 @@
                                                     <div id="dream-logo"></div>
                                                     <div id="dream-heading">
                                                         <p id="dream-player-name"></p>
-                                                        CHOOSE YOUR DREAM
+                                                        CHOISISSEZ VOTRE RÊVE
                                                     </div>
                                                     <div id="dream-description">
                                                         <p><span id="dream-text"></span>: <span id="dream-des"></span></p>
                                                         <p id="dream-info"></p>
                                                     </div>
                                                     <div id="job-text">
-                                                        <button id="dream-choice-btn" onclick="APP.dreamPhase.dreamChoiceBtn();">Select</button>
-                                                        <div>You are a<span id='dream-job'></span>.</div>
-                                                        <div>Your starting salary is $<span id='dream-starting-salary'></span>.</div>
-                                                        <div>You have $<span id='dream-starting-savings'></span> in your savings.</div>
-                                                        <div>That means your starting cash is $<span id='dream-starting-cash'></span>.</div>
+                                                        <button id="dream-choice-btn" onclick="APP.dreamPhase.dreamChoiceBtn();">Sélectionner</button>
+                                                        <div>Tu es un<span id='dream-job'></span>.</div>
+                                                        <div>Votre salaire de départ est de $<span id='dream-starting-salary'></span>.</div>
+                                                        <div>Vous avez $<span id='dream-starting-savings'></span> in your savings.</div>
+                                                        <div>Cela signifie que votre argent de départ est de $<span id='dream-starting-cash'></span>.</div>
                                                     </div>
                                                 </div>
                                                 <div id="turn-info-box" style="display: inline-block;">
                                                     <div id="turn-instructions">
                                                         <h2 class="card-title"><span id="player-name"></span>'s turn</h2>
-                                                        <h3>When you are ready, roll the die and take your turn</h3>
-                                                        <p>Before you start your turn, review your financial statement. You may also use this time to repay liabilities or borrow money.</p>
+                                                        <h3>Lorsque vous êtes prêt, lancez le dé et jouez à votre tour</h3>
+                                                        <p>Avant de commencer votre tour, examinez votre état financier. Vous pouvez également utiliser ce temps pour rembourser des dettes ou emprunter de l'argent.</p>
                                                     </div>
                                                     <div id="finish-instructions">
                                                         <h2 class="card-title">
-                                                            FINISH YOUR TURN
+                                                            TERMINEZ VOTRE TOUR
                                                         </h2>
-                                                        <p>Before you end your turn, review your financial statement. You may also use this time to repay liabilities or borrow money.</p>
+                                                        <p>Avant de terminer votre tour, examinez votre état financier. Vous pouvez également utiliser ce temps pour rembourser des dettes ou emprunter de l'argent.</p>
                                                     </div>
                                                     <div id="opp-card">
                                                         <div class="card-title">
-                                                            <h2>DEAL OPPORTUNITY</h2>
+                                                            <h2>OPPORTUNITÉ D'AFFAIRE</h2>
                                                         </div>
-                                                        <p id="card-text">Which type of deal do you want?</p>
-                                                        <p>Small deals cost $5,000 or less.<br>Big deals cost $6,000 or more.</p>
+                                                        <p id="card-text">Quel type d'accord souhaitez-vous ?</p>
+                                                        <p>Les petites transactions coûtent 5 000 $ ou moins.<br>Les grosses transactions coûtent 6 000 $ ou plus.</p>
                                                     </div>
                                                     <div id="deal-card-real-estate">
                                                         <h2 class="card-title"><span id="deal-re-name"></span></h2>
@@ -522,16 +522,16 @@
                                                         <p><span id="deal-re-rule"></span></p>
                                                         <table id="real-estate-cost-table">
                                                             <tr>
-                                                                <td>Cost: $<span id="deal-re-cost"></span></td>
+                                                                <td>Coût: $<span id="deal-re-cost"></span></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Mortgage: $<span id="deal-re-mortgage"></span></td>
+                                                                <td>Hypothèque: $<span id="deal-re-mortgage"></span></td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Cash flow: $<span id="deal-re-cash-flow"></span></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Down pay: $<span id="deal-re-down-payment"></span></td>
+                                                                <td>Salaire bas: $<span id="deal-re-down-payment"></span></td>
                                                             </tr>
                                                         </table>
                                                     </div>
@@ -544,21 +544,21 @@
                                                         <p id="deal-stock-rule"></p>
                                                         <table id="stock-cost-table">
                                                             <tr>
-                                                                <td>Cost: $<span id="deal-stock-cost"></span></td>
+                                                                <td>Coût: $<span id="deal-stock-cost"></span></td>
                                                             </tr>
                                                             <tr>
                                                                 <td><span id="deal-stock-cash-flow"></span></td>
                                                             </tr>
                                                             <tr id="stock-table-trading-range-row">
-                                                                <td>Trading range: <span id="deal-stock-trading-range"></span></td>
+                                                                <td>Marge de négociation: <span id="deal-stock-trading-range"></span></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Shares owned: <span id="deal-stock-shares-owned"></span></td>
+                                                                <td>Actions détenues: <span id="deal-stock-shares-owned"></span></td>
                                                             </tr>
                                                         </table>
                                                         <div id="buy-shares-form">
                                                             <div id="buy-shares">
-                                                                <div class="share-amt-box" id="shares-input">Buy shares: <input id="share-amt-input" type="number" name="shares" value="1">
+                                                                <div class="share-amt-box" id="shares-input">Acheter des actions: <input id="share-amt-input" type="number" name="shares" value="1">
                                                                 </div>
                                                                 <div class="share-amt-box" id="share-amt-btns">
                                                                     <button id="increase-shares" onclick="APP.display.increaseShares(1);" type="button">+</button>
@@ -569,16 +569,16 @@
                                                         </div>
                                                         <div id="sell-shares-form">
                                                             <div id="sell-shares">
-                                                                <div class="share-amt-box" id="shares-input">Sell shares: <input id="share-amt-input-sell" type="number" name="shares" value="1">
+                                                                <div class="share-amt-box" id="shares-input">Vendre des actions: <input id="share-amt-input-sell" type="number" name="shares" value="1">
                                                                 </div>
                                                                 <div class="share-amt-box" id="share-amt-btns">
                                                                     <button id="increase-shares-sell" onclick="APP.display.increaseShares(2);" type="button">+</button>
                                                                     <button id="decrease-shares-sell" onclick="APP.display.decreaseShares(2);" type="button"> - </button>
                                                                 </div>
                                                                 <div class="share-amt-box" style="font-weight: bold; letter-spacing: 1px; font-size: 13pt; color: #212121;">
-                                                                    At $<span id="share-cost-sell"></span> each<!-- for $<span id="share-sell-total"></span>-->
+                                                                    À $<span id="share-cost-sell"></span> chacune<!-- for $<span id="share-sell-total"></span>-->
                                                                 </div>
-                                                                <div>Bought at $<span id="share-cost-bought"></span></div>
+                                                                <div>Acheté à $<span id="share-cost-bought"></span></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -588,13 +588,13 @@
                                                         <p id="deal-coin-rule"></p>
                                                         <table id="coin-cost-table">
                                                             <tr>
-                                                                <td>Cost: $<span id="deal-coin-cost"></span></td>
+                                                                <td>Coût: $<span id="deal-coin-cost"></span></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Down Payment: $<span id="deal-coin-down-payment"></span></td>
+                                                                <td>Acompte: $<span id="deal-coin-down-payment"></span></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Liability: $<span id="deal-coin-liability"></span></td>
+                                                                <td>Responsabilité: $<span id="deal-coin-liability"></span></td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Cash Flow: $<span id="deal-coin-cash-flow"></span></td>
@@ -609,7 +609,7 @@
                                                         <br>
                                                         <table>
                                                             <tr>
-                                                                <td>Cost: $<span id="deal-company-cost"></span></td>
+                                                                <td>Coût: $<span id="deal-company-cost"></span></td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Cash Flow: $<span id="deal-company-cash-flow"></span></td>
@@ -626,16 +626,16 @@
                                                         <p id="deal-limited-rule"></p>
                                                         <table id="limited-cost-table">
                                                             <tr>
-                                                                <td>Cost: $<span id="deal-limited-cost"></span></td>
+                                                                <td>Coût: $<span id="deal-limited-cost"></span></td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Cash flow: $<span id="deal-limited-cash-flow"></span></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Down pay: $<span id="deal-limited-down-payment"></span></td>
+                                                                <td>Salaire bas: $<span id="deal-limited-down-payment"></span></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Liability: $<span id="deal-limited-liability"></span></td>
+                                                                <td>Responsabilité: $<span id="deal-limited-liability"></span></td>
                                                             </tr>
                                                         </table>
                                                     </div>
@@ -645,16 +645,16 @@
                                                         <p id="deal-automated-rule"></p>
                                                         <table id="automated-cost-table">
                                                             <tr>
-                                                                <td>Cost: $<span id="deal-automated-cost"></span></td>
+                                                                <td>Coût: $<span id="deal-automated-cost"></span></td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Cash flow: $<span id="deal-automated-cash-flow"></span></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Down pay: $<span id="deal-automated-down-payment"></span></td>
+                                                                <td>Salaire bas: $<span id="deal-automated-down-payment"></span></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Liability: $<span id="deal-automated-liability"></span></td>
+                                                                <td>Responsabilité: $<span id="deal-automated-liability"></span></td>
                                                             </tr>
                                                         </table>
                                                     </div>
@@ -673,40 +673,40 @@
                                                         <p id="offer-rule2"></p>
                                                     </div>
                                                     <div id="charity-card">
-                                                        <h2 class="card-title">GIVE TO CHARITY</h2>
+                                                        <h2 class="card-title">DONNER À LA CHARITÉ</h2>
                                                         <br>
-                                                        <p id="charity-text"> Donate 10% of your total income to roll 1 or 2 die over your next 3 turns.</p>
+                                                        <p id="charity-text"> Donnez 10 % de votre revenu total pour lancer 1 ou 2 dés au cours de vos 3 prochains tours.</p>
                                                         <br>
                                                     </div>
                                                     <div id="kid-card">
-                                                        <h2 class="card-title">NEW BABY!</h2>
-                                                        <p id="child-text">Congratulations! One child has been added to your dependents<br>
-                                                        <h3>Child Expenses will be increased by $<span id="child-cost"></span></h3>
+                                                        <h2 class="card-title">NOUVEAU BÉBÉ!</h2>
+                                                        <p id="child-text">Félicitations ! Un enfant a été ajouté à vos personnes à charge<br>
+                                                        <h3>Les dépenses des enfants seront augmentées de $<span id="child-cost"></span></h3>
                                                         </p>
                                                         <br>
                                                     </div>
                                                     <div id="downsize-card">
-                                                        <h2 class="card-title">DOWNSIZED!</h2>
+                                                        <h2 class="card-title">RÉDUIT!</h2>
                                                         <div id="default-ds">
-                                                            <p>Pay a full set of your expenses. Skip 3 turns.</p>
-                                                            <p style="font-size: 18pt"> Pay: $<span id="downsized-amt"></span></p>
+                                                            <p>Payez un ensemble complet de vos dépenses. Passer 3 tours.</p>
+                                                            <p style="font-size: 18pt"> Payer: $<span id="downsized-amt"></span></p>
                                                         </div>
                                                         <div id="insured-ds">
-                                                            <p>Spare Pay a full set of your expenses. Skip 3 turns.</p>
-                                                            <p style="font-size: 18pt"> You are covered for the full amount of $<span id="downsized-amt2"></span></p>
+                                                            <p>Chômage Payez un ensemble complet de vos dépenses. Passer 3 tours.</p>
+                                                            <p style="font-size: 18pt"> Vous êtes couvert pour le montant total de $<span id="downsized-amt2"></span></p>
                                                         </div>
                                                         <br>
                                                     </div>
                                                     <div id="repay-card">
-                                                        <h2 class="card-title">PAY OFF LOAN</h2>
-                                                        <p>Select a liability on your statement sheet to repay your debt.</p>
+                                                        <h2 class="card-title">REMBOURSER LE PRÊT</h2>
+                                                        <p>Sélectionnez un passif sur votre feuille de relevé pour rembourser votre dette.</p>
                                                     </div>
                                                     <div id="borrow-card">
-                                                        <h2 class="card-title">TAKE OUT A LOAN</h2>
+                                                        <h2 class="card-title">PRENDRE UN PRÊT</h2>
                                                         <br>
-                                                        <p>Loans must be in multiples of $1000 at 10% interest per month.</p>
+                                                        <p>Les prêts doivent être en multiples de 1 000 $ à 10 % d'intérêt par mois.</p>
                                                         <form>
-                                                            <div id="loan-amt">Amount: $<input id='loan-amt-input' type='text' name='loan-amount' value='1000'></div>
+                                                            <div id="loan-amt">Montant: $<input id='loan-amt-input' type='text' name='loan-amount' value='1000'></div>
                                                             <div id="loan-amt-btns">
                                                                 <input type="button" id="increase-loan" onclick="APP.finance.increaseLoan();" value=" + "></input>
                                                                 <input type="button" id="decrease-loan" onclick="APP.finance.decreaseLoan();" value=" - "></input>
@@ -715,10 +715,10 @@
                                                         </form>
                                                     </div>
                                                     <div id="repay-loan-card">
-                                                        <h2 class="card-title">PAY OFF LOAN</h2>
-                                                        <p>Input an amount to repay your loan<br>Payments must be in multiples of $1,000</p>
+                                                        <h2 class="card-title">REMBOURSER LE PRÊT</h2>
+                                                        <p>Entrez un montant pour rembourser votre prêt<br>Les paiements doivent être en multiples de 1 000 $</p>
                                                         <form>
-                                                            <div id="loan-amt">Amount: $ <input id='loan-amt-input2' type='text' name='loan-amount' value='1000'></div>
+                                                            <div id="loan-amt">Montant: $ <input id='loan-amt-input2' type='text' name='loan-amount' value='1000'></div>
                                                             <br>
                                                             <div id="loan-amt-btns">
                                                                 <input type="button" id="increase-loan" onclick="APP.finance.increaseLoan();" value=" + "></input>
@@ -729,41 +729,41 @@
                                                         </form>
                                                     </div>
                                                     <div id="settlement-card">
-                                                        <h2 class="card-title">Confirm Settlement</h2>
-                                                        <p>Do you accept a settlement offer of $<span id="settlement-offer">?</span></p>
+                                                        <h2 class="card-title">Confirmer le règlement</h2>
+                                                        <p>Acceptez-vous une offre de règlement de $<span id="settlement-offer">?</span></p>
                                                     </div>
                                                     <div id="cannot-afford-card">
                                                         <h2 class="card-title">
-                                                            Insufficient Funds
+                                                            Fonds insuffisants.
                                                         </h2>
-                                                        <p>Not enough funds.</p>
+                                                        <p>Pas assez de fonds.</p>
                                                     </div>
                                                     <div id="cannot-afford-loan-card">
-                                                        <h2 class="card-title">TAKE OUT A LOAN</h2>
-                                                        <p>Not enough funds.</p>
-                                                        <p id="loan-offered-text">Take out a loan of $<span id="loan-offer"></span> with a monthly payment of $<span id="loan-offer-monthly-payment"></span></p>
+                                                        <h2 class="card-title">FAIRE UN PRÊT</h2>
+                                                        <p>Pas assez de fonds.</p>
+                                                        <p id="loan-offered-text">Faire un prêt de $<span id="loan-offer"></span> avec un paiement mensuel de $<span id="loan-offer-monthly-payment"></span></p>
                                                     </div>
                                                     <div id="pay-confirm-card">
-                                                        <h2 class="card-title">PAY OFF LOAN</h2>
-                                                        <p>Pay off <span id="repay-loan-name"></span> for <span id="repay-loan-amt">?</span></p>
-                                                        <p id="pay-loan-confirmation">Are you sure?</p>
+                                                        <h2 class="card-title">REMBOURSER LE PRÊT</h2>
+                                                        <p>Payer <span id="repay-loan-name"></span> pour <span id="repay-loan-amt">?</span></p>
+                                                        <p id="pay-loan-confirmation">Êtes-vous sûr?</p>
                                                     </div>
                                                     <div id="fast-track-intro-card">
-                                                        <h2 class="card-title">CONGRATULATIONS!</h2>
-                                                        <h3 class="card-title">YOU ARE OUT OF THE RAT RACE!</h3>
-                                                        <p><span id="ftic-player-name-intro"></span> has built up their passive income to be greater than their total expenses and may now enter the Fast Track.</p>
-                                                        <p>If you enter, you will receive 100x your passive income in cash and race to increase your CASHFLOW DAY income by $50,000 to win the game.</p>
+                                                        <h2 class="card-title">FÉLICITATIONS!!</h2>
+                                                        <h3 class="card-title">VOUS ÊTES SORTIS DE LA FOIRE D'EMPOIGNE !</h3>
+                                                        <p><span id="ftic-player-name-intro"></span> a accumulé un revenu passif supérieur à ses dépenses totales et peut désormais entrer dans la procédure accélérée.</p>
+                                                        <p>Si vous participez, vous recevrez 100 fois votre revenu passif en espèces. Augmenter votre revenu de 50 000 $ lors du JOUR DU CASHFLOW pour gagner la partie.</p>
                                                     </div>
                                                     <div id="fast-track-option-card">
-                                                        <h2 class="card-title">WELCOME TO THE FAST TRACK!</h2>
-                                                        <p><span id="ftic-player-name"></span> has entered the Fast Track.
+                                                        <h2 class="card-title">BIENVENUE SUR LA VOIE RAPIDE !</h2>
+                                                        <p><span id="ftic-player-name"></span> est entré dans la voie rapide.
                                                         </p>
-                                                        <p>You receive 100x your passive income in cash. </p>
-                                                        <h3>Increase your income by $50,000 to win the game.</h3>
+                                                        <p>Vous recevez 100x votre revenu passif en espèces.</p>
+                                                        <h3>Augmentez vos revenus de 50 000 $ pour gagner la partie.</h3>
                                                     </div>
                                                     <div id="ft-turn-instructions">
-                                                        <h2 class="card-title"><span id="ft-player-name"></span>'s turn</h2>
-                                                        <h3>When you are ready, roll the die and take your turn</h3>
+                                                        <h2 class="card-title">Au tour de <span id="ft-player-name"></span></h2>
+                                                        <h3>Lorsque vous êtes prêt, lancez le dé et jouez à votre tour</h3>
                                                     </div>
                                                     <div id="ft-doodad-card">
                                                         <h2 class="card-title"><span id="ft-doodad-title"></span></h2>
@@ -792,14 +792,14 @@
                                                     </div>
                                                     <div id="ft-cashflow-day">
                                                         <h2 class="card-title">CASHFLOW DAY!</h2>
-                                                        <p>Receive $<span id="ft-cashflow-day-income"></p>
+                                                        <p>Recezvez $<span id="ft-cashflow-day-income"></p>
                                                     </div>
                                                     <div id="ft-finish-turn-card">
                                                         <h2 class="card-title">
-                                                            FINISH YOUR TURN
+                                                            TERMINEZ VOTRE TOUR
                                                         </h2>
                                                         <h3 id="ft-finish-alert"></h3>
-                                                        <p>Before you end your turn, review your financial statement. You may also use this time to review your deals.</p>
+                                                        <p>Avant de terminer votre tour, examinez votre état financier. Vous pouvez également utiliser ce temps pour examiner vos offres.</p>
                                                     </div>
                                                     <div id="win-game-card">
                                                         <h2 class="card-title">
@@ -815,39 +815,39 @@
                                                                 <td>$<span id="win-cash-amount"></span></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Income:</td>
+                                                                <td>Revenus:</td>
                                                                 <td>$<span id="win-income-amount"></span></td>
                                                             </tr>
                                                             <!--<tr><td>No. Assets:</td><td><span id="win-asset-amount"></span></td></tr></tr>-->
                                                         </table>
                                                         <br>
                                                         <button id="win-card-new-game-btn" class="card-btn">
-                                                        New Game
+                                                        Nouveau jeu
                                                         </button>
                                                     </div>
                                                     <div id="bankrupt-card">
-                                                        <h2 class="card-title">YOU ARE BANKRUPT!</h2>
-                                                        <p>You have $<span id="br-cash-flow"></span><br>To continue you need to get out of debt.</p>
+                                                        <h2 class="card-title">VOUS ÊTES EN FAILLITE !</h2>
+                                                        <p>Vous avez $<span id="br-cash-flow"></span><br>Pour continuer, vous devez vous désendetter.</p>
                                                         <ol>
-                                                            <li>Sell assets for 1/2 the down payment.</li>
-                                                            <li>Pay off debt.</li>
-                                                            <li>Pay down your loan amount.</li>
+                                                            <li>Vendez des actifs pour la moitié de la mise de fonds.</li>
+                                                            <li>Rembourser la dette.</li>
+                                                            <li>Remboursez le montant de votre prêt.</li>
                                                         </ol>
-                                                        <p id="br-settlement-text">Sell asset for $<span id="br-settlement-offer"></span>.</p>
+                                                        <p id="br-settlement-text">Vendre un actif pour $<span id="br-settlement-offer"></span>.</p>
                                                     </div>
                                                     <div id="lose-card">
-                                                        <h2 class="card-title">YOU LOSE!</h2>
-                                                        <p>You are unable to afford your debt. You are officially out of the game.</p>
+                                                        <h2 class="card-title">TU AS PERDU!</h2>
+                                                        <p>Vous n'êtes pas en mesure de payer votre dette. Vous êtes officiellement hors jeu.</p>
                                                     </div>
                                                     <div id="bankrupt-game-over-card">
-                                                        <h2 class="card-title">EVERYONE IN THE GAME HAS GONE BANKRUPT. GAME OVER. </h2>
-                                                        <p><button id="play-again-btn" onclick="window.location.reload(false);">Play Again</button></p>
+                                                        <h2 class="card-title">TOUT LE MONDE DANS LE JEU A FAIT FAILLITE. JEU TERMINÉ. </h2>
+                                                        <p><button id="play-again-btn" onclick="window.location.reload(false);">Rejouer</button></p>
                                                     </div>
                                                     <div id="repay-borrow-btns">
                                                         <button id="repay-btn" onclick="APP.display.repay();">Repay</button>
                                                         <button id="borrow-btn" onclick="APP.display.borrow();">Borrow</button>
                                                     </div>
-                                                    <button class="card-btn" id="ft-enter-btn" onclick="FASTTRACK.init();">ENTER FAST TRACK</button>
+                                                    <button class="card-btn" id="ft-enter-btn" onclick="FASTTRACK.init();">ENTRER DANS LA VOIE RAPIDE</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -937,8 +937,8 @@
                                             </div>
                                         </div>
                                         <div id="finish-turn-container">
-                                            <button class="card-btn" id="end-turn-btn" onclick="APP.nextTurn();">END TURN</button>
-                                            <button class="card-btn" id="cancel-btn" onclick="APP.display.highlightLiabilities(2); APP.finishTurn();">CANCEL</button>
+                                            <button class="card-btn" id="end-turn-btn" onclick="APP.nextTurn();">FIN DE TOUR</button>
+                                            <button class="card-btn" id="cancel-btn" onclick="APP.display.highlightLiabilities(2); APP.finishTurn();">ANNULER</button>
                                         </div>
                                     </td>
                                     </td>

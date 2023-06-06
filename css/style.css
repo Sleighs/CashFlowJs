@@ -50,6 +50,7 @@ Color Palette
 body {
     width: 1345px;
     margin: auto;
+    background-color: #263238;
 }
 
 #window {

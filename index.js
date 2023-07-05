@@ -1,16 +1,15 @@
 // Game Phases
 //   Phase 1 - select dream/path
-//		each dream will have an interest perk that can earn and save money at times in the game
-//		
+//		Each dream will have an interest perk that can earn and save money at times in the game
 //   Phase 2 - race
-//      starting out - 0 assets, pay off liabilities, buy low sell high
-//      middle/the race - 1st big acquisition
-//      end game - paid off liabilities and looking for a big deal
+//      Starting out - 0 assets, pay off liabilities, buy low sell high
+//      Middle/the race - 1st big acquisition
+//      End game - paid off liabilities and looking for a big deal
 //   Phase 3 - acuire dream
-//      fast track
-//      cash flow day - start with 100 times passive income at end of rat race
-//      new income = cashflow day income + 50k
-//      rules = roll 2 die*, cannot borrow money from bank
+//      Fast track
+//      Cash flow day - start with 100 times passive income at end of rat race
+//      New income = cashflow day income + 50k
+//      Rules = roll 2 die*, cannot borrow money from bank
  
 var APP = APP || {
     players: [],

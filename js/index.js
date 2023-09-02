@@ -2561,7 +2561,7 @@ $(document).ready(function() {
     showPlayerInputs();
 });
 
-//update to support multiple saves, create save states
+// Save Function
 function save() {
     var saveState = {
         players: APP.players,

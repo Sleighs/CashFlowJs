@@ -173,7 +173,7 @@ body {
     padding: 3% 2%;
     box-sizing: border-box;
     /* display: inline-block; */
-    width: 78%;
+    width: 50%;
     min-width: fit-content;
     margin: 2% auto;
     display: flex;

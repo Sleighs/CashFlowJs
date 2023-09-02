@@ -1801,3 +1801,24 @@ background: radial-gradient(circle, rgba(23,50,0,1) 40%, rgba(38,39,4,1) 97%, rg
 	font-weight: bold;
     font-size: 12pt;
 }
+
+
+.github-link {
+    width: 100%;
+    display: flex;
+    margin-top: 4%;
+    color: #757575;
+    justify-content: center;
+}
+.github-link a {
+    width: 50%;
+    text-decoration: none;
+    opacity: .5;
+}
+.github-link a:hover {
+    opacity: 1;
+    color: #504828;
+}
+.github-link a:visited {
+    color: #757575;
+}

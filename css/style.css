@@ -48,13 +48,14 @@ Color Palette
 }
 
 body {
-    width: 1345px;
+    /* width: 1345px; */
+    width: 100%;
+    height: 100%;
     margin: auto;
-    background-color: #263238;
 }
 
 #window {
-    width: 99.5%;
+    /* width: 99.5%; */
     display: fixed;
     margin: auto;
     position: relative;

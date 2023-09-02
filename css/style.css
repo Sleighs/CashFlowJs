@@ -165,11 +165,13 @@ body {
     align-items: center;
 }
 #player-setup-container {
-    box-shadow: 0px 0px 1px 1px #FDD835;
-    border-radius: 8px;
+    box-shadow: 0px 0px 5px 0px rgb(253, 216, 53, .25);
+
+    border-radius: 20px;
     /*border: 3pt ridge #FDD835;*/
     color: #FAFAFA;
-    background-color: #282b2c;
+    /* background-color: #282b2c; */
+    background-color: rgb(40, 53, 39, .5);
     padding: 3% 2%;
     box-sizing: border-box;
     /* display: inline-block; */
